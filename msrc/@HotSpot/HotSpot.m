@@ -14,20 +14,33 @@ classdef HotSpot < handle
   end
 
   properties (SetAccess = private)
-    % C^{-1/2}
+    % C^(-1/2)
     Cm12
 
-    % Eigenvalue decomposition
-    % C^(-1/2) * (-G) * C^(-1/2) = V * L * V^T
+    % Input and output mapping matrices
+    Min
+    Mout
+
+    % Min_ = C^(-1/2) * Min
+    Min_
+
+    % Mout_ = C^(-1/2) * Mout
+    Mout_
+
+    % G_ = C^(-1/2) * (-G) * C^(-1/2)
+    G_
+
+    % Eigenvalue decomposition of Gt
+    % Gt = V * L * V^T
     L
     V
     VT
 
-    % A = V * diag(exp(li * dt)) * V^T
+    % A = exp(G_ * t) = V * diag(exp(li * dt)) * V^T
     A
 
-    % B = D^(-1) (exp(D * t) - I) C^(-1/2)
-    %   = V * diag((exp(li * t) - 1) / li) * V^T * C^(-1/2)
+    % B = D^(-1) * (exp(G_ * t) - I) * Mint
+    %   = V * diag((exp(li * t) - 1) / li) * V^T * Mint
     B
   end
 
@@ -40,47 +53,48 @@ classdef HotSpot < handle
 
       hs.Cm12 = diag(sqrt(1 ./ C));
 
-      [ V, L ] = eig(Utils.symmetrize(hs.Cm12 * (-G) * hs.Cm12));
+      hs.Min = [ diag(ones(1, hs.cores)); zeros(hs.nodes - hs.cores, hs.cores) ];
+      hs.Mout = hs.Min;
+
+      hs.Min_ = hs.Cm12 * hs.Min;
+      hs.Mout_ = hs.Cm12 * hs.Mout;
+
+      hs.G_ = Utils.symmetrize(hs.Cm12 * (-G) * hs.Cm12);
+
+      [ V, L ] = eig(hs.G_);
 
       hs.L = diag(L);
       hs.V = V;
       hs.VT = V';
 
       hs.A = hs.V * diag(exp(hs.dt * hs.L)) * hs.VT;
-      hs.B = hs.V * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.VT * hs.Cm12;
+      hs.B = hs.V * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.VT * hs.Min_;
     end
 
     function T = solve(hs, P, T0)
       [ cores, steps ] = size(P);
       nodes = hs.nodes;
-      Tamb = hs.Tamb;
-
-      A = hs.A;
-      B = hs.B;
-      Cm12 = hs.Cm12;
 
       if cores ~= hs.cores, error('The power profile is invalid.'); end
 
       if nargin < 3
         T0 = zeros(nodes, 1);
       else
-        T0 = Cm12.^(-1) * (T0 - Tamb);
+        T0 = hs.Cm12.^(-1) * (T0 - Tamb);
       end
 
       T = zeros(nodes, steps);
 
-      padding = zeros(nodes - cores, 1);
+      A = hs.A;
+      B = hs.B;
 
-      T(:, 1) = A * T0 + B * [ P(:, 1); padding ];
+      T(:, 1) = A * T0 + B * P(:, 1);
 
       for i = 2:steps
-        T(:, i) = A * T(:, i - 1) + B * [ P(:, i); padding ];
-        T(:, i - 1) = Cm12 * T(:, i - 1) + Tamb;
+        T(:, i) = A * T(:, i - 1) + B * P(:, i);
       end
 
-      T(:, steps) = Cm12 * T(:, steps) + Tamb;
-
-      T = T(1:cores, :);
+      T = hs.Mout_' * T + hs.Tamb;
     end
   end
 
