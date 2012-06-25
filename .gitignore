@@ -4,3 +4,8 @@
 
 *.o
 tags
+
+build/*
+
+vendor/HotSpot-*
+vendor/hotspot
