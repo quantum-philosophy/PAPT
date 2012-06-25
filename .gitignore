@@ -3,6 +3,7 @@
 *.*~
 
 *.o
+*.mexmaci64
 tags
 
 build/*

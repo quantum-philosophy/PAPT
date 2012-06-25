@@ -1,0 +1,22 @@
+set(MEX_SRCS
+	${PROJECT_SOURCE_DIR}/csrc/Hotspot.cpp
+)
+
+set(MEX_LIBS
+	${VENDOR_DIR}/HotSpot-${HOTSPOT_VERSION}/libhotspot.a
+)
+
+set(MEX_FLAGS
+	-outdir ${CMAKE_CURRENT_SOURCE_DIR}
+	-I${PROJECT_SOURCE_DIR}/csrc
+	-I${CMAKE_CURRENT_SOURCE_DIR}
+	-I${CMAKE_CURRENT_SOURCE_DIR}/..
+	-I${VENDOR_DIR}
+	-DHOTSPOT_VERSION="${HOTSPOT_VERSION}"
+	CFLAGS='-std=c99'
+)
+
+add_custom_target(matlab
+	COMMAND mex ${CMAKE_CURRENT_SOURCE_DIR}/getCoefficients.cpp
+		${MEX_SRCS} ${MEX_LIBS} ${MEX_FLAGS}
+)

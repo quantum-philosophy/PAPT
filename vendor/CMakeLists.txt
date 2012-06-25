@@ -1,5 +1,3 @@
-set(HOTSPOT_VERSION 5.02)
-
 set(HOTSPOT_URL http://lava.cs.virginia.edu/HotSpot/grab/HotSpot-${HOTSPOT_VERSION}.tar.gz)
 set(HOTSPOT_SRC ${CMAKE_CURRENT_SOURCE_DIR}/HotSpot-${HOTSPOT_VERSION}.tar.gz)
 set(HOTSPOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/HotSpot-${HOTSPOT_VERSION})
