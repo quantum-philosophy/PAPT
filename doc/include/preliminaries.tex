@@ -1,0 +1,36 @@
+\subsection{Architecture Model}
+Consider a multiprocessor system that comprises a number of processing elements of any kind and is equipped with a thermal package. Let $\system$ be a set of parameters that entirely describes the system and is called the \definition{system configuration}. $\system$ includes the following information:
+\begin{itemize}
+  \item The floorplan of the die (the location and dimensions of the processing elements).
+  \item The configuration of the thermal package (the dimensions of each of the layers).
+  \item The thermal parameters of the materials that the die and package are made of (the thermal conductivity, specific heat, convection capacitance, and convection resistance).
+\end{itemize}
+
+\subsection{Deterministic Power Model} \slabel{deterministic-power-model}
+The total power dissipation of the system with $\cores$ processing elements at time $\t$ is modeled as the following:
+\[
+  \vP(\vTO(\t), \t) = \vP_\dyn(\t) + \vP_\leak(\vTO(\t))
+\]
+where $\vP(\t)_\dyn, \vP(\t)_\leak \in \real^\cores$ are the dynamic and leakage power, respectively, and $\vTO(\t) \in \real^\cores$ is temperature. The leakage power is modeled as a function of temperature due to the well-known, strong interdependency between them.
+
+\subsection{Deterministic Thermal Model} \slabel{deterministic-thermal-model}
+Given a system configuration $\system$, an equivalent thermal RC circuit with $\nodes$ \definition{thermal nodes} is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details defining the accuracy of the final model.
+
+The thermal behaviour of the circuit is modeled with the following system of differential-algebraic equations (DAEs) with the state-space dimension equal to $\nodes$:
+\begin{align}
+  & \mC \frac{d\vTI(\t)}{d\t} + \mG \vTI(\t) = \mM \vP(\vTO(\t), \t) \elabel{fourier} \\
+  & \vTO(\t) = \mM^T \vTI(\t) + \vTO_\amb \nonumber
+\end{align}
+$\mC, \mG \in \real^{\nodes \times \nodes}$ are the matrices of the thermal capacitance and conductance, respectively. $\vTI \in \real^\nodes$ is the state vector of the system, which corresponds to the difference between the temperature of the thermal nodes and the ambient temperature. $\vP \in \real^\cores$ is the input vector of the power dissipation of the processing elements, and $\mM \in \real^{\nodes \times \cores}$ is its mapping matrix to the thermal nodes. $\vTO \in \real^\cores$ is the output vector of the system, which is the temperature of the processing elements. Finally, $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature.
+
+\subsection{Deterministic System Profiles} \slabel{deterministic-system-profiles}
+A \definition{power profile} of the system over a time interval $\period$ is defined as a tuple $\pP$. $\pTime = \{ 0 = \t_0 < \dots < \t_{\steps} = \period \}$ is a partition of $\period$ into $\steps$ subintervals $\dt_i = \t_{i+1} - \t_i$. $\mP \in \real^{\cores \times \steps}$ is a matrix of the corresponding power dissipation where the $i$th column vector, $\vP_i \in \real^\cores$, represents the power consumption of the processing elements at the \emph{beginning} of the $i$th time interval, $\dt_i$.
+
+A \definition{temperature profile} of the system with respect to $\pP$ is defined as a tuple $\pT$. $\pTime$ remains the same as for the power profile, and $\mTO \in \real^{\cores \times \steps}$ is a matrix of the corresponding temperature where the $i$th column vector, $\vTO_i \in \real^\cores$, represents the temperature of the processing elements at the \emph{end} of the $i$th time interval, $\dt_i$.
+
+\subsection{Elements of Probability Theory} \slabel{probability-theory}
+Let $(\outcomes, \sAlgebra, \pMeasure)$ be a complete probability space \cite{durrett2010} where $\outcomes$ is a set of outcomes, $\sAlgebra$ is a $\sigma$-algebra on $\outcomes$, and $\pMeasure$ is a probability measure induced on the measurable space $(\outcomes, \sAlgebra)$. A $\sAlgebra$-measurable function $\rv{X}: \outcomes \to \real$ is called a \definition{random variable} (r.v.). Denote $\exp_\rv{X}$ the expectation of $\rv{X}$ and $\var_\rv{X}$ its variance. A $\pMeasure$-measurable, vector-valued function $\mrv{X}: \outcomes \to \real^n$ is called a multivariate random variable (m.r.v.) with $\vExp_\mrv{X} = \oExp{\mrv{X}}$ and $\mCov_\mrv{X} = \oCov{\mrv{X}}$ being its expectation vector and covariance matrix, respectively.
+
+A \definition{stochastic process} is a parametrized collection of r.v.'s $\{ \rv{X}(\t) \}_{\t \in \sTime} \subset \real$ where $\sTime$ is the parameter space, which usually represents time. $\{ \mrv{X}(\t) \}_{\t \in \sTime} \subset \real^n$ denotes a $n$-dimensional stochastic process.
+
+The covariance matrix $\mCov_\mrv{X}$ is necessarily a real symmetric matrix. Therefore, it can be decomposed into the product $\mCov_\mrv{X} = \m{U}_{\mCov_\mrv{X}} \m{V}_{\mCov_\mrv{X}} \m{U}_{\mCov_\mrv{X}}^T$ using the eigenvalue decomposition \cite{press2007} where $\m{U}_{\mCov_\mrv{X}}$ and $\m{V}_{\mCov_\mrv{X}}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_\mrv{X}$, respectively. Define the operator $\oEigen{\cd} = \m{U}_{(\cd)} {\m{V}_{(\cd)}}^{1/2}: \real^n \to \real^n$. Consequently, a m.r.v. $\mrv{X}$ can be normalized as $\mrv{X} = \oEigen{\mCov_\mrv{X}} \mrv{Y} + \oExp{\mrv{X}}$ where $\oExp{\mrv{Y}} = \mZ$ and $\mCov_\mrv{Y} = \mI$.

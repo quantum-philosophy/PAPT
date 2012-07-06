@@ -1,0 +1,107 @@
+\usepackage[english]{babel}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+\usepackage{multibib}
+
+% Formatting
+\newcommand{\definition}[1]{\emph{#1}}
+
+% ---- References
+\newcommand{\eref}[1]{Eq.~(\ref{eq:#1})}
+\newcommand{\sref}[1]{Sec.~\ref{sec:#1}}
+
+\newcommand{\elabel}[1]{\label{eq:#1}}
+\newcommand{\slabel}[1]{\label{sec:#1}}
+
+% Basic mathematics
+\newcommand{\cd}{\cdot}
+
+% ---- Sets
+\newcommand{\real}{\mathbb{R}}
+\renewcommand{\natural}{{\mathbb{N}_0}}
+\newcommand{\sI}{\mathcal{I}}
+
+% ---- Matrices
+\newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
+
+\newcommand{\mI}{\m{I}}
+\newcommand{\mZ}{\m{0}}
+
+\newcommand{\diag}[1]{\text{diag}\left(#1\right)}
+
+\newcommand{\oEigen}[1]{\Gamma[#1]}
+
+% ---- Vectors
+\renewcommand{\v}[1]{\mathbf{\MakeLowercase{#1}}}
+
+\newcommand{\vZ}{\v{0}}
+
+% Probability theory
+\newcommand{\outcomes}{\Omega}
+\newcommand{\sAlgebra}{\mathcal{F}}
+\newcommand{\pMeasure}{P}
+
+\newcommand{\rv}[1]{#1}
+\newcommand{\mrv}[1]{\mathbf{#1}}
+
+\renewcommand{\exp}{\mu}
+\newcommand{\var}{\sigma^2}
+
+\newcommand{\vExp}{{\boldsymbol\mu}}
+\newcommand{\mCov}{\m{C}}
+
+\newcommand{\oExp}[1]{\mathbb{E}[#1]}
+\newcommand{\oCov}[1]{\text{Cov}[#1]}
+
+% ---- Normal distribution
+\newcommand{\normal}{\mathcal{N}}
+
+% Thermal model
+\newcommand{\system}{\Pi}
+
+% ---- Time
+\renewcommand{\t}{t}
+\newcommand{\dt}{\Delta \t}
+\newcommand{\period}{\tau}
+\newcommand{\pTime}{\Delta \tau}
+\newcommand{\sTime}{T}
+
+% ---- Temperature
+\newcommand{\vTI}{\v{z}} % Internal temperature
+\newcommand{\vTO}{{\boldsymbol\theta}} % Output temperature
+\newcommand{\mTO}{\m{\Theta}}
+
+\newcommand{\amb}{\text{amb}}
+
+% ---- Power
+\newcommand{\vP}{\v{p}}
+\newcommand{\mP}{\m{P}}
+
+\newcommand{\dyn}{\text{dyn}}
+\newcommand{\leak}{\text{leak}}
+
+% ---- Capacitance and conductance
+\newcommand{\mC}{\m{C}}
+\newcommand{\mG}{\m{G}}
+
+% ---- Processor elements/thermal nodes mapping
+\newcommand{\mM}{\m{M}}
+
+% ---- Profiles
+\newcommand{\pP}{(\pTime, \mP)}
+\newcommand{\pT}{(\pTime, \mTO)}
+
+% ---- Differential-algebraic system
+% dx/dt = A * x + B * u
+% y = B^T * x
+\newcommand{\vX}{\v{x}}
+\newcommand{\mA}{\m{A}}
+\newcommand{\mB}{\m{B}}
+
+% Indexes
+\newcommand{\nodes}{{n_n}}
+\newcommand{\cores}{{n_p}}
+\newcommand{\steps}{{n_s}}
+\newcommand{\params}{{n_v}}
