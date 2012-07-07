@@ -5,6 +5,9 @@
 
 \usepackage{multibib}
 
+
+\newcommand{\STempA}{STempA}
+
 % Formatting
 \newcommand{\definition}[1]{\emph{#1}}
 
@@ -20,10 +23,11 @@
 
 % ---- Sets
 \newcommand{\real}{\mathbb{R}}
-\renewcommand{\natural}{{\mathbb{N}_0}}
+\renewcommand{\natural}{\mathbb{N}_0}
 \newcommand{\sI}{\mathcal{I}}
 
 % ---- Matrices
+\newcommand{\mtx}[1]{(#1)}
 \newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
 
 \newcommand{\mI}{\m{I}}
@@ -34,17 +38,19 @@
 \newcommand{\oEigen}[1]{\Gamma[#1]}
 
 % ---- Vectors
-\renewcommand{\v}[1]{\mathbf{\MakeLowercase{#1}}}
+\renewcommand{\vec}[1]{(#1)}
+\renewcommand{\v}[1]{\mathbf{#1}}
 
 \newcommand{\vZ}{\v{0}}
 
 % Probability theory
 \newcommand{\outcomes}{\Omega}
+\renewcommand{\o}{\omega}
 \newcommand{\sAlgebra}{\mathcal{F}}
 \newcommand{\pMeasure}{P}
 
-\newcommand{\rv}[1]{#1}
-\newcommand{\mrv}[1]{\mathbf{#1}}
+\newcommand{\rv}[1]{\MakeUppercase{#1}}
+\newcommand{\mrv}[1]{\mathbf{\MakeUppercase{#1}}}
 
 \renewcommand{\exp}{\mu}
 \newcommand{\var}{\sigma^2}
@@ -53,10 +59,15 @@
 \newcommand{\mCov}{\m{C}}
 
 \newcommand{\oExp}[1]{\mathbb{E}[#1]}
+\newcommand{\oVar}[1]{\text{Var}[#1]}
 \newcommand{\oCov}[1]{\text{Cov}[#1]}
 
 % ---- Normal distribution
 \newcommand{\normal}{\mathcal{N}}
+
+% Uncertainties
+\newcommand{\vU}{\mrv{u}}
+\newcommand{\param}{\rv{u}}
 
 % Thermal model
 \newcommand{\system}{\Pi}
@@ -69,15 +80,13 @@
 \newcommand{\sTime}{T}
 
 % ---- Temperature
-\newcommand{\vTI}{\v{z}} % Internal temperature
-\newcommand{\vTO}{{\boldsymbol\theta}} % Output temperature
-\newcommand{\mTO}{\m{\Theta}}
+\newcommand{\vTI}{\v{Z}} % Internal temperature
+\newcommand{\vTO}{{\boldsymbol\Theta}} % Output temperature
 
 \newcommand{\amb}{\text{amb}}
 
 % ---- Power
-\newcommand{\vP}{\v{p}}
-\newcommand{\mP}{\m{P}}
+\newcommand{\vP}{\v{P}}
 
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
@@ -90,13 +99,15 @@
 \newcommand{\mM}{\m{M}}
 
 % ---- Profiles
+\newcommand{\mP}{\tilde{\m{P}}}
+\newcommand{\mTO}{\tilde{\m{\Theta}}}
 \newcommand{\pP}{(\pTime, \mP)}
 \newcommand{\pT}{(\pTime, \mTO)}
 
 % ---- Differential-algebraic system
 % dx/dt = A * x + B * u
 % y = B^T * x
-\newcommand{\vX}{\v{x}}
+\newcommand{\vX}{\v{X}}
 \newcommand{\mA}{\m{A}}
 \newcommand{\mB}{\m{B}}
 
