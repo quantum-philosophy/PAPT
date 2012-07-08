@@ -33,20 +33,23 @@ function psiXD = constructXD(x, countXD)
     limit = ones(1, dimension) * (count1D - 1);
     index = zeros(1, dimension);
 
+    done = zeros(1, countXD);
+
     while (any(limit - index))
       newindex = ndind(index) + 1;
-      psiXD(newindex) = psi1D(1, index(1) + 1);
-      for i = 2:dimension
-        psiXD(newindex) = psiXD(newindex) * psi1D(i, index(i) + 1);
+
+      if newindex <= countXD
+        psiXD(newindex) = psi1D(1, index(1) + 1);
+        for i = 2:dimension
+          psiXD(newindex) = psiXD(newindex) * psi1D(i, index(i) + 1);
+        end
+        psiXD(newindex) = simplify(expand(psiXD(newindex)));
+
+        done(newindex) = 1;
+        if all(done), break; end
       end
-      psiXD(newindex) = simplify(expand(psiXD(newindex)));
-      index = genincr(index,limit);
+
+      index = genincr(index, limit);
     end
   end
-
-  for i = 1:countXD
-    psiXD(i) = expand(psiXD(i));
-  end
-
-  psiXD = psiXD(1:countXD);
 end

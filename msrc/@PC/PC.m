@@ -18,14 +18,16 @@ classdef PC < handle
     end
   end
 
-  methods (Static, Access = 'private')
-    psi = construct1D(x, order);
-    psi = constructXD(x, count);
-
+  methods (Static)
     function count = calculateCount(dimension, order)
       count = factorial(dimension + order) / ...
         (factorial(dimension) * factorial(order));
     end
+  end
+
+  methods (Static, Access = 'private')
+    psi = construct1D(x, order);
+    psi = constructXD(x, count);
 
     function [ psi, norm, count ] = calculateExpansion(dimension, order)
       filename = [ 'PC_d', num2str(dimension), '_o', num2str(order), '.mat' ];
