@@ -1,13 +1,13 @@
 init;
 
 n_mu = 5;
-n_sigma = 0.5;
+n_sigma = 0.2;
 
 f = @(x) exp(n_mu + n_sigma * x);
 
-order = 3;
+order = 5;
 dimension = 1;
-samples = 20000;
+samples = 2e4;
 
 %
 % Exact solution
@@ -57,7 +57,7 @@ max_MC = max(max(out_MC));
 min_PC = min(min(out_PC));
 max_PC = max(max(out_PC));
 
-x = linspace(max(min_MC, min_PC), min(max_MC, max_PC), 100);
+x = linspace(max(min_MC, min_PC), min(max_MC, max_PC), 200);
 
 figure;
 
@@ -84,3 +84,15 @@ line(x, density - density_PC, 'Color', 'g');
 title('Error');
 legend('MC', 'PC');
 xlim([ x(1), x(end) ]);
+
+%
+% RMSE
+%
+
+n = length(x);
+
+rmse_MC = sqrt(sum((density_MC - density).^2) / n);
+rmse_PC = sqrt(sum((density_PC - density).^2) / n);
+
+fprintf('RMSE for MC: %.4e\n', rmse_MC);
+fprintf('RMSE for PC: %.4e\n', rmse_PC);

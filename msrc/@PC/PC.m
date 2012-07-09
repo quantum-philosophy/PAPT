@@ -41,8 +41,8 @@ classdef PC < handle
 
   methods
     function pc = PC(dimension, order, level)
-      if nargin < 2, order = 2; end;
-      if nargin < 3, level = 2; end;
+      if nargin < 2, order = 2; end
+      if nargin < 3, level = ceil((order + 1)/2); end
 
       pc.dimension = dimension;
       pc.order = order;
