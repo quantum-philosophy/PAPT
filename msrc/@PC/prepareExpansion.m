@@ -1,4 +1,4 @@
-function [ x, psi, norm, count ] = constructExpansion(dimension, order, gq)
+function [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq)
   %
   % Description:
   %

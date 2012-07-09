@@ -1,6 +1,14 @@
 classdef MC < handle
   methods (Static)
-    function [ mu, cm, out ] = perform(f, dimension, samples)
+    function [ E, C, out ] = perform(f, dimension, samples)
+      %
+      % Output:
+      %
+      %   * E   - the expectation of `f',
+      %   * C   - the covariance matrix of `f',
+      %   * out - the samples used to compute the stats.
+      %
+
       if nargin < 2, dimension = 1; end
       if nargin < 3, samples = 10000; end
 
@@ -11,8 +19,8 @@ classdef MC < handle
         out(i, :) = f(rvs(i, :));
       end
 
-      mu = mean(out);
-      cm = cov(out);
+      E = mean(out);
+      C = cov(out);
     end
   end
 end

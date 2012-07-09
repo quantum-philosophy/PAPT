@@ -50,7 +50,7 @@ classdef PC < handle
       pc.gq = GQ(dimension, level);
 
       [ pc.x, pc.psi, pc.norm, pc.count ] = ...
-        pc.constructExpansion(dimension, order, pc.gq);
+        pc.prepareExpansion(dimension, order, pc.gq);
     end
   end
 
@@ -60,9 +60,9 @@ classdef PC < handle
         (factorial(dimension) * factorial(order));
     end
 
-    psi = construct1D(x, order);
+    psi = construct1D(x, count);
     psi = constructXD(x, count);
 
-    [ x, psi, norm, count ] = constructExpansion(dimension, order, gq);
+    [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq);
   end
 end
