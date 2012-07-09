@@ -1,6 +1,6 @@
 classdef MC < handle
   methods (Static)
-    function [ mu, cm ] = perform(f, dimension, samples)
+    function [ mu, cm, out ] = perform(f, dimension, samples)
       if nargin < 2, dimension = 1; end
       if nargin < 3, samples = 10000; end
 
@@ -13,8 +13,6 @@ classdef MC < handle
 
       mu = mean(out);
       cm = cov(out);
-
-      hist(out, 50);
     end
   end
 end

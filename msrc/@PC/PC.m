@@ -1,57 +1,68 @@
 classdef PC < handle
   properties (SetAccess = 'protected')
+    %
+    % The stochastic dimension of the polynomial chaos (PC) expansion,
+    % i.e., the number of r.v.'s involved.
+    %
     dimension
+
+    %
+    % The maximal order of the multivariate (Hermite) polynomials.
+    %
     order
-    count
+
+    %
+    % The Gaussian quadrature (Gauss-Hermite) for the purpose of
+    % numerical integration.
+    %
+    gq
+
+    %
+    % The symbolic variables used in the polynomials.
+    %
+    x
+
+    %
+    % The polynomials of the expansion.
+    %
     psi
+
+    %
+    % The normalization coefficients of the expansion, i.e.,
+    % the variances of the polynomials E<psi_i^2>.
+    %
     norm
+
+    %
+    % The total number of the polynomials in the expansion.
+    %
+    count
   end
 
   methods
-    function pc = PC(dimension, order)
+    function pc = PC(dimension, order, level)
       if nargin < 2, order = 2; end;
+      if nargin < 3, level = 2; end;
 
       pc.dimension = dimension;
       pc.order = order;
 
-      [ pc.psi, pc.norm, pc.count ] = PC.calculateExpansion(dimension, order);
-    end
-  end
+      pc.gq = GQ(dimension, level);
 
-  methods (Static)
-    function count = calculateCount(dimension, order)
-      count = factorial(dimension + order) / ...
-        (factorial(dimension) * factorial(order));
+      [ pc.x, pc.psi, pc.norm, pc.count ] = ...
+        pc.constructExpansion(dimension, order, pc.gq);
     end
   end
 
   methods (Static, Access = 'private')
+    function count = calculateCount(dimension, order)
+      count = factorial(dimension + order) / ...
+        (factorial(dimension) * factorial(order));
+    end
+
     psi = construct1D(x, order);
     psi = constructXD(x, count);
 
-    function [ psi, norm, count ] = calculateExpansion(dimension, order)
-      filename = [ 'PC_d', num2str(dimension), '_o', num2str(order), '.mat' ];
-      filename = Utils.resolvePath(filename);
-
-      if exist(filename, 'file')
-        load(filename);
-      else
-        count = PC.calculateCount(dimension, order);
-
-        for i = 1:dimension
-          x(i) = sym([ 'x', num2str(i) ], 'real');
-        end
-
-        psi = PC.constructXD(x, count);
-
-        norm = zeros(1, count);
-        norm(1) = 1;
-        for i = 2:count
-          norm(i) = GQ.integrate(@(s) subs(psi(i) * psi(i), x, s), dimension);
-        end
-
-        save(filename, 'psi', 'norm', 'count');
-      end
-    end
+    [ x, psi, norm, count ] = constructExpansion(dimension, order, gq);
   end
 end

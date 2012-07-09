@@ -1,37 +1,70 @@
 classdef GQ < handle
-  methods (Static)
-    function result = integrate(f, dimension, level)
-      if nargin < 3, level = 2; end
+  %
+  % (*) The quadrature rule that is used here (Gauss-Hermite) assumes
+  % the physicists' weight function. We need the probabilists's one,
+  % therefore, a proper conversion is to be performed.
+  %
+  properties (SetAccess = 'private')
+    %
+    % The dimension of the grid, i.e., the number of variables.
+    %
+    dimension
 
-      [ nodes, weights, points ] = GQ.getSparseGrid(dimension, level);
+    %
+    % The level of the grid.
+    %
+    level
 
-      nodes = nodes * sqrt(2);
+    %
+    % The total number of nodes.
+    %
+    points
+
+    %
+    % The nodes.
+    %
+    nodes
+
+    %
+    % The corresponding weights.
+    %
+    weights
+  end
+
+  methods
+    function gq = GQ(dimension, level)
+      if nargin < 2, level = 2; end
+
+      gq.dimension = dimension;
+      gq.level = level;
+
+      [ nodes, gq.weights, gq.points ] = GQ.constructSparseGrid(dimension, level);
+
+      %
+      % See (*) to justify the need of sqrt(2).
+      %
+      gq.nodes = nodes * sqrt(2);
+    end
+
+    function result = integrate(gq, f)
+      points = gq.points;
+      nodes = gq.nodes;
 
       samples = zeros(1, points);
+
       for i = 1:points
         samples(i) = f(nodes(:, i));
       end
 
-      result = sum(samples .* weights) / pi^(dimension / 2);
+      %
+      % See (*) to understand why we do not need 2 next to pi here.
+      %
+      result = sum(samples .* gq.weights) / pi^(gq.dimension / 2);
     end
   end
 
   methods (Static, Access = 'private')
-    function [ nodes, weights, points ] = getSparseGrid(dimension, level)
-      filename = [ 'SG_d', num2str(dimension), '_l', num2str(level), '.mat' ];
-      filename = Utils.resolvePath(filename);
-
-      if exist(filename, 'file')
-        load(filename);
-      else
-        [ nodes, weights, points ] = GQ.constructGaussHermite(dimension, level);
-        save(filename, 'nodes', 'weights', 'points');
-      end
-    end
-
-    function [ nodes, weights, points ] = constructGaussHermite(dimension, level)
-      points = sparse_grid_herm_size(dimension, level);
-      [ weights, nodes ] = sparse_grid_herm(dimension, level, points);
-    end
+    [ nodes, weights, points ] = constructSparseGrid(dimension, level);
+    [ nodes, weights, points ] = constructGaussHermite(dimension, level);
   end
 end
