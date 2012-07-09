@@ -12,12 +12,7 @@ classdef MC < handle
       if nargin < 2, dimension = 1; end
       if nargin < 3, samples = 10000; end
 
-      rvs = normrnd(0, 1, samples, dimension);
-      out = zeros(samples, 1);
-
-      for i = 1:samples
-        out(i, :) = f(rvs(i, :));
-      end
+      out = f(normrnd(0, 1, samples, dimension));
 
       E = mean(out);
       C = cov(out);
