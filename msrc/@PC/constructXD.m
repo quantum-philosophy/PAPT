@@ -43,7 +43,6 @@ function psiXD = constructXD(x, countXD)
         for i = 2:dimension
           psiXD(newindex) = psiXD(newindex) * psi1D(i, index(i) + 1);
         end
-        psiXD(newindex) = simplify(expand(psiXD(newindex)));
 
         done(newindex) = 1;
         if all(done), break; end
@@ -51,5 +50,9 @@ function psiXD = constructXD(x, countXD)
 
       index = genincr(index, limit);
     end
+  end
+
+  for i = 1:countXD
+    psiXD(i) = simplify(expand(psiXD(i)));
   end
 end

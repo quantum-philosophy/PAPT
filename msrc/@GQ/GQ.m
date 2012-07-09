@@ -53,7 +53,7 @@ classdef GQ < handle
       samples = zeros(1, points);
 
       for i = 1:points
-        samples(i) = f(nodes(:, i));
+        samples(i) = f(nodes(i, :));
       end
 
       %

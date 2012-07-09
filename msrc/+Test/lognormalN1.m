@@ -1,23 +1,24 @@
 init;
 
-n_mu = 5;
-n_sigma = 0.2;
+dimension = 2;
 
-f = @(x) exp(n_mu + n_sigma * x);
+n_mu = [ 2, 2 ];
+n_sigma = [ 0.2, 0.8 ];
 
-order = 5;
-dimension = 1;
+fprintf('Y = exp(X1 + ... + X%d)\n', dimension);
+for i = 1:dimension
+  fprintf('X%d ~ N(%.2f, %.2f)\n', i, n_mu(i), n_sigma(i));
+end
+fprintf('\n');
+
+order = 4;
 samples = 2e4;
 
-%
-% Exact solution
-%
+fprintf('Order of PC: %d\n', order);
+fprintf('Number of samples: %d\n', samples);
+fprintf('\n');
 
-l_mu = exp(n_mu + n_sigma^2/2);
-l_var = (exp(n_sigma^2) - 1) * exp(2 * n_mu + n_sigma^2);
-
-fprintf('Exact stats:\n');
-fprintf('mu = %.2f, var = %.2f\n\n', l_mu, l_var);
+f = @(x) exp(sum(n_mu + n_sigma .* x));
 
 %
 % Monte-Carlo
@@ -63,9 +64,6 @@ figure;
 
 subplot(2, 1, 1);
 
-density = lognpdf(x, n_mu, n_sigma);
-line(x, density, 'Color', 'r');
-
 density_MC = ksdensity(out_MC, x);
 line(x, density_MC, 'Color', 'b');
 
@@ -73,16 +71,15 @@ density_PC = ksdensity(out_PC, x);
 line(x, density_PC, 'Color', 'g');
 
 title('PDF');
-legend('Exact', 'MC', 'PC');
+legend('MC', 'PC');
 xlim([ x(1), x(end) ]);
 
 subplot(2, 1, 2);
 
-line(x, density - density_MC, 'Color', 'b');
-line(x, density - density_PC, 'Color', 'g');
+line(x, density_MC - density_PC, 'Color', 'r');
 
 title('Error');
-legend('MC', 'PC');
+legend('MC - PC');
 xlim([ x(1), x(end) ]);
 
 %
@@ -91,8 +88,6 @@ xlim([ x(1), x(end) ]);
 
 n = length(x);
 
-rmse_MC = sqrt(sum((density_MC - density).^2) / n);
-rmse_PC = sqrt(sum((density_PC - density).^2) / n);
+rmse = sqrt(sum((density_MC - density_PC).^2) / n);
 
-fprintf('RMSE for MC: %.4e\n', rmse_MC);
-fprintf('RMSE for PC: %.4e\n', rmse_PC);
+fprintf('RMSE: %.4e\n', rmse);
