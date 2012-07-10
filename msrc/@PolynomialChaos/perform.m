@@ -29,15 +29,24 @@ function [ E, C, out ] = perform(pc, f, dims, samples)
   E = coeff(:, 1);
   C = diag(sum(coeff(:, 2:end).^2 .* repmat(pc.norm(2:end), ddim, 1), 2));
 
-  %
-  % Now sampling.
-  %
   vars = {};
 
   for i = 1:sdim
     vars{i} = normrnd(0, 1, samples, 1);
   end
 
-  e = matlabFunction(sum(coeff .* repmat(pc.psi, ddim, 1), 2));
-  out = reshape(e(vars{:}), samples, ddim);
+  %
+  % Now sampling.
+  %
+  if ddim == 1
+    %
+    % Just slightly simplified construction for
+    % the single-space-dimension case.
+    %
+    e = matlabFunction(sum(coeff .* pc.psi));
+    out = e(vars{:});
+  else
+    e = matlabFunction(sum(coeff .* repmat(pc.psi, ddim, 1), 2));
+    out = reshape(e(vars{:}), samples, ddim);
+  end
 end

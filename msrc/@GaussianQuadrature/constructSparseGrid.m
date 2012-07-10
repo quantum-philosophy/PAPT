@@ -5,7 +5,8 @@ function [ nodes, weights, points ] = constructSparseGrid(dimension, level)
   if exist(filename, 'file')
     load(filename);
   else
-    [ nodes, weights, points ] = GQ.constructGaussHermite(dimension, level);
+    [ nodes, weights, points ] = ...
+      GaussianQuadrature.constructGaussHermite(dimension, level);
     save(filename, 'nodes', 'weights', 'points');
   end
 end

@@ -26,13 +26,13 @@ function [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq)
   if exist(filename, 'file')
     load(filename);
   else
-    count = PC.calculateCount(dimension, order);
+    count = PolynomialChaos.calculateCount(dimension, order);
 
     for i = 1:dimension
       x(i) = sym([ 'x', num2str(i) ], 'real');
     end
 
-    psi = PC.constructXD(x, count);
+    psi = PolynomialChaos.constructXD(x, count);
 
     norm = zeros(1, count);
     norm(1) = 1;

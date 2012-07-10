@@ -32,7 +32,7 @@ fprintf('mu = %.2f, var = %.2f\n\n', l_mu, l_var);
 fprintf('Monte-Carlo simulation...');
 
 t = tic;
-[ mu, var, out_MC ] = MC.perform(f, [ 1 1 ], samples);
+[ mu, var, out_MC ] = MonteCarlo.perform(f, [ 1 1 ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
@@ -43,7 +43,7 @@ fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
 
 fprintf('Polynomial Chaos preparation...');
 t = tic;
-pc = PC(1, order);
+pc = PolynomialChaos(1, order);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('Polynomial Chaos simulation...');

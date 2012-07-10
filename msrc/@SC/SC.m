@@ -1,2 +1,0 @@
-classdef SC < handle
-end

@@ -14,7 +14,7 @@ function psiXD = constructXD(x, countXD)
   %
   % Create a 1D polynomial.
   %
-  psi1D(1, :) = PC.construct1D(x(1), count1D);
+  psi1D(1, :) = PolynomialChaos.construct1D(x(1), count1D);
 
   %
   % If there is only one stochastic dimension,

@@ -1,4 +1,4 @@
-classdef GQ < handle
+classdef GaussianQuadrature < handle
   %
   % (*) The quadrature rule that is used here (Gauss-Hermite) assumes
   % the physicists' weight function. We need the probabilists's one,
@@ -32,13 +32,14 @@ classdef GQ < handle
   end
 
   methods
-    function gq = GQ(dimension, level)
+    function gq = GaussianQuadrature(dimension, level)
       if nargin < 2, level = 2; end
 
       gq.dimension = dimension;
       gq.level = level;
 
-      [ nodes, gq.weights, gq.points ] = GQ.constructSparseGrid(dimension, level);
+      [ nodes, gq.weights, gq.points ] = ...
+        GaussianQuadrature.constructSparseGrid(dimension, level);
 
       %
       % See (*) to justify the need of sqrt(2).

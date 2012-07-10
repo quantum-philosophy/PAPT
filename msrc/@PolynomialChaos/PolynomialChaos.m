@@ -1,4 +1,4 @@
-classdef PC < handle
+classdef PolynomialChaos < handle
   properties (SetAccess = 'protected')
     %
     % The stochastic dimension of the polynomial chaos (PC) expansion,
@@ -40,14 +40,14 @@ classdef PC < handle
   end
 
   methods
-    function pc = PC(dimension, order, level)
+    function pc = PolynomialChaos(dimension, order, level)
       if nargin < 2, order = 2; end
       if nargin < 3, level = ceil((order + 1)/2); end
 
       pc.dimension = dimension;
       pc.order = order;
 
-      pc.gq = GQ(dimension, level);
+      pc.gq = GaussianQuadrature(dimension, level);
 
       [ pc.x, pc.psi, pc.norm, pc.count ] = ...
         pc.prepareExpansion(dimension, order, pc.gq);
