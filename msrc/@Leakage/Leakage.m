@@ -22,41 +22,8 @@ classdef Leakage < handle
     Is = Leakage.calculateMeanIs();
   end
 
-  properties (SetAccess = 'private')
-    Vdd
-    Ngate
-  end
-
-  methods
-    function l = Leakage(P, T)
-      %
-      % Fit the leakage coefficients to produce the leakage power `P'
-      % at the temperature level `T'.
-      %
-
-      cores = length(P);
-
-      if nargin < 2, T = 100; end
-      if length(T) == 1, T = ones(cores, 1) * T; end
-
-      %
-      % Let us fix Vdd and find Ngate.
-      %
-      l.Vdd = ones(cores, 1); % V
-      l.Ngate = ones(cores, 1);
-
-      P0 = Leakage.calculateCustom(l.Ngate, l.Vdd, T);
-
-      l.Ngate = floor(P ./ P0);
-    end
-
-    function P = calculate(l, T)
-      P = Leakage.calculateCustom(l.Ngate, l.Vdd, T);
-    end
-  end
-
   methods (Static)
-    function P = calculateCustom(Ngate, Vdd, T)
+    function P = calculate(Ngate, Vdd, T)
       %
       % The average leakage current per gate:
       %

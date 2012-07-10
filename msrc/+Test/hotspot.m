@@ -19,7 +19,9 @@ steps = size(P, 2);
 fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
+t = tic;
 T = hs.solve(P) + Constants.zeroKelvin;
+fprintf('Simulation time:     %.2f s\n', toc(t));
 
 time = (1:steps) * hs.dt;
 

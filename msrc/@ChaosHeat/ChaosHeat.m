@@ -74,7 +74,8 @@ classdef ChaosHeat < HotSpot
       %
       % NOTE: It is computed for each core separately.
       %
-      leakage = Leakage(ChaosHeat.leakageRatioInDynamic * mean(Pdyn, 2), ...
+      leakage = LeakageSampler(...
+        ChaosHeat.leakageRatioInDynamic * mean(Pdyn, 2), ...
         ChaosHeat.leakageTemperature);
 
       %
@@ -85,7 +86,8 @@ classdef ChaosHeat < HotSpot
       %
       % Perform the PC expansion.
       %
-      Pcoeff = zeros(cores, terms);
+      leakage.setup();
+      Pcoeff = pc.construct(@leakage.sample, cores);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -104,7 +106,8 @@ classdef ChaosHeat < HotSpot
         %
         % Perform the PC expansion.
         %
-        Pcoeff = zeros(cores, terms);
+        leakage.setup();
+        Pcoeff = pc.construct(@leakage.sample, cores);
 
         %
         % Add the dynamic power to the mean.
