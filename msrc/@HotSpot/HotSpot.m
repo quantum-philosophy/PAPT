@@ -96,24 +96,46 @@ classdef HotSpot < handle
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
     end
 
-    function T = solve(hs, P)
-      [ cores, steps ] = size(P);
-      nodes = hs.nodes;
-
+    function T = solve(hs, Pdyn, leakage)
+      [ cores, steps ] = size(Pdyn);
       if cores ~= hs.cores, error('The power profile is invalid.'); end
+
+      %
+      % General shortcuts.
+      %
+      nodes = hs.nodes;
+      E = hs.E;
+      D = hs.D;
+      BT = hs.BT;
+      Tamb = hs.Tamb;
 
       T = zeros(nodes, steps);
 
-      E = hs.E;
-      D = hs.D;
+      if nargin < 3
+        %
+        % Without any leakage.
+        %
 
-      T(:, 1) = D * P(:, 1);
+        T(:, 1) = D * Pdyn(:, 1);
 
-      for i = 2:steps
-        T(:, i) = E * T(:, i - 1) + D * P(:, i);
+        for i = 2:steps
+          T(:, i) = E * T(:, i - 1) + D * Pdyn(:, i);
+        end
+      else
+        %
+        % With leakage.
+        %
+
+        Pleak = leakage.calculate(ones(cores, 1) * Tamb);
+        T(:, 1) = D * (Pdyn(:, 1) + Pleak);
+
+        for i = 2:steps
+          Pleak = leakage.calculate(BT * T(:, i - 1) + Tamb);
+          T(:, i) = E * T(:, i - 1) + D * (Pdyn(:, i) + Pleak);
+        end
       end
 
-      T = hs.BT * T + hs.Tamb;
+      T = BT * T + Tamb;
     end
   end
 

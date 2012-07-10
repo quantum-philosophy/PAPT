@@ -12,15 +12,17 @@ fprintf('Number of nodes:     %d\n', hs.nodes);
 fprintf('Number of cores:     %d\n', hs.cores);
 
 powerTrace = Utils.resolvePath('dummy.ptrace');
-P = dlmread(powerTrace, '', 1, 0)';
+Pdyn = dlmread(powerTrace, '', 1, 0)';
 
-steps = size(P, 2);
+steps = size(Pdyn, 2);
 
 fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
+leakage = Leakage.constructBasedOnDynamic(Pdyn);
+
 t = tic;
-T = hs.solve(P) + Constants.zeroKelvin;
+T = hs.solve(Pdyn, leakage) + Constants.zeroKelvin;
 fprintf('Simulation time:     %.2f s\n', toc(t));
 
 time = (1:steps) * hs.dt;

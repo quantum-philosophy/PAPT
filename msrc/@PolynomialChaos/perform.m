@@ -1,4 +1,4 @@
-function [ E, C, out ] = perform(pc, f, dims, samples)
+function [ E, C, out ] = perform(pc, f, dims, count)
   %
   % Output:
   %
@@ -9,7 +9,7 @@ function [ E, C, out ] = perform(pc, f, dims, samples)
   %   NOTE: `out' is not used to compute the expectation and covariance.
   %
 
-  if nargin < 4, samples = 10000; end
+  if nargin < 4, count = 10000; end
 
   sdim = dims(1);
   ddim = dims(2);
@@ -29,24 +29,8 @@ function [ E, C, out ] = perform(pc, f, dims, samples)
   E = coeff(:, 1);
   C = diag(sum(coeff(:, 2:end).^2 .* repmat(pc.norm(2:end), ddim, 1), 2));
 
-  vars = {};
-
-  for i = 1:sdim
-    vars{i} = normrnd(0, 1, samples, 1);
-  end
-
   %
   % Now sampling.
   %
-  if ddim == 1
-    %
-    % Just slightly simplified construction for
-    % the single-space-dimension case.
-    %
-    e = matlabFunction(sum(coeff .* pc.psi));
-    out = e(vars{:});
-  else
-    e = matlabFunction(sum(coeff .* repmat(pc.psi, ddim, 1), 2));
-    out = reshape(e(vars{:}), samples, ddim);
-  end
+  out = transpose(pc.evaluate(coeff, normrnd(0, 1, sdim, count)));
 end

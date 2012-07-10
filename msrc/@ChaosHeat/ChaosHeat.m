@@ -1,16 +1,4 @@
 classdef ChaosHeat < HotSpot
-  properties (Constant)
-    %
-    % The portion of the leakage power in terms of the dynamic one.
-    %
-    leakageRatioInDynamic = 1.0;
-
-    %
-    % The temperature for the peak leakage above.
-    %
-    leakageTemperature = Utils.toKelvin(100);
-  end
-
   properties (Access = 'private')
     %
     % The stochastic dimension of the analysis, i.e.,
@@ -52,7 +40,7 @@ classdef ChaosHeat < HotSpot
       ch.pc = PolynomialChaos(ch.params, ch.order);
     end
 
-    function [ ExpT, VarT ] = solve(ch, Pdyn)
+    function [ ExpT, VarT ] = solve(ch, Pdyn, leakage)
       [ cores, steps ] = size(Pdyn);
       if cores ~= ch.cores, error('The power profile is invalid.'); end
 
@@ -62,6 +50,8 @@ classdef ChaosHeat < HotSpot
       nodes = ch.nodes;
       E = ch.E;
       D = ch.D;
+      BT = ch.BT;
+      Tamb = ch.Tamb;
 
       %
       % Shortcuts for the PC expansion.
@@ -69,14 +59,7 @@ classdef ChaosHeat < HotSpot
       pc = ch.pc;
       terms = ch.pc.terms;
 
-      %
-      % Initialize the leakage power model.
-      %
-      % NOTE: It is computed for each core separately.
-      %
-      leakage = LeakageSampler(...
-        ChaosHeat.leakageRatioInDynamic * mean(Pdyn, 2), ...
-        ChaosHeat.leakageTemperature);
+      sampler = LeakageSampler(leakage, pc);
 
       %
       % Here we are going to store the stochastic temperature.
@@ -86,8 +69,8 @@ classdef ChaosHeat < HotSpot
       %
       % Perform the PC expansion.
       %
-      leakage.setup();
-      Pcoeff = pc.construct(@leakage.sample, cores);
+      sampler.setup(ones(cores, 1) * Tamb);
+      Pcoeff = pc.construct(@sampler.perform, cores);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -106,8 +89,8 @@ classdef ChaosHeat < HotSpot
         %
         % Perform the PC expansion.
         %
-        leakage.setup();
-        Pcoeff = pc.construct(@leakage.sample, cores);
+        sampler.setup(BT * Tcoeff(:, :, i - 1) + Tamb);
+        Pcoeff = pc.construct(@sampler.perform, cores);
 
         %
         % Add the dynamic power to the mean.
@@ -126,7 +109,7 @@ classdef ChaosHeat < HotSpot
       %
       % Compute the expectation.
       %
-      ExpT = ch.BT * squeeze(Tcoeff(:, 1, :)) + ch.Tamb;
+      ExpT = BT * squeeze(Tcoeff(:, 1, :)) + Tamb;
 
       %
       % Compute the variance.
@@ -137,7 +120,7 @@ classdef ChaosHeat < HotSpot
       VarT = zeros(cores, steps);
       norm = repmat(pc.norm(2:end), cores, 1);
       for i = 1:steps
-        VarT(:, i) = sum((ch.BT * Tcoeff(:, 2:end, i)).^2 .* norm, 2);
+        VarT(:, i) = sum((BT * Tcoeff(:, 2:end, i)).^2 .* norm, 2);
       end
     end
   end

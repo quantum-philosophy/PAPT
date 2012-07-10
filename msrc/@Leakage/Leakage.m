@@ -1,68 +1,70 @@
 classdef Leakage < handle
-  %
-  % Description:
-  %
-  %   The leakage model is based on
-  %
-  %   W. Liao, L. He, and K. M. Lepak, "Temperature and Supply Voltage
-  %   Aware Performance and Power Modeling at Microarchitecture Level",
-  %   IEEE Trans. on Computer-Aided Design of Integrated Circuits and
-  %   Systems, July 2005.
-  %
   properties (Constant)
     %
-    % Scaling coefficients of the average leakage current for 65nm
+    % The coefficients are found in
     %
-    A = 1.1432e-12;
-    B = 1.0126e-14;
-    alpha = 466.4029;
-    beta = -1224.74083;
-    gamma = 6.28153;
-    delta = 6.9094;
-    Is = Leakage.calculateMeanIs();
+    % W. Liao, L. He, and K. M. Lepak, "Temperature and Supply Voltage
+    % Aware Performance and Power Modeling at Microarchitecture Level",
+    % IEEE Trans. on Computer-Aided Design of Integrated Circuits and
+    % Systems, July 2005.
+    %
+    Lnom = 45e-9;
+    beta = -(466.4029 * 1 -1224.74083) / Leakage.Lnom;
+
+    %
+    % The following constants are used to construct an instance
+    % of the leakage model that produces `relativeToDynamic' portion
+    % of the given dynamic power at temperature `referenceTemperature'.
+    %
+    relativeToDynamic = 1.0;
+    referenceTemperature = Utils.toKelvin(80);
+  end
+
+  properties (SetAccess = 'private')
+    L
+    alpha
+  end
+
+  methods
+    function l = Leakage(P, T)
+      %
+      % Fit the leakage coefficients to produce the leakage power `P'
+      % at the temperature level `T'.
+      %
+
+      cores = length(P);
+
+      if nargin < 2, T = Utils.toKelvin(100); end
+      if length(T) == 1, T = ones(cores, 1) * T; end
+
+      l.L = ones(cores, 1) * Leakage.Lnom;
+      l.alpha = ones(cores, 1);
+
+      P0 = l.calculate(T);
+
+      l.alpha = P ./ P0;
+    end
+
+    function P = calculate(l, T, L)
+      if nargin < 3, L = l.L; end
+      P = l.alpha .* T.^2 .* exp(- l.beta .* L ./ T);
+    end
   end
 
   methods (Static)
-    function P = calculate(Ngate, Vdd, T)
+    function leakage = constructBasedOnDynamic(Pdyn, R, T)
       %
-      % The average leakage current per gate:
+      % Description:
       %
-      % Iavg(T, Vdd) = Is(T0, V0) * favg(T, Vdd)
+      %   Construct the leakage power model and adjust it to produce
+      %   a curtain about of power relative to the given dynamic power.
       %
-      Iavg = Leakage.Is * Leakage.calculateScaling(T, Vdd);
+      %
 
-      %
-      % The power leakage for all gates:
-      %
-      % P = Ngate * Iavg * Vdd
-      %
-      P = Ngate .* Iavg .* Vdd;
-    end
-  end
+      if nargin < 2, R = Leakage.relativeToDynamic; end
+      if nargin < 3, T = Leakage.referenceTemperature; end
 
-  methods (Static, Access = 'private')
-    function f = calculateScaling(T, Vdd)
-      %
-      % The scaling factor of the leakage current:
-      %
-      % f(T, Vdd) = A * T^2 * e^((alpha * Vdd + beta)/T) +
-      %             B * e^(gamma * Vdd + delta)
-      %
-      f = Leakage.A .* T.^2 .* exp((Leakage.alpha .* Vdd + Leakage.beta) ./ T) + ...
-        Leakage.B .* exp(Leakage.gamma .* Vdd + Leakage.delta);
-
-      % f = 1: Vdd ~= 4.03, the authors say it is not true
-    end
-
-    function Is = calculateMeanIs()
-      %
-      % Some values found in the paper.
-      %
-      T = Utils.toKelvin([ 100, 100, 80, 80, 60, 60 ]);
-      V = [ 0.95, 1.05, 0.95, 1.05, 0.95, 1.05 ];
-      Iavg = [ 23.44, 29.56, 19.44, 25.14, 16.00, 21.33 ] * 1e-6;
-
-      Is = mean(Iavg ./ Leakage.calculateScaling(T, V));
+      leakage = Leakage(R * mean(Pdyn, 2), T);
     end
   end
 end
