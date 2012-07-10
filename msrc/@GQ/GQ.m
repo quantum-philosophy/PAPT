@@ -46,20 +46,23 @@ classdef GQ < handle
       gq.nodes = nodes * sqrt(2);
     end
 
-    function result = integrate(gq, f)
+    function result = integrate(gq, f, axes)
+      if nargin < 3, axes = 1; end
+
       points = gq.points;
       nodes = gq.nodes;
 
-      samples = zeros(1, points);
+      samples = zeros(axes, points);
 
       for i = 1:points
-        samples(i) = f(nodes(i, :));
+        samples(:, i) = f(nodes(:, i));
       end
 
       %
       % See (*) to understand why we do not need 2 next to pi here.
       %
-      result = sum(samples .* gq.weights) / pi^(gq.dimension / 2);
+      result = sum(samples .* repmat(gq.weights, axes, 1), 2) ./ ...
+        pi^(gq.dimension / 2);
     end
   end
 

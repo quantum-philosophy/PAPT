@@ -1,13 +1,13 @@
-function coeffs = construct(pc, f)
+function coeff = construct(pc, f, axes)
   x = pc.x;
   psi = pc.psi;
   norm = pc.norm;
   count = pc.count;
   gq = pc.gq;
 
-  coeffs = zeros(1, count);
+  coeff = zeros(axes, count);
 
   for i = 1:count
-    coeffs(i) = gq.integrate(@(y) f(y) * subs(psi(i), x, y)) / norm(i);
+    coeff(:, i) = gq.integrate(@(y) f(y) .* subs(psi(i), x, y), axes) ./ norm(i);
   end
 end

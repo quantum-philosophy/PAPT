@@ -1,4 +1,4 @@
-function [ E, C, out ] = perform(pc, f, samples)
+function [ E, C, out ] = perform(pc, f, dims, samples)
   %
   % Output:
   %
@@ -9,28 +9,35 @@ function [ E, C, out ] = perform(pc, f, samples)
   %   NOTE: `out' is not used to compute the expectation and covariance.
   %
 
-  if nargin < 3, samples = 10000; end
+  if nargin < 4, samples = 10000; end
+
+  sdim = dims(1);
+  ddim = dims(2);
+
+  if sdim ~= pc.dimension
+    error('The dimensions do not match each other.');
+  end
 
   %
   % Obtain the coefficients.
   %
-  coeffs = pc.construct(f);
+  coeff = pc.construct(f, ddim);
 
   %
   % Straight-forward stats.
   %
-  E = coeffs(1);
-  C = sum(coeffs(2:end).^2 .* pc.norm(2:end));
+  E = coeff(:, 1);
+  C = diag(sum(coeff(:, 2:end).^2 .* repmat(pc.norm(2:end), ddim, 1), 2));
 
   %
   % Now sampling.
   %
   vars = {};
 
-  for i = 1:pc.dimension
+  for i = 1:sdim
     vars{i} = normrnd(0, 1, samples, 1);
   end
 
-  e = matlabFunction(simplify(expand(sum(coeffs .* pc.psi))));
-  out = e(vars{:});
+  e = matlabFunction(sum(coeff .* repmat(pc.psi, ddim, 1), 2));
+  out = reshape(e(vars{:}), samples, ddim);
 end

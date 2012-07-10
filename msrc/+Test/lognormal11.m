@@ -1,7 +1,5 @@
 init;
 
-dimension = 1;
-
 n_mu = 5;
 n_sigma = 0.2;
 
@@ -34,7 +32,7 @@ fprintf('mu = %.2f, var = %.2f\n\n', l_mu, l_var);
 fprintf('Monte-Carlo simulation...');
 
 t = tic;
-[ mu, var, out_MC ] = MC.perform(f, dimension, samples);
+[ mu, var, out_MC ] = MC.perform(f, [ 1 1 ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
@@ -45,12 +43,12 @@ fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
 
 fprintf('Polynomial Chaos preparation...');
 t = tic;
-pc = PC(dimension, order);
+pc = PC(1, order);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('Polynomial Chaos simulation...');
 t = tic;
-[ mu, var, out_PC ] = pc.perform(f, samples);
+[ mu, var, out_PC ] = pc.perform(f, [ 1 1 ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
@@ -59,48 +57,5 @@ fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
 % Plots
 %
 
-min_MC = min(min(out_MC));
-max_MC = max(max(out_MC));
-
-min_PC = min(min(out_PC));
-max_PC = max(max(out_PC));
-
-x = linspace(max(min_MC, min_PC), min(max_MC, max_PC), 200);
-
-figure;
-
-subplot(2, 1, 1);
-
-density = lognpdf(x, n_mu, n_sigma);
-line(x, density, 'Color', 'r');
-
-density_MC = ksdensity(out_MC, x);
-line(x, density_MC, 'Color', 'b');
-
-density_PC = ksdensity(out_PC, x);
-line(x, density_PC, 'Color', 'g');
-
-title('PDF');
-legend('Exact', 'MC', 'PC');
-xlim([ x(1), x(end) ]);
-
-subplot(2, 1, 2);
-
-line(x, density - density_MC, 'Color', 'b');
-line(x, density - density_PC, 'Color', 'g');
-
-title('Error');
-legend('MC', 'PC');
-xlim([ x(1), x(end) ]);
-
-%
-% RMSE
-%
-
-n = length(x);
-
-rmse_MC = sqrt(sum((density_MC - density).^2) / n);
-rmse_PC = sqrt(sum((density_PC - density).^2) / n);
-
-fprintf('RMSE for MC: %.4e\n', rmse_MC);
-fprintf('RMSE for PC: %.4e\n', rmse_PC);
+Utils.compare(out_MC, out_PC, { 'MC', 'PC' }, ...
+  @(x, i) lognpdf(x, n_mu, n_sigma));

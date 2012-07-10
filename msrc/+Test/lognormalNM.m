@@ -1,11 +1,16 @@
 init;
 
 sdim = 2;
+ddim = 2;
 
 n_mu = [ 2, 2 ]';
-n_sigma = [ 0.2, 0.8 ]';
+n_sigma = diag([ 0.2, 0.8 ]);
 
-fprintf('Y = exp(X1 + ... + X%d)\n', sdim);
+A = [ 1, 0;
+      0, 1 ];
+
+fprintf('Y = exp((f1(X1, ..., X%d), ..., f%d(X1, ..., X%d))^T)\n', ...
+  sdim, ddim, sdim);
 for i = 1:sdim
   fprintf('X%d ~ N(%.2f, %.2f)\n', i, n_mu(i), n_sigma(i));
 end
@@ -14,11 +19,12 @@ fprintf('\n');
 order = 4;
 samples = 2e4;
 
+fprintf('Number of spacial coordinates: %d\n', ddim);
 fprintf('Order of PC: %d\n', order);
 fprintf('Number of samples: %d\n', samples);
 fprintf('\n');
 
-f = @(x) exp(sum(n_mu + n_sigma .* x));
+f = @(x) exp(A * (n_mu + n_sigma * x));
 
 %
 % Monte-Carlo
@@ -27,10 +33,14 @@ f = @(x) exp(sum(n_mu + n_sigma .* x));
 fprintf('Monte-Carlo simulation...');
 
 t = tic;
-[ mu, var, out_MC ] = MC.perform(f, [ sdim 1 ], samples);
+[ mu, var, out_MC ] = MC.perform(f, [ sdim ddim ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
-fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
+fprintf('%10s%10s\n', 'mu', 'var');
+for i = 1:ddim
+  fprintf('%10.2f%10.2f\n', mu(i), var(i));
+end
+fprintf('\n');
 
 %
 % Polynomial Chaos expansion
@@ -43,10 +53,14 @@ fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('Polynomial Chaos simulation...');
 t = tic;
-[ mu, var, out_PC ] = pc.perform(f, [ sdim 1 ], samples);
+[ mu, var, out_PC ] = pc.perform(f, [ sdim ddim ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
-fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
+fprintf('%10s%10s\n', 'mu', 'var');
+for i = 1:ddim
+  fprintf('%10.2f%10.2f\n', mu(i), var(i));
+end
+fprintf('\n');
 
 %
 % Plots

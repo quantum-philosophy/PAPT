@@ -11,9 +11,4 @@ function [ nodes, weights, points ] = constructGaussHermite(dimension, level)
 
   points = sparse_grid_herm_size(dimension, level);
   [ weights, nodes ] = sparse_grid_herm(dimension, level, points);
-
-  %
-  % Each line is a sample.
-  %
-  nodes = transpose(nodes);
 end

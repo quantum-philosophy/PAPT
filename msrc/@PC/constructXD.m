@@ -53,6 +53,6 @@ function psiXD = constructXD(x, countXD)
   end
 
   for i = 1:countXD
-    psiXD(i) = simplify(expand(psiXD(i)));
+    psiXD(i) = expand(psiXD(i));
   end
 end
