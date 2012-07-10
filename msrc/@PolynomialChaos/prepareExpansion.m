@@ -1,4 +1,4 @@
-function [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq)
+function [ x, psi, norm, terms ] = prepareExpansion(dimension, order, gq)
   %
   % Description:
   %
@@ -17,7 +17,7 @@ function [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq)
   %   * x     - a vector of `dimension' symbolic variables.
   %   * psi   - a vector of the Hermite polynomials.
   %   * norm  - a vector of the normalization coefficients of the expansion.
-  %   * count - the total number of the polynomials in `psi'.
+  %   * terms - the total number of the polynomials in `psi'.
   %
 
   filename = [ 'PC_d', num2str(dimension), '_o', num2str(order), '.mat' ];
@@ -26,20 +26,20 @@ function [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq)
   if exist(filename, 'file')
     load(filename);
   else
-    count = PolynomialChaos.calculateCount(dimension, order);
+    terms = PolynomialChaos.countTerms(dimension, order);
 
     for i = 1:dimension
       x(i) = sym([ 'x', num2str(i) ], 'real');
     end
 
-    psi = PolynomialChaos.constructXD(x, count);
+    psi = PolynomialChaos.constructXD(x, terms);
 
-    norm = zeros(1, count);
+    norm = zeros(1, terms);
     norm(1) = 1;
-    for i = 2:count
+    for i = 2:terms
       norm(i) = gq.integrate(@(s) subs(psi(i) * psi(i), x, s));
     end
 
-    save(filename, 'x', 'psi', 'norm', 'count');
+    save(filename, 'x', 'psi', 'norm', 'terms');
   end
 end

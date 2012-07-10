@@ -1,47 +1,72 @@
 classdef HotSpot < handle
-  properties (SetAccess = public)
-    % Number of thermal nodes
+  properties (SetAccess = 'protected')
+    %
+    % The number of thermal nodes in the thermal RC circuit.
+    %
     nodes
 
-    % Number of cores
+    %
+    % The number of active node, i.e., those that correspond to
+    % the processing elements (cores).
+    %
     cores
 
-    % Sampling interval
+    %
+    % The sampling interval of the simulation.
+    %
     dt
 
-    % Ambient temperature
+    %
+    % The ambient temperature.
+    %
     Tamb
   end
 
-  properties (SetAccess = private)
+  properties (Access = 'protected')
+    %
     % Original system:
-    % C * dZ/dt + G * Z = M * P
-    % T = M^T * Z + T_amb
-
+    %
+    %   C * dZ/dt + G * Z = M * P
+    %   T = M^T * Z + T_amb
+    %
     % Transformed system:
-    % dX/dt = A * X + B * P
-    % T = B^T * X + T_amb
+    %
+    %   dX/dt = A * X + B * P
+    %   T = B^T * X + T_amb
+    %
 
+    %
     % C^(-1/2)
+    %
     Cm12
 
+    %
     % A = C^(-1/2) * (-G) * C^(-1/2)
+    %
     A
 
+    %
     % B^T = (C^(-1/2) * M)^T
+    %
     BT
 
+    %
     % Eigenvalue decomposition of Gt
     % A = Q * L * Q^T
+    %
     L
     Q
     QT
 
+    %
     % E = exp(A * t) = Q * diag(exp(li * dt)) * Q^T
+    %
     E
 
+    %
     % D = A^(-1) * (exp(A * t) - I) * B
     %   = Q * diag((exp(li * t) - 1) / li) * Q^T * B
+    %
     D
   end
 
@@ -71,24 +96,18 @@ classdef HotSpot < handle
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
     end
 
-    function T = solve(hs, P, T0)
+    function T = solve(hs, P)
       [ cores, steps ] = size(P);
       nodes = hs.nodes;
 
       if cores ~= hs.cores, error('The power profile is invalid.'); end
-
-      if nargin < 3
-        T0 = zeros(nodes, 1);
-      else
-        T0 = hs.Cm12.^(-1) * (T0 - Tamb);
-      end
 
       T = zeros(nodes, steps);
 
       E = hs.E;
       D = hs.D;
 
-      T(:, 1) = E * T0 + D * P(:, 1);
+      T(:, 1) = D * P(:, 1);
 
       for i = 2:steps
         T(:, i) = E * T(:, i - 1) + D * P(:, i);

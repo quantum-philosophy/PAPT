@@ -1,7 +1,7 @@
-function psi = construct1D(x, count)
+function psi = construct1D(x, terms)
   psi(1) = sym(1);
 
-  for i = 2:count
+  for i = 2:terms
     psi(i) = x * psi(i - 1) - diff(psi(i - 1), x);
   end
 end

@@ -34,9 +34,9 @@ classdef PolynomialChaos < handle
     norm
 
     %
-    % The total number of the polynomials in the expansion.
+    % The total number of polynomials in the expansion.
     %
-    count
+    terms
   end
 
   methods
@@ -49,20 +49,20 @@ classdef PolynomialChaos < handle
 
       pc.gq = GaussianQuadrature(dimension, level);
 
-      [ pc.x, pc.psi, pc.norm, pc.count ] = ...
+      [ pc.x, pc.psi, pc.norm, pc.terms ] = ...
         pc.prepareExpansion(dimension, order, pc.gq);
     end
   end
 
   methods (Static, Access = 'private')
-    function count = calculateCount(dimension, order)
-      count = factorial(dimension + order) / ...
+    function terms = countTerms(dimension, order)
+      terms = factorial(dimension + order) / ...
         (factorial(dimension) * factorial(order));
     end
 
-    psi = construct1D(x, count);
-    psi = constructXD(x, count);
+    psi = construct1D(x, terms);
+    psi = constructXD(x, terms);
 
-    [ x, psi, norm, count ] = prepareExpansion(dimension, order, gq);
+    [ x, psi, norm, terms ] = prepareExpansion(dimension, order, gq);
   end
 end
