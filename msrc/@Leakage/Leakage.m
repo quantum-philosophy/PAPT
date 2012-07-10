@@ -49,6 +49,10 @@ classdef Leakage < handle
       if nargin < 3, L = l.L; end
       P = l.alpha .* T.^2 .* exp(- l.beta .* L ./ T);
     end
+
+    function adjust(l, L)
+      l.L = L;
+    end
   end
 
   methods (Static)

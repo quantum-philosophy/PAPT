@@ -20,9 +20,9 @@ classdef LeakageSampler < handle
       ls.coeff = coeff;
     end
 
-    function P = perform(ls, samples)
-      P = ls.leakage.calculate(ls.calculateTemperature(samples), ...
-        ls.Lnom + ls.Ldev .* samples);
+    function P = perform(ls, rvs)
+      P = ls.leakage.calculate(ls.calculateTemperature(rvs), ...
+        ls.Lnom + ls.Ldev .* rvs);
     end
   end
 
