@@ -1,7 +1,9 @@
 init;
 
-floorplan = Utils.resolvePath('dummy.flp');
 hsConfig = Utils.resolvePath('hotspot.config');
+floorplan = Utils.resolvePath('dummy4.flp');
+powerTrace = Utils.resolvePath('dummy4.ptrace');
+
 hsLine = 'sampling_intvl 1e-3';
 
 hs = HotSpot(floorplan, hsConfig, hsLine);
@@ -11,7 +13,6 @@ fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
 fprintf('Number of nodes:     %d\n', hs.nodes);
 fprintf('Number of cores:     %d\n', hs.cores);
 
-powerTrace = Utils.resolvePath('dummy.ptrace');
 Pdyn = dlmread(powerTrace, '', 1, 0)';
 
 steps = size(Pdyn, 2);

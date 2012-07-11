@@ -108,12 +108,15 @@ classdef LeakageSampler < handle
 
     function P = performAtCurrent(ls, rvs)
       %
-      % With or without inner expansions.
+      % With...
       %
-      T = ls.trace.coeff(:, 1, ls.position);
-      % T = ls.pc.evaluate(ls.trace.coeff(:, :, ls.position), rvs);
-
-      T = irep(T, 1, ls.count);
+      T = ls.pc.evaluate(ls.trace.coeff(:, :, ls.position), rvs);
+      %
+      % ... or without inner expansions.
+      %
+      % T = ls.trace.coeff(:, 1, ls.position);
+      % T = irep(T, 1, ls.count);
+      %
       P = ls.alpha .* T.^2 .* exp(- ls.beta .* (ls.Lnom + ls.Ldev .* rvs) ./ T);
     end
 
