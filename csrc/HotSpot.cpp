@@ -1,5 +1,6 @@
 #include <sstream>
 #include <stdexcept>
+#include <string.h>
 
 #include "HotSpot.h"
 

@@ -4,6 +4,7 @@
 
 *.o
 *.mexmaci64
+*.mexa64
 tags
 
 build/*

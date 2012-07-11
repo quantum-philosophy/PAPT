@@ -1,5 +1,5 @@
 set(MEX_SRCS
-	${PROJECT_SOURCE_DIR}/csrc/Hotspot.cpp
+	${PROJECT_SOURCE_DIR}/csrc/HotSpot.cpp
 )
 
 set(MEX_LIBS
