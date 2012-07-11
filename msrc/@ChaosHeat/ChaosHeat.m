@@ -136,7 +136,7 @@ classdef ChaosHeat < HotSpot
       % there are no correlations between cores after the PC expansion.
       %
       VarT = zeros(cores, steps);
-      norm = repmat(pc.norm(2:end), cores, 1);
+      norm = irep(pc.norm(2:end), cores, 1);
       for i = 1:steps
         VarT(:, i) = sum(trace.coeff(:, 2:end, i).^2 .* norm, 2);
       end

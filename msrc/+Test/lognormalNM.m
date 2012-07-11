@@ -53,8 +53,8 @@ fprintf(' %.2f seconds.\n', toc(t));
 
 count = pc.cq.count;
 
-n_mu = repmat(n_mu, 1, count);
-n_sigma = repmat(n_sigma, 1, count);
+n_mu = irep(n_mu, 1, count);
+n_sigma = irep(n_sigma, 1, count);
 
 f = @(x) exp(A * (n_mu + n_sigma .* x));
 

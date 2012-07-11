@@ -36,7 +36,7 @@ classdef ChaosQuadrature < handle
 
     function result = integrateWithChaos(cq, f, ddim, c)
       samples = f(cq.nodes);
-      result = sum(samples .* repmat(cq.niceGrid(c, :), ddim, 1), 2);
+      result = sum(samples .* irep(cq.niceGrid(c, :), ddim, 1), 2);
     end
 
     function result = integrateChaosProduct(cq, c1, c2)

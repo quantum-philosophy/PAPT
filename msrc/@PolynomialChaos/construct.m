@@ -8,5 +8,5 @@ function coeff = construct(pc, f, ddim)
     coeff(:, i) = cq.integrateWithChaos(f, ddim, i);
   end
 
-  coeff = coeff ./ repmat(pc.norm, ddim, 1);
+  coeff = coeff ./ irep(pc.norm, ddim, 1);
 end

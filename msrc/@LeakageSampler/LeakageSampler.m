@@ -93,8 +93,8 @@ classdef LeakageSampler < handle
       %
       % Adjust to the dimension of the quadrature.
       %
-      ls.alpha = repmat(ls.alpha, 1, ls.count);
-      ls.Tamb = repmat(ls.Tamb, 1, ls.count);
+      ls.alpha = irep(ls.alpha, 1, ls.count);
+      ls.Tamb = irep(ls.Tamb, 1, ls.count);
     end
 
     function advance(ls)
@@ -113,7 +113,7 @@ classdef LeakageSampler < handle
       T = ls.trace.coeff(:, 1, ls.position);
       % T = ls.pc.evaluate(ls.trace.coeff(:, :, ls.position), rvs);
 
-      T = repmat(T, 1, ls.count);
+      T = irep(T, 1, ls.count);
       P = ls.alpha .* T.^2 .* exp(- ls.beta .* (ls.Lnom + ls.Ldev .* rvs) ./ T);
     end
 

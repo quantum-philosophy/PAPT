@@ -58,7 +58,7 @@ classdef GaussianQuadrature < handle
       %
       % See (*) to understand why we do not need 2 next to pi here.
       %
-      result = sum(samples .* repmat(gq.weights, ddim, 1), 2) ./ pi^(gq.sdim / 2);
+      result = sum(samples .* irep(gq.weights, ddim, 1), 2) ./ pi^(gq.sdim / 2);
     end
   end
 
