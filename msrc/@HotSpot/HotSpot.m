@@ -96,7 +96,7 @@ classdef HotSpot < handle
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
     end
 
-    function T = solve(hs, Pdyn, leakage)
+    function T = solve(hs, Pdyn, rvs)
       [ cores, steps ] = size(Pdyn);
       if cores ~= hs.cores, error('The power profile is invalid.'); end
 
@@ -109,33 +109,26 @@ classdef HotSpot < handle
       BT = hs.BT;
       Tamb = hs.Tamb;
 
-      T = zeros(nodes, steps);
+      %
+      % Initialize the leakage model.
+      %
+      sampler = LeakageSampler(Tamb, Pdyn);
 
-      if nargin < 3
-        %
-        % Without any leakage.
-        %
+      T = zeros(cores, steps);
 
-        T(:, 1) = D * Pdyn(:, 1);
+      Pleak = sampler.performAtAmbient(rvs);
+      X = D * (Pdyn(:, 1) + Pleak);
 
-        for i = 2:steps
-          T(:, i) = E * T(:, i - 1) + D * Pdyn(:, i);
-        end
-      else
-        %
-        % With leakage.
-        %
-
-        Pleak = leakage.calculate(ones(cores, 1) * Tamb);
-        T(:, 1) = D * (Pdyn(:, 1) + Pleak);
-
-        for i = 2:steps
-          Pleak = leakage.calculate(BT * T(:, i - 1) + Tamb);
-          T(:, i) = E * T(:, i - 1) + D * (Pdyn(:, i) + Pleak);
-        end
+      for i = 2:steps
+        T(:, i - 1) = BT * X + Tamb;
+        Pleak = sampler.performAtGiven(T(:, i - 1), rvs);
+        X = E * X + D * (Pdyn(:, i) + Pleak);
       end
 
-      T = BT * T + Tamb;
+      %
+      % Do not forget the last temperature vector.
+      %
+      T(:, end) = BT * X + Tamb;
     end
   end
 

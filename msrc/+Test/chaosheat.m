@@ -19,10 +19,8 @@ steps = size(Pdyn, 2);
 fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', ch.dt * steps);
 
-leakage = Leakage.constructBasedOnDynamic(Pdyn);
-
 t = tic;
-[ ExpT, VarT ] = ch.solve(Pdyn, leakage);
+[ ExpT, VarT ] = ch.solve(Pdyn);
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 

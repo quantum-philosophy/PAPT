@@ -19,13 +19,9 @@ steps = size(Pdyn, 2);
 fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
-leakage = Leakage.constructBasedOnDynamic(Pdyn);
-
-mc = MonteCarlo(hs, Pdyn, leakage);
-
 t = tic;
-[ ExpT, VarT ] = MonteCarlo.perform3D(...
-  @mc.evaluate, [ hs.cores, hs.cores, steps ]);
+[ ExpT, VarT ] = MonteCarlo.perform3D( ...
+  @(rvs) hs.solve(Pdyn, rvs), [ hs.cores, hs.cores, steps ]);
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 

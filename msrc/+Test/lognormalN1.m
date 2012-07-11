@@ -18,13 +18,13 @@ fprintf('Order of PC: %d\n', order);
 fprintf('Number of samples: %d\n', samples);
 fprintf('\n');
 
-f = @(x) exp(sum(n_mu + n_sigma .* x));
-
 %
 % Monte-Carlo
 %
 
 fprintf('Monte-Carlo simulation...');
+
+f = @(x) exp(sum(n_mu + n_sigma .* x));
 
 t = tic;
 [ mu, var, out_MC ] = MonteCarlo.perform(f, [ sdim 1 ], samples);
@@ -40,6 +40,13 @@ fprintf('Polynomial Chaos preparation...');
 t = tic;
 pc = PolynomialChaos(sdim, order);
 fprintf(' %.2f seconds.\n', toc(t));
+
+count = pc.cq.count;
+
+n_mu = repmat(n_mu, 1, count);
+n_sigma = repmat(n_sigma, 1, count);
+
+f = @(x) exp(sum(n_mu + n_sigma .* x));
 
 fprintf('Polynomial Chaos simulation...');
 t = tic;

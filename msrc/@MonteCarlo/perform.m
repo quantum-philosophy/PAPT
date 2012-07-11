@@ -1,5 +1,11 @@
 function [ E, C, out ] = perform(f, dims, samples)
   %
+  % Description:
+  %
+  %   Samples the given function `f' a number of times
+  %   equal to `samples' and outputs its expectation,
+  %   covariance, and the computed samples.
+  %
   % Output:
   %
   %   * E   - the expectation of `f',

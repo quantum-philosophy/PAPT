@@ -13,7 +13,9 @@ classdef ChaosQuadrature < handle
     % coefficient.
     %
     niceGrid
+  end
 
+  properties (SetAccess = 'private')
     %
     % The evaluation points for the integration.
     %
@@ -33,15 +35,7 @@ classdef ChaosQuadrature < handle
     end
 
     function result = integrateWithChaos(cq, f, ddim, c)
-      count = cq.count;
-      nodes = cq.nodes;
-
-      samples = zeros(ddim, count);
-
-      for i = 1:count
-        samples(:, i) = f(nodes(:, i));
-      end
-
+      samples = f(cq.nodes);
       result = sum(samples .* repmat(cq.niceGrid(c, :), ddim, 1), 2);
     end
 
