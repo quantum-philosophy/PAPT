@@ -8,7 +8,7 @@ classdef GaussianQuadrature < handle
     %
     % The dimension of the grid, i.e., the number of variables.
     %
-    dimension
+    sdim
 
     %
     % The level of the grid.
@@ -18,7 +18,7 @@ classdef GaussianQuadrature < handle
     %
     % The total number of nodes.
     %
-    points
+    count
 
     %
     % The nodes.
@@ -32,14 +32,12 @@ classdef GaussianQuadrature < handle
   end
 
   methods
-    function gq = GaussianQuadrature(dimension, level)
-      if nargin < 2, level = 2; end
-
-      gq.dimension = dimension;
+    function gq = GaussianQuadrature(sdim, level)
+      gq.sdim = sdim;
       gq.level = level;
 
-      [ nodes, gq.weights, gq.points ] = ...
-        GaussianQuadrature.constructSparseGrid(dimension, level);
+      [ nodes, gq.weights, gq.count ] = ...
+        GaussianQuadrature.constructGrid(sdim, level);
 
       %
       % See (*) to justify the need of sqrt(2).
@@ -47,28 +45,43 @@ classdef GaussianQuadrature < handle
       gq.nodes = nodes * sqrt(2);
     end
 
-    function result = integrate(gq, f, axes)
-      if nargin < 3, axes = 1; end
-
-      points = gq.points;
+    function result = integrate(gq, f, ddim)
+      count = gq.count;
       nodes = gq.nodes;
 
-      samples = zeros(axes, points);
+      samples = zeros(ddim, count);
 
-      for i = 1:points
+      for i = 1:count
         samples(:, i) = f(nodes(:, i));
       end
 
       %
       % See (*) to understand why we do not need 2 next to pi here.
       %
-      result = sum(samples .* repmat(gq.weights, axes, 1), 2) ./ ...
-        pi^(gq.dimension / 2);
+      result = sum(samples .* repmat(gq.weights, ddim, 1), 2) ./ pi^(gq.sdim / 2);
+    end
+  end
+
+  methods (Static)
+    function [ nodes, weights, count ] = constructGrid(sdim, level)
+      %
+      % A wrapper to cache the result of `doConstructGrid'.
+      %
+
+      filename = [ 'SG_d', num2str(sdim), '_l', num2str(level), '.mat' ];
+      filename = Utils.resolvePath(filename);
+
+      if exist(filename, 'file')
+        load(filename);
+      else
+        [ nodes, weights, count ] = ...
+          GaussianQuadrature.doConstructGrid(sdim, level);
+        save(filename, 'nodes', 'weights', 'count');
+      end
     end
   end
 
   methods (Static, Access = 'private')
-    [ nodes, weights, points ] = constructSparseGrid(dimension, level);
-    [ nodes, weights, points ] = constructGaussHermite(dimension, level);
+    [ nodes, weights, count ] = doConstructGrid(sdim, level);
   end
 end

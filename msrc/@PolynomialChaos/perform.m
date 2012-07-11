@@ -14,7 +14,7 @@ function [ E, C, out ] = perform(pc, f, dims, count)
   sdim = dims(1);
   ddim = dims(2);
 
-  if sdim ~= pc.dimension
+  if sdim ~= pc.sdim
     error('The dimensions do not match each other.');
   end
 

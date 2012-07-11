@@ -1,4 +1,4 @@
-function [ nodes, weights, points ] = constructGaussHermite(dimension, level)
+function [ nodes, weights, count ] = doConstructGrid(sdim, level)
   %
   % Description:
   %
@@ -9,6 +9,6 @@ function [ nodes, weights, points ] = constructGaussHermite(dimension, level)
   %   hence, the weight function is exp(-x^2).
   %
 
-  points = sparse_grid_herm_size(dimension, level);
-  [ weights, nodes ] = sparse_grid_herm(dimension, level, points);
+  count = sparse_grid_herm_size(sdim, level);
+  [ weights, nodes ] = sparse_grid_herm(sdim, level, count);
 end

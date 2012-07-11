@@ -1,5 +1,5 @@
 function psiXD = constructXD(x, termsXD)
-  dimension = length(x);
+  sdim = length(x);
 
   %
   % Determine the order of a 1D polynomial.
@@ -8,7 +8,7 @@ function psiXD = constructXD(x, termsXD)
   terms1D = 0;
   while (check < termsXD)
     terms1D = terms1D + 1;
-    check = check + nmultichoosek(dimension, terms1D);
+    check = check + nmultichoosek(sdim, terms1D);
   end
 
   %
@@ -20,18 +20,18 @@ function psiXD = constructXD(x, termsXD)
   % If there is only one stochastic dimension,
   % we do not need to do anything else.
   %
-  if dimension == 1
+  if sdim == 1
     psiXD = psi1D;
   else
     %
     % Clone the first 1D polynomial.
     %
-    for i = 2:dimension
+    for i = 2:sdim
       psi1D(i, :) = subs(psi1D(1, :), x(1), x(i));
     end
 
-    limit = ones(1, dimension) * (terms1D - 1);
-    index = zeros(1, dimension);
+    limit = ones(1, sdim) * (terms1D - 1);
+    index = zeros(1, sdim);
 
     done = zeros(1, termsXD);
 
@@ -40,7 +40,7 @@ function psiXD = constructXD(x, termsXD)
 
       if newindex <= termsXD
         psiXD(newindex) = psi1D(1, index(1) + 1);
-        for i = 2:dimension
+        for i = 2:sdim
           psiXD(newindex) = psiXD(newindex) * psi1D(i, index(i) + 1);
         end
 
@@ -50,9 +50,5 @@ function psiXD = constructXD(x, termsXD)
 
       index = genincr(index, limit);
     end
-  end
-
-  for i = 1:termsXD
-    psiXD(i) = expand(psiXD(i));
   end
 end
