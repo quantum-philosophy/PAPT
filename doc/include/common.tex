@@ -28,8 +28,7 @@
 
 % ---- Sets
 \newcommand{\real}{\mathbb{R}}
-\renewcommand{\natural}{\mathbb{N}_0}
-\newcommand{\sI}{\mathcal{I}}
+\renewcommand{\natural}[1]{\mathbb{N}_{#1}}
 
 % ---- Matrices
 \newcommand{\mtx}[1]{(#1)}
@@ -47,9 +46,6 @@
 \renewcommand{\v}[1]{\mathbf{#1}}
 
 \newcommand{\vZ}{\v{0}}
-
-% ---- Integration
-\newcommand{\oQuadrature}[2]{Q^{#1}[#2]}
 
 % Probability theory
 \newcommand{\outcomes}{\Omega}
@@ -105,7 +101,7 @@
 \newcommand{\mG}{\m{G}}
 
 % ---- Processor elements/thermal nodes mapping
-\newcommand{\mM}{\m{M}}
+\newcommand{\mM}{\m{\tilde{B}}}
 
 % ---- Profiles
 \newcommand{\part}{\boldsymbol{\Delta}}
@@ -118,9 +114,20 @@
 \newcommand{\mA}{\m{A}}
 \newcommand{\mB}{\m{B}}
 
+% Generalized Polynomial Chaos
+\newcommand{\pcb}{\Phi}
+\newcommand{\pcc}[1]{\hat{#1}}
+\newcommand{\innerp}[1]{\langle #1 \rangle}
+
+% ---- Integration
+\newcommand{\cbp}[1]{\hat{#1}}
+\newcommand{\oCubature}[3]{Q_{#1}^{#2}[#3]}
+
 % Indexes
 \newcommand{\nodes}{{n_n}}
 \newcommand{\cores}{{n_p}}
 \newcommand{\steps}{{n_s}}
-\newcommand{\params}{{n_v}}
-\newcommand{\qpoints}{{n_q}}
+\newcommand{\vars}{{n_v}}
+\newcommand{\cblevel}{{n_l}}
+\newcommand{\cbpoints}{{n_c}}
+\newcommand{\pcorder}{{n_o}}
