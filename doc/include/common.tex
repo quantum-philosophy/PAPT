@@ -5,11 +5,11 @@
 
 \usepackage{multibib}
 
-
-\newcommand{\STempA}{STempA}
+\newcommand{\sta}{STA}
 
 % Formatting
 \newcommand{\definition}[1]{\emph{#1}}
+\newcommand{\statement}[1]{\underline{#1}}
 
 % ---- References
 \newcommand{\eref}[1]{Eq.~(\ref{eq:#1})}
@@ -20,6 +20,11 @@
 
 % Basic mathematics
 \newcommand{\cd}{\cdot}
+\newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
+% \newcommand{\eqdef}{\stackrel{\scriptscriptstyle \Delta}{=}}
+
+% ---- Spaces
+\renewcommand{\L}[1]{\mathcal{L}_{#1}}
 
 % ---- Sets
 \newcommand{\real}{\mathbb{R}}
@@ -42,6 +47,9 @@
 \renewcommand{\v}[1]{\mathbf{#1}}
 
 \newcommand{\vZ}{\v{0}}
+
+% ---- Integration
+\newcommand{\oQuadrature}[2]{Q^{#1}[#2]}
 
 % Probability theory
 \newcommand{\outcomes}{\Omega}
@@ -70,23 +78,24 @@
 \newcommand{\param}{\rv{u}}
 
 % Thermal model
-\newcommand{\system}{\Pi}
+\newcommand{\system}{\mathcal{S}}
 
 % ---- Time
 \renewcommand{\t}{t}
 \newcommand{\dt}{\Delta \t}
-\newcommand{\period}{\tau}
-\newcommand{\pTime}{\Delta \tau}
+\newcommand{\period}{\mathcal{T}}
 \newcommand{\sTime}{T}
 
 % ---- Temperature
 \newcommand{\vTI}{\v{Z}} % Internal temperature
 \newcommand{\vTO}{{\boldsymbol\Theta}} % Output temperature
+\newcommand{\mTO}{{\boldsymbol\Theta}}
 
 \newcommand{\amb}{\text{amb}}
 
 % ---- Power
 \newcommand{\vP}{\v{P}}
+\newcommand{\mP}{\m{P}}
 
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
@@ -99,10 +108,8 @@
 \newcommand{\mM}{\m{M}}
 
 % ---- Profiles
-\newcommand{\mP}{\tilde{\m{P}}}
-\newcommand{\mTO}{\tilde{\m{\Theta}}}
-\newcommand{\pP}{(\pTime, \mP)}
-\newcommand{\pT}{(\pTime, \mTO)}
+\newcommand{\part}{\boldsymbol{\Delta}}
+\newcommand{\prof}[1]{\Pi[\part, #1]}
 
 % ---- Differential-algebraic system
 % dx/dt = A * x + B * u
@@ -116,3 +123,4 @@
 \newcommand{\cores}{{n_p}}
 \newcommand{\steps}{{n_s}}
 \newcommand{\params}{{n_v}}
+\newcommand{\qpoints}{{n_q}}

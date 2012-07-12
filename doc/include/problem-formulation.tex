@@ -1,0 +1,12 @@
+\statement{Given}:
+\begin{itemize}
+  \item A high-level description of a multiprocessor platform with a thermal package $\system$ (see \sref{architecture-model}).
+  \item A model of the power dissipation of the system as a functional $f(\vP_\dyn(\t), \vTO(\t), \vU(\o))$ of the nominal dynamic power $\vP_\dyn(t)$, temperature $\vTO(\t)$, and a set of uncertain parameters $\vU(\o)$.
+\end{itemize}
+
+\statement{Develop}:
+\begin{itemize}
+  \item A probabilistic framework that takes a nominal dynamic power profile $\prof{\mP_\dyn}$, the mean vector $\vExp_\mrv{\vU}$ and covarince matrix $\mCov_\mrv{\vU}$ of $\vU(\o)$ and delivers the corresponding stochastic temperature profile $\prof{\mTO(\o)}$ (see \sref{system-profiles}).
+\end{itemize}
+
+We require the framework to produce an analytical expression for $\prof{\mTO(\o)}$, which is essentially easy for the further analysis. Also, the solution should have a satisfactory accuracy with a low computational cost.

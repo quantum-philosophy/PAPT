@@ -1,40 +1,23 @@
-\subsection{Architecture Model}
-Consider a multiprocessor system that comprises $\cores$ processing elements of any kind and is equipped with a thermal package. Denote $\system$ the high-level \definition{description of the system} that includes the following information:
-\begin{itemize}
-  \item The floorplan of the die (the location and dimensions of the processing elements).
-  \item The configuration of the thermal package (the dimensions of each of the layers).
-  \item The thermal parameters of the materials that the die and package are made of (the thermal conductivity, specific heat, convection capacitance, and convection resistance).
-\end{itemize}
-
-Suppose the given system depends on a number of \definition{uncertain parameters}, i.e., r.v.'s that are possibly correlated. Let $(\outcomes, \sAlgebra, \pMeasure)$ be the corresponding probability space and $\vU(\o) = \vec{\param_i(\o)} \in \real^\params$, $\o \in \outcomes$, be a $\params$-dimensional vector of these parameters. Denote the expected value and covariance matrix of $\vU(\o)$ by $\vExp_\vU$ and $\mCov_\vU$, respectively.
-
-In this work, we assume that the uncertainties $\vU(\o)$, $\o \in \outcomes$, are a result of the process variation and manifest themselves in the deviation of the actual power dissipation of the system from the nominal value. In this case, $\outcomes$ represents the outcomes of the manufacturing process that the given multiprocessor system is a product of. Without loss of generality, we focus at the leakage power as it is motivated in \sref{introduction}.
-
-\subsection{Power Model}
-The power dissipation of the system with $\cores$ processing elements at time $\t$ is modeled as
+\subsection{Power Model} \slabel{power-model}
+Without loss of generality, we focus on the leakage power as it is motivated in \sref{introduction}. The power dissipation of the system with $\cores$ processing elements at time $\t$ is modeled as
 \[
-  \vP(\t, \vTO(\t, \vU), \vU) = \vP_\dyn(\t) + \vP_\leak(\vTO(\t, \vU), \vU)
+  \vP(\t, \vTO(\t, \o), \o) = \vP_\dyn(\t) + \vP_\leak(\vTO(\t, \o), \o)
 \]
 where $\vP_\dyn, \vP_\leak \in \real^\cores$ are the dynamic and leakage power, respectively, and $\vTO \in \real^\cores$ is temperature. The leakage power is modeled as a function of temperature due to the well-known, strong interdependency between them.
 
-\subsection{Thermal Model}
+\subsection{Thermal Model} \slabel{thermal-model}
 Given the system description $\system$, an equivalent thermal RC circuit with $\nodes$ \definition{thermal nodes} is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details defining the accuracy of the final model.
 
 The thermal behaviour of the circuit is modeled with the following system of differential-algebraic equations (DAEs) with the state-space dimension equal to $\nodes$:
 \begin{align*}
-  & \mC \frac{d\vTI(\t, \vU)}{d\t} + \mG \vTI(\t, \vU) = \mM \vP(\t, \vTO(\t, \vU), \vU) \\
-  & \vTO(\t, \vU) = \mM^T \vTI(\t, \vU) + \vTO_\amb
+  & \mC \frac{d\vTI(\t, \o)}{d\t} + \mG \vTI(\t, \o) = \mM \vP(\t, \vTO(\t, \o), \o) \\
+  & \vTO(\t, \o) = \mM^T \vTI(\t, \o) + \vTO_\amb
 \end{align*}
 $\mC, \mG \in \real^{\nodes \times \nodes}$ are the matrices of the thermal capacitance and conductance, respectively. $\mC$ is a diagonal matrix with positive elements, and $\mG$ is a symmetric, positive-definite matrix. $\vTI \in \real^\nodes$ is the state vector of the system, which corresponds to the difference between the temperature of the thermal nodes and the ambient temperature. $\vP \in \real^\cores$ is the input vector of the power dissipation of the processing elements, and $\mM \in \real^{\nodes \times \cores}$ is its mapping matrix to the thermal nodes. $\vTO \in \real^\cores$ is the output vector of the system, which is the temperature of the processing elements. Finally, $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature, which, for clarity of presentation and without loss of generality, we model as a deterministic variable.
 
-For convenience, we perform the following transformation of the original system. Let $\vX = \mC^{1/2} \vTI$, $\mA = \mC^{1/2} \mG \mC^{1/2}$, and $\mB = \mC^{1/2} \mM$, then
+For convenience, we perform an auxiliary transformation of the original system proposed in \cite{ukhov2012}. Let $\vX = \mC^{1/2} \vTI$, $\mA = \mC^{1/2} \mG \mC^{1/2}$, and $\mB = \mC^{1/2} \mM$, then
 \begin{align}
-  & \frac{d\vX(\t, \vU)}{d\t} = \mA \vX(\t, \vU) + \mB \vP(\t, \vTO(\t, \vU), \vU) \elabel{fourier} \\
-  & \vTO(\t, \vU) = \mB^T \vX(\t, \vU) + \vTO_\amb \nonumber
+  & \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \vTO(\t, \o), \o) \elabel{fourier} \\
+  & \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \nonumber
 \end{align}
 where $\vX$ is the new state vector. It can be seen that the coefficient matrix $\mA$ preserves the properties of $\mG$, i.e., it is symmetric and positive-definite.
-
-\subsection{System Profiles}
-A \definition{power profile} of the system over a time interval $\period$ is defined as a tuple $\pP$. $\pTime = \{ 0 = \t_0 < \dots < \t_{\steps} = \period \}$ is a partition of $\period$ into $\steps$ subintervals $\dt_i = \t_{i+1} - \t_i$. $\mP \in \real^{\cores \times \steps}$ is a matrix of the corresponding power dissipation where the $i$th column vector, $\vP_i \in \real^\cores$, represents the power consumption of the processing elements at the \emph{beginning} of the $i$th time interval, $\dt_i$.
-
-A \definition{temperature profile} of the system with respect to $\pP$ is defined as a tuple $\pT$. $\pTime$ remains the same as for the power profile, and $\mTO \in \real^{\cores \times \steps}$ is a matrix of the corresponding temperature where the $i$th column vector, $\vTO_i \in \real^\cores$, represents the temperature of the processing elements at the \emph{end} of the $i$th time interval, $\dt_i$.

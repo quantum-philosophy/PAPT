@@ -1,0 +1,8 @@
+The polynomial chaos (PC) expansion is a mathematical framework where stochastic processes are modeled as series of Hermite polynomials of Gaussian r.v.'s. The idea was extended to the other orthogonal polynomials from the Askey scheme, which the Hermite polynomials are a subset of, resulting the generalized polynomial chaos (gPC) \cite{xiu2002}. It was shown that any functional with a finite variance can be approximated with a PC/gPC expansion, and this expansion converges in the $\L{2}$ sense, i.e., in the mean-square sense \cite{ghanem2003}.
+
+\subsection{Gauss-Hermite Quadrature}
+The family of Gaussian quadrature rules is superior when it comes to the one-dimensional integration of smooth functions, viz. those that are well-approximated by a polynomial \cite{press2007}. In this case, the integral of interest is replaced by a weighted sum over $\qpoints$ points, which necessary gives the \emph{exact} solution when the integrand is a $(2\qpoints - 1)$-degree (or less) polynomial. Let $\oQuadrature{\qpoints}{\cd}$ be an $\qpoints$-order quadrature rule defined as
+\[
+  \oQuadrature{\qpoints}{f(x)} \eqdef \sum_{i = 1}^{\qpoints} f(x_i) w_i \approx \int_a^b f(x) dx
+\]
+where $x_i$ and $w_i$ are the prescribed abscissae and weights, respectively. The rules differ by the choice of abscissae and weights for the summation. For instance, the abscissae of the Gauss-Hermite quadrature rule are the roots of the Hermite polynomials, and the weight function is $e^{-x^2}$, which makes the rule suitable for the integration with respect to the Gaussian measure.
