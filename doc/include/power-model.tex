@@ -1,0 +1,5 @@
+The (total) power dissipation of the system with $\cores$ processing elements is modeled as a sum of the dynamic power and leakage power as follows:
+\begin{equation} \elabel{power-model}
+  \vP(\t, \vTO(\t, \o), \o) = f_\dyn(\vP_\dyn(\t), \o) + f_\leak(\vTO(\t, \o), \o)
+\end{equation}
+where functions $f_\dyn, f_\leak: \real^\cores \times \outcomes \to \real^\cores$ determine the actual dynamic power and actual leakage power, respectively, at time $\t$. $f_\dyn$ depends on the nominal dynamic power $\vP_\dyn \in \real^\cores$ while the leakage part is modeled as a function of the operating temperature $\vTO \in \real^\cores$ due to the strong, non-linear interdependency between them \cite{srivastava2010, liu2007}. Both components, $f_\dyn$ and $f_\leak$, depend on a random outcome of the manufacturing process $\o \in \outcomes$. The functions are the input to our framework and are assumed to be specified by the user (see \sref{problem-formulation}).

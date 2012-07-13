@@ -1,12 +1,21 @@
 \subsection{Power Model} \slabel{power-model}
-The (total) power dissipation of the system with $\cores$ processing elements is modeled as a sum of the dynamic power and leakage power as follows:
-\begin{equation} \elabel{power-model}
-  \vP(\t, \vTO(\t, \o), \o) = f_\dyn(\vP_\dyn(\t), \o) + f_\leak(\vTO(\t, \o), \o)
-\end{equation}
-where functions $f_\dyn, f_\leak: \real^\cores \times \outcomes \to \real^\cores$ determine the actual dynamic power and actual leakage power, respectively, at time $\t$. $f_\dyn$ depends on the nominal dynamic power $\vP_\dyn \in \real^\cores$ while the leakage part is modeled as a function of the operating temperature $\vTO \in \real^\cores$ due to the strong, non-linear interdependency between them \cite{srivastava2010, liu2007}. Both components, $f_\dyn$ and $f_\leak$, depend on a random outcome of the manufacturing process $\o \in \outcomes$.
+\input{include/power-model.tex}
 
 \subsection{Thermal Model} \slabel{thermal-model}
 \input{include/thermal-model.tex}
 
-\subsection{Generalized Polynomial Chaos (gPC)}
+\subsection{Generalized Polynomial Chaos Expansion}
 \input{include/polynomial-chaos.tex}
+
+\subsection{Correlated Random Variables}
+
+\subsection{Multi-Dimensional Integration}
+The family of Gaussian quadrature rules is superior when it comes to the one-dimensional integration of smooth functions, viz. those that are well-approximated by a polynomial \cite{press2007}. In this case, the integral of interest is replaced by a weighted sum over $n$ points, which necessary gives the \emph{exact} solution when the integrand is a $(2n - 1)$-degree (or less) polynomial. The rules differ by the choice of abscissae and weights for the summation. For instance, the abscissae of the Gauss-Hermite quadrature rule are the roots of the Hermite polynomials, and the weight function is $e^{-x^2}$, which makes the rule suitable for the integration with respect to the Gaussian measure.
+
+In the multi-dimensional case, which we have in \eref{pc-coefficients}, one usually employs so-called cubature rules that are constructed from one-dimensional quadrature rules. The rules are characterized by the level of accuracy $\cblevel \in \natural{1}$. A $\cblevel$-level cubature rule for the $\vars$-dimensional integration is defined as
+\[
+  \oCub{\vars}{\cblevel}{f} \eqdef \sum_{i = 1}^{\cbpoints} f(\cbp{\vU}_i) w_i
+\]
+where $\cbpoints$ is the number of summation points, $\cbp{\vU}_i \in \real^\vars$ and $w_i \in \real$ are the prescribed abscissae and weights, respectively. The abscissae are $\vars$-dimensional vectors, which corresponds the number of uncertain parameters $\vU(\o)$.
+
+In order to tackle dependent r.v.'s for a non-Gaussian distribution, the approach proposed in \cite{babuska2010} can be applied.

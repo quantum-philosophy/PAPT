@@ -6,7 +6,7 @@ Given the platform description $\system$ (see \sref{architecture-model}), an equ
 $\mC, \mG \in \real^{\nodes \times \nodes}$ are the matrices of the thermal capacitance and conductance, respectively. $\mC$ is a diagonal matrix with positive elements, and $\mG$ is a symmetric, positive-definite matrix. $\vTI \in \real^\nodes$ is the state vector of the system, which corresponds to the difference between the temperature of the thermal nodes and the ambient temperature. $\vP \in \real^\cores$ is the input vector of the power dissipation of the processing elements (see \eref{power-model}), and $\mM \in \real^{\nodes \times \cores}$ is its mapping matrix to the thermal nodes. $\vTO \in \real^\cores$ is the output vector of the system, which is the temperature of the processing elements. Finally, $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature, which, for clarity of presentation and without loss of generality, we model as a deterministic variable.
 
 For convenience, we perform an auxiliary transformation \cite{ukhov2012} of the original thermal model given above. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^\ifrac{1}{2} \mG \mC^\ifrac{1}{2}$, and $\mB = \mC^\ifrac{1}{2} \mM$, then\footnote{Since $\mC$ is diagonal, the transformation is cheat to undertake.}
-\begin{subnumcases}{}
+\begin{subnumcases}{\elabel{fourier-system}}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \vTO(\t, \o), \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
@@ -25,17 +25,15 @@ where $\t \in [0, \dt]$ and
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \elabel{e} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores} \elabel{d}
 \end{align}
-which are matrix-valued functions of $\t$.
-
-Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain a recurrent expression for $i \in \{ 1, \dotsc, \steps \}$
+which are matrix-valued functions of $\t$. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $i \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
   \vX_i(\t, \o) = \mE(\t) \vX_i(0, \o) + \mD(\t) \vP_i(0, \vTO_i(0, \o), \o)
 \end{equation}
 where $\t \in [ 0, \dt_i ]$ and
 \begin{align*}
-  & \vX_0(0, \o) = 0 & \vX_i(0, \o) = \vX_{i - 1}(\dt_{i - 1}, \o) \\
+  & \vX_0(0, \o) = \mZ & \vX_i(0, \o) = \vX_{i - 1}(\dt_{i - 1}, \o) \\
   & \vTO_0(0, \o) = \vTO_\amb & \vTO_i(0, \o) = \vTO_{i - 1}(\dt_{i - 1}, \o)
 \end{align*}
-Here, without loss of generality, we let the initial temperature to be equal to the ambient one.
+Here, without loss of generality, we let the initial temperature to be equal to the ambient temperature.
 
-In the deterministic case, the analytical solution, which leads to the recurrence given in \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_i$, $\vTO_i$, and $\vP_i$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of unavaidable non-linear correlations between successive steps.
+In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_i$, $\vTO_i$, and $\vP_i$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of non-linear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.

@@ -4,6 +4,8 @@ It is widely accepted that the leakage current has a log-normal distribution, cf
 
 The most commonly used approach to perform the \sta\ is the Monte Carlo sampling (MCS) coupled with a deterministic thermal simulator, such as \cite{huang2006}. The problem is in the low rate of convergence, e.g., the mean value converges as $1/\sqrt{n}$ where $n$ is the number of simulations \cite{xiu2009}. Therefore, the MCS requires an unaffordably large number of realizations of the system to be performed.
 
+In this work, we use a mathematical methodology called the generalized polynomial chaos (gPC), which is the current state-of-the-art of numerical analysis of stochastic systems \cite{xiu2002, xiu2009}. The core of the gPC is the decomposition of stochastic processes into infinite sums of orthogonal polynomials of random variables (r.v.'s). The original polynomial chaos (PC) is tailored for Wiener processes where the Hermite polynomials of Gaussian r.v.'s are employed \cite{ghanem1991}. The gPC extends this idea to a broader family of orthogonal polynomials, which the Hermite polynomials are a subset of. It can be shown that \emph{any} functional with a finite variance can be approximated with a PC/gPC expansion, and this expansion converges in the $\L{2}$ (mean-square) sense \cite{ghanem1991}.
+
 A possible way to speed up the analysis is to employ the model-order reduction (MOR) techniques \cite{benner2011}, which can dramatically decrease the number of state variables of the system. These techniques can be considered as a preprocessing step and, therefore, they are applicable to all the above-mentioned methods.
 
 The rest of the paper is organazed as follows.
