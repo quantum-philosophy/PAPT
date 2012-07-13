@@ -1,7 +1,13 @@
 The (original) polynomial chaos (PC) expansion is a mathematical framework where stochastic processes are modeled as series of Hermite polynomials of Gaussian r.v.'s. The idea was extended to the other orthogonal polynomials from the Askey scheme, which the Hermite polynomials are a subset of, resulting in what is known now as the generalized polynomial chaos (gPC) \cite{xiu2002}. It was shown that any functional with a finite variance can be approximated with a PC/gPC expansion, and this expansion converges in the $\L{2}$ (mean-square) sense \cite{ghanem2003}.
 
+Denote $\pdf_\rv{X}(x)$ the probability density function of $\rv{X}$.
+
 \begin{equation} \elabel{pc-coefficients}
   \pcc{f}_k = \frac{\innerp{f(x), \pcb_k}}{\innerp{\pcb_k^2}}, \forall k = 1, \dotsc, \pcorder
+\end{equation}
+
+\begin{equation} \elabel{pc-integral}
+  \innerp{f(\vIRV), \pcb_k} = \int_{} f(\virv) \pdf_\vIRV(\virv) d\virv
 \end{equation}
 
 \subsection{Gauss-Hermite Cubature}
@@ -12,3 +18,5 @@ In the multi-dimensional case, which we have in \eref{pc-coefficients}, one usua
   \oCubature{\cblevel}{\vars}{f} \eqdef \sum_{i = 1}^{\cbpoints} f(\cbp{\vU}_i) w_i
 \]
 where $\cbpoints$ is the number of summation points, $\cbp{\vU}_i \in \real^\vars$ and $w_i \in \real$ are the prescribed abscissae and weights, respectively. The abscissae are $\vars$-dimensional vectors, which corresponds the number of uncertain parameters $\vU(\o)$.
+
+In order to tackle dependent r.v.'s for a non-Gaussian distribution, the approach proposed in \cite{babuska2010} can be applied.

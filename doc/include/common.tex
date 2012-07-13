@@ -2,6 +2,7 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage{amssymb}
 \usepackage{amsmath}
+\usepackage{cases}
 
 \usepackage{multibib}
 
@@ -10,6 +11,7 @@
 % Formatting
 \newcommand{\definition}[1]{\emph{#1}}
 \newcommand{\statement}[1]{\underline{#1}}
+\newcommand{\sep}{\hspace{5pt}}
 
 % ---- References
 \newcommand{\eref}[1]{Eq.~(\ref{eq:#1})}
@@ -21,7 +23,8 @@
 % Basic mathematics
 \newcommand{\cd}{\cdot}
 \newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
-% \newcommand{\eqdef}{\stackrel{\scriptscriptstyle \Delta}{=}}
+\newcommand{\eqden}{\equiv}
+\newcommand{\ifrac}[2]{{{#1}/{#2}}}
 
 % ---- Spaces
 \renewcommand{\L}[1]{\mathcal{L}_{#1}}
@@ -39,10 +42,11 @@
 
 \newcommand{\diag}[1]{\text{diag}\left(#1\right)}
 
-\newcommand{\oEigen}[1]{\Gamma[#1]}
+\newcommand{\oEigen}[1]{\digamma[#1]}
 
 % ---- Vectors
 \renewcommand{\vec}[1]{(#1)}
+\let\vtick\v
 \renewcommand{\v}[1]{\mathbf{#1}}
 
 \newcommand{\vZ}{\v{0}}
@@ -66,6 +70,10 @@
 \newcommand{\oVar}[1]{\text{Var}[#1]}
 \newcommand{\oCov}[1]{\text{Cov}[#1]}
 
+\newcommand{\pdf}{\rho}
+\newcommand{\vIRV}{\v{Z}}
+\newcommand{\virv}{\boldsymbol{\zeta}}
+
 % ---- Normal distribution
 \newcommand{\normal}{\mathcal{N}}
 
@@ -83,7 +91,7 @@
 \newcommand{\sTime}{T}
 
 % ---- Temperature
-\newcommand{\vTI}{\v{Z}} % Internal temperature
+\newcommand{\vTI}{\v{\tilde{X}}} % Internal temperature
 \newcommand{\vTO}{{\boldsymbol\Theta}} % Output temperature
 \newcommand{\mTO}{{\boldsymbol\Theta}}
 
@@ -113,6 +121,9 @@
 \newcommand{\vX}{\v{X}}
 \newcommand{\mA}{\m{A}}
 \newcommand{\mB}{\m{B}}
+
+\newcommand{\mE}{\m{E}}
+\newcommand{\mD}{\m{D}}
 
 % Generalized Polynomial Chaos
 \newcommand{\pcb}{\Phi}
