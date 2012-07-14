@@ -16,9 +16,9 @@ Since the input power profile $\prof{\mP_\dyn}$ is discrete in time by definitio
 \begin{equation} \elabel{fourier-ode}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(0, \vTO(0, \o), \o)
 \end{equation}
-where $\vP(0, \vTO(0, \o), \o)$ is the power dissipation evaluated at the beginning of the time interval. \eref{fourier-ode} is a system of ordinary differential equations (ODEs), which can be solved analyticaly. The solution is
+where $\vP(0, \vTO(0, \o), \o)$ is the power dissipation evaluated at the beginning of the time interval, which, for brevity, we denote by $\vP(0, \o)$. \eref{fourier-ode} is a system of ordinary differential equations (ODEs), which can be solved analyticaly. The solution is
 \begin{equation} \elabel{ode-solution}
-  \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \vTO(0, \o), \o)
+  \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \o)
 \end{equation}
 where $\t \in [0, \dt]$ and
 \begin{align}
@@ -27,7 +27,7 @@ where $\t \in [0, \dt]$ and
 \end{align}
 which are matrix-valued functions of $\t$. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $i \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
-  \vX_i(\t, \o) = \mE(\t) \vX_i(0, \o) + \mD(\t) \vP_i(0, \vTO_i(0, \o), \o)
+  \vX_i(\t, \o) = \mE(\t) \vX_i(0, \o) + \mD(\t) \vP_i(0, \o)
 \end{equation}
 where $\t \in [ 0, \dt_i ]$ and
 \begin{align*}
@@ -36,4 +36,4 @@ where $\t \in [ 0, \dt_i ]$ and
 \end{align*}
 Here, without loss of generality, we let the initial temperature to be equal to the ambient temperature.
 
-In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_i$, $\vTO_i$, and $\vP_i$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of non-linear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.
+In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_i(\t, \o)$, $\vTO_i(\t, \o)$, and $\vP_i(\t, \o)$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of non-linear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.

@@ -4,12 +4,12 @@
 \subsection{Thermal Model} \slabel{thermal-model}
 \input{include/thermal-model.tex}
 
-\subsection{Generalized Polynomial Chaos Expansion}
+\subsection{Expansion in Orthogonal Polynomials}
 \input{include/polynomial-chaos.tex}
 
 \subsection{Correlated Random Variables}
 
-\subsection{Multi-Dimensional Integration}
+\subsection{Multi-Dimensional Integration} \slabel{integration}
 The family of Gaussian quadrature rules is superior when it comes to the one-dimensional integration of smooth functions, viz. those that are well-approximated by a polynomial \cite{press2007}. In this case, the integral of interest is replaced by a weighted sum over $n$ points, which necessary gives the \emph{exact} solution when the integrand is a $(2n - 1)$-degree (or less) polynomial. The rules differ by the choice of abscissae and weights for the summation. For instance, the abscissae of the Gauss-Hermite quadrature rule are the roots of the Hermite polynomials, and the weight function is $e^{-x^2}$, which makes the rule suitable for the integration with respect to the Gaussian measure.
 
 In the multi-dimensional case, which we have in \eref{pc-coefficients}, one usually employs so-called cubature rules that are constructed from one-dimensional quadrature rules. The rules are characterized by the level of accuracy $\cblevel \in \natural{1}$. A $\cblevel$-level cubature rule for the $\vars$-dimensional integration is defined as
