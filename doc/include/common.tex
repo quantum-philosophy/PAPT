@@ -27,6 +27,7 @@
 \newcommand{\cd}{\cdot}
 \newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
 \newcommand{\ifrac}[2]{{{#1}/{#2}}}
+\newcommand{\bigo}{\mathcal{O}}
 
 % ---- Spaces
 \renewcommand{\L}[1]{L_{#1}}
@@ -40,7 +41,7 @@
 \newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
 
 \newcommand{\mI}{\m{I}}
-\newcommand{\mZ}{\m{0}}
+\newcommand{\mZero}{\m{0}}
 
 \newcommand{\diag}[1]{\text{diag}\left(#1\right)}
 
@@ -51,7 +52,7 @@
 \let\vtick\v
 \renewcommand{\v}[1]{\mathbf{#1}}
 
-\newcommand{\vZ}{\v{0}}
+\newcommand{\vZero}{\v{0}}
 
 % Probability theory
 \newcommand{\outcomes}{\Omega}
@@ -68,20 +69,16 @@
 \newcommand{\vExp}{{\boldsymbol\mu}}
 \newcommand{\mCov}{\m{C}}
 
-\newcommand{\oExp}[1]{\mathbb{E}[#1]}
-\newcommand{\oVar}[1]{\text{Var}[#1]}
-\newcommand{\oCov}[1]{\text{Cov}[#1]}
+\newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\oVar}[1]{\text{Var}\left[#1\right]}
+\newcommand{\oCov}[1]{\text{Cov}\left[#1\right]}
 
 \newcommand{\pdf}{\rho}
-\newcommand{\vIRV}{\v{Z}}
-\newcommand{\virv}{\boldsymbol{\zeta}}
+\newcommand{\vZ}{\v{Z}}
+\newcommand{\vz}{\boldsymbol{\zeta}}
 
 % ---- Normal distribution
 \newcommand{\normal}{\mathcal{N}}
-
-% Uncertainties
-\newcommand{\vU}{\mrv{u}}
-\newcommand{\param}{\rv{u}}
 
 % Thermal model
 \newcommand{\system}{\mathcal{S}}
@@ -115,7 +112,7 @@
 
 % ---- Profiles
 \newcommand{\part}{\boldsymbol{\Delta}}
-\newcommand{\prof}[1]{\Pi[\part, #1]}
+\newcommand{\prof}[1]{\Pi\left[\part, #1\right]}
 
 % ---- Differential-algebraic system
 % dx/dt = A * x + B * u
@@ -133,11 +130,11 @@
 \newcommand{\pcn}{\gamma}
 \newcommand{\pcc}[1]{\hat{#1}}
 \newcommand{\oInner}[1]{\left\langle #1 \right\rangle}
-\newcommand{\oPC}[3]{\mathcal{P}_{#1}^{#2}[#3]}
+\newcommand{\oPC}[3]{\mathcal{P}_{#1}^{#2}\left[#3\right]}
 
 % ---- Integration
 \newcommand{\cbp}[1]{\hat{#1}}
-\newcommand{\oCub}[3]{\mathcal{Q}_{#1}^{#2}[#3]}
+\newcommand{\oCub}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
 
 % Indexes
 \newcommand{\nodes}{{n_n}}

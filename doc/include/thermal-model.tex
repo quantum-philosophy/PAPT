@@ -25,15 +25,15 @@ where $\t \in [0, \dt]$ and
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \elabel{e} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores} \elabel{d}
 \end{align}
-which are matrix-valued functions of $\t$. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $i \in \{ 1, \dotsc, \steps \}$:
+which are matrix-valued functions of $\t$. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
-  \vX_i(\t, \o) = \mE(\t) \vX_i(0, \o) + \mD(\t) \vP_i(0, \o)
+  \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o)
 \end{equation}
-where $\t \in [ 0, \dt_i ]$ and
+where $\t \in [ 0, \dt_k ]$ and
 \begin{align*}
-  & \vX_0(0, \o) = \mZ & \vX_i(0, \o) = \vX_{i - 1}(\dt_{i - 1}, \o) \\
-  & \vTO_0(0, \o) = \vTO_\amb & \vTO_i(0, \o) = \vTO_{i - 1}(\dt_{i - 1}, \o)
+  & \vX_0(0, \o) = \vZero & \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o) \\
+  & \vTO_0(0, \o) = \vTO_\amb & \vTO_k(0, \o) = \vTO_{k - 1}(\dt_{k - 1}, \o)
 \end{align*}
 Here, without loss of generality, we let the initial temperature to be equal to the ambient temperature.
 
-In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_i(\t, \o)$, $\vTO_i(\t, \o)$, and $\vP_i(\t, \o)$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of non-linear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.
+In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis, and it was shown to be more efficient than numerical integrators, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existance of non-linear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.
