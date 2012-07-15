@@ -4,7 +4,7 @@
 \usepackage{amsmath}
 \usepackage{cases}
 \usepackage{multirow}
-
+\usepackage{url}
 \usepackage{multibib}
 
 \newcommand{\sta}{STA}
@@ -30,7 +30,7 @@
 \newcommand{\bigo}{\mathcal{O}}
 
 % ---- Spaces
-\renewcommand{\L}[1]{L_{#1}}
+\renewcommand{\L}[1]{\mathcal{L}_{#1}}
 
 % ---- Sets
 \newcommand{\real}{\mathbb{R}}
@@ -135,6 +135,12 @@
 % ---- Integration
 \newcommand{\cbp}[1]{\hat{#1}}
 \newcommand{\oCub}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
+
+% Process variation
+\newcommand{\Leff}[1]{L_{\text{eff}#1}}
+\newcommand{\nLeff}{L_{\text{eff}}}
+\newcommand{\gLeff}{L_{\text{eff}}^{(g)}}
+\newcommand{\lLeff}[1]{L_{\text{eff}#1}^{(l)}}
 
 % Indexes
 \newcommand{\nodes}{{n_n}}

@@ -6,6 +6,8 @@ The most commonly used approach to perform the \sta\ is the Monte Carlo sampling
 
 In this work, we use a mathematical framework called the generalized polynomial chaos (gPC), which is the current state-of-the-art of numerical analysis of stochastic systems \cite{xiu2009, xiu2002}. The core of the gPC is the decomposition of stochastic processes into infinite sums of orthogonal polynomials of random variables (r.v.'s) that significantly eases the subsequent analysis. As its name suggests, the gPC is a generalization of the original polynomial chaos (PC) where only Hermite polynomials and Gaussian r.v.'s were considered \cite{ghanem1991}. In contrast, the gPC employs a broad family of orthogonal polynomials from the Askey scheme, which the Hermite polynomials are a subset of, and handles different probability distributions. It can be shown that \emph{any} functional with a finite variance can be approximated with a PC/gPC expansion, and this expansion converges in the $\L{2}$ (mean-square) sense.
 
+In \cite{shen2009}, the PC is applied to estimate the full-chip leakage current.
+
 The output of the proposed framework constitutes the stochastic power profile of the multiprocessor system and the corresponding stochastic temperature profile.
 
 A possible way to speed up the analysis is to employ the model-order reduction (MOR) techniques \cite{benner2011}, which can dramatically decrease the number of state variables of the system. These techniques can be considered as a preprocessing step and, therefore, they are applicable to all the above-mentioned methods.

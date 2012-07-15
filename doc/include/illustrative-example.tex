@@ -1,4 +1,23 @@
-Here we explain a particular application of the developed framework. We assume that the dynamic power is deterministic while the leakage power is drastically influenced by the process variation as it is motivated in \sref{introduction}.
+In this section, we demonstate the proposed framework to perfrom the stochastic temperature analysis of multiprocessor platforms under uncertain dissipation of power. To be exact, we address the process variation as it is one of the major concerns in the multiprocessor system design.
+
+Since the influence of the process variation on the dynamic power is negligible \cite{juan2012, srivastava2010}, we let $\vP_\dyn(\t, \o) \equiv \vP_\dyn(\t)$. Therefore, in \eref{power-model}
+\[
+  f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
+\]
+Concerning the leakage part, we focus on the variations in the subthreshold leakage current due to the variations in the effective channel length $\Leff{}$, as in \cite{juan2012}. The model is based on BSIM4 \cite{bsim4} and can be written in the following simplified form:
+\[
+f_{\leak, i}(\Theta_i(\t, \o), \o) = \alpha_i \; \frac{\Theta_i(\t, \o)^2}{\Leff{, i}(\o)} \text{exp}\left(-\frac{\beta \; \Leff{, i}(\o)}{\Theta_i(\t, \o)}\right)
+\]
+where the fitting coefficients $\alpha_i$ and $\beta_i$, $i \in \{ 1, \dotsc, \cores \}$, are specific to each of the processing elements in a heterogenuous multiprocessor system. The r.v.'s $\Leff{, i}(\o)$ are modeled as a sum of global (inter-die) and local (intra-die) variations, cf. \cite{juan2012, srivastava2010, shen2009}:
+\[
+  \Leff{, i}(\o) = \nLeff + \gLeff(\o) + \lLeff{, i}(\o)
+\]
+where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents global variations of $\nLeff$, and $\lLeff{, i}(\o)$ is a zero-mean r.v. for local variations. The local variations are known to be highly correlated. Without loss of generality, we use the exponential model of correlations, as in \cite{shen2009}, given by
+\[
+  \rho(r) = e^{-r^2/\eta^2}
+\]
+
+It is generally accepted that the uncertainties due to the process variation (including the effective channel length $\Leff{}$, threshold voltage, gate oxide thickness, etc.) have Gaussian distributions \cite{srivastava2010, liu2007, juan2012}. Therefore, we assume that the Hermite polynomial basis is of a particular interest in this case.
 
 \subsection{Preprocessing of Random Variables} \slabel{pca}
 The covariance matrix is necessarily a real, symmetric matrix. Therefore, it admits the eigenvalue factorization \cite{press2007} in the form $\mCov_\mrv{X} = \m{V}_{\mCov_\mrv{X}} \m{\Lambda}_{\mCov_\mrv{X}} \m{V}_{\mCov_\mrv{X}}^T$ where $\m{V}_{\mCov_\mrv{X}}$ and $\m{\Lambda}_{\mCov_\mrv{X}}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_\mrv{X}$, respectively. Denote $\oEigen{\mCov_\mrv{X}} = \m{V}_{\mCov_\mrv{X}} {\m{\Lambda}_{\mCov_\mrv{X}}}^\ifrac{1}{2}$. In this notation, $\mCov_\mrv{X} = \oEigen{\mCov_\mrv{X}} \oEigen{\mCov_\mrv{X}}^T$. Consequently, $\mrv{X}$ can be normalized as $\mrv{X} = \oEigen{\mCov_\mrv{X}} \mrv{y} + \vExp_\mrv{X}$ where $\oExp{\mrv{y}} = \mZero$ and $\oCov{\mrv{y}} = \mI$.

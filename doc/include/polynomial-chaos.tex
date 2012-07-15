@@ -19,7 +19,7 @@
 %   \end{tabular}
 %   \caption{The Askey scheme of orthogonal polynomials and the corresponding probability distributions \cite{xiu2002}.}
 % \end{table}
-At this point, the goal is to transfrom \eref{power-model} in such a way that the non-linear correlations in the recurrence given by \eref{recurrence} are eliminated. To this end, we empoly the generalize polynomial chaos (gPC) \cite{xiu2002}, which deconstructs stochastic processes into infinite sequences of \emph{orthogonal} polynomials of r.v.'s. The orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
+At this point, the goal is to transfrom \eref{power-model} in such a way that the non-linear correlations in the recurrence given by \eref{recurrence} are eliminated. To this end, we empoly a mathematical framework called the generalize polynomial chaos (gPC) \cite{xiu2002}, which deconstructs stochastic processes into infinite sequences of \emph{orthogonal} polynomials of r.v.'s. Orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
 \begin{equation} \elabel{orthogonality}
   \oInner{\pcb_i(\vz) \pcb_j(\vz)} = \oInner{\pcb_i(\vz)^2} \delta_{ij}
 \end{equation}
@@ -31,9 +31,9 @@ when $\pdf(\vz)$ is continuous, or as the following summation:
 \begin{equation} \elabel{inner-product-sum}
   \oInner{f(\vz) g(\vz)} \eqdef \sum f(\vz) g(\vz) \pdf(\vz)
 \end{equation}
-when $\pdf(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (continuous) or mass (discrete) function $\pdf_\vZ(\vz)$ of the r.v.'s $\vZ(\o)$, and the inner product is the expectation operator. Therefore, it can be seen from \eref{orthogonality} that the orthogonality is equal to the absence of correlations, and this is, in fact, what we seek for. Consequently, we apply the gPC expansion to the power term, $\vP(t, \o)$, in the thermal model given by \eref{fourier-system} since it is the source of uncertainties.
+when $\pdf(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (or mass) function $\pdf_\vZ(\vz)$ of the r.v.'s $\vZ(\o)$, and the inner product is the expectation operator. Therefore, it can be seen from \eref{orthogonality} that orthogonality is equal to the absence of correlations, and this is, in fact, what we seek for. Consequently, we apply the gPC expansion to the power term $\vP(t, \o)$ in the thermal model given by \eref{fourier-system} since it is the source of uncertainties.
 
-The first step towards a gPC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vZ(\o)) \}$ according to the Askey scheme of orthogonal polynomials, which can be found in \cite{xiu2002}. The step is crucial due to the following reason. In spite of the fact that the PC/gPC expansion is guaranteed to converge in $\L{2}$, the rate of convergence essentially depends on the chosen basis. Since the expansion should be truncated (to become feasible for the practical computations), an inappropriately selected basis can lead either to a low accuracy or to a large number of terms of the expansion ruining the performance. There are no strict rules that can guarantee the optimal choice \cite{knio2006}, however, there are best practices saying that the choice should be governed by the underlying r.v.'s., which drive the stochastic system. For instance, the Hermite polynomials are suitable for normally distributed r.v.'s while the Charlier polynomials are preferable for Poisson variations\footnote{We refer the reader to \cite{xiu2002} for the other combinations.}. It is worth being mentioned that the major sources of uncertainties due to the process variation, such as the channel length, threshold voltage, gate oxide thickness, etc., are generally accepted to have a Gaussian distribution \cite{srivastava2010, liu2007, juan2012}, therefore, the Hermite basis is of a particular interest.
+The first step towards a gPC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vZ(\o)) \}$ according to the Askey scheme of orthogonal polynomials \cite{xiu2002}. The step is crucial due to the following reason. In spite of the fact that the PC/gPC expansion is guaranteed to converge in $\L{2}$, the rate of convergence essentially depends on the chosen basis. Since the expansion should be truncated (to become feasible for the practical computations), an inappropriately selected basis can lead either to a low accuracy or to a large number of terms in the expansion ruining the performance. There are no strict rules that can guarantee the optimal choice \cite{knio2006}, however, there are best practices saying that the choice should be governed by the underlying r.v.'s., which drive the stochastic system. For instance, the Hermite polynomials are suitable for Gaussian r.v.'s while the Charlier polynomials are preferable for Poisson variations. The other combinations can be found in \cite{xiu2002}.
 
 Once an appropriate basis has been chosen, the next step is to actually perform the gPC expansion of the power term in \eref{ode-solution} defined as
 \begin{equation} \elabel{pc-expansion}
@@ -64,7 +64,7 @@ where there are two gPC expansions for two cuncurrent stochastic processes with 
   & \text{LHS} = \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki}(\t) \pcb_i(\vZ(\o)) \\
   & \text{RHS} = \sum_{i = 1}^{\pcterms} \left( \mE(\t) \pcc{\vX}_{ki}(0) + \mD(\t) \pcc{\vP}_{ki}(0) \right) \pcb_i(\vZ(\o))
 \end{align*}
-By the orthgonality property of the polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ given by \eref{orthogonality}, we have
+By the orthogonality property (\eref{orthogonality}) of the polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$, we have
 \begin{equation} \elabel{pc-recurrence}
   \pcc{\vX}_{ki}(\t) = \mE(\t) \pcc{\vX}_{ki}(0) + \mD(\t) \pcc{\vP}_{ki}(0)
 \end{equation}
