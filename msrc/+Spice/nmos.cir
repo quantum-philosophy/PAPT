@@ -1,7 +1,7 @@
 The leakage power of an NMOS device.
 
 .param L = 22n
-.param W = '100 * L'
+.param W = '100 * 22n'
 .param Vdd = 0.95
 .param Vg = 0
 
