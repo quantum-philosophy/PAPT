@@ -1,0 +1,46 @@
+The leakage current in a CMOS inverter.
+
+.param L = 22n
+* .param Wp = {4.5 * 22n}
+* .param Wn = {1.5 * 22n}
+.param Wp = 2u
+.param Wn = 1u
+
+.options Temp = 27
+
+vdd 1 0 0.8
+vss 2 0 0
+* vin 3 0 pulse(0 0.6 100ps 100ps 100ps 2ns 4ns)
+vin 3 0 0
+
+x1 1 2 3 4 inv
+
+*           vdd vss vin vout
+.subckt inv 1   2   3   4
+mp  pd pg ps pb pmos l={L} w={Wp}
+mn  nd ng ns nb nmos l={L} w={Wn}
+
+vpd 1  pd 0
+vpg 3  pg 0
+vps 4  ps 0
+vpb ps pb 0
+
+vnd 4  nd 0
+vng 3  ng 0
+vns 2  ns 0
+vnb ns nb 0
+.ends inv
+
+.include 22nm_iHP.pm
+
+* .tran 1ps 8ns
+* .op
+
+.control
+  op
+  print @m.x1.mp[id]
+*  print @m.x1.mn[id]
+.endc
+
+.options acct bypass=1 method=gear
+.end

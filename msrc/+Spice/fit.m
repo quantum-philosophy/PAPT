@@ -1,4 +1,4 @@
-function [ fresult, gof ] = fit(filename)
+function [ fitresult, gof ] = fit(filename)
   if nargin < 1, filename = Utils.resolvePath('nmos.out'); end
 
   M = dlmread(filename, '\t', 1, 0);

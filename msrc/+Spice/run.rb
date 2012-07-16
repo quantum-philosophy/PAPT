@@ -2,7 +2,7 @@
 
 require 'progressbar'
 
-netlist = 'nmos.cir'
+netlist = 'inverter.cir'
 netlist_tmp = "#{ netlist }_tmp"
 
 if ARGV.count > 2
@@ -86,11 +86,14 @@ L.each do |l|
     lines = pipe.readlines
     pipe.close
 
+    i = 0
+
     lines.each do |line|
-      next unless line.match /@m1\[id\]\s*=\s*(.*)/
-      output.puts "#{ l }\t#{ t }\t#{ $1 }"
-      break
+      next unless line.match /@m[^=]+=\s*(.*)/
+      i += $1.to_f
     end
+
+    output.puts "%.4e\t%.2f\t%.6e" % [ l, t, i ]
 
     pb.inc
   end
