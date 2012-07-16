@@ -1,0 +1,26 @@
+The leakage power of an NMOS device.
+
+.param L = 22n
+.param W = '100 * L'
+.param Vdd = 0.95
+.param Vg = 0
+
+.options noacct
+.options Temp = 65
+
+M1 d g s b n1 l={L} w={W}
+
+Vds d s {Vdd}
+Vgs g s {Vg}
+Vbs b s 0
+Vss s 0 0
+
+.control
+  op
+  print @M1[id]
+.endc
+
+.include modelcard.nmos
+.include modelcard.pmos
+
+.end
