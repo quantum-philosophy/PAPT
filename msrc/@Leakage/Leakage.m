@@ -28,6 +28,11 @@ classdef Leakage < handle
     Tamb
 
     %
+    % The mapping matrix from r.v.'s to cores.
+    %
+    map
+
+    %
     % The storage of all PC coefficients at all moments of time.
     %
     trace
@@ -49,33 +54,35 @@ classdef Leakage < handle
     alpha
 
     %
-    % The number of cores that we are going to feed with leakage.
-    %
-    cores
-
-    %
     % The number of samples that we are going to require at once.
     %
     count
   end
 
   methods
-    function ls = Leakage(Tamb, Pdyn, trace, pc)
-      if nargin < 3
+    function ls = Leakage(Tamb, Pdyn, map, trace, pc)
+      [ cores, steps ] = size(Pdyn);
+      [ ddim, sdim ] = size(map);
+
+      assert(ddim == cores, 'The dimensions do not match.');
+
+      ls.Tamb = ones(cores, 1) * Tamb;
+      ls.map = map;
+
+      if nargin < 4
         %
-        % We are working with Monte-Carlo, one sample at a time.
+        % One sample at a time (Monte-Carlo).
         %
         ls.count = 1;
       else
-        ls.pc = pc;
+        %
+        % A bunch of samples at a time (PC).
+        %
         ls.trace = trace;
+        ls.pc = pc;
         ls.position = 0;
         ls.count = pc.cq.count;
       end
-
-      ls.cores = size(Pdyn, 1);
-
-      ls.Tamb = ones(ls.cores, 1) * Tamb;
 
       %
       % Fit the leakage coefficients to produce the leakage power `P'
@@ -96,7 +103,7 @@ classdef Leakage < handle
     end
 
     function P = performAtAmbient(ls, rvs)
-      P = ls.alpha .* ls.compute(ls.Lnom + ls.Ldev .* rvs, ls.Tamb);
+      P = ls.alpha .* ls.compute(ls.map * (ls.Lnom + ls.Ldev .* rvs), ls.Tamb);
     end
 
     function P = performAtCurrent(ls, rvs)
@@ -110,11 +117,11 @@ classdef Leakage < handle
       % T = ls.trace.coeff(:, 1, ls.position);
       % T = irep(T, 1, ls.count);
       %
-      P = ls.alpha .* ls.compute(ls.Lnom + ls.Ldev .* rvs, T);
+      P = ls.alpha .* ls.compute(ls.map * (ls.Lnom + ls.Ldev .* rvs), T);
     end
 
     function P = performAtGiven(ls, T, rvs)
-      P = ls.alpha .* ls.compute(ls.Lnom + ls.Ldev .* rvs, T);
+      P = ls.alpha .* ls.compute(ls.map * (ls.Lnom + ls.Ldev .* rvs), T);
     end
   end
 end

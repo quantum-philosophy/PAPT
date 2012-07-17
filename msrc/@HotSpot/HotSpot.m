@@ -20,6 +20,12 @@ classdef HotSpot < handle
     % The ambient temperature.
     %
     Tamb
+
+    %
+    % The stochastic dimension of the analysis, i.e., the number
+    % of r.v.'s involved (obtained via the PCA).
+    %
+    sdim
   end
 
   properties (Access = 'protected')
@@ -68,6 +74,11 @@ classdef HotSpot < handle
     %   = Q * diag((exp(li * t) - 1) / li) * Q^T * B
     %
     D
+
+    %
+    % The mapping matrix from the r.v.'s to the cores.
+    %
+    map
   end
 
   methods
@@ -94,11 +105,17 @@ classdef HotSpot < handle
 
       hs.E = hs.Q * diag(exp(hs.dt * hs.L)) * hs.QT;
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
+
+      %
+      % Perform the PCA to extract independent r.v.'s.
+      %
+      [ hs.sdim, hs.map ] = PrincipalComponent.perform(hs.cores);
+      assert(size(hs.map, 1) == hs.cores, 'The dimensions do not match.');
     end
 
     function T = solve(hs, Pdyn, rvs)
       [ cores, steps ] = size(Pdyn);
-      if cores ~= hs.cores, error('The power profile is invalid.'); end
+      assert(cores == hs.cores, 'The power profile is invalid.')
 
       %
       % General shortcuts.
@@ -112,7 +129,7 @@ classdef HotSpot < handle
       %
       % Initialize the leakage model.
       %
-      sampler = Leakage(Tamb, Pdyn);
+      sampler = Leakage(Tamb, Pdyn, hs.map);
 
       T = zeros(cores, steps);
 

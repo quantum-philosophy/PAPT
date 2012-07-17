@@ -1,18 +1,7 @@
 classdef ChaosHeat < HotSpot
   properties (Access = 'private')
     %
-    % The stochastic dimension of the analysis, i.e.,
-    % the number of uncertain parameters.
-    %
-    sdim
-
-    %
-    % The order of the polynomial chaos (PC) expansion.
-    %
-    order
-
-    %
-    % The `sdim'-dimensional polynomial chaos.
+    % The polynomial chaos.
     %
     pc
   end
@@ -32,17 +21,14 @@ classdef ChaosHeat < HotSpot
       if nargin < 4, order = 2; end
 
       %
-      % Initialize the PC expansion. One core corresponds to
-      % one random variable for now.
+      % Initialize the PC expansion.
       %
-      ch.sdim = ch.cores;
-      ch.order = order;
-      ch.pc = PolynomialChaos(ch.sdim, ch.order);
+      ch.pc = PolynomialChaos(ch.sdim, order);
     end
 
     function [ ExpT, VarT ] = solve(ch, Pdyn)
       [ cores, steps ] = size(Pdyn);
-      if cores ~= ch.cores, error('The power profile is invalid.'); end
+      assert(cores == ch.cores, 'The power profile is invalid.')
 
       %
       % General shortcuts.
@@ -67,8 +53,7 @@ classdef ChaosHeat < HotSpot
       %
       % Initialize the leakage model.
       %
-      sampler = Leakage(Tamb, Pdyn, trace, pc);
-      % sampler = LeakageSampler(Tamb, Pdyn, trace, pc);
+      sampler = Leakage(Tamb, Pdyn, ch.map, trace, pc);
 
       %
       % Perform the PC expansion and obtain the coefficients of

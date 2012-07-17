@@ -22,7 +22,7 @@ fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
 t = tic;
 [ ExpT, VarT ] = MonteCarlo.perform3D( ...
-  @(rvs) hs.solve(Pdyn, rvs), [ hs.cores, hs.cores, steps ]);
+  @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, hs.cores, steps ]);
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 
