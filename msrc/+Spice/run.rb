@@ -86,14 +86,10 @@ L.each do |l|
     lines = pipe.readlines
     pipe.close
 
-    i = 0
-
     lines.each do |line|
-      next unless line.match /@m[^=]+=\s*(.*)/
-      i += $1.to_f
+      next unless line.match /vdd#branch\s*=\s*(.*)/
+      output.puts "%.4e\t%.2f\t%.6e" % [ l, t, $1.to_f.abs ]
     end
-
-    output.puts "%.4e\t%.2f\t%.6e" % [ l, t, i ]
 
     pb.inc
   end

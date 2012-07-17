@@ -8,16 +8,16 @@ The leakage power of an NMOS device.
 .options noacct
 .options Temp = 27
 
-M1 d g s b nmos l={L} w={W}
+m1 d g s b nmos l={L} w={W}
 
-Vds d s {Vdd}
-Vgs g s {Vg}
-Vbs b s 0
-Vss s 0 0
+vds d s {Vdd}
+vgs g s {Vg}
+vbs b s 0
+vss s 0 0
 
 .control
   op
-  print @M1[id]
+  print vds#branch
 .endc
 
 .include 22nm_iHP.pm

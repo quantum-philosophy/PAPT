@@ -15,48 +15,43 @@ function f = toFunction(p, varargin)
   count = length(varargin);
 
   y = {};
-  t = {};
+  vars = {};
+  args = {};
 
   pending = false;
 
   for i = 1:count
-    if ~ischar(varargin{i})
-      y{end + 1} = varargin{i};
+    subject = varargin{i};
+
+    if ~ischar(subject)
       if pending
-        t{end + 1} = 'y%d(%d)';
+        [ vars, args ] = append(y, vars, args);
       end
+      y{end + 1} = subject;
       pending = true;
     else
-      orientation = lower(varargin{i});
-      switch (orientation)
-      case 'columns'
-        t{end + 1} = 'y%d(:,%d)';
-      case 'rows'
-        t{end + 1} = 'y%d(%d,:)';
-      otherwise
-        error('The specified orientation is unknown.');
-      end
+      [ vars, args ] = append(y, vars, args, subject);
       pending = false;
     end
   end
 
   if pending
-    t{end + 1} = 'y%d(%d)';
+    [ vars, args ] = append(y, vars, args);
   end
 
   count = length(y);
-  args = 'y1';
 
-  for i = 2:count
-    args = [ args, sprintf(',y%d', i) ];
+  if numel(vars) ~= count || numel(args) ~= count
+    error('The numbers of elements do not match.');
   end
 
   if isa(p, 'sympoly')
-    s = char(p);
+    s = string(p, 'longg');
     s = regexprep(s, '\^', '.^');
     s = regexprep(s, '\*', '.*');
     s = regexprep(s, '\/', './');
   else
+    error('Not a good idea.');
     f = matlabFunction(p);
     s = func2str(f);
     s = regexprep(s, '@\([^)]+\)', '');
@@ -64,10 +59,38 @@ function f = toFunction(p, varargin)
 
   for i = 1:count
     y0 = y{i};
-    for j = 1:length(y0);
-      s = regexprep(s, [ '\<', char(y0(j)), '\>' ], sprintf(t{i}, i, j));
+
+    if numel(y0) == 1
+      s = regexprep(s, [ '\<', char(y0(1)), '\>' ], sprintf(vars{i}, i));
+    else
+      for j = 1:numel(y0);
+        s = regexprep(s, [ '\<', char(y0(j)), '\>' ], ...
+          sprintf([ vars{i}, args{i} ], i, j));
+      end
     end
   end
 
-  f = str2func([ '@(', args, ')', s ]);
+  iargs = 'y1';
+  for i = 2:count
+    iargs = [ iargs, sprintf(',y%d', i) ];
+  end
+
+  f = str2func([ '@(', iargs, ')', s ]);
+end
+
+function [ ovars, args ] = append(ivars, ovars, args, dir)
+  ovars{end + 1} = 'y%d';
+  if nargin > 3
+    dir = lower(dir);
+    switch (dir)
+    case 'columns'
+      args{end + 1} = '(:,%d)';
+    case 'rows'
+      args{end + 1} = '(%d,:)';
+    otherwise
+      error('The specified orientation is unknown.');
+    end
+  else
+    args{end + 1} = '(%d)';
+  end
 end

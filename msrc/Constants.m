@@ -2,6 +2,7 @@ classdef Constants < handle
   properties (Constant)
     workingDirectory = [ Constants.thisDirectory, '/../build' ];
     vendorDirectory = [ Constants.thisDirectory, '/../vendor' ];
+    cacheDirectory = [ Constants.thisDirectory, '/../build/cache' ];
 
     zeroKelvin = -273.15; % in degree Celsium
 

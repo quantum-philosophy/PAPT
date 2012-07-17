@@ -38,8 +38,39 @@ vnb ns nb 0
 
 .control
   op
-  print @m.x1.mp[id]
-*  print @m.x1.mn[id]
+  print vdd#branch
+  * print vin#branch
+  * print vss#branch
+
+  * print v.x1.vnb#branch
+  * print v.x1.vnd#branch
+  * print v.x1.vng#branch
+  * print v.x1.vns#branch
+
+  * print @m.x1.mn[id]
+  * print @m.x1.mn[ibd]
+  * print @m.x1.mn[ibs]
+  * print @m.x1.mn[isub]
+  * print @m.x1.mn[igs]
+  * print @m.x1.mn[igd]
+  * print @m.x1.mn[igb]
+  * print @m.x1.mn[igcs]
+  * print @m.x1.mn[igcd]
+
+  * print v.x1.vpb#branch
+  * print v.x1.vpd#branch
+  * print v.x1.vpg#branch
+  * print v.x1.vps#branch
+
+  * print @m.x1.mp[id]
+  * print @m.x1.mp[ibd]
+  * print @m.x1.mp[ibs]
+  * print @m.x1.mp[isub]
+  * print @m.x1.mp[igs]
+  * print @m.x1.mp[igd]
+  * print @m.x1.mp[igb]
+  * print @m.x1.mp[igcs]
+  * print @m.x1.mp[igcd]
 .endc
 
 .options acct bypass=1 method=gear

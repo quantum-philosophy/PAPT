@@ -1,55 +1,67 @@
-function [ fitresult, gof ] = fit(filename)
-  if nargin < 1, filename = Utils.resolvePath('nmos.out'); end
+function f = fit(name, Lorder, Torder, draw)
+  if nargin < 1, name = 'inverter'; end
+  if nargin < 2, Lorder = 3; end
+  if nargin < 3, Torder = 3; end
+  if nargin < 4, draw = false; end
 
-  M = dlmread(filename, '\t', 1, 0);
+  filename = [ 'LT_', name, '_l', num2str(Lorder), '_t', num2str(Torder), '.mat' ];
+  filename = Utils.resolvePath(filename, 'cache');
 
-  L = M(:, 1);
-  T = Utils.toKelvin(M(:, 2));
-  I = M(:, 3);
-
-  Tonly = length(unique(L)) == 1;
-  Lonly = length(unique(T)) == 1;
-
-  if Lonly
-    ft = fittype('poly3');
-    opts = fitoptions(ft);
-    [ x, y ] = prepareCurveData(L, I);
-    vars = 4;
-  elseif Tonly
-    ft = fittype('poly3');
-    opts = fitoptions(ft);
-    [ x, y ] = prepareCurveData(T, I);
-    vars = 4;
+  if exist(filename, 'file')
+    load(filename);
   else
-    ft = fittype('poly33');
-    opts = fitoptions(ft);
-    [ x, y, z ] = prepareSurfaceData(L, T, I);
-    vars = 10;
+    [ fitresult, gof, Ldata, Tdata, Idata, LTmean, LTstd ] = ...
+      Spice.doFit(Utils.resolvePath([ name, '_LT.out' ]));
+
+    cvals = coeffvalues(fitresult);
+    cnames = coeffnames(fitresult);
+
+    Lsym = ipoly('L');
+    Tsym = ipoly('T');
+
+    Lnorm = (Lsym - LTmean(1)) / LTstd(1);
+    Tnorm = (Tsym - LTmean(2)) / LTstd(2);
+
+    I = ipoly(0);
+
+    for i = 1:numel(cnames)
+      attrs = regexp(cnames{i}, '^p(\d)(\d)$', 'tokens');
+
+      Lorder = str2num(attrs{1}{1});
+      Torder = str2num(attrs{1}{2});
+
+      I = I + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
+    end
+
+    f = Utils.toFunction(I, Lsym, Tsym);
+
+    save(filename, 'f', 'Ldata', 'Tdata', 'Idata');
   end
 
-  opts.Normalize = 'on';
-  opts.Lower = ones(1, vars) * -Inf;
-  opts.Upper = ones(1, vars) * Inf;
+  if ~draw, return; end
 
-  if Lonly
-    [ fitresult, gof ] = fit(x, y, ft, opts);
-    plot(fitresult, x, y);
-    xlabel('L');
-    ylabel('I');
-    legend('Original', 'Fitted');
-  elseif Tonly
-    [ fitresult, gof ] = fit(x, y, ft, opts);
-    plot(fitresult, x, y);
-    xlabel('T');
-    ylabel('I');
-    legend('Original', 'Fitted');
-  else
-    [ fitresult, gof ] = fit([ x, y ], z, ft, opts);
-    plot(fitresult, [ x, y ], z);
-    xlabel('L');
-    ylabel('T');
-    zlabel('I');
-    legend('Fitted', 'Original');
-  end
+  h = subplot(1, 1, 1);
+
+  Luni = sort(unique(Ldata));
+  Tuni = sort(unique(Tdata));
+
+  [ L, T ] = meshgrid(Luni, Tuni);
+
+  I = griddata(Ldata, Tdata, Idata, L, T);
+
+  mesh(L, T, I);
+
+  line(Ldata, Tdata, Idata, ...
+      'LineStyle', 'None', ...
+      'Marker', 'o', ...
+      'MarkerEdgeColor', 'w', ...
+      'MarkerFaceColor', 'b', ...
+      'Parent', h);
+
+  title('Fitted Surface');
+  xlabel('L');
+  ylabel('T');
+  zlabel('I');
+
   grid on;
 end
