@@ -1,4 +1,4 @@
-function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order, level)
+function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order)
   %
   % Description:
   %
@@ -9,8 +9,7 @@ function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order, level)
   % Input:
   %
   %   * sdim   - the stochastic dimension of the expansion,
-  %   * order  - the maximal order of the polynomials,
-  %   * level  - the level of the Gauss quadrature to employ.
+  %   * order  - the maximal order of the polynomials.
   %
   % Output:
   %
@@ -22,17 +21,28 @@ function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order, level)
 
   terms = PolynomialChaos.countTerms(sdim, order);
 
+  warn(sdim, order, terms);
+
   for i = 1:sdim
     x(i) = ipoly([ 'x', num2str(i) ]);
   end
 
   psi = PolynomialChaos.constructXD(x, terms);
 
-  cq = ChaosQuadrature(x, psi, order, level);
+  cq = ChaosQuadrature(x, psi, order);
 
   norm = zeros(1, terms);
   norm(1) = 1;
   for i = 2:terms
     norm(i) = cq.integrateChaosProduct(i, i);
   end
+end
+
+function warn(sdim, order, terms)
+  debug('------------------------------\n');
+  debug('Constructing a new PC expansion:\n');
+  debug('  Stochastic dimension: %d\n', sdim);
+  debug('  Polynomial order: %d\n', order);
+  debug('  Number of terms: %d\n', terms);
+  debug('------------------------------\n');
 end

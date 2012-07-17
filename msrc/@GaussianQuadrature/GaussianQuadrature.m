@@ -1,7 +1,7 @@
 classdef GaussianQuadrature < handle
   %
   % (*) The quadrature rule that is used here (Gauss-Hermite) assumes
-  % the physicists' weight function. We need the probabilists's one,
+  % the physicists' weight function. We need the probabilists' one,
   % therefore, a proper conversion is to be performed.
   %
   properties (SetAccess = 'private')
@@ -32,12 +32,12 @@ classdef GaussianQuadrature < handle
   end
 
   methods
-    function gq = GaussianQuadrature(sdim, level)
+    function gq = GaussianQuadrature(sdim, order)
       gq.sdim = sdim;
-      gq.level = level;
+      gq.order = order;
 
       [ nodes, gq.weights, gq.count ] = ...
-        GaussianQuadrature.constructGrid(sdim, level);
+        GaussianQuadrature.constructGrid(sdim, order);
 
       %
       % See (*) to justify the need of sqrt(2).
@@ -63,21 +63,36 @@ classdef GaussianQuadrature < handle
   end
 
   methods (Static)
-    function [ nodes, weights, count ] = constructGrid(sdim, level)
+    function [ nodes, weights, count ] = constructGrid(sdim, order)
       %
       % A wrapper to cache the result of `doConstructGrid'.
       %
 
-      filename = [ 'SG_d', num2str(sdim), '_l', num2str(level), '.mat' ];
+      filename = [ 'QG_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
         [ nodes, weights, count ] = ...
-          GaussianQuadrature.doConstructGrid(sdim, level);
+          GaussianQuadrature.doConstructGrid(sdim, order);
         save(filename, 'nodes', 'weights', 'count');
       end
+    end
+
+    function level = computeLevel(order)
+      %
+      % Description:
+      %
+      %   An n-point Gaussian quadrature rule is exact for
+      %   polynomials of order (2 * n - 1) or less.
+      %
+      % Inputs:
+      %
+      %   * order - the order of the polynomial.
+      %
+
+      level = ceil((order + 1) / 2);
     end
   end
 

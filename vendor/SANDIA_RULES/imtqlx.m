@@ -14,7 +14,7 @@ function [ d, z ] = imtqlx ( n, d, e, z )
 %
 %    It has been modified to produce the product Q' * Z, where Z is an input
 %    vector and Q is the orthogonal matrix diagonalizing the input matrix.
-%    The changes consist (essentialy) of applying the orthogonal transformations
+%    The changes consist (essentially) of applying the orthogonal transformations
 %    directly to Z as they are generated.
 %
 %  Licensing:
@@ -52,11 +52,11 @@ function [ d, z ] = imtqlx ( n, d, e, z )
 %    Input, real E(N), the subdiagonal entries of the
 %    matrix, in entries E(1) through E(N-1). 
 %
-%    Input, real Z(N,1), a vector to be operated on.
+%    Input, real Z(N), a vector to be operated on.
 %
-%    Output, real D(N,1), the diagonal entries of the diagonalized matrix.
+%    Output, real D(N), the diagonal entries of the diagonalized matrix.
 %
-%    Output, real Z(N,1), the value of Q' * Z, where Q is the matrix that 
+%    Output, real Z(N), the value of Q' * Z, where Q is the matrix that 
 %    diagonalizes the input symmetric tridiagonal matrix.
 %
   itn = 30;

@@ -28,9 +28,9 @@ classdef ChaosQuadrature < handle
   end
 
   methods
-    function cq = ChaosQuadrature(x, psi, order, level)
+    function cq = ChaosQuadrature(x, psi, order)
       [ cq.nodes, cq.plainGrid, cq.niceGrid ] = ...
-        cq.precomputeGrid(x, psi, order, level);
+        cq.precomputeGrid(x, psi, order);
       cq.count = size(cq.nodes, 2);
     end
 
@@ -45,24 +45,23 @@ classdef ChaosQuadrature < handle
   end
 
   methods (Static, Access = 'private')
-    [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, level);
+    [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order);
 
-    function [ nodes, plainGrid, niceGrid ] = precomputeGrid(x, psi, order, level)
+    function [ nodes, plainGrid, niceGrid ] = precomputeGrid(x, psi, order)
       %
       % A wrapper to cache the result of `doPrecomputeGrid'.
       %
 
       sdim = length(x);
 
-      filename = [ 'CQ_d', num2str(sdim), '_o', num2str(order), ...
-        '_l', num2str(level), '.mat' ];
+      filename = [ 'CQ_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
         [ nodes, plainGrid, niceGrid ] = ...
-          ChaosQuadrature.doPrecomputeGrid(x, psi, level);
+          ChaosQuadrature.doPrecomputeGrid(x, psi, order);
         save(filename, 'nodes', 'plainGrid', 'niceGrid');
       end
     end

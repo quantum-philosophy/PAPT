@@ -47,15 +47,13 @@ classdef PolynomialChaos < handle
   end
 
   methods
-    function pc = PolynomialChaos(sdim, order, level)
+    function pc = PolynomialChaos(sdim, order)
       if nargin < 2, order = 2; end
-      if nargin < 3, level = ceil((order + 1)/2); end
 
       pc.sdim = sdim;
       pc.order = order;
 
-      [ pc.x, pc.psi, pc.norm, pc.cq ] = ...
-        pc.prepareExpansion(sdim, order, level);
+      [ pc.x, pc.psi, pc.norm, pc.cq ] = pc.prepareExpansion(sdim, order);
 
       pc.terms = length(pc.psi);
 
@@ -70,16 +68,27 @@ classdef PolynomialChaos < handle
     end
   end
 
+  methods (Static)
+    function count = countTerms(sdim, order, rule)
+      if nargin < 3, rule = 'TD'; end
+
+      switch (upper(rule))
+      case 'TD'
+        count = factorial(sdim + order) / factorial(sdim) / factorial(order);
+      case 'TP'
+        count = (1 + order)^sdim;
+      otherwise
+        error('Unknown rule.');
+      end
+    end
+  end
+
   methods (Static, Access = 'private')
     psi = construct1D(x, terms);
     psi = constructXD(x, terms);
-    [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order, level);
+    [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order);
 
-    function terms = countTerms(sdim, order)
-      terms = factorial(sdim + order) / (factorial(sdim) * factorial(order));
-    end
-
-    function [ x, psi, norm, cq ] = prepareExpansion(sdim, order, level)
+    function [ x, psi, norm, cq ] = prepareExpansion(sdim, order)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
@@ -91,10 +100,10 @@ classdef PolynomialChaos < handle
 
       if exist(filename, 'file')
         load(filename);
-        cq = ChaosQuadrature(x, psi, order, level);
+        cq = ChaosQuadrature(x, psi, order);
       else
         [ x, psi, norm, cq ] = ...
-          PolynomialChaos.doPrepareExpansion(sdim, order, level);
+          PolynomialChaos.doPrepareExpansion(sdim, order);
         save(filename, 'x', 'psi', 'norm');
       end
     end

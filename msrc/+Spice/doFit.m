@@ -11,6 +11,8 @@ function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, order, draw)
   Tonly = length(unique(L)) == 1;
   Lonly = length(unique(T)) == 1;
 
+  warn(filename, order, Lonly, Tonly);
+
   if Lonly
     order = order(1);
     ft = fittype(sprintf('poly%d', order));
@@ -60,4 +62,24 @@ function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, order, draw)
     legend('Fitted', 'Original');
   end
   grid on;
+end
+
+function warn(filename, order, Lonly, Tonly)
+  if Lonly
+    L = order(1);
+    T = 0;
+  elseif Tonly
+    L = 0;
+    T = order(1);
+  else
+    L = order(1);
+    T = order(2);
+  end
+
+  debug('------------------------------\n');
+  debug('Fitting to new SPICE data:\n');
+  debug('  File name: %s\n', filename);
+  debug('  Order for channel length: %d\n', L);
+  debug('  Order for temperature: %d\n', T);
+  debug('------------------------------\n');
 end
