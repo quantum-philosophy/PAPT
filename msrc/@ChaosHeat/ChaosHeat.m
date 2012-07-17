@@ -64,7 +64,10 @@ classdef ChaosHeat < HotSpot
       %
       trace = ChaosTrace(cores, terms, steps);
 
-      sampler = LeakageSampler(Tamb, Pdyn, trace, pc);
+      %
+      % Initialize the leakage model.
+      %
+      sampler = Leakage(Tamb, Pdyn, trace, pc);
 
       %
       % Perform the PC expansion and obtain the coefficients of
@@ -132,8 +135,7 @@ classdef ChaosHeat < HotSpot
       %
       % Compute the variance.
       %
-      % NOTE: We do not need the covariance matrix here since
-      % there are no correlations between cores after the PC expansion.
+      % NOTE: The correlation matrix is full of zeros.
       %
       VarT = zeros(cores, steps);
       norm = irep(pc.norm(2:end), cores, 1);

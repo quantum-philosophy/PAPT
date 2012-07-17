@@ -1,17 +1,16 @@
-function f = fit(name, Lorder, Torder, draw)
-  if nargin < 1, name = 'inverter'; end
-  if nargin < 2, Lorder = 3; end
-  if nargin < 3, Torder = 3; end
-  if nargin < 4, draw = false; end
+function f = fit(name, order, draw)
+  if nargin < 2 || numel(order) == 0, order = [ 3 3 ]; end
+  if nargin < 3, draw = false; end
 
-  filename = [ 'LT_', name, '_l', num2str(Lorder), '_t', num2str(Torder), '.mat' ];
+  filename = [ 'LT_', name, ...
+    '_l', num2str(order(1)), '_t', num2str(order(2)), '.mat' ];
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
     load(filename);
   else
     [ fitresult, gof, Ldata, Tdata, Idata, LTmean, LTstd ] = ...
-      Spice.doFit(Utils.resolvePath([ name, '_LT.out' ]));
+      Spice.doFit(Utils.resolvePath([ name, '.leak' ]), order);
 
     cvals = coeffvalues(fitresult);
     cnames = coeffnames(fitresult);
@@ -51,7 +50,7 @@ function f = fit(name, Lorder, Torder, draw)
 
   mesh(L, T, I);
 
-  line(Ldata, Tdata, Idata, ...
+  line(Ldata, Tdata, f(Ldata, Tdata), ...
       'LineStyle', 'None', ...
       'Marker', 'o', ...
       'MarkerEdgeColor', 'w', ...

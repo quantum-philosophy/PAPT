@@ -2,30 +2,35 @@
 
 require 'progressbar'
 
-netlist = 'inverter.cir'
-netlist_tmp = "#{ netlist }_tmp"
+netlist = ARGV[0]
+raise 'The first argument should be a netlist.' if netlist.nil? || netlist.empty?
 
-if ARGV.count > 2
-  netlist_out = ARGV[2]
-else
-  netlist_out = File.basename(netlist, '.cir') + '.out'
+Lcount = ARGV[1].to_i
+raise 'The second argument should be the number of L measurements.' if Lcount <= 0
+
+Tcount = ARGV[2].to_i
+raise 'The third argument should be the number of T measurements.' if Tcount <= 0
+
+netlist_out = ARGV[3]
+if netlist_out.nil? || netlist_out.empty?
+  raise 'The fourth argument should be the output file.'
 end
+
+netlist_tmp = "#{ netlist }_tmp"
 
 dir = File.dirname(__FILE__)
 
 netlist = File.open(File.join dir, netlist).read
 
+unless netlist.match /^\s*.param\s+L\s*=\s*(\d+)n.*$/
+  raise 'Cannot find the channel length.'
+end
+
 #
 # Channel length
 #
 
-if ARGV.count > 0
-  Lcount = ARGV[0].to_i
-else
-  Lcount = 100
-end
-
-Lnom = 22e-9
+Lnom = $1.to_i * 1e-9
 Ldev = 0.05 * Lnom
 
 Lmin = Lnom - Ldev
@@ -44,12 +49,6 @@ end
 #
 # Temperature
 #
-
-if ARGV.count > 1
-  Tcount = ARGV[1].to_i
-else
-  Tcount = 100
-end
 
 Tnom = 27
 

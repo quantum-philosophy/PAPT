@@ -1,6 +1,6 @@
-function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, draw)
-  if nargin < 1, filename = Utils.resolvePath('inverter_LT.out'); end
-  if nargin < 2, draw = false; end
+function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, order, draw)
+  if nargin < 2, order = [ 3 3 ]; end
+  if nargin < 3, draw = false; end
 
   M = dlmread(filename, '\t', 1, 0);
 
@@ -12,22 +12,24 @@ function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, draw)
   Lonly = length(unique(T)) == 1;
 
   if Lonly
-    ft = fittype('poly3');
+    order = order(1);
+    ft = fittype(sprintf('poly%d', order));
     opts = fitoptions(ft);
     [ x, y ] = prepareCurveData(L, I);
-    vars = 4;
+    vars = order + 1;
   elseif Tonly
-    ft = fittype('poly3');
+    order = order(1);
+    ft = fittype(sprintf('poly%d', order));
     opts = fitoptions(ft);
     [ x, y ] = prepareCurveData(T, I);
-    vars = 4;
+    vars = order + 1;
   else
-    ft = fittype('poly33');
+    ft = fittype(sprintf('poly%d%d', order(1), order(2)));
     opts = fitoptions(ft);
     [ x, y, z ] = prepareSurfaceData(L, T, I);
     x = [ x, y ];
     y = z;
-    vars = 10;
+    vars = order(1) * order(2) + 1;
   end
 
   opts.Normalize = 'off';

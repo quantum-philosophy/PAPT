@@ -1,8 +1,8 @@
 init;
 
 hsConfig = Utils.resolvePath('hotspot.config');
-floorplan = Utils.resolvePath('dummy4.flp');
-powerTrace = Utils.resolvePath('dummy4.ptrace');
+floorplan = Utils.resolvePath('dummy2.flp');
+powerTrace = Utils.resolvePath('dummy2.ptrace');
 
 hsLine = 'sampling_intvl 1e-3';
 
@@ -26,4 +26,8 @@ fprintf('Simulation time:     %.2f s\n', toc(t));
 
 time = (1:steps) * hs.dt;
 
-plot(time, T);
+figure;
+for i = 1:hs.cores
+  color = Utils.pickColor(i);
+  line(time, T(i, :), 'Color', color);
+end

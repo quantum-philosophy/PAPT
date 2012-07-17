@@ -69,7 +69,7 @@ classdef GaussianQuadrature < handle
       %
 
       filename = [ 'SG_d', num2str(sdim), '_l', num2str(level), '.mat' ];
-      filename = Utils.resolvePath(filename);
+      filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);

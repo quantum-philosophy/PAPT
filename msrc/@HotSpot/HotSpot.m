@@ -112,7 +112,7 @@ classdef HotSpot < handle
       %
       % Initialize the leakage model.
       %
-      sampler = LeakageSampler(Tamb, Pdyn);
+      sampler = Leakage(Tamb, Pdyn);
 
       T = zeros(cores, steps);
 

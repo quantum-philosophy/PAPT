@@ -1,8 +1,8 @@
 init;
 
 hsConfig = Utils.resolvePath('hotspot.config');
-floorplan = Utils.resolvePath('dummy4.flp');
-powerTrace = Utils.resolvePath('dummy4.ptrace');
+floorplan = Utils.resolvePath('dummy2.flp');
+powerTrace = Utils.resolvePath('dummy2.ptrace');
 
 hsLine = 'sampling_intvl 1e-3';
 

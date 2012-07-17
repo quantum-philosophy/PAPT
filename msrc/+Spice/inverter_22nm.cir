@@ -1,5 +1,6 @@
-The leakage current in a CMOS inverter.
+The leakage current in a 22nm CMOS inverter.
 
+.param Vdd = 0.8
 .param L = 22n
 * .param Wp = {4.5 * 22n}
 * .param Wn = {1.5 * 22n}
@@ -8,7 +9,7 @@ The leakage current in a CMOS inverter.
 
 .options Temp = 27
 
-vdd 1 0 0.8
+vdd 1 0 {Vdd}
 vss 2 0 0
 * vin 3 0 pulse(0 0.6 100ps 100ps 100ps 2ns 4ns)
 vin 3 0 0

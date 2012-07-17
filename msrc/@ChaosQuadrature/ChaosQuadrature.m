@@ -56,7 +56,7 @@ classdef ChaosQuadrature < handle
 
       filename = [ 'CQ_d', num2str(sdim), '_o', num2str(order), ...
         '_l', num2str(level), '.mat' ];
-      filename = Utils.resolvePath(filename);
+      filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
