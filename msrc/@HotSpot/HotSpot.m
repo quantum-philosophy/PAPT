@@ -42,6 +42,16 @@ classdef HotSpot < handle
     %
 
     %
+    % The capacitance vector.
+    %
+    C
+
+    %
+    % The conductance matrix.
+    %
+    G
+
+    %
     % C^(-1/2)
     %
     Cm12
@@ -83,16 +93,16 @@ classdef HotSpot < handle
 
   methods
     function hs = HotSpot(floorplan, hsConfig, hsLine)
-      [ C, G, hs.nodes, hs.cores, hs.dt, hs.Tamb ] = ...
+      [ hs.C, hs.G, hs.nodes, hs.cores, hs.dt, hs.Tamb ] = ...
         HotSpot.getCoefficients(floorplan, hsConfig, hsLine);
 
-      hs.nodes = size(G, 1);
+      hs.nodes = size(hs.G, 1);
 
-      hs.Cm12 = diag(sqrt(1 ./ C));
+      hs.Cm12 = diag(sqrt(1 ./ hs.C));
 
       M = [ diag(ones(1, hs.cores)); zeros(hs.nodes - hs.cores, hs.cores) ];
 
-      hs.A = Utils.symmetrize(hs.Cm12 * (-G) * hs.Cm12);
+      hs.A = Utils.symmetrize(hs.Cm12 * (-hs.G) * hs.Cm12);
 
       B = hs.Cm12 * M;
       hs.BT = B';
