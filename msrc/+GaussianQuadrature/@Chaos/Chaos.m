@@ -1,4 +1,4 @@
-classdef ChaosQuadrature < handle
+classdef Chaos < handle
   properties (Access = 'private')
     %
     % Precomputed value of each of the polynomials in the PC expansion
@@ -28,19 +28,19 @@ classdef ChaosQuadrature < handle
   end
 
   methods
-    function cq = ChaosQuadrature(x, psi, order)
-      [ cq.nodes, cq.plainGrid, cq.niceGrid ] = ...
-        cq.precomputeGrid(x, psi, order);
-      cq.count = size(cq.nodes, 2);
+    function gq = Chaos(x, psi, order)
+      [ gq.nodes, gq.plainGrid, gq.niceGrid ] = ...
+        gq.precomputeGrid(x, psi, order);
+      gq.count = size(gq.nodes, 2);
     end
 
-    function result = integrateWithChaos(cq, f, ddim, c)
-      samples = f(cq.nodes);
-      result = sum(samples .* irep(cq.niceGrid(c, :), ddim, 1), 2);
+    function result = integrateWithChaos(gq, f, ddim, c)
+      samples = f(gq.nodes);
+      result = sum(samples .* irep(gq.niceGrid(c, :), ddim, 1), 2);
     end
 
-    function result = integrateChaosProduct(cq, c1, c2)
-      result = sum(cq.plainGrid(c1, :) .* cq.niceGrid(c2, :));
+    function result = integrateChaosProduct(gq, c1, c2)
+      result = sum(gq.plainGrid(c1, :) .* gq.niceGrid(c2, :));
     end
   end
 
@@ -61,7 +61,7 @@ classdef ChaosQuadrature < handle
         load(filename);
       else
         [ nodes, plainGrid, niceGrid ] = ...
-          ChaosQuadrature.doPrecomputeGrid(x, psi, order);
+          GaussianQuadrature.Chaos.doPrecomputeGrid(x, psi, order);
         save(filename, 'nodes', 'plainGrid', 'niceGrid');
       end
     end

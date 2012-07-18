@@ -1,33 +1,4 @@
-classdef HotSpot < handle
-  properties (SetAccess = 'protected')
-    %
-    % The number of thermal nodes in the thermal RC circuit.
-    %
-    nodes
-
-    %
-    % The number of active node, i.e., those that correspond to
-    % the processing elements (cores).
-    %
-    cores
-
-    %
-    % The sampling interval of the simulation.
-    %
-    dt
-
-    %
-    % The ambient temperature.
-    %
-    Tamb
-
-    %
-    % The stochastic dimension of the analysis, i.e., the number
-    % of r.v.'s involved (obtained via the PCA).
-    %
-    sdim
-  end
-
+classdef Analytic < HotSpot.Base
   properties (Access = 'protected')
     %
     % Original system:
@@ -40,16 +11,6 @@ classdef HotSpot < handle
     %   dX/dt = A * X + B * P
     %   T = B^T * X + T_amb
     %
-
-    %
-    % The capacitance vector.
-    %
-    C
-
-    %
-    % The conductance matrix.
-    %
-    G
 
     %
     % C^(-1/2)
@@ -84,19 +45,11 @@ classdef HotSpot < handle
     %   = Q * diag((exp(li * t) - 1) / li) * Q^T * B
     %
     D
-
-    %
-    % The mapping matrix from the r.v.'s to the cores.
-    %
-    map
   end
 
   methods
-    function hs = HotSpot(floorplan, hsConfig, hsLine)
-      [ hs.C, hs.G, hs.nodes, hs.cores, hs.dt, hs.Tamb ] = ...
-        HotSpot.getCoefficients(floorplan, hsConfig, hsLine);
-
-      hs.nodes = size(hs.G, 1);
+    function hs = Analytic(floorplan, config, line)
+      hs = hs@HotSpot.Base(floorplan, config, line);
 
       hs.Cm12 = diag(sqrt(1 ./ hs.C));
 
@@ -115,12 +68,6 @@ classdef HotSpot < handle
 
       hs.E = hs.Q * diag(exp(hs.dt * hs.L)) * hs.QT;
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
-
-      %
-      % Perform the PCA to extract independent r.v.'s.
-      %
-      [ hs.sdim, hs.map ] = PrincipalComponent.perform(hs.cores);
-      assert(size(hs.map, 1) == hs.cores, 'The dimensions do not match.');
     end
 
     function T = solve(hs, Pdyn, rvs)
@@ -139,16 +86,16 @@ classdef HotSpot < handle
       %
       % Initialize the leakage model.
       %
-      sampler = Leakage(Tamb, Pdyn, hs.map);
+      leak = Leakage.Polynomial(Tamb, Pdyn, hs.map);
 
       T = zeros(cores, steps);
 
-      Pleak = sampler.performAtAmbient(rvs);
+      Pleak = leak.performAtAmbient(rvs);
       X = D * (Pdyn(:, 1) + Pleak);
 
       for i = 2:steps
         T(:, i - 1) = BT * X + Tamb;
-        Pleak = sampler.performAtGiven(T(:, i - 1), rvs);
+        Pleak = leak.performAtGiven(T(:, i - 1), rvs);
         X = E * X + D * (Pdyn(:, i) + Pleak);
       end
 
@@ -157,9 +104,5 @@ classdef HotSpot < handle
       %
       T(:, end) = BT * X + Tamb;
     end
-  end
-
-  methods (Static)
-    [ C, G, nodes, cores, dt, Tamb ] = getCoefficients(floorplan, hsConfig, hsLine);
   end
 end

@@ -41,7 +41,7 @@ t = tic;
 pc = PolynomialChaos(sdim, order);
 fprintf(' %.2f seconds.\n', toc(t));
 
-count = pc.cq.count;
+count = pc.qd.count;
 
 n_mu = irep(n_mu, 1, count);
 n_sigma = irep(n_sigma, 1, count);

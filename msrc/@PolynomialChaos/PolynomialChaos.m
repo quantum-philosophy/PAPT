@@ -30,9 +30,9 @@ classdef PolynomialChaos < handle
     %
     % The Gaussian quadrature (Gauss-Hermite) for the purpose of
     % numerical integration. It is an optimized version, an instance
-    % of ChaosGuadrature.
+    % of GaussianQuadrature.Chaos.
     %
-    cq
+    qd
 
     %
     % The total number of polynomials in the expansion.
@@ -53,7 +53,7 @@ classdef PolynomialChaos < handle
       pc.sdim = sdim;
       pc.order = order;
 
-      [ pc.x, pc.psi, pc.norm, pc.cq ] = pc.prepareExpansion(sdim, order);
+      [ pc.x, pc.psi, pc.norm, pc.qd ] = pc.prepareExpansion(sdim, order);
 
       pc.terms = length(pc.psi);
 
@@ -86,13 +86,13 @@ classdef PolynomialChaos < handle
   methods (Static, Access = 'private')
     psi = construct1D(x, terms);
     psi = constructXD(x, terms);
-    [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order);
+    [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order);
 
-    function [ x, psi, norm, cq ] = prepareExpansion(sdim, order)
+    function [ x, psi, norm, qd ] = prepareExpansion(sdim, order)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
-      % NOTE: We do not cache `cq' explicitly.
+      % NOTE: We do not cache `qd' explicitly.
       %
 
       filename = [ 'PC_d', num2str(sdim), '_o', num2str(order), '.mat' ];
@@ -100,9 +100,9 @@ classdef PolynomialChaos < handle
 
       if exist(filename, 'file')
         load(filename);
-        cq = ChaosQuadrature(x, psi, order);
+        qd = GaussianQuadrature.Chaos(x, psi, order);
       else
-        [ x, psi, norm, cq ] = ...
+        [ x, psi, norm, qd ] = ...
           PolynomialChaos.doPrepareExpansion(sdim, order);
         save(filename, 'x', 'psi', 'norm');
       end

@@ -1,11 +1,11 @@
 function coeff = construct(pc, f, ddim)
-  cq = pc.cq;
+  qd = pc.qd;
   terms = pc.terms;
 
   coeff = zeros(ddim, terms);
 
   for i = 1:terms
-    coeff(:, i) = cq.integrateWithChaos(f, ddim, i);
+    coeff(:, i) = qd.integrateWithChaos(f, ddim, i);
   end
 
   coeff = coeff ./ irep(pc.norm, ddim, 1);

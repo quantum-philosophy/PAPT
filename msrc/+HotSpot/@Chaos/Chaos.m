@@ -1,4 +1,4 @@
-classdef ChaosHeat < HotSpot
+classdef Chaos < HotSpot.Analytic
   properties (Access = 'private')
     %
     % The polynomial chaos.
@@ -7,42 +7,34 @@ classdef ChaosHeat < HotSpot
   end
 
   methods
-    function ch = ChaosHeat(floorplan, hsConfig, hsLine, order)
-      %
-      % Inputs:
-      %
-      %   * floorplan, hsConfig, hsLine - the same as for HotSpot,
-      %
-      %   * order - the order of the PC expansion.
-      %
-
-      ch = ch@HotSpot(floorplan, hsConfig, hsLine);
+    function hs = Chaos(floorplan, config, line, order)
+      hs = hs@HotSpot.Analytic(floorplan, config, line);
 
       if nargin < 4, order = 2; end
 
       %
       % Initialize the PC expansion.
       %
-      ch.pc = PolynomialChaos(ch.sdim, order);
+      hs.pc = PolynomialChaos(hs.sdim, order);
     end
 
-    function [ ExpT, VarT ] = solve(ch, Pdyn)
+    function [ ExpT, VarT ] = solve(hs, Pdyn)
       [ cores, steps ] = size(Pdyn);
-      assert(cores == ch.cores, 'The power profile is invalid.')
+      assert(cores == hs.cores, 'The power profile is invalid.')
 
       %
       % General shortcuts.
       %
-      nodes = ch.nodes;
-      E = ch.E;
-      D = ch.D;
-      BT = ch.BT;
-      Tamb = ch.Tamb;
+      nodes = hs.nodes;
+      E = hs.E;
+      D = hs.D;
+      BT = hs.BT;
+      Tamb = hs.Tamb;
 
       %
       % Shortcuts for the PC expansion.
       %
-      pc = ch.pc;
+      pc = hs.pc;
       terms = pc.terms;
 
       %
@@ -53,13 +45,13 @@ classdef ChaosHeat < HotSpot
       %
       % Initialize the leakage model.
       %
-      sampler = Leakage(Tamb, Pdyn, ch.map, trace, pc);
+      leak = Leakage.Polynomial(Tamb, Pdyn, hs.map, trace, pc);
 
       %
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = pc.construct(@sampler.performAtAmbient, cores);
+      Pcoeff = pc.construct(@leak.performAtAmbient, cores);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -90,8 +82,8 @@ classdef ChaosHeat < HotSpot
         %
         % Perform the PC expansion.
         %
-        sampler.advance();
-        Pcoeff = pc.construct(@sampler.performAtCurrent, cores);
+        leak.advance();
+        Pcoeff = pc.construct(@leak.performAtCurrent, cores);
 
         %
         % Add the dynamic power to the mean.

@@ -1,4 +1,4 @@
-function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order)
+function [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order)
   %
   % Description:
   %
@@ -16,7 +16,7 @@ function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order)
   %   * x     - a vector of `sdim' symbolic variables,
   %   * psi   - a vector of the Hermite polynomials,
   %   * norm  - a vector of the normalization coefficients of the expansion,
-  %   * cq    - an instance of ChaosQuadrature to integrate with.
+  %   * qd    - an instance of GaussianQuadrature.Chaos to integrate with.
   %
 
   terms = PolynomialChaos.countTerms(sdim, order);
@@ -29,12 +29,12 @@ function [ x, psi, norm, cq ] = doPrepareExpansion(sdim, order)
 
   psi = PolynomialChaos.constructXD(x, terms);
 
-  cq = ChaosQuadrature(x, psi, order);
+  qd = GaussianQuadrature.Chaos(x, psi, order);
 
   norm = zeros(1, terms);
   norm(1) = 1;
   for i = 2:terms
-    norm(i) = cq.integrateChaosProduct(i, i);
+    norm(i) = qd.integrateChaosProduct(i, i);
   end
 end
 

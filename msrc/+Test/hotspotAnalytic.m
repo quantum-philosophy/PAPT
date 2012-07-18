@@ -1,12 +1,12 @@
 init;
 
-hsConfig = Utils.resolvePath('hotspot.config');
 floorplan = Utils.resolvePath('dummy2.flp');
+config = Utils.resolvePath('hotspot.config');
 powerTrace = Utils.resolvePath('dummy2.ptrace');
 
-hsLine = 'sampling_intvl 1e-3';
+configLine = 'sampling_intvl 1e-3';
 
-hs = HotSpot(floorplan, hsConfig, hsLine);
+hs = HotSpot.Analytic(floorplan, config, configLine);
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
@@ -22,11 +22,13 @@ fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
 t = tic;
 T = hs.solve(Pdyn, zeros(hs.sdim, 1)) + Constants.zeroKelvin;
-fprintf('Simulation time:     %.2f s\n', toc(t));
+t = toc(t);
+fprintf('Simulation time:     %.2f s\n', t);
 
 time = (1:steps) * hs.dt;
 
 figure;
+title(sprintf('HotSpot with Analytical Solution (%.2f s)', t));
 for i = 1:hs.cores
   color = Utils.pickColor(i);
   line(time, T(i, :), 'Color', color);
