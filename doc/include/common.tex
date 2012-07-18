@@ -6,6 +6,8 @@
 \usepackage{multirow}
 \usepackage{url}
 \usepackage{multibib}
+% \usepackage[mathscr]{euscript}
+\usepackage{mathrsfs}
 
 \newcommand{\sta}{STA}
 
@@ -57,28 +59,30 @@
 % Probability theory
 \newcommand{\outcomes}{\Omega}
 \renewcommand{\o}{\omega}
-\newcommand{\sAlgebra}{\mathcal{F}}
-\newcommand{\pMeasure}{P}
+\newcommand{\sAlgebra}{\mathscr{F}}
+\newcommand{\pMeasure}{\mathscr{P}}
 
 \newcommand{\rv}[1]{\MakeUppercase{#1}}
 \newcommand{\mrv}[1]{\mathbf{\MakeUppercase{#1}}}
 
 \renewcommand{\exp}{\mu}
 \newcommand{\var}{\sigma^2}
+\newcommand{\std}{\sigma}
 
 \newcommand{\vExp}{{\boldsymbol\mu}}
 \newcommand{\mCov}{\m{C}}
 
 \newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
-\newcommand{\oVar}[1]{\text{Var}\left[#1\right]}
-\newcommand{\oCov}[1]{\text{Cov}\left[#1\right]}
+\newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
+\newcommand{\oCov}[1]{\mathbb{C}\text{ov}\left[#1\right]}
 
 \newcommand{\pdf}{\rho}
+\newcommand{\Z}{Z}
 \newcommand{\vZ}{\v{Z}}
 \newcommand{\vz}{\boldsymbol{\zeta}}
 
 % ---- Normal distribution
-\newcommand{\normal}{\mathcal{N}}
+\newcommand{\normal}[2]{\mathcal{N}\left( #1, #2 \right)}
 
 % Thermal model
 \newcommand{\system}{\mathcal{S}}
@@ -90,6 +94,7 @@
 \newcommand{\sTime}{T}
 
 % ---- Temperature
+\newcommand{\T}{\Theta}
 \newcommand{\vTI}{\v{\tilde{X}}} % Internal temperature
 \newcommand{\vTO}{{\boldsymbol\Theta}} % Output temperature
 \newcommand{\mTO}{{\boldsymbol\Theta}}
@@ -129,18 +134,26 @@
 \newcommand{\pcb}{\Phi}
 \newcommand{\pcn}{\gamma}
 \newcommand{\pcc}[1]{\hat{#1}}
-\newcommand{\oInner}[1]{\left\langle #1 \right\rangle}
 \newcommand{\oPC}[3]{\mathcal{P}_{#1}^{#2}\left[#3\right]}
+
+\makeatletter
+\def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
+\def\oInnerSingle#1{\left\langle #1 \right\rangle}
+\def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
+\makeatother
 
 % ---- Integration
 \newcommand{\cbp}[1]{\hat{#1}}
 \newcommand{\oCub}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
 
 % Process variation
-\newcommand{\Leff}[1]{L_{\text{eff}#1}}
-\newcommand{\nLeff}{L_{\text{eff}}}
-\newcommand{\gLeff}{L_{\text{eff}}^{(g)}}
-\newcommand{\lLeff}[1]{L_{\text{eff}#1}^{(l)}}
+\newcommand{\Leff}{L}
+\newcommand{\nLeff}{L}
+\newcommand{\gLeff}{{L^{(g)}}}
+\newcommand{\lLeff}{L^{(l)}}
+\newcommand{\vlLeff}{{\mrv{L}^{(l)}}}
+\newcommand{\vlZ}{{\vZ^{(l)}}}
+\newcommand{\gZ}{{\Z^{(g)}}}
 
 % Indexes
 \newcommand{\nodes}{{n_n}}

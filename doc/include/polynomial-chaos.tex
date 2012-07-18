@@ -21,15 +21,15 @@
 % \end{table}
 At this point, the goal is to transfrom \eref{power-model} in such a way that the non-linear correlations in the recurrence given by \eref{recurrence} are eliminated. To this end, we empoly a mathematical framework called the generalize polynomial chaos (gPC) \cite{xiu2002}, which deconstructs stochastic processes into infinite sequences of \emph{orthogonal} polynomials of r.v.'s. Orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
 \begin{equation} \elabel{orthogonality}
-  \oInner{\pcb_i(\vz) \pcb_j(\vz)} = \oInner{\pcb_i(\vz)^2} \delta_{ij}
+  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \oInner{\pcb_i(\vz)^2} \delta_{ij}
 \end{equation}
-where $i,j \in \natural{0}$, $\delta_{ij}$ is the Kronecker delta function, and the operator $\oInner{\cd}$ denotes the inner product in the Hilbert space spanned by the polynomials. The inner product with the weight function $\pdf(\vz)$ is defined as the following multi-dimensional integral:
+where $i,j \in \natural{0}$, $\delta_{ij}$ is the Kronecker delta function, and the operator $\oInner{\cd}{\cd}$ denotes the inner product in the Hilbert space spanned by the polynomials. The inner product with the weight function $\pdf(\vz)$ is defined as the following multi-dimensional integral:
 \begin{equation} \elabel{inner-product-integral}
-  \oInner{f(\vz) g(\vz)} \eqdef \int f(\vz) g(\vz) \pdf(\vz) d\vz
+  \oInner{f(\vz)}{g(\vz)} \eqdef \int f(\vz) g(\vz) \pdf(\vz) d\vz
 \end{equation}
 when $\pdf(\vz)$ is continuous, or as the following summation:
 \begin{equation} \elabel{inner-product-sum}
-  \oInner{f(\vz) g(\vz)} \eqdef \sum f(\vz) g(\vz) \pdf(\vz)
+  \oInner{f(\vz)}{g(\vz)} \eqdef \sum f(\vz) g(\vz) \pdf(\vz)
 \end{equation}
 when $\pdf(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (or mass) function $\pdf_\vZ(\vz)$ of the r.v.'s $\vZ(\o)$, and the inner product is the expectation operator. Therefore, it can be seen from \eref{orthogonality} that orthogonality is equal to the absence of correlations, and this is, in fact, what we seek for. Consequently, we apply the gPC expansion to the power term $\vP(t, \o)$ in the thermal model given by \eref{fourier-system} since it is the source of uncertainties.
 
@@ -43,11 +43,11 @@ where $\pcc{\vP}_i(0) \in \real^\cores$ are the coefficients of the expansion. $
 
 Finally, we need to determine the coefficients of the expansion $\pcc{\vP}_i(0)$, $i \in \{ 1, \dotsc, \pcterms \}$. To this end, the stochastic process (\eref{power-model}) is projected onto the space spanned by the finite set of orthogonal polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$. The procedure is known as a Galerkin projection where one needs to compute the inner product of the governing equation \eref{power-model} with each polynomial from the basis as
 \[
-  \oInner{\sum_{i=1}^{\pcterms} \pcc{\vP}_i(0) \pcb_i(\vZ(\o)) \pcb_j(\vZ(\o))} = \oInner{\vP(0, \o) \; \pcb_j(\vZ(\o))}
+  \oInner{\sum_{i=1}^{\pcterms} \pcc{\vP}_i(0) \pcb_i(\vZ(\o))}{\pcb_j(\vZ(\o))} = \oInner{\vP(0, \o)}{\pcb_j(\vZ(\o))}
 \]
 where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of the orthogonality property given by \eref{orthogonality}, we obtain
 \begin{equation} \elabel{pc-coefficients}
-  \pcc{\vP}_i(0) = \frac{\oInner{\vP(0, \o) \; \pcb_i(\vZ(\o))}}{\oInner{\pcb_i(\vZ(\o))^2}}
+  \pcc{\vP}_i(0) = \frac{\oInner{\vP(0, \o)}{\pcb_i(\vZ(\o))}}{\oInner{\pcb_i(\vZ(\o))^2}}
 \end{equation}
 for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the numerator of \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically. An illustrative example for the continous case is given in \sref{integration} where the multi-dimensional integration is involved. On the other hand, the denominator is fixed for a particular polynomial basis. Hence, the normalization constants $\oInner{\pcb_i(\vZ(\o))^2}$, $i \in \{ 1, \dotsc, \pcterms \}$, are usually precomputed and tabulated; see \cite{ghanem1991}.
 
