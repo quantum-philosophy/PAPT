@@ -11,8 +11,6 @@ function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, order, draw)
   Tonly = length(unique(L)) == 1;
   Lonly = length(unique(T)) == 1;
 
-  warn(filename, order, Lonly, Tonly);
-
   if Lonly
     order = order(1);
     ft = fittype(sprintf('poly%d', order));
@@ -42,6 +40,8 @@ function [ fitresult, gof, L, T, I, mean, std ] = doFit(filename, order, draw)
   opts.Upper = ones(1, vars) * Inf;
 
   [ fitresult, gof ] = fit(x, y, ft, opts);
+
+  warn(filename, order, Lonly, Tonly);
 
   if ~draw, return; end
 
@@ -77,7 +77,7 @@ function warn(filename, order, Lonly, Tonly)
   end
 
   debug('------------------------------\n');
-  debug('Fitting to new SPICE data:\n');
+  debug('A new SPICE leakage surface is processed:\n');
   debug('  File name: %s\n', filename);
   debug('  Order for channel length: %d\n', L);
   debug('  Order for temperature: %d\n', T);

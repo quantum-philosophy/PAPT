@@ -1,4 +1,4 @@
-classdef Chaos < handle
+classdef Peace < handle
   properties (Access = 'private')
     %
     % Precomputed value of each of the polynomials in the PC expansion
@@ -9,8 +9,7 @@ classdef Chaos < handle
     %
     % Precomputed value of each of the polynomials in the PC expansion
     % in each of the points of the sparse grid multiplied by the
-    % corresponding weight and divided by the corresponding normalization
-    % coefficient.
+    % corresponding weight.
     %
     niceGrid
   end
@@ -28,7 +27,7 @@ classdef Chaos < handle
   end
 
   methods
-    function gq = Chaos(x, psi, order)
+    function gq = Peace(x, psi, order)
       [ gq.nodes, gq.plainGrid, gq.niceGrid ] = ...
         gq.precomputeGrid(x, psi, order);
       gq.points = size(gq.nodes, 2);
@@ -56,14 +55,14 @@ classdef Chaos < handle
 
       sdim = length(x);
 
-      filename = [ 'CQ_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = [ 'PQ_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
         [ nodes, plainGrid, niceGrid ] = ...
-          GaussianQuadrature.Chaos.doPrecomputeGrid(x, psi, order);
+          GaussianQuadrature.Peace.doPrecomputeGrid(x, psi, order);
         save(filename, 'nodes', 'plainGrid', 'niceGrid');
       end
     end

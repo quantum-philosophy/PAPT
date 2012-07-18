@@ -51,10 +51,11 @@ t = tic;
 pc = PolynomialChaos(sdim, order);
 fprintf(' %.2f seconds.\n', toc(t));
 
-count = pc.qd.count;
+points = pc.qd.points;
+fprintf('Number of quadrature points: %d\n', points);
 
-n_mu = irep(n_mu, 1, count);
-n_sigma = irep(n_sigma, 1, count);
+n_mu = irep(n_mu, 1, points);
+n_sigma = irep(n_sigma, 1, points);
 
 f = @(x) exp(A * (n_mu + n_sigma .* x));
 

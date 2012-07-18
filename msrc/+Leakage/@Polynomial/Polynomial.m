@@ -24,7 +24,7 @@ classdef Polynomial < Leakage.Base
     %
     % The number of samples that we are going to require at once.
     %
-    count
+    points
   end
 
   methods
@@ -37,7 +37,7 @@ classdef Polynomial < Leakage.Base
         %
         % One sample at a time (Monte-Carlo).
         %
-        lk.count = 1;
+        lk.points = 1;
       else
         %
         % A bunch of samples at a time (PC).
@@ -45,7 +45,7 @@ classdef Polynomial < Leakage.Base
         lk.trace = trace;
         lk.pc = pc;
         lk.position = 0;
-        lk.count = pc.qd.count;
+        lk.points = pc.qd.points;
       end
 
       %
@@ -58,8 +58,8 @@ classdef Polynomial < Leakage.Base
       %
       % Adjust to the dimension of the quadrature.
       %
-      lk.alpha = irep(lk.alpha, 1, lk.count);
-      lk.Tamb = irep(lk.Tamb, 1, lk.count);
+      lk.alpha = irep(lk.alpha, 1, lk.points);
+      lk.Tamb = irep(lk.Tamb, 1, lk.points);
     end
 
     function advance(lk)
@@ -79,7 +79,7 @@ classdef Polynomial < Leakage.Base
       % ... or without inner expansions.
       %
       % T = lk.trace.coeff(:, 1, lk.position);
-      % T = irep(T, 1, lk.count);
+      % T = irep(T, 1, lk.points);
       %
       P = lk.alpha .* lk.compute(lk.map * (lk.Lnom + lk.Ldev .* rvs), T);
     end

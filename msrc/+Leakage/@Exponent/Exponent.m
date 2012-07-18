@@ -31,7 +31,7 @@ classdef Exponent < handle
     %
     % The number of samples that we are going to require at once.
     %
-    count
+    points
   end
 
   methods
@@ -44,7 +44,7 @@ classdef Exponent < handle
         %
         % One sample at a time (Monte-Carlo).
         %
-        lk.count = 1;
+        lk.points = 1;
       else
         %
         % A bunch of samples at a time (PC).
@@ -52,7 +52,7 @@ classdef Exponent < handle
         lk.trace = trace;
         lk.pc = pc;
         lk.position = 0;
-        lk.count = pc.qd.count;
+        lk.points = pc.qd.points;
       end
 
       %
@@ -66,8 +66,8 @@ classdef Exponent < handle
       %
       % Adjust to the dimension of the quadrature.
       %
-      lk.alpha = irep(lk.alpha, 1, lk.count);
-      lk.Tamb = irep(lk.Tamb, 1, lk.count);
+      lk.alpha = irep(lk.alpha, 1, lk.points);
+      lk.Tamb = irep(lk.Tamb, 1, lk.points);
     end
 
     function advance(lk)
@@ -89,7 +89,7 @@ classdef Exponent < handle
       % ... or without inner expansions.
       %
       % T = lk.trace.coeff(:, 1, lk.position);
-      % T = irep(T, 1, lk.count);
+      % T = irep(T, 1, lk.points);
       %
       P = lk.alpha .* T.^2 .* exp(- lk.beta .* ...
         (lk.map * (lk.Lnom + lk.Ldev .* rvs)) ./ T);

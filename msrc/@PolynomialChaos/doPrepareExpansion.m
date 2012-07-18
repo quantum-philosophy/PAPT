@@ -1,10 +1,9 @@
-function [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order)
+function [ x, psi ] = doPrepareExpansion(sdim, order)
   %
   % Description:
   %
   %   Calculate multivariate (Hermite) polynomials of `sdim' r.v.'s
-  %   of the maximal order `order'. In addition, compute the variances
-  %   of each of the polynomials.
+  %   of the maximal order `order'.
   %
   % Input:
   %
@@ -14,14 +13,10 @@ function [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order)
   % Output:
   %
   %   * x     - a vector of `sdim' symbolic variables,
-  %   * psi   - a vector of the Hermite polynomials,
-  %   * norm  - a vector of the normalization coefficients of the expansion,
-  %   * qd    - an instance of GaussianQuadrature.Chaos to integrate with.
+  %   * psi   - a vector of the Hermite polynomials.
   %
 
   terms = PolynomialChaos.countTerms(sdim, order);
-
-  warn(sdim, order, terms);
 
   for i = 1:sdim
     x(i) = ipoly([ 'x', num2str(i) ]);
@@ -29,18 +24,12 @@ function [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order)
 
   psi = PolynomialChaos.constructXD(x, terms);
 
-  qd = GaussianQuadrature.Chaos(x, psi, order);
-
-  norm = zeros(1, terms);
-  norm(1) = 1;
-  for i = 2:terms
-    norm(i) = qd.integrateChaosProduct(i, i);
-  end
+  warn(sdim, order, terms);
 end
 
 function warn(sdim, order, terms)
   debug('------------------------------\n');
-  debug('Constructing a new PC expansion:\n');
+  debug('A new PC expansion is constructed:\n');
   debug('  Stochastic dimension: %d\n', sdim);
   debug('  Polynomial order: %d\n', order);
   debug('  Number of terms: %d\n', terms);

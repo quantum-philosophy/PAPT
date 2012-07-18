@@ -92,19 +92,28 @@ classdef PolynomialChaos < handle
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
-      % NOTE: We do not cache `qd' explicitly.
-      %
 
       filename = [ 'PC_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
-        qd = GaussianQuadrature.Chaos(x, psi, order);
       else
-        [ x, psi, norm, qd ] = ...
-          PolynomialChaos.doPrepareExpansion(sdim, order);
-        save(filename, 'x', 'psi', 'norm');
+        [ x, psi ] = PolynomialChaos.doPrepareExpansion(sdim, order);
+        save(filename, 'x', 'psi');
+      end
+
+      %
+      % Chaos or peace?
+      %
+      qd = GaussianQuadrature.Peace(x, psi, order);
+
+      terms = length(psi);
+
+      norm = zeros(1, terms);
+      norm(1) = 1;
+      for i = 2:terms
+        norm(i) = qd.integrateChaosProduct(i, i);
       end
     end
   end
