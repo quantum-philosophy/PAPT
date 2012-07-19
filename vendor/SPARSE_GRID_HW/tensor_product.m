@@ -14,9 +14,12 @@ function [ nodes, weights ] = tensor_product ( n1D, w1D )
 %      ..........   ..........   .... ..........
 %      a(k,1) * B,  a(k,2) * B,  ..., a(k,l) * B
 %
+%    Thanks to Ivan Ukhov for pointing out a tiny but deadly typographical
+%    error, 17 July 2012.
+%
 %  Modified:
 %
-%    07 April 2012
+%    17 July 2012
 %
 %  Author:
 %
@@ -52,7 +55,7 @@ function [ nodes, weights ] = tensor_product ( n1D, w1D )
   for j = 2 : dimension
 
     newnodes = n1D{j};
-    newnodes - newnodes ( : );
+    newnodes = newnodes ( : );
 
     a = ones ( size ( newnodes, 1 ), 1 );
     b = ones ( size ( nodes, 1 ), 1 );
