@@ -5,9 +5,11 @@
 \usepackage{cases}
 \usepackage{multirow}
 \usepackage{url}
-\usepackage{multibib}
 % \usepackage[mathscr]{euscript}
 \usepackage{mathrsfs}
+
+\usepackage[sorting=none]{biblatex}
+\renewcommand*{\bibfont}{\footnotesize}
 
 \newcommand{\sta}{STA}
 
@@ -143,8 +145,9 @@
 \makeatother
 
 % ---- Integration
-\newcommand{\cbp}[1]{\hat{#1}}
-\newcommand{\oCub}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
+\newcommand{\qdn}[1]{\hat{#1}}
+\newcommand{\qdw}{w}
+\newcommand{\oQuad}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
 
 % Process variation
 \newcommand{\Leff}{L}
@@ -156,11 +159,14 @@
 \newcommand{\gZ}{{\Z^{(g)}}}
 
 % Indexes
-\newcommand{\nodes}{{n_n}}
-\newcommand{\cores}{{n_p}}
-\newcommand{\steps}{{n_s}}
-\newcommand{\vars}{{n_v}}
-\newcommand{\cblevel}{{n_l}}
-\newcommand{\cbpoints}{{n_c}}
-\newcommand{\pcorder}{{n_o}}
-\newcommand{\pcterms}{{n_t}}
+\newcommand{\nodes}{{N_n}}
+\newcommand{\cores}{{N_p}}
+\newcommand{\steps}{{N_s}}
+\newcommand{\vars}{{N_v}}
+
+\newcommand{\pcorder}{{N_{po}}}
+\newcommand{\pcterms}{{N_{pt}}}
+
+\newcommand{\qdlevel}{N_{ql}}
+\newcommand{\qdorder}{N_{qo}}
+\newcommand{\qdprecision}{N_{qp}}

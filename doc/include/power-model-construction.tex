@@ -1,0 +1,23 @@
+Since the influence of the process variation on the dynamic power is negligible \cite{juan2012, srivastava2010}, we let $\vP_\dyn(\t, \o) \equiv \vP_\dyn(\t)$. Therefore, in \eref{power-model}
+\[
+  f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
+\]
+Concerning the leakage part, we focus on the subthreshold leakage where the source of uncertainty is the effective channel length $\Leff$, as in \cite{juan2012}. The variations of $\Leff$ are split into global (inter-die) and local (intra-die) parts, cf. \cite{juan2012, srivastava2010, shen2009}. The global shift by definition is shared among all the processing elements, i.e., it is a single r.v., whereas there are $\cores$ distinct r.v.'s for the local deviations. Therefore, the channel length within the $i$th processing element is given as
+\[
+  \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
+\]
+where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. The uncertain components are assumed to be equally weighted \cite{juan2012}. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the exponential model of correlations, as in \cite{shen2009}, given by
+\begin{equation} \elabel{covariance}
+  \oCov{\lLeff_i(\o), \lLeff_j(\o)} \propto e^{-r^2/\eta^2}
+\end{equation}
+where $r$ is the distance between the centers of the $i$th and $j$th processing elements, and $\eta$ is the correlation length.
+
+In order to construct a model of the leakage current as a function of the channel length and temperature, we perform a large number of SPICE simulations of a simple electrical circuit with various combinations of the channel length and temperature. The Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}, is employed. The obtained surface is then approximated by means of the MATLAB Curve Fitting toolbox \cite{matlab} with a 2-variate polynomial of the $2$th order:
+\[
+  I_\leak(\Leff, \T) = a_{00} + a_{10} \Leff + a_{01} \T + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2
+\]
+where $I_\leak(\Leff, \T)$ is the leakage current and $a_{ij}$ are fitting coefficients. Next, $I_\leak(\Leff, \T)$ is scaled up to the power level of each of the processing element in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. Therefore, in \eref{power-model}
+\[
+  f_{\leak, i}(\T_i(\t, \o), \o) = \alpha_i I_\leak(\Leff_i(\o), \T_i(\t, \o))
+\]
+for $i \in \{ 1, \dotsc, \cores \}$ where $\alpha_i$ are scaling coefficients.

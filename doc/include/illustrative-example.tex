@@ -1,46 +1,10 @@
 In this section, we demonstate the proposed framework to perform the stochastic temperature analysis of multiprocessor systems under uncertain power disspation. To be exact, we address the process variation as it is one of the major concerns in the multiprocessor system design.
 
-\subsection{Power Model}
-Since the influence of the process variation on the dynamic power is negligible \cite{juan2012, srivastava2010}, we let $\vP_\dyn(\t, \o) \equiv \vP_\dyn(\t)$. Therefore, in \eref{power-model}
-\[
-  f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
-\]
-Concerning the leakage part, we focus on the subthreshold leakage where the source of uncertainty is the effective channel length $\Leff$, as in \cite{juan2012}. The variations of $\Leff$ are split into global (inter-die) and local (intra-die) parts, cf. \cite{juan2012, srivastava2010, shen2009}. The global shift by definition is shared among all the processing elements, i.e., it is a single r.v., whereas there are $\cores$ distinct r.v.'s for the local deviations. Therefore, the channel length within the $i$th processing element is given as
-\[
-  \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
-\]
-where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. The uncertain components are assumed to be equally weighted \cite{juan2012}. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the exponential model of correlations, as in \cite{shen2009}, given by
-\begin{equation} \elabel{covariance}
-  \oCov{\lLeff_i(\o), \lLeff_j(\o)} \propto e^{-r^2/\eta^2}
-\end{equation}
-where $r$ is the distance between the centers of the $i$th and $j$th processing elements, and $\eta$ is the correlation length.
+\subsection{Construction of Power Model}
+\input{include/power-model-construction.tex}
 
-In order to construct a model of the leakage current as a function of the channel length and temperature, we perform a large number of SPICE simulations of a simple electrical circuit with various combinations of the channel length and temperature. The Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}, is employed. The obtained surface is then approximated by means of the MATLAB Curve Fitting toolbox \cite{matlab} with a 2-variate polynomial of the $2$th order:
-\[
-  I_\leak(\Leff, \T) = a_{00} + a_{10} \Leff + a_{01} \T + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2
-\]
-where $I_\leak(\Leff, \T)$ is the leakage current and $a_{ij}$ are fitting coefficients. Next, $I_\leak(\Leff, \T)$ is scaled up to the power level of each of the processing element in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. Therefore, in \eref{power-model}
-\[
-  f_{\leak, i}(\T_i(\t, \o), \o) = \alpha_i I_\leak(\Leff_i(\o), \T_i(\t, \o))
-\]
-for $i \in \{ 1, \dotsc, \cores \}$ where $\alpha_i$ are scaling coefficients.
+\subsection{Preprocessing of Random Variables} \slabel{preprocessing-rvs}
+\input{include/preprocessing-rvs.tex}
 
-\subsection{Preprocessing of Random Variables} \slabel{pca}
-As mentioned in \sref{uncertain-parameters}, the uncertain parameters should be preprocessed to extract a set of mutually independent r.v.'s \cite{xiu2009}. To this end, denote $\vlLeff(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o)} \in \real^\cores$ and $\oCov{\vlLeff(\o)} = \mCov_\vlLeff$. (The covariance matrix $\mCov_\vlLeff$ in our example is generated according to \eref{covariance}.) It is generally accepted that the uncertainties of the channel length caused by the process variation are distributed normally \cite{srivastava2010, liu2007, juan2012}, therefore, $\gLeff(\o) \sim \normal{0}{\var_\gLeff}$ and $\vlLeff(\o) \sim \normal{\vZero}{\mCov_\vlLeff}$.
-
-Since any covariance matrix is necessarily a real, symmetric matrix, it admits the eigenvalue factorization \cite{press2007} in the form $\mCov_\vlLeff = \m{V}_{\mCov_\vlLeff} \m{\Lambda}_{\mCov_\vlLeff} \m{V}_{\mCov_\vlLeff}^T$ where $\m{V}_{\mCov_\vlLeff}$ and $\m{\Lambda}_{\mCov_\vlLeff}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_\vlLeff$, respectively. Consequently, $\vlLeff(\o)$ can be normalized as $\vlLeff(\o) = \m{V}_{\mCov_\vlLeff}^T \m{\Lambda}_{\mCov_\vlLeff}^\ifrac{1}{2} \vlZ(\o)$ where $\vlZ(\o) \sim \normal{\vZero}{\mI}$. The components of $\vlZ(\o)$ are uncorrelated and, since Gaussian, mutually independent. The global variation $\gLeff(\o)$, without loss of generality, is assumed to be uncorrelated with respect to each local r.v. $\lLeff_i(\o)$, hence, it is also independent from $\lLeff_i(\o)$. $\gLeff(\o)$ is normalized as $\gLeff(\o) = \std_\gLeff \gZ(\o)$ where $\gZ(\o) \sim \normal{0}{1}$. The later is appended to $\vlZ(\o)$ forming the desired vector of mutually independent and normalized r.v.'s $\vZ(\o) \in \real^{\cores + 1}$.
-
-The number of stochastic dimensions $\vars$, which so far is $(\cores + 1)$, essentially effects computational costs, therefore, we should consider the possibility of model reduction at this stage as well. The intuition is that, due to the existing correlations between r.v.'s, some of them can be harmlessly replaced by linear combinations of the rest. The diagonal matrix of eigenvalues $\m{\Lambda}_{\mCov_\vlLeff}$ reveals these redundancies by having a set of relatively small eigenvalues, which can be dropped reducing the number of stochastic dimensions of the problem.
-
-The whole described procedure is known as the Principal Component Analysis (PCA), and it is a discrete version of the Karhunen-Lo\`{e}ve expansion \cite{loeve1978}. The later can be successfully employed for our purposes for general Gaussian processes with known covariance functions.
-
-\subsection{Computation of the gPC Coefficients} \slabel{integration}
-The family of Gaussian quadrature rules is superior when it comes to the one-dimensional integration of smooth functions, viz. those that are well-approximated by a polynomial \cite{press2007}. In this case, the integral of interest is replaced by a weighted sum over $n$ points, which necessary gives the \emph{exact} solution when the integrand is a $(2n - 1)$-degree (or less) polynomial. The rules differ by the choice of abscissae and weights for the summation. For instance, the abscissae of the Gauss-Hermite quadrature rule are the roots of the Hermite polynomials, and the weight function is $e^{-x^2}$, which makes the rule suitable for the integration with respect to the Gaussian measure.
-
-In the multi-dimensional case, which we have in \eref{pc-coefficients}, one usually employs so-called cubature rules that are constructed from one-dimensional quadrature rules. The rules are characterized by the level of accuracy $\cblevel \in \natural{1}$. A $\cblevel$-level cubature rule for the $\vars$-dimensional integration is defined as
-\[
-  \oCub{\vars}{\cblevel}{f} \eqdef \sum_{i = 1}^{\cbpoints} f(\cbp{\vZ}_i) w_i
-\]
-where $\cbpoints$ is the number of summation points, $\cbp{\vZ}_i \in \real^\vars$ and $w_i \in \real$ are the prescribed abscissae and weights, respectively. The abscissae are $\vars$-dimensional vectors, which corresponds the number of uncertain parameters $\vZ(\o)$.
-
-In order to tackle dependent r.v.'s for a non-Gaussian distribution, the approach proposed in \cite{babuska2010} can be applied.
+\subsection{Computation of gPC Expansion} \slabel{pc-computation}
+\input{include/pc-computation.tex}
