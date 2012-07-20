@@ -1,3 +1,9 @@
-Here we take the example from \sref{illustrative-example} and vary the number of processing elements in the system and nominal dynamic power profiles. We demonstrate the scaling properties of the STA and compare them with the MCS.
+In this section, the numerical results for the example given in \sref{illustrative-example} are presented and discussed. In brief, we compare the accuracy and speed of the proposed framework with the Monte-Carlo sampling (MCS) technique.
 
-The framework was implemented in MATLAB R2012a. All the experiments were run on a Linux machine with Intel Core i7-2600 3.4GHz and 8Gb of RAM.
+The proposed framework is implemented in MATLAB R2012a \cite{matlab}. In order to construct equivaled thermal RC circuits (the capacitance and conductance matrices in \eref{fourier-original}) the thermal simulator HotSpot v5.02 \cite{hotspot} is employed. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The leakage current model is obtained using data from SPICE simulations of the Berkeley MOSFET transistor model BSIM4 \cite{bsim4} callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}. The obtained surface is then approximated by means of the curve fitting toolbox from MATLAB with a 2-variate polynomial of the second order:
+\[
+  I_\leak(\Leff, \T) = a_{00} + a_{10} \Leff + a_{01} \T + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2
+\]
+where $a_{ij}$ are fitting coefficients. $I_\leak(\Leff, \T)$ is then scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. All the experiments are conducted in a GNU/Linux system with Intel Core i7-2600 3.4GHz and 8Gb of RAM.
+
+In the first set of experiments, we vary the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$.

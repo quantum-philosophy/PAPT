@@ -3,8 +3,20 @@
 
 \bibliography{include/references.bib}
 
+\makeatletter
+\renewcommand{\@maketitle}{
+  \newpage
+  \null
+  \begin{center}%
+    {\Huge \@title \par}%
+    \vspace{1em}%
+  \end{center}%
+  \par%
+}
+\makeatother
+
 \begin{document}
-  \title{Stochastic Temperature Analysis of\\Multiprocessor Systems}
+  \title{Uncertainty Quantification of Temperature and Power for Multiprocessor System Design}
 
   \author{
     \IEEEauthorblockN{Ivan Ukhov}
@@ -38,8 +50,11 @@
   \section{Illustrative Example} \slabel{illustrative-example}
   \input{include/illustrative-example.tex}
 
-  \section{Experimental Results} \slabel{experimental-result}
+  \section{Experimental Results} \slabel{experimental-results}
   \input{include/experimental-results.tex}
+
+  \section{Conclusion}
+  \input{include/conclusion.tex}
 
   \printbibliography
 \end{document}
