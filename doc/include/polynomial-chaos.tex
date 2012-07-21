@@ -28,7 +28,7 @@ where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of the orthogonality propert
 \begin{equation} \elabel{pc-coefficients}
   \pcc{\vP}_i(0) = \frac{1}{\pcn_i} \oInner{\vP(0, \o)}{\pcb_i(\vZ(\o))}
 \end{equation}
-for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically, and the projection becomes so-called non-intrusive. An illustrative example of this procedure for the continous case is given in \sref{pc-computation} where the multidimensional integration is involved. On the other hand, the normalization constants $\pcn_i$ are fixed for a particular polynomial basis, thus, they are precomputed and tabulated.
+for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically; such projection is known as non-intrusive. An illustrative example of this procedure for the continous case is given in \sref{pc-computation} where the multidimensional integration is involved. On the other hand, the normalization constants $\pcn_i$ are fixed for a particular polynomial basis, thus, they are precomputed and tabulated.
 
 Using \eref{pc-expansion}, the recurrence given by \eref{recurrence} is rewritten as follows:
 \[
@@ -50,4 +50,4 @@ By the orthogonality property (\eref{orthogonality}) of the polynomials $\{ \pcb
 \end{equation}
 where $k \in \{ 1, \dots, \steps \}$ and $i \in \{ 1, \dotsc, \pcterms \}$. The recurrence in \eref{pc-recurrence} is used to compute the coefficients of the gPC expansion of temperature based on the coefficients of the gPC expansion of power since between the actual temperature $\vTO(\t, \o)$ and the state vector $\vX(\t, \o)$ there is only one step given by \eref{fourier-output}.
 
-One should not forget that $\vP(0, \o)$ stands for $\vP(0, \vTO(0, \o), \o)$. Therefore, at each step of the iterative process given by \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}(0)$ (according to \eref{inner-product-integral} or \eref{inner-product-sum}) is performed with respect to the (current) gPC expansion of $\vTO(0, \o)$.
+One should not forget that $\vP(0, \o)$ stands for $\vP(0, \vTO(0, \vZ(\o)), \vZ(\o))$. Therefore, at each step of the iterative process given by \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}(0)$ (according to \eref{inner-product-integral} or \eref{inner-product-sum}) is performed with respect to the (current) gPC expansion of $\vTO(0, \o)$.

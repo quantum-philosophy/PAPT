@@ -1,9 +1,34 @@
-In this section, the numerical results for the example given in \sref{illustrative-example} are presented and discussed. In brief, we compare the accuracy and speed of the proposed framework with the Monte-Carlo sampling (MCS) technique.
+In this section, numerical results of the proposed framework for the example given in \sref{illustrative-example} are presented and discussed. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in Mac OS 10.7.5 running on a MacBook Pro 6.2 with Intel Core i7 2.66GHz and 8Gb of RAM.
 
-The proposed framework is implemented in MATLAB R2012a \cite{matlab}. In order to construct equivaled thermal RC circuits (the capacitance and conductance matrices in \eref{fourier-original}) the thermal simulator HotSpot v5.02 \cite{hotspot} is employed. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The leakage current model is obtained using data from SPICE simulations of the Berkeley MOSFET transistor model BSIM4 \cite{bsim4} callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}. The obtained surface is then approximated by means of the curve fitting toolbox from MATLAB with a 2-variate polynomial of the second order:
-\[
-  I_\leak(\Leff, \T) = a_{00} + a_{10} \Leff + a_{01} \T + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2
-\]
-where $a_{ij}$ are fitting coefficients. $I_\leak(\Leff, \T)$ is then scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. All the experiments are conducted in a GNU/Linux system with Intel Core i7-2600 3.4GHz and 8Gb of RAM.
+In order to construct equivalent thermal RC circuits (the capacitance and conductance matrices in \eref{fourier-original}) the thermal simulator HotSpot v5.02 \cite{hotspot} with default settings is employed. The sampling interval of power and temperature profiles is set to one millisecond, i.e., $\dt_i = 10^{-3}$s, $\forall i$. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The leakage current model (see \sref{power-model-construction}) is obtained via SPICE simulations of a reference electrical circuit base on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}. The output data from the simulations are fed to the curve fitting toolbox from MATLAB, and the following exponential model is acquired:
+\begin{align} \elabel{leakage-current}
+  I_\leak(\Leff, \T) = \text{exp} \big\{ a_{00} & + a_{10} \Leff + a_{01} \T \\
+  & {} + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2 \big\} \nonumber
+\end{align}
+where $a_{ij}$ are fitting coefficients. $I_\leak(\Leff, \T)$ is then scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}.
 
-In the first set of experiments, we vary the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$.
+In the following experiments, we compare our method with a Monte Carlo sampling (MCS) technique. The MCS employed here consists in solving \eref{fourier-original} numerically using the fourth-order Runge-Kutta method \cite{press2007}. The number of such solutions or samples should be safficiently large in order to retrieve more or less representative statistics \cite{xiu2009}; in our experiments, the number of MC samples is kept at $10^4$. The leakage model given by \eref{leakage-current} is used for the MCS as well.
+
+\begin{table}
+  \centering
+  \begin{tabular}{|r|r|r|r|}
+    \hline
+    $\steps$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
+    \hline
+%     Seconds    Minutes    Hours
+%     3438.41      57.31     0.96
+%    14579.08     242.98     4.05
+%   143818.35    2396.97    39.95
+%  1446582.15   24109.70   401.83
+% 14735974.28  245599.57  4093.33
+        10 &    0.96 &   0.12 & $2.89 \times 10^4$ \\
+       100 &    4.05 &   0.65 & $2.23 \times 10^4$ \\
+      1000 &   39.95 &   6.46 & $2.23 \times 10^4$ \\
+     10000 &  401.83 &  68.26 & $2.12 \times 10^4$ \\
+    100000 & 4093.33 & 651.24 & $2.26 \times 10^4$ \\
+    \hline
+  \end{tabular}
+  \caption{Scaling with the number of steps $\steps$.}
+  \tlabel{scaling-steps}
+\end{table}
+First, we investigate the scaling properties of the proposed framework with respect to the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$, which is directly proportional to simulated time. The results for a dual-core platform are given in \tref{scaling-steps}. Due to the long computation time demonstrated by the MCS, its data for high values of $\steps$ have been interpolated based on a few samples. It can be seen that both methods scale linearly, which is expected. However, the proposed method shows a superior performance being more than twice faster than \emph{only one sample} of the MCS.

@@ -12,8 +12,8 @@ where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. t
 \end{equation}
 where $r$ is the distance between the centers of the $i$th and $j$th processing elements, and $\eta$ is the correlation length.
 
-In order to construct a model of the leakage current as a function of the channel length and temperature, we perform a large number of SPICE simulations of a simple electrical circuit with various combinations of the channel length and temperature. Then, a surface fitting procedure is carried out in order to obtain an analytical expression for the nominal leakage current $I_\leak(\Leff, \T)$, which is further scaled up to the power level of each of the processing element\footnote{Details of the implementation are given in \sref{experimental-results}.}. Therefore, in \eref{power-model} we have
+Having intrisic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. Then, surface fitting procedures are carried out in order to obtain analytical expressions for the nominal leakage currents $\{ I_{\leak, i}(\Leff, \T) \}_{i = 1}^\cores$, which are further scaled up to the power level\footnote{Details of the implementation are given in \sref{experimental-results}.}. Therefore, in \eref{power-model}
 \[
-  f_{\leak, i}(\T_i(\t, \o), \o) = \alpha_i I_\leak(\Leff_i(\o), \T_i(\t, \o))
+  f_{\leak, i}(\T_i(\t, \o), \o) = \alpha_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
 \]
 for $i \in \{ 1, \dotsc, \cores \}$ where $\alpha_i$ are scaling coefficients.
