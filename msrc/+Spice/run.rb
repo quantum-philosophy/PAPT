@@ -86,7 +86,7 @@ L.each do |l|
     pipe.close
 
     lines.each do |line|
-      next unless line.match /vdd#branch\s*=\s*(.*)/
+      next unless line.match /^isub\s*=\s*(.*)/
       output.puts "%.4e\t%.2f\t%.6e" % [ l, t, $1.to_f.abs ]
     end
 

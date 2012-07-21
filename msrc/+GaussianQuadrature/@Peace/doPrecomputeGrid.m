@@ -13,6 +13,15 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
 
   pointsTP = level^sdim;
 
+  debug({ 'Precomputation of a new grid.' }, ...
+        { '  Type: peace' }, ...
+        { '  Stochastic dimensions: %d', sdim }, ...
+        { '  Polynomial order: %d', order }, ...
+        { '  Accuracy level: %d', level }, ...
+        { '  Number of terms: %d', terms }, ...
+        { '  Sparse grid points: %d', pointsSG }, ...
+        { '  Tensor product points: %d', pointsTP });
+
   if pointsTP <= pointsSG
     [ nodes, weights ] = GaussianQuadrature.Peace.constructTensorProduct(sdim, level);
   end
@@ -27,17 +36,4 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
     plainGrid(i, :) = f(nodes);
     niceGrid(i, :) = plainGrid(i, :) .* weights;
   end
-
-  warn(sdim, order, level, pointsSG, pointsTP);
-end
-
-function warn(sdim, order, level, pointsSG, pointsTP)
-  debug('------------------------------\n');
-  debug('A new PEACE grid is precomputed:\n');
-  debug('  Stochastic dimension: %d\n', sdim);
-  debug('  Polynomial order: %d\n', order);
-  debug('  Grid level: %d\n', level);
-  debug('  Sparse grid points: %d\n', pointsSG);
-  debug('  Tensor product points: %d\n', pointsTP);
-  debug('------------------------------\n');
 end

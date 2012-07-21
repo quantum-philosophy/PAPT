@@ -18,20 +18,14 @@ function [ x, psi ] = doPrepareExpansion(sdim, order)
 
   terms = PolynomialChaos.countTerms(sdim, order);
 
+  debug({ 'Construction of a new PC expansion.' }, ...
+        { '  Stochastic dimensions: %d', sdim }, ...
+        { '  Polynomial order: %d', order }, ...
+        { '  Number of terms: %d', terms });
+
   for i = 1:sdim
     x(i) = ipoly([ 'x', num2str(i) ]);
   end
 
   psi = PolynomialChaos.constructXD(x, terms);
-
-  warn(sdim, order, terms);
-end
-
-function warn(sdim, order, terms)
-  debug('------------------------------\n');
-  debug('A new PC expansion is constructed:\n');
-  debug('  Stochastic dimension: %d\n', sdim);
-  debug('  Polynomial order: %d\n', order);
-  debug('  Number of terms: %d\n', terms);
-  debug('------------------------------\n');
 end

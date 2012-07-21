@@ -1,16 +1,27 @@
-function f = fit(name, order, draw)
-  if nargin < 2 || numel(order) == 0, order = [ 3 3 ]; end
+function f = fitExponentPolynomial(name, order, draw)
+  if nargin < 2 || numel(order) == 0, order = [ 2 2 ]; end
   if nargin < 3, draw = false; end
 
-  filename = [ 'LT_', name, ...
+  filename = [ 'SPICE_exponent_polynomial_', name, ...
     '_l', num2str(order(1)), '_t', num2str(order(2)), '.mat' ];
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
     load(filename);
   else
-    [ fitresult, gof, Ldata, Tdata, Idata, LTmean, LTstd ] = ...
-      Spice.doFit(Utils.resolvePath([ name, '.leak' ]), order);
+    debug({ 'Construction of a new SPICE fit.' }, ...
+          { '  Circuit name: %s', name }, ...
+          { '  Type: exponent of a polynomial' }, ...
+          { '  Order of L: %d', order(1) }, ...
+          { '  Order of T: %d', order(2) });
+
+    D = dlmread(Utils.resolvePath([ name, '.leak' ]), '\t', 1, 0);
+    Ldata = D(:, 1);
+    Tdata = Utils.toKelvin(D(:, 2));
+    Idata = D(:, 3);
+
+    [ fitresult, gof, LTmean, LTstd ] = ...
+      Spice.doPolynomialFit(Ldata, Tdata, log(Idata), order);
 
     cvals = coeffvalues(fitresult);
     cnames = coeffnames(fitresult);
@@ -21,7 +32,7 @@ function f = fit(name, order, draw)
     Lnorm = (Lsym - LTmean(1)) / LTstd(1);
     Tnorm = (Tsym - LTmean(2)) / LTstd(2);
 
-    I = ipoly(0);
+    logI = ipoly(0);
 
     for i = 1:numel(cnames)
       attrs = regexp(cnames{i}, '^p(\d)(\d)$', 'tokens');
@@ -29,10 +40,11 @@ function f = fit(name, order, draw)
       Lorder = str2num(attrs{1}{1});
       Torder = str2num(attrs{1}{2});
 
-      I = I + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
+      logI = logI + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
     end
 
-    f = Utils.toFunction(I, Lsym, Tsym);
+    [ arguments, body ] = Utils.toFunctionString(logI, Lsym, Tsym);
+    f =  str2func([ '@(', arguments, ')exp(', body, ')' ]);
 
     save(filename, 'f', 'Ldata', 'Tdata', 'Idata');
   end
@@ -63,4 +75,5 @@ function f = fit(name, order, draw)
   zlabel('I');
 
   grid on;
+  view(10, 10);
 end

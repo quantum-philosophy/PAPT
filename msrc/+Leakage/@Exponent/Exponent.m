@@ -1,4 +1,4 @@
-classdef Exponent < handle
+classdef Exponent < Leakage.Base
   properties (Constant)
     %
     % The coefficients are found in

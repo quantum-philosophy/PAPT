@@ -33,7 +33,8 @@ vnb ns nb 0
 
 .control
   op
-  print vdd#branch
+  let isub = @m.x1.mn[id]
+  print isub
 .endc
 
 .options acct bypass=1 method=gear

@@ -19,6 +19,15 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
 
   pointsTP = level^sdim;
 
+  debug({ 'Precomputation of a new grid.' }, ...
+        { '  Type: chaos' }, ...
+        { '  Stochastic dimensions: %d', sdim }, ...
+        { '  Polynomial order: %d', order }, ...
+        { '  Accuracy level: %d', level }, ...
+        { '  Number of terms: %d', terms }, ...
+        { '  Sparse grid points: %d', pointsSG }, ...
+        { '  Tensor product points: %d', pointsTP });
+
   if pointsTP <= pointsSG
     [ nodes, weights ] = GaussianQuadrature.Chaos.constructTensorProduct(sdim, level);
   end
@@ -43,17 +52,4 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
     %
     niceGrid(i, :) = plainGrid(i, :) .* weights ./ pi^(sdim / 2);
   end
-
-  warn(sdim, order, level, pointsSG, pointsTP);
-end
-
-function warn(sdim, order, level, pointsSG, pointsTP)
-  debug('------------------------------\n');
-  debug('A new CHAOS grid is precomputed:\n');
-  debug('  Stochastic dimension: %d\n', sdim);
-  debug('  Polynomial order: %d\n', order);
-  debug('  Grid level: %d\n', level);
-  debug('  Sparse grid points: %d\n', pointsSG);
-  debug('  Tensor product points: %d\n', pointsTP);
-  debug('------------------------------\n');
 end
