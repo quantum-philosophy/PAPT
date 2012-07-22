@@ -25,7 +25,7 @@ classdef Base < handle
     %
     % The mapping matrix from r.v.'s to cores.
     %
-    map
+    pca
 
     %
     % One of the leakage parameters.
@@ -34,13 +34,13 @@ classdef Base < handle
   end
 
   methods
-    function lk = Base(Tamb, cores, map)
-      [ ddim, sdim ] = size(map);
+    function lk = Base(Tamb, cores, pca)
+      [ ddim, sdim ] = size(pca);
 
       assert(ddim == cores, 'The dimensions do not match.');
 
       lk.Tamb = ones(cores, 1) * Tamb;
-      lk.map = map;
+      lk.pca = pca;
     end
   end
 end

@@ -40,9 +40,10 @@ classdef Base < handle
     G
 
     %
-    % The mapping matrix from the r.v.'s to the cores.
+    % The result of the PCA of the floorplan, which takes into consideration
+    % the global variations as well.
     %
-    map
+    pca
   end
 
   methods
@@ -55,8 +56,8 @@ classdef Base < handle
       %
       % Perform the PCA to extract independent r.v.'s.
       %
-      [ hs.sdim, hs.map ] = PrincipalComponent.perform(hs.cores);
-      assert(size(hs.map, 1) == hs.cores, 'The dimensions do not match.');
+      [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan);
+      assert(size(hs.pca, 1) == hs.cores, 'The dimensions do not match.');
     end
   end
 

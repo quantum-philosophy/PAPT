@@ -18,7 +18,10 @@ Once an appropriate basis has been chosen, the next step is to actually perform 
 \begin{equation} \elabel{pc-expansion}
   \oPC{\vars}{\pcorder}{\vP(0, \o)} \eqdef \sum_{i = 1}^{\pcterms} \pcc{\vP}_i(0) \; \pcb_i(\vZ(\o))
 \end{equation}
-where $\pcc{\vP}_i(0) \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ are the first $\pcterms$ polynomials of the chosen basis. $\pcorder \in \natural{0}$ is the order of the expansion, which determines the maximal (total) degree of the $\vars$-variate polynomials involved in the expansion. Consequently, $\pcorder$ also defines the level of accuracy of the resulting model. The number of terms in the expansion, $\pcterms$, can be computed as $\pcterms = {\pcorder + \vars \choose \pcorder}$ when the total-order principle is used \cite{eldred2009}.
+where $\pcc{\vP}_i(0) \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ are the first $\pcterms$ polynomials of the chosen basis. $\pcorder \in \natural{0}$ is the order of the expansion, which determines the maximal (total) degree of the $\vars$-variate polynomials involved in the expansion. Consequently, $\pcorder$ also defines the level of accuracy of the resulting model. When the total-order principle is used \cite{eldred2009}, the number of terms in the expansion, $\pcterms$, can be computed as
+\begin{equation} \elabel{pc-terms}
+  \pcterms = {\pcorder + \vars \choose \pcorder}
+\end{equation}
 
 Finally, we need to determine the coefficients of the expansion $\pcc{\vP}_i(0)$, $i \in \{ 1, \dotsc, \pcterms \}$. To this end, the stochastic process in \eref{power-model} is projected onto the space spanned by the finite set of orthogonal polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$. The procedure is known as the spectral Galerkin projection where one needs to compute the inner product of the governing equation \eref{power-model} with each polynomial from the basis as
 \[
@@ -28,7 +31,7 @@ where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of the orthogonality propert
 \begin{equation} \elabel{pc-coefficients}
   \pcc{\vP}_i(0) = \frac{1}{\pcn_i} \oInner{\vP(0, \o)}{\pcb_i(\vZ(\o))}
 \end{equation}
-for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically; such projection is known as non-intrusive. An illustrative example of this procedure for the continous case is given in \sref{pc-computation} where the multidimensional integration is involved. On the other hand, the normalization constants $\pcn_i$ are fixed for a particular polynomial basis, thus, they are precomputed and tabulated.
+for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically; this type of projection is known as non-intrusive \footnote{An illustrative example of this procedure for the continous case is given in \sref{pc-computation} where the multidimensional integration is involved.}. On the other hand, the normalization constants $\pcn_i$ are fixed for a particular polynomial basis; thus, they are precomputed and tabulated. \eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions --- the so-called ``\emph{curse of dimensionality}'', which constitutes in a large number of terms in expansions as well as in the growing complexity of the corresponding coefficients when the number of stochastic dimensions is high. This issue is to be addressed in \sref{preprocessing-rvs} and \sref{pc-computation}.
 
 Using \eref{pc-expansion}, the recurrence given by \eref{recurrence} is rewritten as follows:
 \[

@@ -35,6 +35,10 @@ function psiXD = constructXD(x, termsXD)
 
     done = zeros(1, termsXD);
 
+    found = 0;
+    h = waitbar(found / termsXD, ...
+      sprintf('Polynomial Chaos, terms %d/%d.', found, termsXD));
+
     while (any(limit - index))
       newindex = ndind(index) + 1;
 
@@ -45,10 +49,17 @@ function psiXD = constructXD(x, termsXD)
         end
 
         done(newindex) = 1;
+
+        found = found + 1;
+        waitbar(found / termsXD, h, ...
+          sprintf('Polynomial Chaos, terms %d/%d.', found, termsXD));
+
         if all(done), break; end
       end
 
       index = genincr(index, limit);
     end
+
+    close(h);
   end
 end

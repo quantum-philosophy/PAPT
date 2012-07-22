@@ -39,7 +39,7 @@ classdef Kutta < HotSpot.Base
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.map);
+      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
 
       [ ~, TT ] = ode45(...
         @(t, T) Ct + At * T + ...

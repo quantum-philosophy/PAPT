@@ -55,7 +55,7 @@ classdef Peace < handle
 
       sdim = length(x);
 
-      filename = [ 'PQ_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = [ 'PQUADRATURE_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')

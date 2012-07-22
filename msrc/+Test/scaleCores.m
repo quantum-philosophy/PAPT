@@ -1,33 +1,31 @@
 init;
 
-[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(4);
-
 monteCarloSamples = 1e4;
-
-%% Initialize the solver.
-%
-ch = HotSpot.Chaos(floorplan, config, configLine);
-kt = HotSpot.Kutta(floorplan, config, configLine);
+steps = 1000;
 
 %% Define the needed measurements.
 %
-X = [ 10, 100, 1000, 10000, 100000 ];
+X = [ 2, 4, 8, 16, 32 ];
 
-%% Read the specified template.
-%
-P = dlmread(powerTrace, '', 1, 0)';
-
-fprintf('%15s%15s%15s%15s\n', 'Steps', 'Chaos, s', 'Kutta, h', 'Speedup, x');
+fprintf('%15s%15s%15s%15s\n', 'Cores', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  steps = X(i);
+  cores = X(i);
 
-  fprintf('%15d', steps);
+  fprintf('%15d', cores);
 
-  %% Construct a power profile of specific size.
+  [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(cores);
+
+  %% Initialize the solver.
   %
+  ch = HotSpot.Chaos(floorplan, config, configLine);
+  kt = HotSpot.Kutta(floorplan, config, configLine);
+
+  %% Read the specified template and fit it to the desired length.
+  %
+  P = dlmread(powerTrace, '', 1, 0)';
   PP = Utils.replicate(P, steps);
 
   %% Perform the analysis.
@@ -51,7 +49,7 @@ end
 figure;
 line(X, Y(:, 1), 'Color', Utils.pickColor(1), 'Marker', 'o')
 line(X, Y(:, 2), 'Color', Utils.pickColor(2), 'Marker', 'x')
-title('Scaling with Number of Steps');
+title('Scaling with Number of Cores');
 xlabel('Steps');
 ylabel('Time, s');
 

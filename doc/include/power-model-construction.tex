@@ -6,13 +6,18 @@ Concerning the leakage part, we focus on the subthreshold leakage where the sour
 \[
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
 \]
-where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. Consequently, the uncertain parameters of the current model are $\vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o), \gLeff(\o) }$. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the exponential model of correlations, as in \cite{shen2009}, given by
+where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. Consequently, the uncertain parameters of the current model are $\vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o), \gLeff(\o) }$. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the following radial model of correlations \cite{ghanem1991} given by
 \begin{equation} \elabel{covariance}
-  \oCov{\lLeff_i(\o), \lLeff_j(\o)} \propto e^{-r^2/\eta^2}
+  \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\eta}
 \end{equation}
-where $r$ is the distance between the centers of the $i$th and $j$th processing elements, and $\eta$ is the correlation length.
+where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\eta$ is the correlation length.
 
-Having intrisic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. Then, surface fitting procedures are carried out in order to obtain analytical expressions for the nominal leakage currents $\{ I_{\leak, i}(\Leff, \T) \}_{i = 1}^\cores$, which are further scaled up to the power level\footnote{Details of the implementation are given in \sref{experimental-results}.}. Therefore, in \eref{power-model}
+Having intrisic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. In our example, we employ a circuit base on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is callibrated according to the Predictive Technology Model (PTM HP) \cite{ptm}. Then, a surface fitting procedure is carried out on the output data from the simulations, and the following exponential model is acquired:
+\begin{align} \elabel{leakage-current}
+  I_\leak(\Leff, \T) = \text{exp} \big\{ a_{00} & + a_{10} \Leff + a_{01} \T \\
+  & {} + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2 \big\} \nonumber
+\end{align}
+where $a_{ij}$ are fitting coefficients. The reference leakage current $I_\leak(\Leff, \T)$ is further scaled up to the power level of each of the processing elements. Finally, in \eref{power-model} we have
 \[
   f_{\leak, i}(\T_i(\t, \o), \o) = \alpha_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
 \]

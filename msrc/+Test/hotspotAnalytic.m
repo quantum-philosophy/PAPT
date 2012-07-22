@@ -1,10 +1,6 @@
 init;
 
-floorplan = Utils.resolvePath('dummy2.flp');
-config = Utils.resolvePath('hotspot.config');
-powerTrace = Utils.resolvePath('dummy2.ptrace');
-
-configLine = 'sampling_intvl 1e-3';
+[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
 
 hs = HotSpot.Analytic(floorplan, config, configLine);
 

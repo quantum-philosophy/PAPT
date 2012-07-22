@@ -86,7 +86,7 @@ classdef Analytic < HotSpot.Base
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.map);
+      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
 
       T = zeros(cores, steps);
 

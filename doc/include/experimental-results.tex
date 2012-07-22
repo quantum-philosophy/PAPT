@@ -1,34 +1,47 @@
-In this section, numerical results of the proposed framework for the example given in \sref{illustrative-example} are presented and discussed. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in Mac OS 10.7.5 running on a MacBook Pro 6.2 with Intel Core i7 2.66GHz and 8Gb of RAM.
+In this section, numerical results of the proposed framework for the illustrative example given in \sref{illustrative-example} are presented. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in Mac OS 10.7.5 running on a MacBook Pro 6.2 with Intel Core i7 2.66GHz and 8Gb of RAM.
 
-In order to construct equivalent thermal RC circuits (the capacitance and conductance matrices in \eref{fourier-original}) the thermal simulator HotSpot v5.02 \cite{hotspot} with default settings is employed. The sampling interval of power and temperature profiles is set to one millisecond, i.e., $\dt_i = 10^{-3}$s, $\forall i$. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The leakage current model (see \sref{power-model-construction}) is obtained via SPICE simulations of a reference electrical circuit base on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is callibrated according to the 45nm high-performance Predictive Technology Model (PTM HP) \cite{ptm}. The output data from the simulations are fed to the curve fitting toolbox from MATLAB, and the following exponential model is acquired:
-\begin{align} \elabel{leakage-current}
-  I_\leak(\Leff, \T) = \text{exp} \big\{ a_{00} & + a_{10} \Leff + a_{01} \T \\
-  & {} + a_{20} \Leff^2 + a_{11} \Leff \T + a_{02} \T^2 \big\} \nonumber
-\end{align}
-where $a_{ij}$ are fitting coefficients. $I_\leak(\Leff, \T)$ is then scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}.
+The proposed framework is set up to construct second-order gPC expansions using the Smolyak algorithm for multidimensional integration. In the model reduction technique, described in \sref{preprocessing-rvs}, the threshold parameter $\Lth$ is set to $0.99$ forcing the preserved eigenvalues to capture $99\%$ of the variance of the data. In the experiments, our method is compared with a Monte Carlo sampling (MCS) technique. The MCS consists in solving \eref{fourier-original} numerically using the fourth-order Runge-Kutta method \cite{press2007}. The leakage model for the MCS is the same as for the proposed framework. To retrieve representative statistics, the number of samples of the MCS is set to $10^4$ \cite{xiu2009}.
 
-In the following experiments, we compare our method with a Monte Carlo sampling (MCS) technique. The MCS employed here consists in solving \eref{fourier-original} numerically using the fourth-order Runge-Kutta method \cite{press2007}. The number of such solutions or samples should be safficiently large in order to retrieve more or less representative statistics \cite{xiu2009}; in our experiments, the number of MC samples is kept at $10^4$. The leakage model given by \eref{leakage-current} is used for the MCS as well.
+In order to construct equivalent thermal RC circuits (the matrices $\mC$ and $\mG$ in \eref{fourier-original}), the thermal simulator HotSpot v5.02 \cite{hotspot} with default settings is employed; in this case, the relation between the number of processing elements and the number of thermal nodes is $\nodes = 4 \cores + 12$. The sampling interval of power and temperature profiles is set to one millisecond, i.e., $\dt_i = 10^{-3}$s, $\forall i$. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The reference leakage current $I_\leak(\Leff, \T)$ (see \eref{leakage-current}) is scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. All the power profiles used here are obtained by simulation of synthetic applications on hypothetical platforms.
 
 \begin{table}
   \centering
+  \caption{Scaling with the number of steps $\steps$.}
+  \vspace{-10pt}
   \begin{tabular}{|r|r|r|r|}
     \hline
     $\steps$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
     \hline
-%     Seconds    Minutes    Hours
-%     3438.41      57.31     0.96
-%    14579.08     242.98     4.05
-%   143818.35    2396.97    39.95
-%  1446582.15   24109.70   401.83
-% 14735974.28  245599.57  4093.33
-        10 &    0.96 &   0.12 & $2.89 \times 10^4$ \\
-       100 &    4.05 &   0.65 & $2.23 \times 10^4$ \\
-      1000 &   39.95 &   6.46 & $2.23 \times 10^4$ \\
-     10000 &  401.83 &  68.26 & $2.12 \times 10^4$ \\
-    100000 & 4093.33 & 651.24 & $2.26 \times 10^4$ \\
+    $     10$ & $   0.94$ & $  0.08$ & $4.05 \times 10^4$ \\
+    $    100$ & $   3.87$ & $  0.29$ & $4.85 \times 10^4$ \\
+    $   1000$ & $  38.04$ & $  2.75$ & $4.97 \times 10^4$ \\
+    $  10000$ & $ 379.83$ & $ 27.55$ & $4.96 \times 10^4$ \\
+    $ 100000$ & $3872.67$ & $276.24$ & $5.05 \times 10^4$ \\
     \hline
   \end{tabular}
-  \caption{Scaling with the number of steps $\steps$.}
   \tlabel{scaling-steps}
+  \vspace{-10pt}
 \end{table}
-First, we investigate the scaling properties of the proposed framework with respect to the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$, which is directly proportional to simulated time. The results for a dual-core platform are given in \tref{scaling-steps}. Due to the long computation time demonstrated by the MCS, its data for high values of $\steps$ have been interpolated based on a few samples. It can be seen that both methods scale linearly, which is expected. However, the proposed method shows a superior performance being more than twice faster than \emph{only one sample} of the MCS.
+First, we investigate the scaling properties of the proposed framework with respect to the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$, which is directly proportional to simulated time. The results for a quad-core architecture are given in \tref{scaling-steps}. Due to the long computation time demonstrated by the MCS, its data for high values of $\steps$ are interpolated based on a few samples. It can be seen that both methods scale linearly, which is expected. However, the proposed method shows a superior performance being more than four times faster than \emph{only one sample} of the MCS.
+
+\begin{table}
+  \centering
+  \caption{Scaling with the number of processing elements $\cores$.}
+  \vspace{-10pt}
+  \begin{tabular}{|r|r|r|r|}
+    \hline
+    $\cores$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
+    \hline
+    $ 2$ & $40.89$ & $  2.62$ & $5.61 \times 10^4$ \\
+    $ 4$ & $40.61$ & $  2.93$ & $4.99 \times 10^4$ \\
+    $ 8$ & $38.53$ & $ 34.64$ & $4.00 \times 10^3$ \\
+    $16$ & $43.98$ & $ 67.31$ & $2.35 \times 10^3$ \\
+    $32$ & $46.45$ & $623.84$ & $2.68 \times 10^2$ \\
+    \hline
+  \end{tabular}
+  \tlabel{scaling-cores}
+  \vspace{-10pt}
+\end{table}
+The next parameter to exercise is the number of processing elements $\cores$ and, consequently, the number of stochastic dimensions $\vars$. In these experiments, the number of steps $\steps$ is constant and equal to $10^3$. The results are given in \tref{scaling-cores}. It is well-known that the workload per one sample of MCS techniques is almost insensible to the number of stochastic dimensions, which can be clearly seen in the table. At the same time, we observe a polynomial growth [?] of the gPC expansion, which is also predictable. However, even in high dimensions, the proposed framework significantly outperforms the MCS. For instance, to quantify a power profile with $10^3$ steps of a multiprocessor system with 32 cores, the MCS requires more than 46 hours whereas the proposed framework takes only 10 minutes. It should be noted separately that the number of samples of the MCS is constant in this setup; however, in order to maintain the same accuracy, the number of samples should be increased whenever $\vars$ is increased [?].
+
+Finaly, we compare the accuracy of the proposed framework and the MCS.

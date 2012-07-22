@@ -29,10 +29,10 @@ classdef Polynomial < Leakage.Base
   end
 
   methods
-    function lk = Polynomial(Tamb, Pdyn, map, trace, pc)
+    function lk = Polynomial(Tamb, Pdyn, pca, trace, pc)
       [ cores, steps ] = size(Pdyn);
 
-      lk = lk@Leakage.Base(Tamb, cores, map);
+      lk = lk@Leakage.Base(Tamb, cores, pca);
 
       if nargin < 4
         %
@@ -68,7 +68,7 @@ classdef Polynomial < Leakage.Base
     end
 
     function P = performAtAmbient(lk, rvs)
-      P = lk.alpha .* lk.compute(lk.map * (lk.Lnom + lk.Ldev .* rvs), lk.Tamb);
+      P = lk.alpha .* lk.compute(lk.Lnom + lk.pca * rvs, lk.Tamb);
     end
 
     function P = performAtCurrent(lk, rvs)
@@ -82,11 +82,11 @@ classdef Polynomial < Leakage.Base
       % T = lk.trace.coeff(:, 1, lk.position);
       % T = irep(T, 1, lk.points);
       %
-      P = lk.alpha .* lk.compute(lk.map * (lk.Lnom + lk.Ldev .* rvs), T);
+      P = lk.alpha .* lk.compute(lk.Lnom + lk.pca * rvs, T);
     end
 
     function P = performAtGiven(lk, T, rvs)
-      P = lk.alpha .* lk.compute(lk.map * (lk.Lnom + lk.Ldev .* rvs), T);
+      P = lk.alpha .* lk.compute(lk.Lnom + lk.pca * rvs, T);
     end
   end
 end

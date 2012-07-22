@@ -45,7 +45,7 @@ classdef Chaos < HotSpot.Analytic
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.map, trace, pc);
+      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca, trace, pc);
 
       %
       % Perform the PC expansion and obtain the coefficients of

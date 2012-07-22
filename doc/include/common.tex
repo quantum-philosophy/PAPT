@@ -8,7 +8,7 @@
 % \usepackage[mathscr]{euscript}
 \usepackage{mathrsfs}
 
-\usepackage[sorting=none]{biblatex}
+\usepackage[maxnames=4, sorting=none]{biblatex}
 \renewcommand*{\bibfont}{\footnotesize}
 
 \newcommand{\sta}{STA}
@@ -72,11 +72,12 @@
 \newcommand{\std}{\sigma}
 
 \newcommand{\vExp}{{\boldsymbol\mu}}
-\newcommand{\mCov}{\m{C}}
+\newcommand{\mCov}{\m{\Sigma}}
 
 \newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
 \newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
 \newcommand{\oCov}[1]{\mathbb{C}\text{ov}\left[#1\right]}
+\newcommand{\oCorr}[1]{\mathbb{C}\text{orr}\left[#1\right]}
 
 \newcommand{\pdf}{\rho}
 
@@ -164,6 +165,7 @@
 \newcommand{\vlLeff}{{\vU^{(l)}}}
 \newcommand{\vlZ}{{\vZ^{(l)}}}
 \newcommand{\gZ}{{\Z^{(g)}}}
+\newcommand{\Lth}{\lambda_\text{th}}
 
 % Indexes
 \newcommand{\nodes}{{N_n}}
