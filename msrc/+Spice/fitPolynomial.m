@@ -15,7 +15,7 @@ function f = fitPolynomial(name, order, draw)
           { '  Order of L: %d', order(1) }, ...
           { '  Order of T: %d', order(2) });
 
-    D = dlmread(Utils.resolvePath([ name, '.leak' ]), '\t', 1, 0);
+    D = dlmread(Utils.resolvePath([ name, '.leak' ], 'test'), '\t', 1, 0);
     Ldata = D(:, 1);
     Tdata = Utils.toKelvin(D(:, 2));
     Idata = D(:, 3);
