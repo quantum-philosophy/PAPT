@@ -1,4 +1,4 @@
-In the current scenario, the gPC expansion is to be founded on the Hermite polynomial basis since it is the optimal choice for $\vZ(\o) \sim \normal{\vZero}{\mI}$ \cite{xiu2002}. To illustrate the basis, in the two-dimensional case the first Hermite polynomials $\pcb_i(\{ \Z_1(\o), \Z_2(\o) \})$ are
+In the current scenario, the generalized PC expansion is to be founded on the Hermite polynomial basis since it is the optimal choice for $\vZ(\o) \sim \normal{\vZero}{\mI}$ \cite{xiu2002}. To illustrate the basis, in the two-dimensional case the first Hermite polynomials $\pcb_i(\{ \Z_1(\o), \Z_2(\o) \})$ are
 \[
   \begin{array}{lllllll}
   1, & \Z_1, & \Z_2, & \Z_1^2 - 1, & \Z_1 \Z_2, & \Z_2^2 - 1, & \dotsc
@@ -16,7 +16,7 @@ Since in the illustrative example under consideration, we need to compute expect
 \[
   \oQuad{\vars}{\qdlevel}{f} \eqdef \sum_{i = 1}^{\qdorder} f(\qdn{\vZ}_i) \qdw_i
 \]
-where $\qdorder$ is the order of the multivariate rule, $\qdn{\vZ}_i \in \real^\vars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively. The nodes are $\vars$-dimensional vectors, which corresponds the number of uncertain parameters $\vZ(\o)$. The level of accuracy $\qdlevel$ should be chosen in such a way that the quadrature rule is exact for polynomials of order $2 \pcorder$ (twice the order of the gPC expansion), which can be seen in \eref{pc-coefficients}. Therefore, $\qdlevel = \pcorder + 1$ according to the property of Gaussian quadratures discussed earlier. Consequently, \eref{pc-coefficients} is rewritten as
+where $\qdorder$ is the order of the multivariate rule, $\qdn{\vZ}_i \in \real^\vars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively. The nodes are $\vars$-dimensional vectors, which corresponds the number of uncertain parameters $\vZ(\o)$. The level of accuracy $\qdlevel$ should be chosen in such a way that the quadrature rule is exact for polynomials of order $2 \pcorder$ (twice the order of the PC expansion), which can be seen in \eref{pc-coefficients}. Therefore, $\qdlevel = \pcorder + 1$ according to the property of Gaussian quadratures discussed earlier. Consequently, \eref{pc-coefficients} is rewritten as
 \[
   \pcc{\vP}_i(0) = \frac{1}{\pcn_i} \oQuad{\vars}{\qdlevel}{\vP(0, \o) \pcb_i(\vZ(\o))}
 \]
