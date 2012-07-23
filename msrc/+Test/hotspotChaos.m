@@ -2,7 +2,7 @@ init;
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
 
-hs = HotSpot.Chaos(floorplan, config, configLine);
+hs = HotSpot.Chaos(floorplan, config, configLine, 3);
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
@@ -22,7 +22,7 @@ t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 
 ExpT = ExpT + Constants.zeroKelvin;
-StdT = VarT.^(1/2);
+StdT = sqrt(VarT);
 
 time = (1:steps) * hs.dt;
 

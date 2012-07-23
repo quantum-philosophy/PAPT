@@ -1,12 +1,8 @@
 init;
 
-hsConfig = Utils.resolvePath('hotspot.config');
-floorplan = Utils.resolvePath('dummy2.flp');
-powerTrace = Utils.resolvePath('dummy2.ptrace');
+[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
 
-hsLine = 'sampling_intvl 1e-3';
-
-hs = HotSpot(floorplan, hsConfig, hsLine);
+hs = HotSpot(floorplan, config, configLine);
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
@@ -27,7 +23,7 @@ t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 
 ExpT = ExpT + Constants.zeroKelvin;
-StdT = VarT.^(1/2);
+StdT = sqrt(VarT);
 
 time = (1:steps) * hs.dt;
 
