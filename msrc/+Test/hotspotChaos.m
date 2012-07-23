@@ -2,7 +2,7 @@ init;
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
 
-hs = HotSpot.Chaos(floorplan, config, configLine, 3);
+hs = HotSpot.Chaos(floorplan, config, configLine);
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);

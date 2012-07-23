@@ -2,7 +2,7 @@ function f = fitPolynomial(name, order, draw)
   if nargin < 2 || numel(order) == 0, order = [ 3 3 ]; end
   if nargin < 3, draw = false; end
 
-  filename = [ 'SPICE_polynomial_', name, ...
+  filename = [ 'Leakage_polynomial_', name, ...
     '_l', num2str(order(1)), '_t', num2str(order(2)), '.mat' ];
   filename = Utils.resolvePath(filename, 'cache');
 

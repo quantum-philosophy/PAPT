@@ -50,9 +50,14 @@ function [ E, V ] = perform3D(f, dims, samples)
   rvs = normrnd(0, 1, sdim, samples);
   out = zeros(samples, ddim, tdim);
 
+  h = waitbar(0, sprintf('Monte Carlo sampling: %d/%d.', 0, samples));
+
   for i = 1:samples
     out(i, :, :) = f(rvs(:, i));
+    waitbar(i / samples, h, sprintf('Monte Carlo sampling: %d/%d.', i, samples));
   end
+
+  close(h);
 
   %
   % Compute the expectation and variance.

@@ -17,15 +17,25 @@ fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
 t = tic;
-T = hs.solve(Pdyn, zeros(hs.sdim, 1)) + Constants.zeroKelvin;
+[ T, Pleak ] = hs.solve(Pdyn, zeros(hs.sdim, 1));
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 
+T = Utils.toKelvin(T);
+
 time = (1:steps) * hs.dt;
 
-figure;
+subplot(2, 1, 1);
 title(sprintf('HotSpot with Analytical Solution (%.2f s)', t));
 for i = 1:hs.cores
   color = Utils.pickColor(i);
   line(time, T(i, :), 'Color', color);
+end
+
+subplot(2, 1, 2);
+title('Dynamic and Leakage Power');
+for i = 1:hs.cores
+  color = Utils.pickColor(i);
+  line(time, Pdyn(i, :), 'Color', color);
+  line(time, Pleak(i, :), 'Color', color, 'LineStyle', '--');
 end

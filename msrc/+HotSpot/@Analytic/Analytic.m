@@ -70,7 +70,7 @@ classdef Analytic < HotSpot.Base
       hs.D = hs.Q * diag((exp(hs.dt * hs.L) - 1) ./ hs.L) * hs.QT * B;
     end
 
-    function T = solve(hs, Pdyn, rvs)
+    function [ T, Pleak ] = solve(hs, Pdyn, rvs)
       [ cores, steps ] = size(Pdyn);
       assert(cores == hs.cores, 'The power profile is invalid.')
 
@@ -90,13 +90,15 @@ classdef Analytic < HotSpot.Base
 
       T = zeros(cores, steps);
 
-      Pleak = leak.performAtAmbient(rvs);
-      X = D * (Pdyn(:, 1) + Pleak);
+      Pleak = zeros(size(Pdyn));
+
+      Pleak(:, 1) = leak.performAtAmbient(rvs);
+      X = D * (Pdyn(:, 1) + Pleak(:, 1));
 
       for i = 2:steps
         T(:, i - 1) = BT * X + Tamb;
-        Pleak = leak.performAtGiven(T(:, i - 1), rvs);
-        X = E * X + D * (Pdyn(:, i) + Pleak);
+        Pleak(:, i) = leak.performAtGiven(T(:, i - 1), rvs);
+        X = E * X + D * (Pdyn(:, i) + Pleak(:, i));
       end
 
       %

@@ -1,9 +1,11 @@
-function f = fitExponentPolynomial(name, order, draw)
+function f = fitExponentPolynomial(name, order, scale, draw)
   if nargin < 2 || numel(order) == 0, order = [ 2 2 ]; end
-  if nargin < 3, draw = false; end
+  if nargin < 3 || numel(scale) == 0, scale = 1.0; end
+  if nargin < 4, draw = false; end
 
-  filename = [ 'SPICE_exponent_polynomial_', name, ...
-    '_l', num2str(order(1)), '_t', num2str(order(2)), '.mat' ];
+  filename = [ 'Leakage_exponent_polynomial_', name, ...
+    '_l', num2str(order(1)), '_t', num2str(order(2)), ...
+    sprintf('_s%.2f', scale), '.mat' ];
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
@@ -13,7 +15,8 @@ function f = fitExponentPolynomial(name, order, draw)
           { '  Circuit name: %s', name }, ...
           { '  Type: exponent of a polynomial' }, ...
           { '  Order of L: %d', order(1) }, ...
-          { '  Order of T: %d', order(2) });
+          { '  Order of T: %d', order(2) }, ...
+          { '  Scale: %.2f', scale });
 
     D = dlmread(Utils.resolvePath([ name, '.leak' ], 'test'), '\t', 1, 0);
     Ldata = D(:, 1);
@@ -40,7 +43,11 @@ function f = fitExponentPolynomial(name, order, draw)
       Lorder = str2num(attrs{1}{1});
       Torder = str2num(attrs{1}{2});
 
-      logI = logI + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
+      if Lorder > 0 || Torder > 0
+        logI = logI + scale * cvals(i) * Lnorm^Lorder * Tnorm^Torder;
+      else
+        logI = logI + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
+      end
     end
 
     [ arguments, body ] = Utils.toFunctionString(logI, Lsym, Tsym);
