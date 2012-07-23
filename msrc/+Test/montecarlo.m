@@ -2,7 +2,7 @@ init;
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
 
-hs = HotSpot(floorplan, config, configLine);
+hs = HotSpot.Analytic(floorplan, config, configLine);
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
@@ -34,4 +34,4 @@ for i = 1:hs.cores
   line(time, ExpT(i, :) + StdT(i, :), 'Color', color, 'LineStyle', '--');
   line(time, ExpT(i, :) - StdT(i, :), 'Color', color, 'LineStyle', '--');
 end
-title(sprintf('Monte-Carlo (%.2f s)', t));
+title(sprintf('Monte Carlo (%.2f s)', t));
