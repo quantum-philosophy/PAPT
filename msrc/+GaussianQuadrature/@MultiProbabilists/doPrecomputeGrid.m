@@ -1,7 +1,7 @@
 function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, index)
   sdim = length(x);
   terms = length(psi);
-  order = max(max(index));
+  order = PolynomialChaos.indexToOrder(index);
 
   %
   % `level' means that for polynomial with of the order (2 * `level' - 1)

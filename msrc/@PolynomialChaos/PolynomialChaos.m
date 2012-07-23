@@ -65,6 +65,8 @@ classdef PolynomialChaos < handle
   end
 
   methods (Static)
+    multiIndex = computeMultiIndex(bounds);
+
     function count = countTerms(sdim, order, rule)
       if nargin < 3, rule = 'TD'; end
 
@@ -76,6 +78,13 @@ classdef PolynomialChaos < handle
       otherwise
         error('Unknown rule.');
       end
+    end
+
+    function order = indexToOrder(index)
+      %
+      % (-1) because in MATLAB indexes start from 1.
+      %
+      order = max(max(index)) - 1;
     end
   end
 

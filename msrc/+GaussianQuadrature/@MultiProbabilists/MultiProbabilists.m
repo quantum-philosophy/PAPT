@@ -36,7 +36,7 @@ classdef MultiProbabilists < GaussianQuadrature.Probabilists
       %
 
       sdim = length(x);
-      order = max(max(index));
+      order = PolynomialChaos.indexToOrder(index);
 
       filename = [ 'MultiPrQuadrature_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
