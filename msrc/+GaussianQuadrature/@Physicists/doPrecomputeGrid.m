@@ -15,12 +15,12 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
   %
   level = order + 1;
 
-  [ nodes, weights, pointsSG ] = GaussianQuadrature.Chaos.constructSparseGrid(sdim, level);
+  [ nodes, weights, pointsSG ] = GaussianQuadrature.Physicists.constructSparseGrid(sdim, level);
 
   pointsTP = level^sdim;
 
   debug({ 'Precomputation of a new grid.' }, ...
-        { '  Type: chaos' }, ...
+        { '  Type: Physicists' }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
         { '  Polynomial order: %d', order }, ...
         { '  Accuracy level: %d', level }, ...
@@ -29,7 +29,7 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
         { '  Tensor product points: %d', pointsTP });
 
   if pointsTP <= pointsSG
-    [ nodes, weights ] = GaussianQuadrature.Chaos.constructTensorProduct(sdim, level);
+    [ nodes, weights ] = GaussianQuadrature.Physicists.constructTensorProduct(sdim, level);
   end
 
   points = min(pointsTP, pointsSG);

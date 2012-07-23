@@ -1,4 +1,4 @@
-function [ x, psi ] = doPrepareExpansion(sdim, order)
+function [ x, psi, index ] = doPrepareExpansion(sdim, order)
   %
   % Description:
   %
@@ -13,7 +13,8 @@ function [ x, psi ] = doPrepareExpansion(sdim, order)
   % Output:
   %
   %   * x     - a vector of `sdim' symbolic variables,
-  %   * psi   - a vector of the Hermite polynomials.
+  %   * psi   - a vector of the Hermite polynomials,
+  %   * index - the multi-index of the expansion.
   %
 
   terms = PolynomialChaos.countTerms(sdim, order);
@@ -27,5 +28,7 @@ function [ x, psi ] = doPrepareExpansion(sdim, order)
     x(i) = ipoly([ 'x', num2str(i) ]);
   end
 
-  psi = PolynomialChaos.constructXD(x, terms);
+  [ psi, index ] = PolynomialChaos.constructMD(x, order);
+
+  assert(terms == length(psi), 'The number of terms is invalid.');
 end

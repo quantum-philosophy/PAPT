@@ -9,12 +9,12 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
   %
   level = order + 1;
 
-  [ nodes, weights, pointsSG ] = GaussianQuadrature.Peace.constructSparseGrid(sdim, level);
+  [ nodes, weights, pointsSG ] = GaussianQuadrature.Probabilists.constructSparseGrid(sdim, level);
 
   pointsTP = level^sdim;
 
   debug({ 'Precomputation of a new grid.' }, ...
-        { '  Type: peace' }, ...
+        { '  Type: Probabilists' }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
         { '  Polynomial order: %d', order }, ...
         { '  Accuracy level: %d', level }, ...
@@ -23,7 +23,7 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
         { '  Tensor product points: %d', pointsTP });
 
   if pointsTP <= pointsSG
-    [ nodes, weights ] = GaussianQuadrature.Peace.constructTensorProduct(sdim, level);
+    [ nodes, weights ] = GaussianQuadrature.Probabilists.constructTensorProduct(sdim, level);
   end
 
   points = min(pointsTP, pointsSG);

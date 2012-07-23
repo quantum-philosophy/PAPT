@@ -5,8 +5,6 @@ function coeff = construct(pc, f, ddim)
   coeff = zeros(ddim, terms);
 
   for i = 1:terms
-    coeff(:, i) = qd.integrateWithChaos(f, ddim, i);
+    coeff(:, i) = qd.integrateWithNormalizedChaos(f, ddim, i);
   end
-
-  coeff = coeff ./ irep(pc.norm, ddim, 1);
 end

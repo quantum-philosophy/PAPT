@@ -1,20 +1,11 @@
-function psiXD = constructXD(x, termsXD)
+function psiXD = constructXD(x, order)
   sdim = length(x);
-
-  %
-  % Determine the order of a 1D polynomial.
-  %
-  check = 0;
-  terms1D = 0;
-  while (check < termsXD)
-    terms1D = terms1D + 1;
-    check = check + nmultichoosek(sdim, terms1D);
-  end
+  termsXD = PolynomialChaos.countTerms(sdim, order);
 
   %
   % Create a 1D polynomial.
   %
-  psi1D(1, :) = PolynomialChaos.construct1D(x(1), terms1D);
+  psi1D(1, :) = PolynomialChaos.construct1D(x(1), order);
 
   %
   % If there is only one stochastic dimension,
@@ -30,7 +21,7 @@ function psiXD = constructXD(x, termsXD)
       psi1D(i, :) = subs(psi1D(1, :), x(1), x(i));
     end
 
-    limit = ones(1, sdim) * (terms1D - 1);
+    limit = ones(1, sdim) * order;
     index = zeros(1, sdim);
 
     done = zeros(1, termsXD);

@@ -27,7 +27,7 @@ function [ E, C, out ] = perform(pc, f, dims, count)
   % Straight-forward stats.
   %
   E = coeff(:, 1);
-  C = diag(sum(coeff(:, 2:end).^2 .* irep(pc.norm(2:end), ddim, 1), 2));
+  C = diag(sum(coeff(:, 2:end).^2 .* irep(pc.qd.norm(2:end), ddim, 1), 2));
 
   %
   % Now sampling.

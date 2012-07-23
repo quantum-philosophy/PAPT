@@ -22,12 +22,6 @@ classdef PolynomialChaos < handle
     psi
 
     %
-    % The normalization coefficients of the expansion, i.e.,
-    % the variances of the polynomials E<psi_i^2>.
-    %
-    norm
-
-    %
     % The Gaussian quadrature (Gauss-Hermite) for the purpose of
     % numerical integration. It is an optimized version, an instance
     % of GaussianQuadrature.Chaos.
@@ -53,7 +47,9 @@ classdef PolynomialChaos < handle
       pc.sdim = sdim;
       pc.order = order;
 
-      [ pc.x, pc.psi, pc.norm, pc.qd ] = pc.prepareExpansion(sdim, order);
+      [ pc.x, pc.psi, index ] = pc.prepareExpansion(sdim, order);
+
+      pc.qd = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index);
 
       pc.terms = length(pc.psi);
 
@@ -84,36 +80,23 @@ classdef PolynomialChaos < handle
   end
 
   methods (Static, Access = 'private')
-    psi = construct1D(x, terms);
-    psi = constructXD(x, terms);
-    [ x, psi, norm, qd ] = doPrepareExpansion(sdim, order);
+    psi = construct1D(x, order);
+    [ psi, index ] = constructMD(x, order);
+    [ x, psi, index ] = doPrepareExpansion(sdim, order);
 
-    function [ x, psi, norm, qd ] = prepareExpansion(sdim, order)
+    function [ x, psi, index ] = prepareExpansion(sdim, order)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
 
-      filename = [ 'CHAOS_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = [ 'PolynomialChaos_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
-        [ x, psi ] = PolynomialChaos.doPrepareExpansion(sdim, order);
-        save(filename, 'x', 'psi');
-      end
-
-      %
-      % Chaos or peace?
-      %
-      qd = GaussianQuadrature.Peace(x, psi, order);
-
-      terms = length(psi);
-
-      norm = zeros(1, terms);
-      norm(1) = 1;
-      for i = 2:terms
-        norm(i) = qd.integrateChaosProduct(i, i);
+        [ x, psi, index ] = PolynomialChaos.doPrepareExpansion(sdim, order);
+        save(filename, 'x', 'psi', 'index');
       end
     end
   end

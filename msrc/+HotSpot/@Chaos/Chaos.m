@@ -116,7 +116,7 @@ classdef Chaos < HotSpot.Analytic
       % NOTE: The correlation matrix is full of zeros.
       %
       VarT = zeros(cores, steps);
-      norm = irep(pc.norm(2:end), cores, 1);
+      norm = irep(pc.qd.norm(2:end), cores, 1);
       for i = 1:steps
         VarT(:, i) = sum(trace.coeff(:, 2:end, i).^2 .* norm, 2);
       end

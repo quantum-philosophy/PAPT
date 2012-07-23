@@ -1,5 +1,5 @@
-classdef Chaos < handle
-  properties (Access = 'private')
+classdef Probabilists < handle
+  properties (Access = 'protected')
     %
     % Precomputed value of each of the polynomials in the PC expansion
     % in each of the points of the sparse grid.
@@ -9,13 +9,12 @@ classdef Chaos < handle
     %
     % Precomputed value of each of the polynomials in the PC expansion
     % in each of the points of the sparse grid multiplied by the
-    % corresponding weight and divided by the corresponding normalization
-    % coefficient.
+    % corresponding weight.
     %
     niceGrid
   end
 
-  properties (SetAccess = 'private')
+  properties (SetAccess = 'protected')
     %
     % The evaluation points for the integration.
     %
@@ -28,9 +27,9 @@ classdef Chaos < handle
   end
 
   methods
-    function gq = Chaos(x, psi, order)
-      [ gq.nodes, gq.plainGrid, gq.niceGrid ] = ...
-        gq.precomputeGrid(x, psi, order);
+    function gq = Probabilists(x, psi, order);
+      if nargin == 0, return; end
+      [ gq.nodes, gq.plainGrid, gq.niceGrid ] = gq.precomputeGrid(x, psi, order);
       gq.points = size(gq.nodes, 2);
     end
 
@@ -44,7 +43,7 @@ classdef Chaos < handle
     end
   end
 
-  methods (Static, Access = 'private')
+  methods (Static, Access = 'protected')
     [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order);
     [ nodes, weights, points ] = constructSparseGrid(sdim, level);
     [ nodes, weights, points ] = constructTensorProduct(sdim, level);
@@ -56,14 +55,14 @@ classdef Chaos < handle
 
       sdim = length(x);
 
-      filename = [ 'CQUADRATURE_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = [ 'PrQuadrature_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
         [ nodes, plainGrid, niceGrid ] = ...
-          GaussianQuadrature.Chaos.doPrecomputeGrid(x, psi, order);
+          GaussianQuadrature.Probabilists.doPrecomputeGrid(x, psi, order);
         save(filename, 'nodes', 'plainGrid', 'niceGrid');
       end
     end

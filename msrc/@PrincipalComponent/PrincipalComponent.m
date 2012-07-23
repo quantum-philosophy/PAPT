@@ -70,6 +70,7 @@ classdef PrincipalComponent < handle
       %
       [ P, L, E ] = pcacov(M);
       toKeep = min(find((cumsum(E) - PrincipalComponent.threshold) > 0));
+      if isempty(toKeep), toKeep = size(P, 1); end
       P = P(:, 1:toKeep) * diag(sqrt(L(1:toKeep)));
     end
 
