@@ -2,51 +2,32 @@ init;
 
 cores = 2;
 steps = 100;
-order = 3;
 samples = 1e4;
+
+X = [ 1 2 3 4 5 6 7 8 9 10 ];
+
+pick = length(X);
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(cores);
 
 fprintf('Number of cores:     %d\n', cores);
 fprintf('Number of steps:     %d\n', steps);
-fprintf('PC order:            %d\n', order);
 
 Pdyn = Utils.replicate(dlmread(powerTrace, '', 1, 0)', steps);
-
-%% Polynomial Chaos expansion.
-%
-
-hs = HotSpot.Chaos(floorplan, config, configLine, order);
-
-t = tic;
-[ pcExpT, pcVarT ] = hs.solve(Pdyn);
-t = toc(t);
-fprintf('PC simulation time:  %.2f s\n', t);
-
-pcExpT = Utils.toCelsius(pcExpT);
-pcStdT = sqrt(pcVarT);
-
-time = (1:steps) * hs.dt;
-
-pcf = figure;
-title(sprintf('%d-order Polynomial Chaos (%.2f s)', order, t));
-for i = 1:cores
-  color = Utils.pickColor(i);
-  line(time, pcExpT(i, :), 'Color', color);
-  line(time, pcExpT(i, :) + pcStdT(i, :), 'Color', color, 'LineStyle', '--');
-  line(time, pcExpT(i, :) - pcStdT(i, :), 'Color', color, 'LineStyle', '--');
-end
 
 %% Monte Carlo sampling.
 %
 
-filename = sprintf('MonteCarlo_c%d_s%d_s%d.mat', cores, steps, samples);
+method = 'Kutta';
+
+filename = sprintf('MonteCarlo_%s_c%d_s%d_s%d.mat', ...
+  method, cores, steps, samples);
 filename = Utils.resolvePath(filename, 'cache');
 
 if exist(filename)
   load(filename);
 else
-  hs = HotSpot.Kutta(floorplan, config, configLine);
+  hs = HotSpot.(method)(floorplan, config, configLine);
 
   t = tic;
   [ mcExpT, mcVarT ] = MonteCarlo.perform3D( ...
@@ -61,8 +42,47 @@ fprintf('MC simulation time:  %.2f s\n', t);
 mcExpT = Utils.toCelsius(mcExpT);
 mcStdT = sqrt(mcVarT);
 
+tmc = t;
+
+%% Polynomial Chaos expansion.
+%
+
+fprintf('%15s%15s%15s%15s\n', 'Order', 'Time, s', 'NRMSE(Exp), %', 'NRMSE(Var), %');
+
+count = length(X);
+
+ExpNRMSE = zeros(count, 1);
+VarNRMSE = zeros(count, 1);
+
+for i = 1:count
+  order = X(i);
+
+  hs = HotSpot.Chaos(floorplan, config, configLine, order);
+
+  t = tic;
+  [ ExpT, VarT ] = hs.solve(Pdyn);
+  t = toc(t);
+
+  ExpT = Utils.toCelsius(ExpT);
+  StdT = sqrt(VarT);
+
+  ExpNRMSE(i) = Utils.NRMSE(mcExpT, ExpT, 5) * 100;
+  VarNRMSE(i) = Utils.NRMSE(mcVarT, VarT, 5) * 100;
+
+  fprintf('%15d%15.2f%15.2f%15.2f\n', order, t, ...
+    ExpNRMSE(i), VarNRMSE(i));
+
+  if pick == i
+    pcExpT = ExpT;
+    pcStdT = StdT;
+    pcVarT = VarT;
+  end
+end
+
+time = (1:steps) * hs.dt;
+
 mcf = figure;
-title(sprintf('%d-sample Monte Carlo (%.2f s)', samples, t));
+title(sprintf('%d-sample Monte Carlo (%.2f s)', samples, tmc));
 for i = 1:cores
   color = Utils.pickColor(i);
   line(time, mcExpT(i, :), 'Color', color);
@@ -70,14 +90,23 @@ for i = 1:cores
   line(time, mcExpT(i, :) - mcStdT(i, :), 'Color', color, 'LineStyle', '--');
 end
 
+pcf = figure;
+title(sprintf('%d-order Polynomial Chaos (%.2f s)', X(pick), t));
+for i = 1:cores
+  color = Utils.pickColor(i);
+  line(time, pcExpT(i, :), 'Color', color);
+  line(time, pcExpT(i, :) + pcStdT(i, :), 'Color', color, 'LineStyle', '--');
+  line(time, pcExpT(i, :) - pcStdT(i, :), 'Color', color, 'LineStyle', '--');
+end
+
 %% Make the plots match each other.
 %
-mclim = ylim;
-figure(pcf);
-pclim = ylim;
-lim = [ min(pclim(1), mclim(1)) max(pclim(2), mclim(2)) ];
-ylim(lim);
+lim1 = ylim;
 figure(mcf);
+lim2 = ylim;
+lim = [ min(lim1(1), lim2(1)) max(lim1(2), lim2(2)) ];
+ylim(lim);
+figure(pcf);
 ylim(lim);
 
 %% Comparison of the methods.
@@ -97,3 +126,18 @@ for i = 1:cores
   color = Utils.pickColor(i);
   line(time, mcVarT(i, :) - pcVarT(i, :), 'Color', color);
 end
+
+figure;
+subplot(2, 1, 1);
+title('Convergence of Expectations');
+color = Utils.pickColor(1);
+line(X, ExpNRMSE, 'Color', color);
+xlabel('Order');
+ylabel('NRMSE(Exp), %');
+
+subplot(2, 1, 2);
+title('Convergence of Variances');
+color = Utils.pickColor(1);
+line(X, VarNRMSE, 'Color', color);
+xlabel('Order');
+ylabel('NRMSE(Var), %');
