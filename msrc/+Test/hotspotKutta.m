@@ -17,9 +17,11 @@ fprintf('Number of steps:     %d\n', steps);
 fprintf('Total time:          %.2f s\n', hs.dt * steps);
 
 t = tic;
-T = hs.solve(Pdyn, zeros(hs.sdim, 1)) + Constants.zeroKelvin;
+T = hs.solve(Pdyn, zeros(hs.sdim, 1));
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
+
+T = Utils.toCelsius(T);
 
 time = (1:steps) * hs.dt;
 

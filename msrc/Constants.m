@@ -5,7 +5,7 @@ classdef Constants < handle
     cacheDirectory = [ Constants.thisDirectory, '/../build/cache' ];
     testDirectory = [ Constants.thisDirectory, '/../test' ];
 
-    zeroKelvin = -273.15; % in degree Celsium
+    zeroKelvin = -273.15; % in degree Celsius
 
     %
     % Visualization

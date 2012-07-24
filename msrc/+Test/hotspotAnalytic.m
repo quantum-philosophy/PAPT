@@ -21,7 +21,7 @@ t = tic;
 t = toc(t);
 fprintf('Simulation time:     %.2f s\n', t);
 
-T = Utils.toKelvin(T);
+T = Utils.toCelsius(T);
 
 time = (1:steps) * hs.dt;
 

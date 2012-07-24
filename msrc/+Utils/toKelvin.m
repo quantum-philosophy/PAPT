@@ -1,3 +1,3 @@
-function degreeKelvin = toKelvin(degreeCelsium)
-  degreeKelvin = degreeCelsium - Constants.zeroKelvin;
+function degreeKelvin = toKelvin(degreeCelsius)
+  degreeKelvin = degreeCelsius - Constants.zeroKelvin;
 end
