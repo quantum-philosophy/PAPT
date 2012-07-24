@@ -25,6 +25,8 @@ T = Utils.toCelsius(T);
 
 time = (1:steps) * hs.dt;
 
+figure;
+
 subplot(2, 1, 1);
 title(sprintf('HotSpot with Analytical Solution (%.2f s)', t));
 for i = 1:hs.cores
