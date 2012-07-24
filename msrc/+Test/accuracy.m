@@ -40,13 +40,13 @@ end
 %% Monte Carlo sampling.
 %
 
-filename = sprintf('MonteCarlo_core%d_step%d_samples%d.mat', cores, steps, samples);
+filename = sprintf('MonteCarlo_c%d_s%d_s%d.mat', cores, steps, samples);
 filename = Utils.resolvePath(filename, 'cache');
 
 if exist(filename)
   load(filename);
 else
-  hs = HotSpot.Analytic(floorplan, config, configLine);
+  hs = HotSpot.Kutta(floorplan, config, configLine);
 
   t = tic;
   [ mcExpT, mcVarT ] = MonteCarlo.perform3D( ...
