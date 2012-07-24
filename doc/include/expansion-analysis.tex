@@ -1,0 +1,15 @@
+The recurrence in \eref{pc-recurrence} provides the coefficients of the generalized PC expansion of the temperature vector $\vTO(\t, \o)$ for each time interval of the input (nominal) dynamic power profile $\prof{\mP_\dyn}$. As an intermediate result, we also obtain the corresponding coefficients for the (stochastic) power dissipation $\vP(\t, \o)$ during each step of the iterative process. Consequently, the output of the proposed framework constitutes two stochastic system profiles---the stochastic power profile $\prof{\mP(\o)}$ and the corresponding stochastic temperature profile $\prof{\mTO(\o)}$.
+
+Due to orthogonality of the components of a PC expansion, the obtained stochastic profiles are trivial for a subsequent analysis. For instance, consider the PC expansion for the $k$th time interval
+\begin{equation} \elabel{pc-k}
+  \oPC{\vars}{\pcorder}{\vTO_k(\t, \o)} = \sum_{i = 1}^{\pcterms} \pcc{\vTO}_{ki}(\t) \pcb_i(\vZ(\o))
+\end{equation}
+where $\t \in [0, \dt_k]$, and $\pcc{\vTO}_{ki}(\t)$ are found using \eref{pc-recurrence} and \eref{fourier-output}. Let us, for example, find the expectation and covariance of the expansion. By definition \cite{xiu2002}, the first polynomial $\pcb_1(\vZ(\o))$ in a polynomial basis is 1, hence, $\oExp{\pcb_1(\vZ(\o))} = 1$. Therefore, using \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ(\o))} = 0$ for $i \in \{ 2, \dotsc, \pcterms \}$. Consequently, the expectation is
+\[
+  \oExp{\vTO_k(\t, \o)} = \pcc{\vTO}_{k1}(\t)
+\]
+and the covariance is
+\[
+  \oCov{\vTO_k(\t, \o)} = \sum_{i = 2}^{\pcterms} \pcc{\vTO}_{ki}(\t) \pcc{\vTO}_{ki}(\t)^T \pcn_i
+\]
+Apart from deriving analytical moments, it is also straight-forward to perform other types of analysis. For instance, global and local sensitivity analysis of probabilistic and non-probabilistic parameters can be readily applied to a PC expansion; see \cite{eldred2009}. The probability density (or mass for the discrete case) function as well as the cumulative distribution function can be easily computed by sampling \eref{pc-k}. Each sample is a simple evaluation of a multivariate polynomial, which is computationally cheap. On the contrary, when a Monte Carlo sampling technique is employed to quantify the system in \eref{fourier-system}, a sample is a complete simulation of the whole power profile $\prof{\mP_\dyn}$, and, since the number of such samples should be considerably large (in the order of $10^4$) to obtain representative statistics \cite{xiu2009}, the overall process becomes dramatically slow.

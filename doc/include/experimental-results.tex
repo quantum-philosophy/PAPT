@@ -1,6 +1,6 @@
-In this section, numerical results of the proposed framework for the illustrative example given in \sref{illustrative-example} are presented. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in Mac OS 10.7.5 running on a MacBook Pro 6.2 with Intel Core i7 2.66GHz and 8Gb of RAM.
+In this section, numerical results of the proposed framework for the illustrative example given in \sref{illustrative-example} are presented. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in a GNU/Linux distribution running on Intel Core i7-2600 3.4GHz with 8Gb of RAM.
 
-The proposed framework is set up to construct second-order PC expansions using the Smolyak algorithm for multidimensional integration. In the model reduction technique, described in \sref{preprocessing-rvs}, the threshold parameter $\Lth$ is set to $0.99$ forcing the preserved eigenvalues to capture $99\%$ of the variance of the data. In the experiments, our method is compared with a Monte Carlo sampling (MCS) technique. The MCS consists in solving \eref{fourier-original} numerically using the fourth-order Runge-Kutta method \cite{press2007}. The leakage model for the MCS is the same as for the proposed framework. To retrieve representative statistics, the number of samples of the MCS is set to $10^4$ \cite{xiu2009}.
+The proposed framework is set up to construct second-order PC expansions using the Smolyak algorithm for multidimensional integration. In the model reduction technique, described in \sref{preprocessing-rvs}, the threshold parameter $\Lth$ is set to $0.99$ forcing the preserved eigenvalues to capture $99\%$ of the variance of the data. To assess the performance of the framework, we employ a Monte Carlo sampling (MCS) technique. The MCS consists in solving the governing \eref{fourier-original} numerically using the Dormand-Prince method, which is based on the fourth- and fifth-order Runge-Kutta formulas \cite{press2007}. The leakage model for the MCS is the same as for the proposed framework. The number of samples of the MCS is set to $10^4$ \cite{xiu2009}.
 
 In order to construct equivalent thermal RC circuits (the matrices $\mC$ and $\mG$ in \eref{fourier-original}), the thermal simulator HotSpot v5.02 \cite{hotspot} with default settings is employed; in this case, the relation between the number of processing elements and the number of thermal nodes is $\nodes = 4 \cores + 12$. The sampling interval of power and temperature profiles is set to one millisecond, i.e., $\dt_i = 10^{-3}$s, $\forall i$. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The reference leakage current $I_\leak(\Leff, \T)$ (see \eref{leakage-current}) is scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. All the power profiles used here are obtained by simulation of synthetic applications on hypothetical platforms.
 
@@ -12,17 +12,17 @@ In order to construct equivalent thermal RC circuits (the matrices $\mC$ and $\m
     \hline
     $\steps$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
     \hline
-    $     10$ & $   0.94$ & $  0.08$ & $4.05 \times 10^4$ \\
-    $    100$ & $   3.87$ & $  0.29$ & $4.85 \times 10^4$ \\
-    $   1000$ & $  38.04$ & $  2.75$ & $4.97 \times 10^4$ \\
-    $  10000$ & $ 379.83$ & $ 27.55$ & $4.96 \times 10^4$ \\
-    $ 100000$ & $3872.67$ & $276.24$ & $5.05 \times 10^4$ \\
+    $     10$ & $   0.71$ & $  0.06$ & $4.26 \times 10^4$ \\
+    $    100$ & $   2.84$ & $  0.20$ & $5.02 \times 10^4$ \\
+    $   1000$ & $  28.17$ & $  2.01$ & $5.05 \times 10^4$ \\
+    $  10000$ & $ 281.59$ & $ 20.06$ & $5.05 \times 10^4$ \\
+    $ 100000$ & $2819.94$ & $200.64$ & $5.06 \times 10^4$ \\
     \hline
   \end{tabular}
   \tlabel{scaling-steps}
   \vspace{-10pt}
 \end{table}
-First, we investigate the scaling properties of the proposed framework with respect to the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$, which is directly proportional to simulated time. The results for a quad-core architecture are given in \tref{scaling-steps}. Due to the long computation time demonstrated by the MCS, its data for high values of $\steps$ are interpolated based on a few samples. It can be seen that both methods scale linearly, which is expected. However, the proposed method shows a superior performance being more than four times faster than \emph{only one sample} of the MCS.
+First, we investigate the scaling properties of the proposed framework with respect to the number of steps $\steps$ in the (nominal) dynamic power profile $\prof{\mP_\dyn}$, which is directly proportional to simulated time. The results for a quad-core architecture are given in \tref{scaling-steps}. Due to the long computation time demonstrated by the MCS, its data for high values of $\steps$ are extrapolated based on a few samples. It can be seen that both methods scale linearly, which is expected. However, the proposed method shows a superior performance being more around five times faster than \emph{only one sample} of the MCS.
 
 \begin{table}
   \centering
@@ -32,16 +32,16 @@ First, we investigate the scaling properties of the proposed framework with resp
     \hline
     $\cores$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
     \hline
-    $ 2$ & $40.89$ & $  2.62$ & $5.61 \times 10^4$ \\
-    $ 4$ & $40.61$ & $  2.93$ & $4.99 \times 10^4$ \\
-    $ 8$ & $38.53$ & $ 34.64$ & $4.00 \times 10^3$ \\
-    $16$ & $43.98$ & $ 67.31$ & $2.35 \times 10^3$ \\
-    $32$ & $46.45$ & $623.84$ & $2.68 \times 10^2$ \\
+    $ 2$ & $28.20$ & $  1.72$ & $5.90 \times 10^4$ \\
+    $ 4$ & $28.05$ & $  2.00$ & $5.06 \times 10^4$ \\
+    $ 8$ & $28.32$ & $ 24.34$ & $4.19 \times 10^3$ \\
+    $16$ & $29.56$ & $ 45.35$ & $2.35 \times 10^3$ \\
+    $32$ & $35.88$ & $467.08$ & $2.77 \times 10^2$ \\
     \hline
   \end{tabular}
   \tlabel{scaling-cores}
   \vspace{-10pt}
 \end{table}
-The next parameter to exercise is the number of processing elements $\cores$ and, consequently, the number of stochastic dimensions $\vars$. In these experiments, the number of steps $\steps$ is constant and equal to $10^3$. The results are given in \tref{scaling-cores}. It is well-known that the workload per one sample of MCS techniques is almost insensible to the number of stochastic dimensions [?], which can be clearly seen in the table. At the same time, we observe a polynomial growth \cite{heiss2008} of the PC expansion base on sparse grids, which is also predictable. However, even in high dimensions, the proposed framework significantly outperforms the MCS. For instance, to quantify a power profile with $10^3$ steps of a multiprocessor system with 32 cores, the MCS requires more than 46 hours whereas the proposed framework takes only 10 minutes. It should be noted separately that the number of samples of the MCS is constant in this setup; however, in order to maintain the same accuracy, the number of samples should be increased whenever $\vars$ is increased [?].
+The next parameter to exercise is the number of processing elements $\cores$ and, consequently, the number of stochastic dimensions $\vars$. In these experiments, the number of steps $\steps$ is constant and equal to $10^3$. The results are given in \tref{scaling-cores}. It is well-known that the workload per one sample of MCS techniques is almost insensible to the number of stochastic dimensions [?], which can be clearly seen in the table. At the same time, we observe a polynomial growth \cite{heiss2008} of the PC expansion based on sparse grids, which is also predictable. However, even in high dimensions, the proposed framework significantly outperforms the MCS. For instance, to quantify a power profile with $10^3$ steps of a multiprocessor system with 32 cores, the MCS requires more than 35 hours whereas the proposed framework takes only 8 minutes. It should be noted separately that the number of samples of the MCS is constant in this setup; however, in order to maintain the same accuracy, the number of samples should be increased whenever $\vars$ is increased [?].
 
-Finaly, we compare the accuracy of the proposed framework and the MCS.
+Finaly, we compare the accuracy of the proposed framework with the MCS. To make the procedure feasible for the MCS, we keep $\steps$ at $10^2$.
