@@ -28,26 +28,26 @@ classdef Kutta < HotSpot.Base
       dt = hs.dt;
       Tamb = hs.Tamb;
 
-      time = zeros(1, steps + 1);
-
-      for i = 1:(steps + 1)
-        time(i) = (i - 1) * dt;
-      end
-
-      T0 = ones(hs.nodes, 1) * Tamb;
-
       %
       % Initialize the leakage model.
       %
       leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
 
-      [ ~, TT ] = ode45(...
-        @(t, T) Ct + At * T + ...
-          Bt * (Pdyn(:, min(round(t / dt) + 1, steps)) ...
-            + leak.performAtGiven(T(1:cores, :), rvs)), ...
-        time, T0);
+      TT = zeros(steps, cores);
 
-      TT = transpose(TT(2:end, 1:cores));
+      T0 = ones(1, hs.nodes) * Tamb;
+
+      for i = 1:steps
+        [ ~, T0 ] = ode45(...
+          @(t, T) Ct + At * T + Bt * (Pdyn(:, i) ...
+              + leak.performAtGiven(T(1:cores, :), rvs)), ...
+          [ 0, dt ], T0);
+
+          T0 = T0(end, :);
+          TT(i, :) = T0(1:cores);
+      end
+
+      TT = transpose(TT);
     end
   end
 end
