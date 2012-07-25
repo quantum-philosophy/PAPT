@@ -1,11 +1,13 @@
 classdef Polynomial < Leakage.Base
-  properties (SetAccess = 'private')
+  properties (Constant)
     %
     % A multivariate polynomial p(L, T) to compute the leakage current.
     %
     % compute = Spice.fitPolynomial('inverter_45nm', [ 2, 2 ]);
     compute = Spice.fitExponentPolynomial('inverter_45nm', [ 2, 2 ], 0.7);
+  end
 
+  properties (SetAccess = 'private')
     %
     % The storage of all PC coefficients at all moments of time.
     %

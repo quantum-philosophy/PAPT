@@ -26,7 +26,9 @@ classdef Base < handle
     % The mapping matrix from r.v.'s to cores.
     %
     pca
+  end
 
+  properties (SetAccess = 'protected')
     %
     % One of the leakage parameters.
     %
