@@ -2,7 +2,8 @@ init;
 
 cores = 2;
 steps = 100;
-samples = 1e4;
+samples = 2e4;
+method = 'Kutta';
 
 X = [ 1 2 3 4 5 6 7 8 9 10 ];
 
@@ -18,17 +19,15 @@ Pdyn = Utils.replicate(dlmread(powerTrace, '', 1, 0)', steps);
 %% Monte Carlo sampling.
 %
 
-method = 'Kutta';
+hs = HotSpot.(method)(floorplan, config, configLine);
 
-filename = sprintf('MonteCarlo_%s_c%d_s%d_s%d.mat', ...
-  method, cores, steps, samples);
+filename = sprintf('MonteCarlo_%s_nc%d_ns%d_f%d_mcs%d.mat', ...
+  method, cores, steps, 1 / hs.dt, samples);
 filename = Utils.resolvePath(filename, 'cache');
 
 if exist(filename)
   load(filename);
 else
-  hs = HotSpot.(method)(floorplan, config, configLine);
-
   t = tic;
   [ mcExpT, mcVarT ] = MonteCarlo.perform3D( ...
     @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples);
