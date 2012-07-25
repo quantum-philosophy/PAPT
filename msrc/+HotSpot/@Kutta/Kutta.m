@@ -2,7 +2,6 @@ classdef Kutta < HotSpot.Base
   properties (Access = 'private')
     At
     Bt
-    Ct
   end
 
   methods
@@ -12,7 +11,6 @@ classdef Kutta < HotSpot.Base
       hs.At = - diag(1 ./ hs.C) * hs.G;
       hs.Bt = diag(1 ./ hs.C) * ...
         [ diag(ones(1, hs.cores)); zeros(hs.nodes - hs.cores, hs.cores) ];
-      hs.Ct = diag(1 ./ hs.C) * hs.G * ones(hs.nodes, 1) * hs.Tamb;
     end
 
     function TT = solve(hs, Pdyn, rvs)
@@ -24,7 +22,6 @@ classdef Kutta < HotSpot.Base
       %
       At = hs.At;
       Bt = hs.Bt;
-      Ct = hs.Ct;
       dt = hs.dt;
       Tamb = hs.Tamb;
 
@@ -39,7 +36,7 @@ classdef Kutta < HotSpot.Base
 
       for i = 1:steps
         [ ~, T0 ] = ode45(...
-          @(t, T) Ct + At * T + Bt * (Pdyn(:, i) ...
+          @(t, T) At * (T - Tamb) + Bt * (Pdyn(:, i) ...
               + leak.performAtGiven(T(1:cores, :), rvs)), ...
           [ 0, dt ], T0);
 
