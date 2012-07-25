@@ -2,7 +2,8 @@ init;
 
 Lnom = 45e-9;
 
-[ T, B, f ] = Spice.fitPiecewiseLinear(Lnom, 'inverter_45nm', [ 2 2 ], 0.7);
+f = Spice.fitExponentPolynomial('inverter_45nm', [ 2 2 ], 0.7);
+[ T, B ] = Spice.fitPiecewiseLinear(f, Lnom);
 
 TT = [ T(:, 1); T(end, 2) ];
 

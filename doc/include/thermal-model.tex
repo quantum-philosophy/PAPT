@@ -5,7 +5,7 @@ Given a platform description $\system$ (see \sref{architecture-model}), an equiv
 \end{numcases}
 $\mC, \mG \in \real^{\nodes \times \nodes}$ are the matrices of the thermal capacitance and conductance, respectively. $\mC$ is a diagonal matrix with positive elements, and $\mG$ is a symmetric, positive-definite matrix. $\vTI \in \real^\nodes$ is the state vector of the system, which corresponds to the difference between the temperature of the thermal nodes and the ambient temperature. $\vP \in \real^\cores$ is the input vector of the power dissipation of the processing elements (see \eref{power-model}), and $\mM \in \real^{\nodes \times \cores}$ is its mapping matrix to the thermal nodes. $\vTO \in \real^\cores$ is the output vector of the system, which is the temperature of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature, which, for clarity of presentation and without loss of generality, we model as a deterministic variable.
 
-For convenience, we perform an auxiliary transformation \cite{ukhov2012} of the original thermal model given above. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^\ifrac{1}{2} \mG \mC^\ifrac{1}{2}$, and $\mB = \mC^\ifrac{1}{2} \mM$, then\footnote{Since $\mC$ is diagonal, the transformation is cheap to undertake.}
+For convenience, we perform an auxiliary transformation \cite{ukhov2012} of the original thermal model given above. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^{-\ifrac{1}{2}} \mG \mC^{-\ifrac{1}{2}}$, and $\mB = \mC^{-\ifrac{1}{2}} \mM$, then\footnote{Since $\mC$ is diagonal, the transformation is cheap to undertake.}
 \begin{subnumcases}{\elabel{fourier-system}}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
@@ -25,7 +25,7 @@ where $\t \in [0, \dt]$ and
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \elabel{e} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores} \elabel{d}
 \end{align}
-which are matrix-valued functions of $\t$. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
+which are matrix-valued functions of $\t$. As shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
   \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o)
 \end{equation}
