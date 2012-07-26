@@ -2,11 +2,12 @@ init;
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(4);
 
+order = 4;
 monteCarloSamples = 1e4;
 
 %% Initialize the solver.
 %
-ch = HotSpot.Chaos(floorplan, config, configLine);
+ch = HotSpot.Chaos(floorplan, config, configLine, order);
 kt = HotSpot.Kutta(floorplan, config, configLine);
 
 %% Define the needed measurements.

@@ -1,5 +1,6 @@
 init;
 
+order = 4;
 monteCarloSamples = 1e4;
 steps = 1000;
 
@@ -20,7 +21,7 @@ for i = 1:length(X)
 
   %% Initialize the solver.
   %
-  ch = HotSpot.Chaos(floorplan, config, configLine);
+  ch = HotSpot.Chaos(floorplan, config, configLine, order);
   kt = HotSpot.Kutta(floorplan, config, configLine);
 
   %% Read the specified template and fit it to the desired length.
