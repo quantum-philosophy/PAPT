@@ -7,6 +7,11 @@ classdef PolynomialChaos < handle
     sdim
 
     %
+    % The deterministic dimension of the problem.
+    %
+    ddim
+
+    %
     % The maximal order of the multivariate (Hermite) polynomials.
     %
     order
@@ -41,15 +46,16 @@ classdef PolynomialChaos < handle
   end
 
   methods
-    function pc = PolynomialChaos(sdim, order)
+    function pc = PolynomialChaos(dims, order)
       if nargin < 2, order = 2; end
 
-      pc.sdim = sdim;
+      pc.sdim = dims(1);
+      pc.ddim = dims(2);
       pc.order = order;
 
-      [ pc.x, pc.psi, index ] = pc.prepareExpansion(sdim, order);
+      [ pc.x, pc.psi, index ] = pc.prepareExpansion(pc.sdim, order);
 
-      pc.gq = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index);
+      pc.gq = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index, pc.ddim);
 
       pc.terms = length(pc.psi);
 

@@ -38,10 +38,10 @@ fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
 
 fprintf('Polynomial Chaos preparation...');
 t = tic;
-pc = PolynomialChaos(sdim, order);
+pc = PolynomialChaos([ sdim 1 ], order);
 fprintf(' %.2f seconds.\n', toc(t));
 
-points = pc.qd.points;
+points = pc.gq.points;
 fprintf('Number of quadrature points: %d\n', points);
 
 n_mu = irep(n_mu, 1, points);
@@ -51,7 +51,7 @@ f = @(x) exp(sum(n_mu + n_sigma .* x));
 
 fprintf('Polynomial Chaos simulation...');
 t = tic;
-[ mu, var, out_PC ] = pc.perform(f, [ sdim 1 ], samples);
+[ mu, var, out_PC ] = pc.perform(f, samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('mu = %.2f, var = %.2f\n\n', mu, var);

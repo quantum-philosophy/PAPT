@@ -15,7 +15,7 @@ classdef Chaos < HotSpot.Analytic
       %
       % Initialize the PC expansion.
       %
-      hs.pc = PolynomialChaos(hs.sdim, order);
+      hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order);
     end
 
     function [ ExpT, VarT ] = solve(hs, Pdyn)
@@ -52,7 +52,7 @@ classdef Chaos < HotSpot.Analytic
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = gq.computeExpansion(@leak.performAtAmbient, cores);
+      Pcoeff = gq.computeExpansion(@leak.performAtAmbient);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -84,7 +84,7 @@ classdef Chaos < HotSpot.Analytic
         % Perform the PC expansion.
         %
         leak.advance();
-        Pcoeff = gq.computeExpansion(@leak.performAtCurrent, cores);
+        Pcoeff = gq.computeExpansion(@leak.performAtCurrent);
 
         %
         % Add the dynamic power to the mean.

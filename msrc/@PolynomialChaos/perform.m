@@ -1,4 +1,4 @@
-function [ E, C, out ] = perform(pc, f, dims, count)
+function [ E, C, out ] = perform(pc, f, samples)
   %
   % Output:
   %
@@ -9,28 +9,24 @@ function [ E, C, out ] = perform(pc, f, dims, count)
   %   NOTE: `out' is not used to compute the expectation and covariance.
   %
 
-  if nargin < 4, count = 10000; end
+  if nargin < 3, samples = 10000; end
 
-  sdim = dims(1);
-  ddim = dims(2);
-
-  if sdim ~= pc.sdim
-    error('The dimensions do not match each other.');
-  end
+  sdim = pc.sdim;
+  ddim = pc.ddim;
 
   %
   % Obtain the coefficients.
   %
-  coeff = pc.construct(f, ddim);
+  coeff = pc.gq.computeExpansion(f);
 
   %
   % Straight-forward stats.
   %
   E = coeff(:, 1);
-  C = diag(sum(coeff(:, 2:end).^2 .* irep(pc.qd.norm(2:end), ddim, 1), 2));
+  C = diag(sum(coeff(:, 2:end).^2 .* irep(pc.gq.norm(2:end), ddim, 1), 2));
 
   %
   % Now sampling.
   %
-  out = transpose(pc.evaluate(coeff, normrnd(0, 1, sdim, count)));
+  out = transpose(pc.evaluate(coeff, normrnd(0, 1, sdim, samples)));
 end
