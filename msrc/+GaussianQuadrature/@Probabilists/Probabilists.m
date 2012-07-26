@@ -1,5 +1,5 @@
 classdef Probabilists < handle
-  properties (Access = 'protected')
+  properties (SetAccess = 'protected')
     %
     % Precomputed value of each of the polynomials in the PC expansion
     % in each of the points of the sparse grid.

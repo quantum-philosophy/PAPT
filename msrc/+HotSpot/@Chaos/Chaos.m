@@ -15,7 +15,7 @@ classdef Chaos < HotSpot.Analytic
       %
       % Initialize the PC expansion.
       %
-      hs.pc = PolynomialChaos(hs.sdim, order);
+      hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order);
     end
 
     function [ ExpT, VarT ] = solve(hs, Pdyn)
@@ -35,6 +35,7 @@ classdef Chaos < HotSpot.Analytic
       % Shortcuts for the PC expansion.
       %
       pc = hs.pc;
+      gq = pc.gq;
       terms = pc.terms;
 
       %
@@ -51,7 +52,7 @@ classdef Chaos < HotSpot.Analytic
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = pc.construct(@leak.performAtAmbient, cores);
+      Pcoeff = gq.computeExpansion(@leak.performAtAmbient);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -67,9 +68,7 @@ classdef Chaos < HotSpot.Analytic
       % The first step is special because we do not have any expansion yet,
       % and the (projected) temperature is assumed to be zero.
       %
-      for i = 1:terms
-        Tcoeff(:, i) = D * Pcoeff(:, i);
-      end
+      Tcoeff = D * Pcoeff;
 
       for i = 2:steps
         %
@@ -82,8 +81,8 @@ classdef Chaos < HotSpot.Analytic
         %
         % Perform the PC expansion.
         %
-        leak.advance();
-        Pcoeff = pc.construct(@leak.performAtCurrent, cores);
+        leak.position = i - 1;
+        Pcoeff = gq.computeExpansion(@leak.performAtCurrent);
 
         %
         % Add the dynamic power to the mean.
@@ -94,9 +93,7 @@ classdef Chaos < HotSpot.Analytic
         % Compute new coefficients for each of the terms
         % of the PC expansion.
         %
-        for j = 1:terms
-          Tcoeff(:, j) = E * Tcoeff(:, j) + D * Pcoeff(:, j);
-        end
+        Tcoeff = E * Tcoeff + D * Pcoeff;
       end
 
       %
@@ -116,7 +113,7 @@ classdef Chaos < HotSpot.Analytic
       % NOTE: The correlation matrix is full of zeros.
       %
       VarT = zeros(cores, steps);
-      norm = irep(pc.qd.norm(2:end), cores, 1);
+      norm = irep(gq.norm(2:end), cores, 1);
       for i = 1:steps
         VarT(:, i) = sum(trace.coeff(:, 2:end, i).^2 .* norm, 2);
       end

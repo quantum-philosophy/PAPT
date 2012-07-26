@@ -1,13 +1,18 @@
 init;
 
-[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(2);
+order = 4;
+cores = 4;
 
-hs = HotSpot.Chaos(floorplan, config, configLine);
+[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(cores);
+
+hs = HotSpot.Chaos(floorplan, config, configLine, order);
+assert(hs.cores == cores, 'The number of cores is invalid.');
 
 fprintf('Sampling interval:   %.2e s\n', hs.dt);
 fprintf('Ambient temperature: %.2f K\n', hs.Tamb);
 fprintf('Number of nodes:     %d\n', hs.nodes);
-fprintf('Number of cores:     %d\n', hs.cores);
+fprintf('Number of cores:     %d\n', cores);
+fprintf('PC order:            %d\n', order);
 
 Pdyn = dlmread(powerTrace, '', 1, 0)';
 
@@ -28,7 +33,7 @@ time = (1:steps) * hs.dt;
 
 figure;
 title(sprintf('Polynomial Chaos (%.2f s)', t));
-for i = 1:hs.cores
+for i = 1:cores
   color = Utils.pickColor(i);
   line(time, ExpT(i, :), 'Color', color);
   line(time, ExpT(i, :) + StdT(i, :), 'Color', color, 'LineStyle', '--');

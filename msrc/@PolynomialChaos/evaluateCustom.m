@@ -1,7 +1,9 @@
-function out = evaluate(pc, coeff, rvs)
+function out = evaluateCustom(pc, coeff, rvs)
+  points = size(rvs, 2);
+
   ddim = pc.ddim;
 
-  out = zeros(ddim, pc.points);
+  out = zeros(ddim, points);
 
   evaluator = pc.evaluator;
 

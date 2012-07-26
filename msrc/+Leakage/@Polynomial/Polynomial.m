@@ -19,15 +19,19 @@ classdef Polynomial < Leakage.Base
     pc
 
     %
-    % Holds the current position in `trace' and is used
-    % for sequential sampling.
-    %
-    position
-
-    %
     % The number of samples that we are going to require at once.
     %
     points
+  end
+
+  properties
+    %
+    % Holds the current position in `trace' and is used
+    % for sequential sampling.
+    %
+    % NOTE: It is public since we want to optimize the core.
+    %
+    position
   end
 
   methods
@@ -48,7 +52,7 @@ classdef Polynomial < Leakage.Base
         lk.trace = trace;
         lk.pc = pc;
         lk.position = 0;
-        lk.points = pc.qd.points;
+        lk.points = pc.gq.points;
       end
 
       %
