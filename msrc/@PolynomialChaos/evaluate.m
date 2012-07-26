@@ -1,11 +1,11 @@
-function out = evaluate(pc, coeff, points)
-  [ sdim, count ] = size(points);
-  ddim = size(coeff, 1);
+function out = evaluate(pc, coeff, rvs)
+  ddim = pc.ddim;
+
+  out = zeros(ddim, pc.points);
+
   evaluator = pc.evaluator;
 
-  out = zeros(ddim, count);
-
   for i = 1:ddim
-    out(i, :) = evaluator(points, coeff(i, :));
+    out(i, :) = evaluator(rvs, coeff(i, :));
   end
 end

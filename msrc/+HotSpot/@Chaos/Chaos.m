@@ -68,9 +68,7 @@ classdef Chaos < HotSpot.Analytic
       % The first step is special because we do not have any expansion yet,
       % and the (projected) temperature is assumed to be zero.
       %
-      for i = 1:terms
-        Tcoeff(:, i) = D * Pcoeff(:, i);
-      end
+      Tcoeff = D * Pcoeff;
 
       for i = 2:steps
         %
@@ -83,7 +81,7 @@ classdef Chaos < HotSpot.Analytic
         %
         % Perform the PC expansion.
         %
-        leak.advance();
+        leak.position = i - 1;
         Pcoeff = gq.computeExpansion(@leak.performAtCurrent);
 
         %
@@ -95,9 +93,7 @@ classdef Chaos < HotSpot.Analytic
         % Compute new coefficients for each of the terms
         % of the PC expansion.
         %
-        for j = 1:terms
-          Tcoeff(:, j) = E * Tcoeff(:, j) + D * Pcoeff(:, j);
-        end
+        Tcoeff = E * Tcoeff + D * Pcoeff;
       end
 
       %

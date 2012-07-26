@@ -34,6 +34,11 @@ classdef PolynomialChaos < handle
     gq
 
     %
+    % The number of points in the Gaussian quadrature.
+    %
+    points
+
+    %
     % The total number of polynomials in the expansion.
     %
     terms
@@ -56,6 +61,7 @@ classdef PolynomialChaos < handle
       [ pc.x, pc.psi, index ] = pc.prepareExpansion(pc.sdim, order);
 
       pc.gq = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index, pc.ddim);
+      pc.points = pc.gq.points;
 
       pc.terms = length(pc.psi);
 
