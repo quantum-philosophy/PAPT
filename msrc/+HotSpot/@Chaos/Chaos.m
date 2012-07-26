@@ -35,6 +35,7 @@ classdef Chaos < HotSpot.Analytic
       % Shortcuts for the PC expansion.
       %
       pc = hs.pc;
+      gq = pc.gq;
       terms = pc.terms;
 
       %
@@ -51,7 +52,7 @@ classdef Chaos < HotSpot.Analytic
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = pc.construct(@leak.performAtAmbient, cores);
+      Pcoeff = gq.computeExpansion(@leak.performAtAmbient, cores);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -83,7 +84,7 @@ classdef Chaos < HotSpot.Analytic
         % Perform the PC expansion.
         %
         leak.advance();
-        Pcoeff = pc.construct(@leak.performAtCurrent, cores);
+        Pcoeff = gq.computeExpansion(@leak.performAtCurrent, cores);
 
         %
         % Add the dynamic power to the mean.
@@ -116,7 +117,7 @@ classdef Chaos < HotSpot.Analytic
       % NOTE: The correlation matrix is full of zeros.
       %
       VarT = zeros(cores, steps);
-      norm = irep(pc.qd.norm(2:end), cores, 1);
+      norm = irep(gq.norm(2:end), cores, 1);
       for i = 1:steps
         VarT(:, i) = sum(trace.coeff(:, 2:end, i).^2 .* norm, 2);
       end

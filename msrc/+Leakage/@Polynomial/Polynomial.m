@@ -48,7 +48,7 @@ classdef Polynomial < Leakage.Base
         lk.trace = trace;
         lk.pc = pc;
         lk.position = 0;
-        lk.points = pc.qd.points;
+        lk.points = pc.gq.points;
       end
 
       %

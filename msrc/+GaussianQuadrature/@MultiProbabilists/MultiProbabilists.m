@@ -4,6 +4,11 @@ classdef MultiProbabilists < GaussianQuadrature.Probabilists
     % The normalization coefficients of the expansion, i.e., <psi_i^2>.
     %
     norm
+
+    %
+    % The number of terms in the PC expansion.
+    %
+    terms
   end
 
   methods
@@ -11,6 +16,7 @@ classdef MultiProbabilists < GaussianQuadrature.Probabilists
       gq = gq@GaussianQuadrature.Probabilists();
       [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, index);
       gq.points = size(gq.nodes, 2);
+      gq.terms = length(gq.norm);
     end
 
     function result = integrateWithChaos(gq, f, ddim, c)
@@ -21,9 +27,17 @@ classdef MultiProbabilists < GaussianQuadrature.Probabilists
       error('Deprecated.');
     end
 
-    function result = integrateWithNormalizedChaos(gq, f, ddim, c)
+    function coeff = computeExpansion(gq, f, ddim)
+      grid = gq.niceGrid;
+      terms = gq.terms;
+
+      coeff = zeros(ddim, terms);
+
       samples = f(gq.nodes);
-      result = sum(samples .* irep(gq.niceGrid(c, :), ddim, 1), 2);
+
+      for i = 1:terms
+        coeff(:, i) = sum(samples .* irep(grid(i, :), ddim, 1), 2);
+      end
     end
   end
 

@@ -1,4 +1,6 @@
 function coeff = construct(pc, f, ddim)
+  error('Deprecated. Drastically inefficient.');
+
   qd = pc.qd;
   terms = pc.terms;
 

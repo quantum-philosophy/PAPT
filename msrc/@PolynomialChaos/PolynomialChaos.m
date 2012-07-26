@@ -26,7 +26,7 @@ classdef PolynomialChaos < handle
     % numerical integration. It is an optimized version, an instance
     % of GaussianQuadrature.Chaos.
     %
-    qd
+    gq
 
     %
     % The total number of polynomials in the expansion.
@@ -49,7 +49,7 @@ classdef PolynomialChaos < handle
 
       [ pc.x, pc.psi, index ] = pc.prepareExpansion(sdim, order);
 
-      pc.qd = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index);
+      pc.gq = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index);
 
       pc.terms = length(pc.psi);
 
