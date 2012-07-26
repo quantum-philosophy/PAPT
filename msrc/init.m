@@ -1,5 +1,4 @@
 clear all;
-clc;
 
 path(path, [ Constants.vendorDirectory, '/', 'SPARSE_GRID_HERMITE' ]);
 path(path, [ Constants.vendorDirectory, '/', 'SPARSE_GRID_HW' ]);
