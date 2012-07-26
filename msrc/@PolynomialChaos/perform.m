@@ -28,5 +28,5 @@ function [ E, C, out ] = perform(pc, f, samples)
   %
   % Now sampling.
   %
-  out = transpose(pc.evaluate(coeff, normrnd(0, 1, sdim, samples)));
+  out = transpose(pc.evaluateCustom(coeff, normrnd(0, 1, sdim, samples)));
 end
