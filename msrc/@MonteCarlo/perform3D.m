@@ -1,4 +1,4 @@
-function [ E, V ] = perform3D(f, dims, samples)
+function [ E, V, t ] = perform3D(f, dims, samples, stamp)
   %
   % Description:
   %
@@ -16,6 +16,7 @@ function [ E, V ] = perform3D(f, dims, samples)
 
   if nargin < 2, dims = [ 1, 1, 1 ]; end
   if nargin < 3, samples = 10000; end
+  if nargin < 4, stamp = []; end
 
   %
   % Stochastic dimension.
@@ -44,20 +45,41 @@ function [ E, V ] = perform3D(f, dims, samples)
     tdim = dims(3);
   end
 
-  %
-  % First, we sample.
-  %
-  rvs = normrnd(0, 1, sdim, samples);
-  out = zeros(samples, ddim, tdim);
+  out = zeros(0, ddim, tdim);
+  done = 0;
+  t = 0;
 
-  h = waitbar(0, sprintf('Monte Carlo sampling: %d/%d.', 0, samples));
+  if ~isempty(stamp)
+    pattern = [ 'MonteCarlo_', stamp, '_mcs(.+).mat' ];
+    match = Utils.findCache(pattern);
 
-  for i = 1:samples
-    out(i, :, :) = f(rvs(:, i));
-    waitbar(i / samples, h, sprintf('Monte Carlo sampling: %d/%d.', i, samples));
+    if ~isempty(match)
+      load(match);
+      done = min(samples, size(out, 1));
+    end
   end
 
-  close(h);
+  left = samples - done;
+  out = [ out(1:done, :, :); zeros(left, ddim, tdim) ];
+
+  if left > 0
+    rvs = normrnd(0, 1, sdim, left);
+
+    h = waitbar(0, sprintf('Monte Carlo sampling: %d/%d.', done, samples));
+
+    m = tic;
+    for i = 1:left
+      out(done + i, :, :) = f(rvs(:, i));
+      waitbar((done + i) / samples, h, ...
+        sprintf('Monte Carlo sampling: %d/%d.', done + i, samples));
+    end
+    t = t + toc(m);
+
+    close(h);
+
+    name = [ 'MonteCarlo_', stamp, '_mcs', num2str(samples), '.mat' ];
+    save(Utils.resolvePath(name, 'cache'), 'out', 't');
+  end
 
   %
   % Compute the expectation and variance.
