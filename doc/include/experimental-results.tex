@@ -1,6 +1,6 @@
 In this section, numerical results of the proposed framework for the illustrative example given in \sref{illustrative-example} are presented. All the experiments are implemented in MATLAB R2012a \cite{matlab} and conducted in a GNU/Linux distribution running on Intel Core i7-2600 3.4GHz with 8Gb of RAM.
 
-The proposed framework is set up to construct second-order PC expansions using the Smolyak algorithm for multidimensional integration. In the model reduction technique, described in \sref{preprocessing-rvs}, the threshold parameter $\Lth$ is set to $0.99$ forcing the preserved eigenvalues to capture $99\%$ of the variance of the data. To assess the performance of the framework, we employ a Monte Carlo sampling (MCS) technique. The MCS consists in solving the governing \eref{fourier-original} numerically using the Dormand-Prince method, which is based on the fourth- and fifth-order Runge-Kutta formulas \cite{press2007}. The leakage model for the MCS is the same as for the proposed framework. The number of samples of the MCS is set to $10^4$ \cite{xiu2009}.
+The proposed framework is set up to construct second-order PC expansions using the Smolyak algorithm for multidimensional integration. In the model reduction technique, described in \sref{preprocessing-rvs}, the threshold parameter $\Lth$ is set to $0.99$ forcing the preserved eigenvalues to capture $99\%$ of the variance of the data. To assess the performance of the framework, we employ a Monte Carlo sampling (MCS) technique. The MCS consists in solving the governing \eref{fourier-original} numerically using the Dormand-Prince method, which is based on the fourth- and fifth-order Runge-Kutta formulas \cite{press2007}. The leakage model for the MCS is the same as for the proposed framework. The number of samples of the MCS is set to $10^4$, which is typically consudered as the lower bound, cf. \cite{xiu2009, bhardwaj2006}.
 
 In order to construct equivalent thermal RC circuits (the matrices $\mC$ and $\mG$ in \eref{fourier-original}), the thermal simulator HotSpot v5.02 \cite{hotspot} with default settings is employed; in this case, the relation between the number of processing elements and the number of thermal nodes is $\nodes = 4 \cores + 12$. The sampling interval of power and temperature profiles is set to one millisecond, i.e., $\dt_i = 10^{-3}$s, $\forall i$. The effective channel length $\Leff$ is assumend to deviate by $5\%$ from the nominal value of 45nm where the global and local variations are equaly weighted \cite{juan2012}. The reference leakage current $I_\leak(\Leff, \T)$ (see \eref{leakage-current}) is scaled up to the power level of each of the processing elements in such a way that the leakage power accounts for about $40\%$ of the total power dissipation at high temperatures \cite{liu2007}. All the power profiles used here are obtained by simulation of synthetic applications on hypothetical platforms.
 
@@ -10,13 +10,13 @@ In order to construct equivalent thermal RC circuits (the matrices $\mC$ and $\m
   \vspace{-10pt}
   \begin{tabular}{|r|r|r|r|}
     \hline
-    $\steps$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
+    $\steps$ & Proposed, seconds & Monte Carlo, hours & Speedup, times \\
     \hline
-    $     10$ & $   0.71$ & $  0.06$ & $4.26 \times 10^4$ \\
-    $    100$ & $   2.84$ & $  0.20$ & $5.02 \times 10^4$ \\
-    $   1000$ & $  28.17$ & $  2.01$ & $5.05 \times 10^4$ \\
-    $  10000$ & $ 281.59$ & $ 20.06$ & $5.05 \times 10^4$ \\
-    $ 100000$ & $2819.94$ & $200.64$ & $5.06 \times 10^4$ \\
+    $     10$ & $  0.06$ & $   0.71$ & $4.26 \times 10^4$ \\
+    $    100$ & $  0.20$ & $   2.84$ & $5.02 \times 10^4$ \\
+    $   1000$ & $  2.01$ & $  28.17$ & $5.05 \times 10^4$ \\
+    $  10000$ & $ 20.06$ & $ 281.59$ & $5.05 \times 10^4$ \\
+    $ 100000$ & $200.64$ & $2819.94$ & $5.06 \times 10^4$ \\
     \hline
   \end{tabular}
   \tlabel{scaling-steps}
@@ -30,18 +30,18 @@ First, we investigate the scaling properties of the proposed framework with resp
   \vspace{-10pt}
   \begin{tabular}{|r|r|r|r|}
     \hline
-    $\cores$ & Monte Carlo, hours & Proposed, seconds & Speedup, times \\
+    $\cores$ & Proposed, seconds & Monte Carlo, hours & Speedup, times \\
     \hline
-    $ 2$ & $28.20$ & $  1.72$ & $5.90 \times 10^4$ \\
-    $ 4$ & $28.05$ & $  2.00$ & $5.06 \times 10^4$ \\
-    $ 8$ & $28.32$ & $ 24.34$ & $4.19 \times 10^3$ \\
-    $16$ & $29.56$ & $ 45.35$ & $2.35 \times 10^3$ \\
-    $32$ & $35.88$ & $467.08$ & $2.77 \times 10^2$ \\
+    $ 2$ & $  1.72$ & $28.20$ & $5.90 \times 10^4$ \\
+    $ 4$ & $  2.00$ & $28.05$ & $5.06 \times 10^4$ \\
+    $ 8$ & $ 24.34$ & $28.32$ & $4.19 \times 10^3$ \\
+    $16$ & $ 45.35$ & $29.56$ & $2.35 \times 10^3$ \\
+    $32$ & $467.08$ & $35.88$ & $2.77 \times 10^2$ \\
     \hline
   \end{tabular}
   \tlabel{scaling-cores}
   \vspace{-10pt}
 \end{table}
-The next parameter to exercise is the number of processing elements $\cores$ and, consequently, the number of stochastic dimensions $\vars$. In these experiments, the number of steps $\steps$ is constant and equal to $10^3$. The results are given in \tref{scaling-cores}. It is well-known that the workload per one sample of MCS techniques is independent of the number of stochastic dimensions \cite{poette2012}, which can be clearly seen in the table. At the same time, we observe a polynomial growth \cite{heiss2008} of the PC expansion based on sparse grids, which is also predictable. However, even in high dimensions, the proposed framework significantly outperforms the MCS. For instance, to quantify a power profile with $10^3$ steps of a multiprocessor system with 32 cores, the MCS requires more than 35 hours whereas the proposed framework takes only 8 minutes. It should be noted separately that the number of samples of the MCS is constant in this setup; however, in order to maintain the same accuracy, the number of samples should be increased whenever $\vars$ is increased [?].
+The next parameter to exercise is the number of processing elements $\cores$ and, consequently, the number of stochastic dimensions $\vars$. In these experiments, the number of steps $\steps$ is constant and equal to $10^3$. The results are given in \tref{scaling-cores}. It is well-known that the workload per one sample of MCS techniques is independent of the number of stochastic dimensions \cite{maitre2010}, which can be clearly seen in the table. At the same time, we observe a polynomial growth \cite{heiss2008} of the PC expansion based on sparse grids, which is also predictable. However, even in high dimensions, the proposed framework significantly outperforms the MCS. For instance, to quantify a power profile with $10^3$ steps of a multiprocessor system with 32 cores, the MCS requires more than 35 hours whereas the proposed framework takes only 8 minutes. It should be noted separately that the number of samples of the MCS is constant in this setup; however, in order to maintain the same accuracy, the number of samples should be increased whenever $\vars$ is increased [?].
 
 Finaly, we compare the accuracy of the proposed framework with the MCS. To make the procedure feasible for the MCS, we keep $\steps$ at $10^2$.
