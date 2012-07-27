@@ -35,9 +35,9 @@ function [ P, MT ] = toMatrix(p, rvMarker, coeffMarker)
   coeffI = [];
   coeffID = [];
 
-  mterms = length(p.Variables);
+  vars = length(p.Variables);
 
-  for i = 1:mterms
+  for i = 1:vars
     %
     % A name of a variable?
     %
@@ -82,6 +82,8 @@ function [ P, MT ] = toMatrix(p, rvMarker, coeffMarker)
   coeffI = coeffI(I);
 
   P = transpose(p.Exponents(:, rvI));
+
+  mterms = size(p.Exponents, 1);
 
   MT = zeros(terms, mterms);
 

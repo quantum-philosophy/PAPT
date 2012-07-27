@@ -51,11 +51,15 @@ function [ nodes, norm, grid, coeffMap, rvProd ] = doPrepareExpansion(sdim, ddim
 
   [ P, coeffMap ] = Utils.toMatrix(sum(a .* psi));
 
+  mterms = size(P, 2);
+
+  assert(size(coeffMap, 1) == terms, 'The size of coeffMap is invalid.');
+  assert(size(coeffMap, 2) == mterms, 'The size of coeffMap is invalid.');
+
   %
   % P is a (sdim x mterms) matrix of the exponents of each of the monomials.
   %
 
-  mterms = size(P, 2);
   rvProd = zeros(mterms, points);
 
   for i = 1:mterms
