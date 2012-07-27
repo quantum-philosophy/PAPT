@@ -1,8 +1,8 @@
 init;
 
-cores = 2;
+cores = 4;
 steps = 100;
-samples = 2e4;
+samples = 1e4;
 
 [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(cores);
 
@@ -25,20 +25,10 @@ for i = 1:length(methodSet)
 
   hs = HotSpot.(method)(floorplan, config, configLine);
 
-  filename = sprintf('MonteCarlo_%s_nc%d_ns%d_f%d_mcs%d.mat', ...
-    method, cores, steps, 1 / hs.dt, samples);
-  filename = Utils.resolvePath(filename, 'cache');
+  stamp = sprintf('%s_nc%d_ns%d_f%d', method, cores, steps, 1 / hs.dt);
 
-  if exist(filename)
-    load(filename);
-  else
-    t = tic;
-    [ mcExpT, mcVarT ] = MonteCarlo.perform3D( ...
-      @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples);
-    t = toc(t);
-
-    save(filename, 't', 'mcExpT', 'mcVarT');
-  end
+  [ mcExpT, mcVarT, t ] = MonteCarlo.perform3D( ...
+    @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples, stamp);
 
   fprintf('MC with %s simulation time:  %.2f s\n', method, t);
 

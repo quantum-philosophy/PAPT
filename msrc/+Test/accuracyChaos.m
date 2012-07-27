@@ -1,6 +1,6 @@
 init;
 
-cores = 2;
+cores = 4;
 steps = 100;
 samples = 1e4;
 method = 'Analytic';
