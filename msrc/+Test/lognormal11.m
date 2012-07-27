@@ -46,7 +46,7 @@ t = tic;
 pc = PolynomialChaos([ 1 1 ], order);
 fprintf(' %.2f seconds.\n', toc(t));
 
-points = pc.gq.points;
+points = pc.points;
 fprintf('Number of quadrature points: %d\n', points);
 
 fprintf('Polynomial Chaos simulation...');

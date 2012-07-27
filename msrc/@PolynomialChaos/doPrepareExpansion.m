@@ -1,4 +1,4 @@
-function [ nodes, norm, grid, coeffMap, rvProd ] = doPrepareExpansion(sdim, ddim, order)
+function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order)
   %
   % Input:
   %
@@ -49,20 +49,20 @@ function [ nodes, norm, grid, coeffMap, rvProd ] = doPrepareExpansion(sdim, ddim
     a(i) = sympoly([ 'a', num2str(i) ]);
   end
 
-  [ P, coeffMap ] = Utils.toMatrix(sum(a .* psi));
+  [ rvPower, coeffMap ] = Utils.toMatrix(sum(a .* psi));
 
-  mterms = size(P, 2);
+  mterms = size(rvPower, 2);
 
   assert(size(coeffMap, 1) == terms, 'The size of coeffMap is invalid.');
   assert(size(coeffMap, 2) == mterms, 'The size of coeffMap is invalid.');
 
   %
-  % P is a (sdim x mterms) matrix of the exponents of each of the monomials.
+  % rvPower is a (sdim x mterms) matrix of the exponents of each of the monomials.
   %
 
   rvProd = zeros(mterms, points);
 
   for i = 1:mterms
-    rvProd(i, :) = prod(realpow(nodes, irep(P(:, i), 1, points)), 1);
+    rvProd(i, :) = prod(realpow(nodes, irep(rvPower(:, i), 1, points)), 1);
   end
 end

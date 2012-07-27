@@ -41,6 +41,11 @@ classdef PolynomialChaos < handle
     %
 
     %
+    % A (sdim x mterms) matrix of the exponents of the monomials.
+    %
+    rvPower
+
+    %
     % A (mterms x points) matrix of precomputed values of products of r.v.'s
     % for all monomials and all points.
     %
@@ -71,7 +76,7 @@ classdef PolynomialChaos < handle
       pc.ddim = dims(2);
       pc.order = order;
 
-      [ pc.nodes, pc.norm, pc.grid, pc.coeffMap, pc.rvProd ] = ...
+      [ pc.nodes, pc.norm, pc.grid, pc.rvPower, pc.rvProd, pc.coeffMap ] = ...
         pc.prepareExpansion(pc.sdim, pc.ddim, order);
 
       pc.points = size(pc.nodes, 2);
@@ -124,9 +129,9 @@ classdef PolynomialChaos < handle
   methods (Static, Access = 'private')
     psi = construct1D(x, order);
     [ psi, index ] = constructMD(x, order);
-    [ nodes, norm, grid, coeffMap, rvProd ] = doPrepareExpansion(sdim, ddim, order);
+    [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order);
 
-    function [ nodes, norm, grid, coeffMap, rvProd ] = prepareExpansion(sdim, ddim, order)
+    function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = prepareExpansion(sdim, ddim, order)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
@@ -141,9 +146,9 @@ classdef PolynomialChaos < handle
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, norm, grid, coeffMap, rvProd ] = ...
+        [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
           PolynomialChaos.doPrepareExpansion(sdim, ddim, order);
-        save(filename, 'nodes', 'norm', 'grid', 'coeffMap', 'rvProd');
+        save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap');
       end
     end
   end

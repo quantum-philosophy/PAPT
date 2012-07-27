@@ -51,7 +51,7 @@ t = tic;
 pc = PolynomialChaos([ sdim ddim ], order);
 fprintf(' %.2f seconds.\n', toc(t));
 
-points = pc.gq.points;
+points = pc.points;
 fprintf('Number of quadrature points: %d\n', points);
 
 n_mu = irep(n_mu, 1, points);
