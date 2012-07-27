@@ -3,7 +3,7 @@ init;
 cores = 4;
 steps = 100;
 samples = 1e4;
-method = 'Analytic';
+method = 'Kutta';
 
 X = [ 1 2 3 4 5 6 ];
 

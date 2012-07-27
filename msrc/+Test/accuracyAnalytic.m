@@ -30,7 +30,7 @@ for i = 1:length(methodSet)
   [ mcExpT, mcVarT, t ] = MonteCarlo.perform3D( ...
     @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples, stamp);
 
-  fprintf('MC with %s simulation time:  %.2f s\n', method, t);
+  fprintf('MC with %s simulation time: %.2f s\n', method, t);
 
   mcExpT = Utils.toCelsius(mcExpT);
   mcStdT = sqrt(mcVarT);
