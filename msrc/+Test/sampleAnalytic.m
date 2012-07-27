@@ -1,11 +1,11 @@
-function [ exp, var, raw, time ] = computeKutta(c)
+function [ exp, var, raw, time ] = sampleAnalytic(c)
   if nargin < 1, c = Test.config(); end
 
-  hs = HotSpot.Kutta(c.floorplan, c.hotspotConfig, c.hotspotLine);
+  hs = HotSpot.Analytic(c.hotspotSet{:});
 
   [ exp, var, raw, time ] = MonteCarlo.perform3D( ...
     @(rvs) hs.solve(c.dynamicPower, rvs), [ hs.sdim, c.cores, c.steps ], ...
-    c.samples, c.stamp('Kutta'));
+    c.samples, c.stamp('Analytic'));
 
   exp = Utils.toCelsius(exp);
   raw = Utils.toCelsius(raw);

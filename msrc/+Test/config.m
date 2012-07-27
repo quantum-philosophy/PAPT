@@ -1,29 +1,64 @@
 classdef config < handle
   properties
-    cores
-    steps
-    samples
-    dt
+    %
+    % HotSpot inputs.
+    %
     floorplan
     powerTrace
     hotspotConfig
     hotspotLine
+
+    %
+    % Basic parameters.
+    %
+    cores
+    steps
+    dt
+
+    %
+    % Monte Carlo sampling
+    %
+    samples
+
+    %
+    % Polynomial chaos expansion.
+    %
+    order
+
+    %
+    % Dynamic power profile.
+    %
+    originalDynamicPower
     dynamicPower
   end
 
   methods
-    function c = config()
+    function c = config(varargin)
       c.cores = 4;
       c.steps = 100;
-      c.samples = 1e4;
       c.dt = 1e-3;
+      c.samples = 1e4;
+      c.order = 4;
+
+      for i = 1:(length(varargin) / 2)
+        name = lower(varargin{(i - 1) * 2 + 1});
+        value = varargin{(i - 1) * 2 + 2};
+
+        switch (name)
+        case 'cores'
+          c.cores = value;
+        otherwise
+          error('The parameter is unknown.');
+        end
+      end
 
       [ c.floorplan, c.powerTrace, c.hotspotConfig ] = ...
         Utils.resolveTest(c.cores);
 
       c.hotspotLine = sprintf('sampling_intvl %.2e', c.dt);
 
-      c.dynamicPower = dlmread(c.powerTrace, '', 1, 0)';
+      c.originalDynamicPower = dlmread(c.powerTrace, '', 1, 0)';
+      c.dynamicPower = c.originalDynamicPower;
       c.steps = size(c.dynamicPower, 2);
 
       assert(size(c.dynamicPower, 1) == c.cores, ...
@@ -31,7 +66,7 @@ classdef config < handle
     end
 
     function adjustPowerSteps(c, steps)
-      c.dynamicPower = Utils.replicate(c.dynamicPower, steps);
+      c.dynamicPower = Utils.replicate(c.originalDynamicPower, steps);
       c.steps = steps;
     end
 
@@ -41,10 +76,12 @@ classdef config < handle
     end
 
     function display(c)
-      fprintf('Number of cores:   %d\n', c.cores);
-      fprintf('Number of steps:   %d\n', c.steps);
-      fprintf('Number of samples: %d\n', c.samples);
-      fprintf('Sampling interval: %.2e\n', c.dt);
+      fprintf('Number of cores:          %d\n', c.cores);
+      fprintf('Number of steps:          %d\n', c.steps);
+      fprintf('Sampling interval:        %.2e\n', c.dt);
+      fprintf('Total simulated time:     %.2f s\n', c.dt * c.steps);
+      fprintf('Number of samples for MC: %d\n', c.samples);
+      fprintf('Polynomial order for PC:  %d\n', c.order);
     end
 
     function s = stamp(c, prefix)
@@ -57,6 +94,10 @@ classdef config < handle
 
     function time = timeLine(c)
       time = (0:(c.steps - 1)) * c.dt;
+    end
+
+    function set = hotspotSet(c)
+      set = { c.floorplan, c.hotspotConfig, c.hotspotLine };
     end
   end
 end

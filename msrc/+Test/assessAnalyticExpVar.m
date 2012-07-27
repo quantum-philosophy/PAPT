@@ -9,7 +9,7 @@ time = c.timeLine;
 %% Temperature analysis with Kutta.
 %
 
-[ kExp, kVar, kRaw, kTime ] = Test.computeKutta(c);
+[ kExp, kVar, kRaw, kTime ] = Test.sampleKutta(c);
 fprintf('MC with Kutta simulation time: %.2f s\n', kTime);
 
 std = sqrt(kVar);
@@ -26,7 +26,7 @@ end
 %% Temperature analysis with Analytic.
 %
 
-[ aExp, aVar, aRaw, aTime ] = Test.computeAnalytic(c);
+[ aExp, aVar, aRaw, aTime ] = Test.sampleAnalytic(c);
 fprintf('MC with Analytic simulation time: %.2f s\n', aTime);
 
 std = sqrt(aVar);

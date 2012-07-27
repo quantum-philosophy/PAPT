@@ -1,47 +1,36 @@
 init;
 
-[ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(4);
-
-order = 4;
-monteCarloSamples = 1e4;
+c = Test.config();
 
 %% Initialize the solver.
 %
-ch = HotSpot.Chaos(floorplan, config, configLine, order);
-kt = HotSpot.Kutta(floorplan, config, configLine);
+ch = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, c.order);
+kt = HotSpot.Kutta(c.floorplan, c.hotspotConfig, c.hotspotLine);
 
 %% Define the needed measurements.
 %
 X = [ 10, 100, 1000, 10000, 100000 ];
-
-%% Read the specified template.
-%
-P = dlmread(powerTrace, '', 1, 0)';
 
 fprintf('%15s%15s%15s%15s\n', 'Steps', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  steps = X(i);
+  c.adjustPowerSteps(X(i));
 
-  fprintf('%15d', steps);
-
-  %% Construct a power profile of specific size.
-  %
-  PP = Utils.replicate(P, steps);
+  fprintf('%15d', c.steps);
 
   %% Perform the analysis.
   %
-  time = tic;
-  ch.solve(PP);
-  Y(i, 1) = toc(time);
+  t = tic;
+  ch.solve(c.dynamicPower);
+  Y(i, 1) = toc(t);
 
   fprintf('%15.2f', Y(i, 1));
 
-  time = tic;
-  kt.solve(PP, zeros(kt.sdim, 1));
-  Y(i, 2) = toc(time) * monteCarloSamples;
+  t = tic;
+  kt.solve(c.dynamicPower, zeros(kt.sdim, 1));
+  Y(i, 2) = toc(t) * c.samples;
 
   fprintf('%15.2f', Y(i, 2) / 60 / 60);
 

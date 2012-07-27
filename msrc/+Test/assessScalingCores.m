@@ -1,7 +1,5 @@
 init;
 
-order = 4;
-monteCarloSamples = 1e4;
 steps = 1000;
 
 %% Define the needed measurements.
@@ -13,33 +11,27 @@ fprintf('%15s%15s%15s%15s\n', 'Cores', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  cores = X(i);
+  c = Test.config('cores', X(i));
+  c.adjustPowerSteps(steps);
 
-  fprintf('%15d', cores);
-
-  [ floorplan, powerTrace, config, configLine ] = Utils.resolveTest(cores);
+  fprintf('%15d', c.cores);
 
   %% Initialize the solver.
   %
-  ch = HotSpot.Chaos(floorplan, config, configLine, order);
-  kt = HotSpot.Kutta(floorplan, config, configLine);
-
-  %% Read the specified template and fit it to the desired length.
-  %
-  P = dlmread(powerTrace, '', 1, 0)';
-  PP = Utils.replicate(P, steps);
+  ch = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, c.order);
+  kt = HotSpot.Kutta(c.floorplan, c.hotspotConfig, c.hotspotLine);
 
   %% Perform the analysis.
   %
-  time = tic;
-  ch.solve(PP);
-  Y(i, 1) = toc(time);
+  t = tic;
+  ch.solve(c.dynamicPower);
+  Y(i, 1) = toc(t);
 
   fprintf('%15.2f', Y(i, 1));
 
-  time = tic;
-  kt.solve(PP, zeros(kt.sdim, 1));
-  Y(i, 2) = toc(time) * monteCarloSamples;
+  t = tic;
+  kt.solve(c.dynamicPower, zeros(kt.sdim, 1));
+  Y(i, 2) = toc(t) * c.samples;
 
   fprintf('%15.2f', Y(i, 2) / 60 / 60);
 
@@ -54,4 +46,4 @@ title('Scaling with Number of Cores');
 xlabel('Steps');
 ylabel('Time, s');
 
-legend('Proposed Framework', 'One Monte Carlo');
+legend('Chaos', 'Kutta');

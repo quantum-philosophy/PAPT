@@ -158,7 +158,7 @@ classdef Piecewise < HotSpot.Analytic
         %
         % Compute the leakage power.
         %
-        % Pleak(:, i) = leak.performAtGiven(T(:, i - 1), rvs);
+        % Pleak(:, i) = leak.performAtGiven(rvs, T(:, i - 1));
         Pleak(:, i) = M;
 
         %

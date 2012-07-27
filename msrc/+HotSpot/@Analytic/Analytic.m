@@ -97,7 +97,7 @@ classdef Analytic < HotSpot.Base
 
       for i = 2:steps
         T(:, i - 1) = BT * X + Tamb;
-        Pleak(:, i) = leak.performAtGiven(T(:, i - 1), rvs);
+        Pleak(:, i) = leak.performAtGiven(rvs, T(:, i - 1));
         X = E * X + D * (Pdyn(:, i) + Pleak(:, i));
       end
 

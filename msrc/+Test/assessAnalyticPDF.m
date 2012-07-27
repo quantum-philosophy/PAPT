@@ -6,8 +6,8 @@ c.display();
 
 time = c.timeLine;
 
-[ kExp, kVar, kRaw, kTime ] = Test.computeKutta(c);
-[ aExp, aVar, aRaw, aTime ] = Test.computeAnalytic(c);
+[ kExp, kVar, kRaw, kTime ] = Test.sampleKutta(c);
+[ aExp, aVar, aRaw, aTime ] = Test.sampleAnalytic(c);
 
 error = Utils.comparePDF(c.timeLine, kRaw, aRaw, { 'Kutta', 'Analytic' });
 
