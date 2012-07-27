@@ -1,13 +1,13 @@
 init;
 
-cores = 2;
+cores = 4;
 steps = 100;
 divide = 2;
-samples = 2e4;
+samples = 1e4;
 method = 'Kutta';
 dt = 1e-3;
 
-X = [ 1 2 3 4 5 6 7 8 9 10 ];
+X = [ 1 2 3 4 5 6 ];
 
 pick = length(X);
 
@@ -24,23 +24,12 @@ Pdyn = Utils.replicate(dlmread(powerTrace, '', 1, 0)', steps);
 %
 
 hs = HotSpot.(method)(floorplan, config, configLine);
-
 assert(hs.dt == dt, 'The sampling interval is invalid.');
 
-filename = sprintf('MonteCarlo_%s_nc%d_ns%d_f%d_mcs%d.mat', ...
-  method, cores, steps, 1 / dt, samples);
-filename = Utils.resolvePath(filename, 'cache');
+stamp = sprintf('%s_nc%d_ns%d_f%d', method, cores, steps, 1 / hs.dt);
 
-if exist(filename)
-  load(filename);
-else
-  t = tic;
-  [ mcExpT, mcVarT ] = MonteCarlo.perform3D( ...
-    @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples);
-  t = toc(t);
-
-  save(filename, 't', 'mcExpT', 'mcVarT');
-end
+[ mcExpT, mcVarT, t ] = MonteCarlo.perform3D( ...
+  @(rvs) hs.solve(Pdyn, rvs), [ hs.sdim, cores, steps ], samples, stamp);
 
 fprintf('MC simulation time: %.2f s\n', t);
 
