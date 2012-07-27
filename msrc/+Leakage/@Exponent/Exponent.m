@@ -11,31 +11,8 @@ classdef Exponent < Leakage.Base
     beta = -(466.4029 * 1 - 1224.74083) / Leakage.Exponent.Lnom;
   end
 
-  properties (SetAccess = 'private')
-    %
-    % The storage of all PC coefficients at all moments of time.
-    %
-    trace
-
-    %
-    % The polynomial chaos used to calculate temperature.
-    %
-    pc
-
-    %
-    % Holds the current position in `trace' and is used
-    % for sequential sampling.
-    %
-    position
-
-    %
-    % The number of samples that we are going to require at once.
-    %
-    points
-  end
-
   methods
-    function lk = Exponent(Tamb, Pdyn, pca, trace, pc)
+    function lk = Exponent(Tamb, Pdyn, pca, points)
       [ cores, steps ] = size(Pdyn);
 
       lk = lk@Leakage.Base(Tamb, cores, pca);
@@ -44,15 +21,7 @@ classdef Exponent < Leakage.Base
         %
         % One sample at a time (Monte-Carlo).
         %
-        lk.points = 1;
-      else
-        %
-        % A bunch of samples at a time (PC).
-        %
-        lk.trace = trace;
-        lk.pc = pc;
-        lk.position = 0;
-        lk.points = pc.gq.points;
+        points = 1;
       end
 
       %
@@ -66,12 +35,8 @@ classdef Exponent < Leakage.Base
       %
       % Adjust to the dimension of the quadrature.
       %
-      lk.alpha = irep(lk.alpha, 1, lk.points);
-      lk.Tamb = irep(lk.Tamb, 1, lk.points);
-    end
-
-    function advance(lk)
-      lk.position = lk.position + 1;
+      lk.alpha = irep(lk.alpha, 1, points);
+      lk.Tamb = irep(lk.Tamb, 1, points);
     end
 
     function P = performAtAmbient(lk, rvs)
@@ -80,22 +45,7 @@ classdef Exponent < Leakage.Base
         (lk.Lnom + lk.pca * rvs) ./ T);
     end
 
-    function P = performAtCurrent(lk, rvs)
-      %
-      % With...
-      %
-      T = lk.pc.evaluate(lk.trace.coeff(:, :, lk.position), rvs);
-      %
-      % ... or without inner expansions.
-      %
-      % T = lk.trace.coeff(:, 1, lk.position);
-      % T = irep(T, 1, lk.points);
-      %
-      P = lk.alpha .* T.^2 .* exp(- lk.beta .* ...
-        (lk.Lnom + lk.pca * rvs) ./ T);
-    end
-
-    function P = performAtGiven(lk, T, rvs)
+    function P = performAtGiven(lk, rvs, T)
       P = lk.alpha .* T.^2 .* exp(- lk.beta .* ...
         (lk.Lnom + lk.pca * rvs) ./ T);
     end

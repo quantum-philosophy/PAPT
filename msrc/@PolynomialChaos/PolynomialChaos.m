@@ -17,24 +17,43 @@ classdef PolynomialChaos < handle
     order
 
     %
-    % The symbolic variables used in the polynomials.
+    % The followings comes from the Gaussian quadrature rule.
     %
-    x
 
     %
-    % The polynomials of the expansion.
+    % The evaluation points of the rule.
     %
-    psi
+    nodes
 
     %
-    % The Gaussian quadrature (Gauss-Hermite) for the purpose of
-    % numerical integration. It is an optimized version, an instance
-    % of GaussianQuadrature.Chaos.
+    % The normalization constants of each of the polynomials, i.e., <psi_i^2>.
     %
-    gq
+    norm
 
     %
-    % The number of points in the Gaussian quadrature.
+    % The grid for integration in multiple stochastic and deterministic dimensions.
+    %
+    grid
+
+    %
+    % The following matrices represent the expanded version of the PC
+    % expansion in a sum of `mterms' monomials.
+    %
+
+    %
+    % A (mterms x points) matrix of precomputed values of products of r.v.'s
+    % for all monomials and all points.
+    %
+    rvProd
+
+    %
+    % A (terms x mterms) matrix that maps the coefficients of the PC
+    % expansion to the coefficients of the monomials.
+    %
+    coeffMap
+
+    %
+    % The number of points in the rule.
     %
     points
 
@@ -42,12 +61,6 @@ classdef PolynomialChaos < handle
     % The total number of polynomials in the expansion.
     %
     terms
-
-    %
-    % The function that takes two vector-valued arguments and
-    % evaluates the whole PC expansion.
-    %
-    evaluator
   end
 
   methods
@@ -58,21 +71,29 @@ classdef PolynomialChaos < handle
       pc.ddim = dims(2);
       pc.order = order;
 
-      [ pc.x, pc.psi, index ] = pc.prepareExpansion(pc.sdim, order);
+      [ pc.nodes, pc.norm, pc.grid, pc.coeffMap, pc.rvProd ] = ...
+        pc.prepareExpansion(pc.sdim, pc.ddim, order);
 
-      pc.gq = GaussianQuadrature.MultiProbabilists(pc.x, pc.psi, index, pc.ddim);
-      pc.points = pc.gq.points;
+      pc.points = size(pc.nodes, 2);
+      pc.terms = length(pc.norm);
+    end
 
-      pc.terms = length(pc.psi);
+    function newCoeff = computeExpansion(pc, f, prevCoeff)
+      grid = pc.grid;
+      terms = pc.terms;
 
-      %
-      % Construct the final polynomial with abstract coefficients
-      % and produce a function to evaluate it.
-      %
-      for i = 1:pc.terms
-        a(i) = ipoly([ 'a', num2str(i) ]);
+      newCoeff = zeros(pc.ddim, terms);
+
+      if nargin > 2
+        currentValue = (prevCoeff * pc.coeffMap) * pc.rvProd;
+        samples = f(pc.nodes, currentValue);
+      else
+        samples = f(pc.nodes);
       end
-      pc.evaluator = Utils.toFunction(sum(a .* pc.psi), pc.x, 'rows', a);
+
+      for i = 1:terms
+        newCoeff(:, i) = sum(samples .* grid(:, :, i), 2);
+      end
     end
   end
 
@@ -103,21 +124,26 @@ classdef PolynomialChaos < handle
   methods (Static, Access = 'private')
     psi = construct1D(x, order);
     [ psi, index ] = constructMD(x, order);
-    [ x, psi, index ] = doPrepareExpansion(sdim, order);
+    [ nodes, norm, grid, coeffMap, rvProd ] = doPrepareExpansion(sdim, ddim, order);
 
-    function [ x, psi, index ] = prepareExpansion(sdim, order)
+    function [ nodes, norm, grid, coeffMap, rvProd ] = prepareExpansion(sdim, ddim, order)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
 
-      filename = [ 'PolynomialChaos_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = [ 'PolynomialChaos', ...
+        '_sd', num2str(sdim), ...
+        '_dd', num2str(ddim), ...
+        '_o', num2str(order), '.mat' ];
+
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
-        [ x, psi, index ] = PolynomialChaos.doPrepareExpansion(sdim, order);
-        save(filename, 'x', 'psi', 'index');
+        [ nodes, norm, grid, coeffMap, rvProd ] = ...
+          PolynomialChaos.doPrepareExpansion(sdim, ddim, order);
+        save(filename, 'nodes', 'norm', 'grid', 'coeffMap', 'rvProd');
       end
     end
   end

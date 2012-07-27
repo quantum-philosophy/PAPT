@@ -29,13 +29,13 @@ function f = fitExponentPolynomial(name, order, scale, draw)
     cvals = coeffvalues(fitresult);
     cnames = coeffnames(fitresult);
 
-    Lsym = ipoly('L');
-    Tsym = ipoly('T');
+    Lsym = sympoly('L');
+    Tsym = sympoly('T');
 
     Lnorm = (Lsym - LTmean(1)) / LTstd(1);
     Tnorm = (Tsym - LTmean(2)) / LTstd(2);
 
-    logI = ipoly(0);
+    logI = sympoly(0);
 
     for i = 1:numel(cnames)
       attrs = regexp(cnames{i}, '^p(\d)(\d)$', 'tokens');
