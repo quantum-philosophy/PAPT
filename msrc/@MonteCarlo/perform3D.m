@@ -1,4 +1,4 @@
-function [ E, V, t ] = perform3D(f, dims, samples, stamp)
+function [ E, V, out, t ] = perform3D(f, dims, samples, stamp)
   %
   % Description:
   %
