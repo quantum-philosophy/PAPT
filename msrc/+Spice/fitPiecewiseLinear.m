@@ -1,7 +1,7 @@
-function [ T, B ] = fitPiecewiseLinear(f, Lnom, Tshift)
+function [ T, B, Tgold, Bgold ] = fitPiecewiseLinear(f, Lnom, Tshift)
   if nargin < 3, Tshift = 0; end
 
-  TT = Utils.toKelvin([ 0 20 40 60 80 100 120 140 160 180 200 ])';
+  TT = Utils.toKelvin([ 40 60 80 100 120 140 ])';
 
   count = length(TT) - 1;
 
@@ -17,4 +17,14 @@ function [ T, B ] = fitPiecewiseLinear(f, Lnom, Tshift)
     T(i, :) = [ TT(i) TT(i + 1) ] - Tshift;
     B(i, :) = (mldivide(X' * X, X' * Y))';
   end
+
+  %
+  % The golden curve.
+  %
+  T0 = (TT(1):0.1:TT(end))';
+  Y = f(Lnom, T0);
+  X = [ ones(size(T0)) (T0 - Tshift) ];
+
+  Tgold = [ TT(1) TT(end) ] - Tshift;
+  Bgold = (mldivide(X' * X, X' * Y))';
 end

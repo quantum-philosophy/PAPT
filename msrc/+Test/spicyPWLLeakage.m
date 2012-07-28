@@ -3,7 +3,7 @@ init;
 Lnom = 45e-9;
 
 f = Spice.fitExponentPolynomial('inverter_45nm', [ 2 2 ], 0.7);
-[ T, B ] = Spice.fitPiecewiseLinear(f, Lnom);
+[ T, B, Tglobal, Bglobal ] = Spice.fitPiecewiseLinear(f, Lnom);
 
 TT = [ T(:, 1); T(end, 2) ];
 
@@ -18,7 +18,16 @@ fprintf('%15s%15s\n', 'b0', 'b1');
 
 names = {};
 
-for i = 1:length(T)
+T = [ T; Tglobal ];
+B = [ B; Bglobal ];
+
+count = length(T);
+
+for i = 1:count
+  if i == count
+    fprintf('\n');
+  end
+
   fprintf('%15.4e%15.4e\n', B(i, 1), B(i, 2));
   names{end + 1} = sprintf('[ %.0f, %.0f ]', ...
     Utils.toCelsius(T(i, 1)), Utils.toCelsius(T(i, 2)));
