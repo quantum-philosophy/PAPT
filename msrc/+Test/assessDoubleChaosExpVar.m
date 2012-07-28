@@ -13,7 +13,7 @@ pick = length(X);
 %% Temperature analysis with Monte Carlo.
 %
 
-[ mExp, mVar, ~, mTime ] = Test.computeKutta(c);
+[ mExp, mVar, ~, mTime ] = Test.sampleKutta(c);
 
 fprintf('MC simulation time: %.2f s\n', mTime);
 

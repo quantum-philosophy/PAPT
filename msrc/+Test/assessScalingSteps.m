@@ -1,6 +1,6 @@
 init;
 
-c = Test.config();
+c = Test.config('order', 4, 'cores', 4);
 
 %% Initialize the solver.
 %

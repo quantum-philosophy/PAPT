@@ -35,7 +35,6 @@ classdef config < handle
   methods
     function c = config(varargin)
       c.cores = 4;
-      c.steps = 100;
       c.dt = 1e-3;
       c.samples = 1e4;
       c.order = 4;
@@ -43,13 +42,7 @@ classdef config < handle
       for i = 1:(length(varargin) / 2)
         name = lower(varargin{(i - 1) * 2 + 1});
         value = varargin{(i - 1) * 2 + 2};
-
-        switch (name)
-        case 'cores'
-          c.cores = value;
-        otherwise
-          error('The parameter is unknown.');
-        end
+        c.(name) = value;
       end
 
       [ c.floorplan, c.powerTrace, c.hotspotConfig ] = ...
@@ -58,8 +51,13 @@ classdef config < handle
       c.hotspotLine = sprintf('sampling_intvl %.2e', c.dt);
 
       c.originalDynamicPower = dlmread(c.powerTrace, '', 1, 0)';
-      c.dynamicPower = c.originalDynamicPower;
-      c.steps = size(c.dynamicPower, 2);
+
+      if ~isempty(c.steps)
+        c.dynamicPower = Utils.replicate(c.originalDynamicPower, c.steps);
+      else
+        c.dynamicPower = c.originalDynamicPower;
+        c.steps = size(c.dynamicPower, 2);
+      end
 
       assert(size(c.dynamicPower, 1) == c.cores, ...
         'The number of cores is invalid.');

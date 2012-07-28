@@ -1,8 +1,7 @@
 init;
 
-c = Test.config();
-c.adjustPowerSteps(100);
-c.display();
+c = Test.config('steps', 100);
+display(c);
 
 X = [ 1 2 3 4 5 6 ];
 
@@ -11,7 +10,7 @@ pick = length(X);
 %% Temperature analysis with Monte Carlo.
 %
 
-[ mExp, mVar, ~, mTime ] = Test.computeKutta(c);
+[ mExp, mVar, ~, mTime ] = Test.sampleKutta(c);
 
 fprintf('MC simulation time: %.2f s\n', mTime);
 

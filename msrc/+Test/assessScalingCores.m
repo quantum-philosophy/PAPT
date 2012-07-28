@@ -11,7 +11,7 @@ fprintf('%15s%15s%15s%15s\n', 'Cores', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  c = Test.config('cores', X(i));
+  c = Test.config('cores', X(i), 'order', 4);
   c.adjustPowerSteps(steps);
 
   fprintf('%15d', c.cores);
