@@ -3,10 +3,11 @@
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{cases}
-\usepackage{multirow}
 \usepackage{url}
 % \usepackage[mathscr]{euscript}
 \usepackage{mathrsfs}
+\usepackage{multirow}
+\usepackage{booktabs}
 
 \usepackage[maxnames=4, sorting=none]{biblatex}
 \renewcommand*{\bibfont}{\footnotesize}
@@ -164,16 +165,28 @@
 \newcommand{\vlZ}{{\vZ^{(l)}}}
 \newcommand{\gZ}{{\Z^{(g)}}}
 \newcommand{\Lth}{\lambda_\text{th}}
+\newcommand{\corrLength}{\eta}
 
 % Indexes
-\newcommand{\nodes}{{N_n}}
-\newcommand{\cores}{{N_p}}
-\newcommand{\steps}{{N_s}}
-\newcommand{\vars}{{N_v}}
+\newcommand{\nodes}{N_\text{n}}
+\newcommand{\cores}{{N_\text{p}}}
+\newcommand{\steps}{N_\text{s}}
+\newcommand{\vars}{{N_\text{v}}}
 
-\newcommand{\pcorder}{{N_{po}}}
-\newcommand{\pcterms}{{N_{pt}}}
+\newcommand{\pcorder}{{N_\text{po}}}
+\newcommand{\pcterms}{{N_\text{pt}}}
 
-\newcommand{\qdlevel}{N_{ql}}
-\newcommand{\qdorder}{N_{qo}}
-\newcommand{\qdprecision}{N_{qp}}
+\newcommand{\qdlevel}{N_\text{ql}}
+\newcommand{\qdorder}{N_\text{qo}}
+\newcommand{\qdprecision}{N_\text{qp}}
+
+\newcommand{\mcsamples}{N_\text{mcs}}
+
+% Experimental results
+\newcommand{\hostOS}{OS X 10.8}
+\newcommand{\hostHardware}{a MacBook Pro 6.2 with Intel Core i7 2.66 GHz and 8 GB of RAM}
+% \newcommand{\hostOS}{a GNU/Linux distribution}
+% \newcommand{\hostHardware}{Intel Core i7 3.4 GHz with 8 GB of RAM}
+\newcommand{\sExp}{\mathbb{E}}
+\newcommand{\sVar}{\mathbb{V}\text{ar}}
+\newcommand{\err}[1]{\delta#1}

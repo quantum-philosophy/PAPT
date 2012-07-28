@@ -7,10 +7,10 @@ On the other hand, the variability of the leakage part is significant and should
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
 \]
 where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. Consequently, the uncertain parameters of the current model are $\vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o), \gLeff(\o) }$. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the following radial model of correlations \cite{ghanem1991} given by
-\begin{equation} \elabel{covariance}
-  \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\eta}
+\begin{equation} \elabel{correlation-matrix}
+  \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\corrLength}
 \end{equation}
-where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\eta$ is the correlation length.
+where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length.
 
 Having intrisic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. In our example, we employ a circuit base on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is callibrated according to the Predictive Technology Model (PTM HP) \cite{ptm}. Then, a surface fitting procedure is carried out on the output data from the simulations, and the following exponential model is acquired:
 \begin{align} \elabel{leakage-current}
