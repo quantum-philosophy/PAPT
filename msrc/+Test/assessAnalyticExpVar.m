@@ -1,21 +1,20 @@
 init;
 
-c = Test.config();
-c.adjustPowerSteps(100);
+c = Test.config('steps', 100);
 c.display();
 
 time = c.timeLine;
 
+[ kExp, kVar, kRaw ] = Test.sampleMonteCarlo('Kutta', c);
+[ aExp, aVar, aRaw ] = Test.sampleMonteCarlo('Analytic', c);
+
 %% Temperature analysis with Kutta.
 %
-
-[ kExp, kVar, kRaw, kTime ] = Test.sampleKutta(c);
-fprintf('MC with Kutta simulation time: %.2f s\n', kTime);
 
 std = sqrt(kVar);
 
 figure;
-title(sprintf('%d-sample Monte Carlo with Kutta (%.2f s)', c.samples, kTime));
+title(sprintf('%d-sample Monte Carlo with Kutta', c.samples));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, kExp(i, :), 'Color', color);
@@ -26,13 +25,10 @@ end
 %% Temperature analysis with Analytic.
 %
 
-[ aExp, aVar, aRaw, aTime ] = Test.sampleAnalytic(c);
-fprintf('MC with Analytic simulation time: %.2f s\n', aTime);
-
 std = sqrt(aVar);
 
 figure;
-title(sprintf('%d-sample Monte Carlo with Analytic (%.2f s)', c.samples, aTime));
+title(sprintf('%d-sample Monte Carlo with Analytic', c.samples));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, aExp(i, :), 'Color', color);

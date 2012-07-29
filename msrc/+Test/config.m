@@ -39,7 +39,7 @@ classdef config < handle
       c.samples = 1e4;
       c.order = 4;
 
-      for i = 1:(length(varargin) / 2)
+      for i = 1:floor(length(varargin) / 2)
         name = lower(varargin{(i - 1) * 2 + 1});
         value = varargin{(i - 1) * 2 + 2};
         c.(name) = value;
@@ -68,6 +68,21 @@ classdef config < handle
       c.steps = steps;
     end
 
+    function I = increaseResolution(c, divide)
+      dynamicPower = zeros(c.cores, c.steps * divide);
+
+      I = ((1:c.steps) - 1) * divide + 1;
+      for i = 1:divide
+        dynamicPower(:, I + i - 1) = c.dynamicPower;
+      end
+      I = I + (divide - 1);
+
+      c.steps = c.steps * divide;
+      c.dynamicPower = dynamicPower;
+
+      c.adjustSamplingInterval(c.dt / divide);
+    end
+
     function adjustSamplingInterval(c, dt)
       c.hotspotLine = sprintf('sampling_intvl %.2e', dt);
       c.dt = dt;
@@ -82,12 +97,21 @@ classdef config < handle
       fprintf('Polynomial order for PC:  %d\n', c.order);
     end
 
-    function s = stamp(c, prefix)
-      if nargin < 2
-        s = sprintf('nc%d_ns%d_f%d', c.cores, c.steps, 1 / c.dt);
-      else
-        s = sprintf('%s_nc%d_ns%d_f%d', prefix, c.cores, c.steps, 1 / c.dt);
+    function s = stamp(c, varargin)
+      p = struct(...
+        'prefix', [], ...
+        'cores', c.cores, ...
+        'steps', c.steps, ...
+        'dt', c.dt);
+
+      for i = 1:floor(length(varargin) / 2)
+        name = lower(varargin{(i - 1) * 2 + 1});
+        value = varargin{(i - 1) * 2 + 2};
+        p.(name) = value;
       end
+
+      s = sprintf('nc%d_ns%d_f%d', p.cores, p.steps, 1 / p.dt);
+      if ~isempty(p.prefix), s = [ p.prefix, '_', s ]; end
     end
 
     function time = timeLine(c)

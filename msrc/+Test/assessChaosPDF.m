@@ -1,45 +1,53 @@
 init;
 
-c = Test.config('steps', 100);
+c = Test.config('steps', 100, 'samples', 10^2);
 display(c);
 
-X = [ 1 2 3 4 5 6 ];
+rounds = 10;
+orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
+sampleSet = [ 10^2, 10^3, 10^4 ];
 
-%% Temperature analysis with Monte Carlo.
-%
+orderCount = length(orderSet);
+sampleCount = length(sampleSet);
 
-[ mExp, mVar, mRaw, mTime ] = Test.sampleKutta(c);
+error = zeros(orderCount, sampleCount);
 
-%% Temperature analysis with Polynomial Chaos.
-%
+mc = Test.constructMonteCarlo('Kutta', c, max(sampleSet));
+ch = Test.constructChaos(c);
 
-cores = c.cores;
-
-fprintf('%15s%15s', 'Order', 'Time, s');
-labels = {};
-for i = 1:cores
-  labels{end + 1} = sprintf('NRMSE(%d), %%', i);
+fprintf('%15s', 'Order');
+for i = 1:sampleCount
+  fprintf('%15s', sprintf('MC %.1e', sampleSet(i)));
 end
-labels{end + 1} = 'NRMSE, %';
-fprintf('%15s', labels{:});
 fprintf('\n');
 
-count = length(X);
+for i = 1:length(orderSet)
+  c.order = orderSet(i);
 
-for i = 1:count
-  c.order = X(i);
+  fprintf('%15d', c.order);
 
-  [ cExp, cVar, cRaw, cTime ] = Test.sampleChaos(c);
+  %% Temperature analysis with Polynomial Chaos.
+  %
 
-  % core = 1;
-  % step = round(c.steps / 2);
-  % Utils.compareSmooth(mRaw(:, core, step), ...
-  %   cRaw(:, core, step), { 'Kutta', 'Chaos' });
+  [ ~, ~, cRaw ] = Test.sampleChaos(ch, max(sampleSet));
 
-  error = Utils.comparePDF(mRaw, cRaw);
-  error = mean(error, 2);
+  for j = 1:length(sampleSet);
+    c.samples = sampleSet(j);
 
-  fprintf('%15d%15.2f', c.order, cTime);
-  fprintf('%15.2f', [ error; mean(error) ] * 100);
+    %% Temperature analysis with Monte Carlo.
+    %
+
+    [ ~, ~, mRaw ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+
+    % core = 1;
+    % step = round(c.steps / 2);
+    % Utils.compareSmooth(mRaw(:, core, step), ...
+    %   cRaw(:, core, step), { 'Kutta', 'Chaos' });
+
+    error(i, j) = mean(mean(Utils.comparePDF(mRaw, cRaw), 2)) * 100;
+
+    fprintf('%15.2f', error(i, j));
+  end
+
   fprintf('\n');
 end

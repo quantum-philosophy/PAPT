@@ -1,76 +1,92 @@
 init;
 
-c = Test.config();
-c.adjustPowerSteps(100);
-c.display();
-
 divide = 2;
 
-X = [ 1 2 3 4 5 6 ];
+c = Test.config('steps', 100, 'samples', 0);
+display(c);
 
-pick = length(X);
+orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
+sampleSet = [ 10^2, 10^3, 10^4 ];
 
-%% Temperature analysis with Monte Carlo.
+pick = [ length(orderSet), length(sampleSet) ];
+
+orderCount = length(orderSet);
+sampleCount = length(sampleSet);
+
+errorExp = zeros(orderCount, sampleCount);
+errorVar = zeros(orderCount, sampleCount);
+
+mc = Test.constructMonteCarlo('Kutta', c, max(sampleSet));
+ch = Test.constructChaos(c);
+
 %
-
-[ mExp, mVar, ~, mTime ] = Test.sampleKutta(c);
-
-fprintf('MC simulation time: %.2f s\n', mTime);
-
-%% Polynomial Chaos expansion.
+% A bit tricky here. The MCS does not need the power profile any more,
+% but it should be updated for the PC.
 %
+time = c.timeLine;
+I = c.increaseResolution(divide);
 
-Pdyn = zeros(c.cores, c.steps * divide);
+fprintf('Extended number of steps: %d\n', c.steps);
+fprintf('Modified sampling interval: %.2e s\n', c.dt);
 
-I = ((1:c.steps) - 1) * divide + 1;
-for i = 1:divide
-  Pdyn(:, I + i - 1) = c.dynamicPower;
-end
-I = I + (divide - 1);
-
-fprintf('Extended number of steps: %d\n', c.steps * divide);
-fprintf('Modified sampling interval: %.2e s\n', c.dt / divide);
-
-fprintf('%15s%15s%15s%15s\n', 'Order', 'Time, s', 'NRMSE(Exp), %', 'NRMSE(Var), %');
-
-count = length(X);
-
-errorExp = zeros(count, 1);
-errorVar = zeros(count, 1);
-
-c.adjustSamplingInterval(c.dt / divide);
-
-for i = 1:count
-  order = X(i);
-  hs = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, order);
-  assert(hs.dt == c.dt, 'The sampling interval is invalid.');
-
-  t = tic;
-  [ exp, var ] = hs.solve(Pdyn);
-  time = toc(t);
-
-  exp = Utils.toCelsius(exp(:, I));
-  var = var(:, I);
-
-  errorExp(i) = Utils.NRMSE(mExp, exp) * 100;
-  errorVar(i) = Utils.NRMSE(mVar, var) * 100;
-
-  fprintf('%15d%15.2f%15.2f%15.2f\n', order, time, errorExp(i), errorVar(i));
-
-  if pick == i
-    cExp = exp;
-    cVar = var;
-    cTime = time;
+fprintf('%15s', 'Order');
+for k = 1:2
+  for i = 1:sampleCount
+    fprintf('%15s', sprintf('MC %.1e', sampleSet(i)));
   end
 end
+fprintf('\n');
 
-time = c.timeLine;
+for i = 1:length(orderSet)
+  c.order = orderSet(i);
+
+  fprintf('%15d', c.order);
+
+  for j = 1:length(sampleSet);
+    c.samples = sampleSet(j);
+
+    %% Temperature analysis with Monte Carlo.
+    %
+
+    [ mexp, mvar ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+
+    %% Temperature analysis with Polynomial Chaos.
+    %
+
+    [ cexp, cvar ] = Test.sampleChaos(ch);
+    cexp = cexp(:, I);
+    cvar = cvar(:, I);
+
+    %% Comparison of the methods.
+    %
+
+    errorExp(i, j) = Utils.NRMSE(mexp, cexp) * 100;
+    errorVar(i, j) = Utils.NRMSE(mvar, cvar) * 100;
+
+    if i == pick(1) && j == pick(2)
+      mExp = mexp;
+      mVar = mvar;
+      cExp = cexp;
+      cVar = cvar;
+    end
+  end
+
+  for j = 1:length(sampleSet);
+    fprintf('%15.2f', errorExp(i, j));
+  end
+
+  for j = 1:length(sampleSet);
+    fprintf('%15.2f', errorVar(i, j));
+  end
+
+  fprintf('\n');
+end
 
 mStd = sqrt(mVar);
 cStd = sqrt(cVar);
 
 mf = figure;
-title(sprintf('%d-sample Monte Carlo (%.2f s)', c.samples, mTime));
+title(sprintf('%d-sample Monte Carlo', c.samples));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, mExp(i, :), 'Color', color);
@@ -79,7 +95,7 @@ for i = 1:c.cores
 end
 
 cf = figure;
-title(sprintf('%d-order Polynomial Chaos (%.2f s)', X(pick), cTime));
+title(sprintf('%d-order Polynomial Chaos', orderSet(pick(1))));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, cExp(i, :), 'Color', color);
@@ -120,13 +136,13 @@ figure;
 subplot(2, 1, 1);
 title('Convergence of Expectations');
 color = Utils.pickColor(1);
-line(X, errorExp, 'Color', color);
+line(orderSet, errorExp(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE of Expectation, %');
 
 subplot(2, 1, 2);
 title('Convergence of Variances');
 color = Utils.pickColor(1);
-line(X, errorVar, 'Color', color);
+line(orderSet, errorVar(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE of Variance, %');

@@ -32,7 +32,7 @@ fprintf('mu = %.2f, var = %.2f\n\n', l_mu, l_var);
 fprintf('Monte-Carlo simulation...');
 
 t = tic;
-[ mu, var, out_MC ] = MonteCarlo.sample(f, [ 1 1 ], samples);
+[ mu, var, out_MC ] = MonteCarlo.sample1D(f, [ 1 1 ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('mu = %.2f, var = %.2f\n\n', mu, var);

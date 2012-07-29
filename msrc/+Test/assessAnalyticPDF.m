@@ -3,8 +3,8 @@ init;
 c = Test.config('steps', 100);
 c.display();
 
-[ kExp, kVar, kRaw, kTime ] = Test.sampleKutta(c);
-[ aExp, aVar, aRaw, aTime ] = Test.sampleAnalytic(c);
+[ kExp, kVar, kRaw ] = Test.sampleMonteCarlo('Kutta', c);
+[ aExp, aVar, aRaw ] = Test.sampleMonteCarlo('Analytic', c);
 
 error = Utils.comparePDF(kRaw, aRaw, c.timeLine, { 'Kutta', 'Analytic' });
 

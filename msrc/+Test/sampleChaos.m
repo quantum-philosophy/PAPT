@@ -1,13 +1,11 @@
-function [ Exp, Var, Raw, Time ] = sampleChaos(c)
-  hs = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, c.order);
+function [ exp, var, raw ] = sampleChaos(c, samples)
+  hs = HotSpot.Chaos(c.hotspotSet{:}, c.order);
 
-  t = tic;
+  [ exp, var, trace ] = hs.solve(c.dynamicPower);
+  exp = Utils.toCelsius(exp);
 
-  [ Exp, Var, Trace ] = hs.solve(c.dynamicPower);
-  Raw = hs.pc.evaluateSet(Trace, normrnd(0, 1, hs.pc.sdim, c.samples));
+  if nargout < 3, return; end
 
-  Time = toc(t);
-
-  Exp = Utils.toCelsius(Exp);
-  Raw = Utils.toCelsius(Raw);
+  raw = hs.pc.evaluateSet(trace, normrnd(0, 1, hs.pc.sdim, samples));
+  raw = Utils.toCelsius(raw);
 end

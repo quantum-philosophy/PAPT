@@ -1,50 +1,71 @@
 init;
 
-c = Test.config('steps', 100);
+c = Test.config('steps', 100, 'samples', 0);
 display(c);
 
-X = [ 1 2 3 4 5 6 ];
+orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
+sampleSet = [ 10^2, 10^3, 10^4 ];
 
-pick = length(X);
+pick = [ length(orderSet), length(sampleSet) ];
 
-%% Temperature analysis with Monte Carlo.
-%
+orderCount = length(orderSet);
+sampleCount = length(sampleSet);
 
-[ mExp, mVar, ~, mTime ] = Test.sampleKutta(c);
+errorExp = zeros(orderCount, sampleCount);
+errorVar = zeros(orderCount, sampleCount);
 
-fprintf('MC simulation time: %.2f s\n', mTime);
+mc = Test.constructMonteCarlo('Kutta', c, max(sampleSet));
+ch = Test.constructChaos(c);
 
-%% Temperature analysis with Polynomial Chaos.
-%
-
-fprintf('%15s%15s%15s%15s\n', 'Order', 'Time, s', 'NRMSE(Exp), %', 'NRMSE(Var), %');
-
-count = length(X);
-
-errorExp = zeros(count, 1);
-errorVar = zeros(count, 1);
-
-for i = 1:count
-  order = X(i);
-
-  hs = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, order);
-
-  t = tic;
-  [ exp, var ] = hs.solve(c.dynamicPower);
-  time = toc(t);
-
-  exp = Utils.toCelsius(exp);
-
-  errorExp(i) = Utils.NRMSE(mExp, exp) * 100;
-  errorVar(i) = Utils.NRMSE(mVar, var) * 100;
-
-  fprintf('%15d%15.2f%15.2f%15.2f\n', order, time, errorExp(i), errorVar(i));
-
-  if pick == i
-    cExp = exp;
-    cVar = var;
-    cTime = time;
+fprintf('%15s', 'Order');
+for k = 1:2
+  for i = 1:sampleCount
+    fprintf('%15s', sprintf('MC %.1e', sampleSet(i)));
   end
+end
+fprintf('\n');
+
+for i = 1:length(orderSet)
+  c.order = orderSet(i);
+
+  fprintf('%15d', c.order);
+
+  for j = 1:length(sampleSet);
+    c.samples = sampleSet(j);
+
+    %% Temperature analysis with Monte Carlo.
+    %
+
+    [ mexp, mvar ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+
+    %% Temperature analysis with Polynomial Chaos.
+    %
+
+    [ cexp, cvar ] = Test.sampleChaos(ch);
+
+    %% Comparison of the methods.
+    %
+
+    errorExp(i, j) = Utils.NRMSE(mexp, cexp) * 100;
+    errorVar(i, j) = Utils.NRMSE(mvar, cvar) * 100;
+
+    if i == pick(1) && j == pick(2)
+      mExp = mexp;
+      mVar = mvar;
+      cExp = cexp;
+      cVar = cvar;
+    end
+  end
+
+  for j = 1:length(sampleSet);
+    fprintf('%15.2f', errorExp(i, j));
+  end
+
+  for j = 1:length(sampleSet);
+    fprintf('%15.2f', errorVar(i, j));
+  end
+
+  fprintf('\n');
 end
 
 time = c.timeLine;
@@ -53,7 +74,7 @@ mStd = sqrt(mVar);
 cStd = sqrt(cVar);
 
 mf = figure;
-title(sprintf('%d-sample Monte Carlo (%.2f s)', c.samples, mTime));
+title(sprintf('%d-sample Monte Carlo', c.samples));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, mExp(i, :), 'Color', color);
@@ -62,7 +83,7 @@ for i = 1:c.cores
 end
 
 cf = figure;
-title(sprintf('%d-order Polynomial Chaos (%.2f s)', X(pick), cTime));
+title(sprintf('%d-order Polynomial Chaos', orderSet(pick(1))));
 for i = 1:c.cores
   color = Utils.pickColor(i);
   line(time, cExp(i, :), 'Color', color);
@@ -103,13 +124,13 @@ figure;
 subplot(2, 1, 1);
 title('Convergence of Expectations');
 color = Utils.pickColor(1);
-line(X, errorExp, 'Color', color);
+line(orderSet, errorExp(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE of Expectation, %');
 
 subplot(2, 1, 2);
 title('Convergence of Variances');
 color = Utils.pickColor(1);
-line(X, errorVar, 'Color', color);
+line(orderSet, errorVar(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE of Variance, %');

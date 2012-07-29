@@ -1,4 +1,4 @@
-function [ E, C, out ] = perform(f, dims, samples)
+function [ E, C, out ] = sample1D(f, dims, samples)
   %
   % Description:
   %

@@ -33,7 +33,7 @@ fprintf('Monte-Carlo simulation...');
 f = @(x) exp(A * (n_mu + n_sigma .* x));
 
 t = tic;
-[ mu, var, out_MC ] = MonteCarlo.sample(f, [ sdim ddim ], samples);
+[ mu, var, out_MC ] = MonteCarlo.sample1D(f, [ sdim ddim ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('%10s%10s\n', 'mu', 'var');
