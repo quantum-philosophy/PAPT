@@ -1,26 +1,29 @@
-function error = comparePDF(timeLine, outMC, outPC, labels, points)
+function error = comparePDF(outMC, outPC, time, labels)
   [ samples, ddim, tdim ] = size(outMC);
 
-  if nargin < 4
-    labels = {};
-    for i = 1:ddim
-      labels{end + 1} = sprintf('PE %d', i);
-    end
-  end
+  points = 100;
+  draw = false;
 
-  if nargin < 5
-    points = 100;
+  if nargin > 2
+    draw = true;
+
+    if nargin < 4
+      labels = {};
+      for i = 1:ddim
+        labels{end + 1} = sprintf('PE %d', i);
+      end
+    end
+
+    figure;
+    title('Probability Density Error');
   end
 
   error = zeros(ddim, tdim);
 
-  figure;
-  title('Probability Density Error');
-
   done = 0;
   total = ddim * tdim;
 
-  h = waitbar(0, sprintf('Comparison of PDFs: %d out of %d.', done, total));
+  h = ibar('Comparison of PDFs: step %d out of %d.', total);
 
   for i = 1:ddim
     for j = 1:tdim
@@ -40,15 +43,18 @@ function error = comparePDF(timeLine, outMC, outPC, labels, points)
       error(i, j) = Utils.NRMSE(densityMC, densityPC);
 
       done = done + 1;
-      h = waitbar(done / total, h, ...
-        sprintf('Comparison of PDFs: %d out of %d.', done, total));
+      increase(h);
     end
 
-    color = Utils.pickColor(i);
-    line(timeLine, error(i, :), 'Color', color);
+    if draw
+      color = Utils.pickColor(i);
+      line(time, error(i, :) * 100, 'Color', color);
+    end
   end
 
-  close(h);
-
-  legend(labels{:});
+  if draw
+    legend(labels{:});
+    xlabel('Time, s');
+    ylabel('NRMSE, %');
+  end
 end

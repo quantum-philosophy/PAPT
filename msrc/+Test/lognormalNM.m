@@ -33,7 +33,7 @@ fprintf('Monte-Carlo simulation...');
 f = @(x) exp(A * (n_mu + n_sigma .* x));
 
 t = tic;
-[ mu, var, out_MC ] = MonteCarlo.perform(f, [ sdim ddim ], samples);
+[ mu, var, out_MC ] = MonteCarlo.sample(f, [ sdim ddim ], samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('%10s%10s\n', 'mu', 'var');
@@ -61,7 +61,7 @@ f = @(x) exp(A * (n_mu + n_sigma .* x));
 
 fprintf('Polynomial Chaos simulation...');
 t = tic;
-[ mu, var, out_PC ] = pc.perform(f, samples);
+[ mu, var, out_PC ] = pc.sample(f, samples);
 fprintf(' %.2f seconds.\n', toc(t));
 
 fprintf('%10s%10s\n', 'mu', 'var');

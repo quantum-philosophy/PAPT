@@ -1,4 +1,8 @@
-function result = evaluateCustom(pc, coeff, rvs)
+function result = evaluate(pc, coeff, rvs)
+  [ ddim, terms ] = size(coeff);
+  assert(ddim == pc.ddim, 'The deterministic dimension is invalid.');
+  assert(terms == pc.terms, 'The number of terms is invalid.');
+
   mterms = size(pc.rvProd, 1);
   points = size(rvs, 2);
 

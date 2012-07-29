@@ -1,4 +1,4 @@
-function [ E, C, out ] = perform(pc, f, points)
+function [ E, C, out ] = sample(pc, f, points)
   %
   % Output:
   %
@@ -28,5 +28,5 @@ function [ E, C, out ] = perform(pc, f, points)
   %
   % Now sampling.
   %
-  out = transpose(pc.evaluateCustom(coeff, normrnd(0, 1, sdim, points)));
+  out = transpose(pc.evaluate(coeff, normrnd(0, 1, sdim, points)));
 end

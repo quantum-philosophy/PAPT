@@ -1,5 +1,5 @@
 classdef Chaos < HotSpot.Analytic
-  properties (Access = 'private')
+  properties (SetAccess = 'private')
     %
     % The polynomial chaos.
     %
@@ -18,7 +18,7 @@ classdef Chaos < HotSpot.Analytic
       hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order);
     end
 
-    function [ ExpT, VarT ] = solve(hs, Pdyn)
+    function [ ExpT, VarT, trace ] = solve(hs, Pdyn)
       [ cores, steps ] = size(Pdyn);
       assert(cores == hs.cores, 'The power profile is invalid.')
 

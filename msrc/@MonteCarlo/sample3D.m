@@ -1,4 +1,4 @@
-function [ E, V, out, t ] = perform3D(f, dims, samples, stamp)
+function [ E, V, out, t ] = sample3D(f, dims, samples, stamp)
   %
   % Description:
   %
@@ -60,7 +60,8 @@ function [ E, V, out, t ] = perform3D(f, dims, samples, stamp)
   end
 
   left = samples - done;
-  out = [ out(randi(size(out, 1), done, 1), :, :); zeros(left, ddim, tdim) ];
+  I = randperm(size(out, 1), done);
+  out = [ out(I, :, :); zeros(left, ddim, tdim) ];
 
   if left > 0
     rvs = normrnd(0, 1, sdim, left);
