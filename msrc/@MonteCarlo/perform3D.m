@@ -60,22 +60,19 @@ function [ E, V, out, t ] = perform3D(f, dims, samples, stamp)
   end
 
   left = samples - done;
-  out = [ out(1:done, :, :); zeros(left, ddim, tdim) ];
+  out = [ out(randi(samples, done, 1), :, :); zeros(left, ddim, tdim) ];
 
   if left > 0
     rvs = normrnd(0, 1, sdim, left);
 
-    h = waitbar(0, sprintf('Monte Carlo sampling: %d/%d.', done, samples));
+    h = ibar('Monte Carlo: sample %d out of %d.', samples, done);
 
     m = tic;
     for i = 1:left
       out(done + i, :, :) = f(rvs(:, i));
-      waitbar((done + i) / samples, h, ...
-        sprintf('Monte Carlo sampling: %d/%d.', done + i, samples));
+      increase(h);
     end
     t = t + toc(m);
-
-    close(h);
 
     name = [ 'MonteCarlo_', stamp, '_mcs', num2str(samples), '.mat' ];
     save(Utils.resolvePath(name, 'cache'), 'out', 't');
