@@ -1,5 +1,9 @@
 function error = comparePDF(outMC, outPC, time, labels)
-  [ samples, ddim, tdim ] = size(outMC);
+  [ samplesMC, ddim, tdim ] = size(outMC);
+  [ samplesPC, ddimPC, tdimPC ] = size(outPC);
+
+  assert(ddim == ddimPC, 'The deterministic dimension is invalid.');
+  assert(tdim == tdimPC, 'The time dimension is invalid.');
 
   points = 100;
   draw = false;
@@ -38,8 +42,8 @@ function error = comparePDF(outMC, outPC, time, labels)
 
       x = linspace(min(minMC, minPC), max(maxMC, maxPC), points);
 
-      densityMC = histc(mc, x) / samples;
-      densityPC = histc(pc, x) / samples;
+      densityMC = histc(mc, x) / samplesMC;
+      densityPC = histc(pc, x) / samplesPC;
 
       % densityMC = ksdensity(mc, x);
       % densityPC = ksdensity(pc, x);
