@@ -60,7 +60,7 @@ function [ E, V, out, t ] = perform3D(f, dims, samples, stamp)
   end
 
   left = samples - done;
-  out = [ out(randi(samples, done, 1), :, :); zeros(left, ddim, tdim) ];
+  out = [ out(randi(size(out, 1), done, 1), :, :); zeros(left, ddim, tdim) ];
 
   if left > 0
     rvs = normrnd(0, 1, sdim, left);
