@@ -1,18 +1,19 @@
 init;
 
-c = Test.config('steps', 100, 'samples', 10^2);
+c = Test.config('steps', 100, 'samples', 0);
 display(c);
 
-rounds = 10;
+chaosSamples = 10^5;
+
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2, 10^3, 10^4 ];
+sampleSet = [ 10^2, 10^3, 10^4, 10^5 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
 
 error = zeros(orderCount, sampleCount);
 
-mc = Test.constructMonteCarlo('Kutta', c, max(sampleSet));
+mc = Test.constructMonteCarlo('Kutta', c, 10^5);
 ch = Test.constructChaos(c);
 
 fprintf('%15s', 'Order');
@@ -29,7 +30,7 @@ for i = 1:length(orderSet)
   %% Temperature analysis with Polynomial Chaos.
   %
 
-  [ ~, ~, cRaw ] = Test.sampleChaos(ch, max(sampleSet));
+  [ ~, ~, cRaw ] = Test.sampleChaos(ch, chaosSamples);
 
   for j = 1:length(sampleSet);
     c.samples = sampleSet(j);

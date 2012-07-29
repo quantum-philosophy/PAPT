@@ -7,7 +7,7 @@ function [ exp, var, raw ] = sampleMonteCarlo(one, two)
     samples = two;
   end
 
-  [ exp, var, raw ] = mc.sample(samples);
+  [ exp, var, raw ] = mc.sampleSequential(samples);
   exp = Utils.toCelsius(exp);
   raw = Utils.toCelsius(raw);
 end

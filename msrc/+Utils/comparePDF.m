@@ -36,10 +36,14 @@ function error = comparePDF(outMC, outPC, time, labels)
       minPC = min(pc);
       maxPC = max(pc);
 
-      x = linspace(max(minMC, minPC), min(maxMC, maxPC), points);
+      x = linspace(min(minMC, minPC), max(maxMC, maxPC), points);
 
-      densityMC = ksdensity(mc, x);
-      densityPC = ksdensity(pc, x);
+      densityMC = histc(mc, x) / samples;
+      densityPC = histc(pc, x) / samples;
+
+      % densityMC = ksdensity(mc, x);
+      % densityPC = ksdensity(pc, x);
+
       error(i, j) = Utils.NRMSE(densityMC, densityPC);
 
       done = done + 1;
