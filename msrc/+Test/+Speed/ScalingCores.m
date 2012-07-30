@@ -1,24 +1,24 @@
 init;
 
-c = Test.config('order', 4, 'cores', 4);
-
-%% Initialize the solver.
-%
-ch = HotSpot.Chaos(c.floorplan, c.hotspotConfig, c.hotspotLine, c.order);
-kt = HotSpot.Kutta(c.floorplan, c.hotspotConfig, c.hotspotLine);
+steps = 1000;
 
 %% Define the needed measurements.
 %
-X = [ 10, 100, 1000, 10000, 100000 ];
+X = [ 2 4 8 16 32 ];
 
-fprintf('%15s%15s%15s%15s\n', 'Steps', 'Chaos, s', 'Kutta, h', 'Speedup, x');
+fprintf('%15s%15s%15s%15s\n', 'Cores', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  c.adjustPowerSteps(X(i));
+  c = Config('cores', X(i), 'polynomialOrder', 4, 'steps', steps);
 
-  fprintf('%15d', c.steps);
+  fprintf('%15d', c.cores);
+
+  %% Initialize the solver.
+  %
+  ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder);
+  kt = HotSpot.Kutta(c.hotspotArguments{:});
 
   %% Perform the analysis.
   %
@@ -30,7 +30,7 @@ for i = 1:length(X)
 
   t = tic;
   kt.solve(c.dynamicPower, zeros(kt.sdim, 1));
-  Y(i, 2) = toc(t) * c.samples;
+  Y(i, 2) = toc(t) * c.monteCarloSamples;
 
   fprintf('%15.2f', Y(i, 2) / 60 / 60);
 
@@ -41,8 +41,8 @@ end
 figure;
 line(X, Y(:, 1), 'Color', Utils.pickColor(1), 'Marker', 'o')
 line(X, Y(:, 2), 'Color', Utils.pickColor(2), 'Marker', 'x')
-title('Scaling with Number of Steps');
+title('Scaling with Number of Cores');
 xlabel('Steps');
 ylabel('Time, s');
 
-legend('Proposed Framework', 'One Monte Carlo');
+legend('Polynomial Chaos', 'Monte Carlo');

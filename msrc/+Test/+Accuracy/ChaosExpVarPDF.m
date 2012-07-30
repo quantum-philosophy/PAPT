@@ -1,20 +1,19 @@
 init;
 
-c = Test.config('steps', 100, 'samples', 0);
+c = Config('steps', 100);
 display(c);
 
-chaosSamples = 10^5;
-
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2, 10^3, 10^4, 10^5 ];
+sampleSet = [ 10^2 10^3 10^4 10^5 ];
+
+pick = [ 0 0 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
 
 error = zeros(orderCount, sampleCount);
 
-mc = Test.constructMonteCarlo('Kutta', c, 10^5);
-ch = Test.constructChaos(c);
+mc = Test.constructMonteCarlo(c);
 
 mEXP = cell(sampleCount, 1);
 mVAR = cell(sampleCount, 1);
@@ -59,23 +58,24 @@ end
 fprintf('\n');
 
 for i = 1:length(orderSet)
-  c.order = orderSet(i);
+  c.tune('polynomialOrder', orderSet(i));
 
-  fprintf('%15d | ', c.order);
+  fprintf('%15d | ', c.polynomialOrder);
 
   %% Temperature analysis with Polynomial Chaos.
   %
 
-  [ cExp, cVar, cRaw ] = Test.sampleChaos(ch, chaosSamples);
+  ch = Test.constructChaos(c);
+  [ cExp, cVar, cRaw ] = Test.sampleChaos(ch, c);
 
   for j = 1:length(sampleSet);
-    c.samples = sampleSet(j);
+    c.tune('monteCarloSamples', sampleSet(j));
 
     %% Temperature analysis with Monte Carlo.
     %
 
     if i == 1
-      [ mEXP{j}, mVAR{j}, mRAW{j} ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+      [ mEXP{j}, mVAR{j}, mRAW{j} ] = Test.sampleMonteCarlo(mc, c);
     end
 
     mExp = mEXP{j};
@@ -85,12 +85,17 @@ for i = 1:length(orderSet)
     errorExp(i, j) = Utils.NRMSE(mExp, cExp) * 100;
     errorVar(i, j) = Utils.NRMSE(mVar, cVar) * 100;
 
-    % core = 1;
-    % step = round(c.steps / 2);
-    % Utils.compareSmooth(mRaw(:, core, step), ...
-    %   cRaw(:, core, step), { 'Kutta', 'Chaos' });
+    if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
+      % core = 1;
+      % step = round(c.steps / 2);
+      % Utils.compareSmooth(mRaw(:, core, step), ...
+      %   cRaw(:, core, step), { 'Kutta', 'Chaos' });
 
-    errorPDF(i, j) = mean(mean(Utils.comparePDF(mRaw, cRaw), 2)) * 100;
+      errorPDF(i, j) = Utils.comparePDF(mRaw, cRaw, ...
+        c.timeLine, { 'Monte Carlo', 'Polynomial Chaos' }) * 100;
+    else
+      errorPDF(i, j) = Utils.comparePDF(mRaw, cRaw) * 100;
+    end
 
     fprintf('%15.2f', errorPDF(i, j));
   end

@@ -120,6 +120,7 @@ classdef MonteCarlo < handle
   end
 
   methods (Static)
+    [ E, C, out ] = sample1D(f, dims, samples)
     out = sample(f, dims, samples, stamp)
   end
 end

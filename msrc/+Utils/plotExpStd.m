@@ -1,5 +1,5 @@
-function plotExpStd(time, exp, var)
-  figure;
+function h = plotExpStd(time, exp, var)
+  h = figure;
 
   std = sqrt(var);
   count = size(exp, 1);

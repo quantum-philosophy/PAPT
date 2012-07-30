@@ -1,9 +1,9 @@
 init;
 
-c = Test.config('cores', 2);
+c = Config('cores', 2);
 c.display();
 
-hs = HotSpot.Chaos(c.hotspotSet{:}, c.order);
+hs = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder);
 
 t = tic;
 [ exp, var ] = hs.solve(c.dynamicPower);

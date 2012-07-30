@@ -1,13 +1,5 @@
-function [ exp, var, raw ] = sampleMonteCarlo(one, two)
-  if isa(one, 'char')
-    mc = Test.constructMonteCarlo(one, two);
-    samples = two.samples;
-  else
-    mc = one;
-    samples = two;
-  end
-
-  [ exp, var, raw ] = mc.sampleSequential(samples);
+function [ exp, var, raw ] = sampleMonteCarlo(mc, c)
+  [ exp, var, raw ] = mc.sampleSequential(c.monteCarloSamples);
   exp = Utils.toCelsius(exp);
   raw = Utils.toCelsius(raw);
 end

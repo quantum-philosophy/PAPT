@@ -59,11 +59,6 @@ classdef Chaos < HotSpot.Analytic
       Pcoeff(:, 1) = Pcoeff(:, 1) + Pdyn(:, 1);
 
       %
-      % The storage of the current (projected) temperature coefficients.
-      %
-      Tcoeff = zeros(nodes, terms);
-
-      %
       % The first step is special because we do not have any expansion yet,
       % and the (projected) temperature is assumed to be zero.
       %
@@ -72,7 +67,7 @@ classdef Chaos < HotSpot.Analytic
       for i = 2:steps
         %
         % Calculate the previous temperature coefficients
-        % (it is real temperature now, i.e., in Kelvin).
+        % (it is a real temperature now, i.e., in Kelvin).
         %
         trace(:, :, i - 1) = BT * Tcoeff;
         trace(:, 1, i - 1) = trace(:, 1, i - 1) + Tamb;
@@ -108,7 +103,7 @@ classdef Chaos < HotSpot.Analytic
       %
       % Compute the variance.
       %
-      % NOTE: The correlation matrix is full of zeros.
+      % NOTE: The correlation matrix is full of ones.
       %
       VarT = zeros(cores, steps);
       norm = irep(pc.norm(2:end), cores, 1);

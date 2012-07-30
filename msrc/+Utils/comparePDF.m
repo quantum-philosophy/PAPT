@@ -1,11 +1,10 @@
-function error = comparePDF(outMC, outPC, time, labels)
+function [ globalError, localError ] = comparePDF(outMC, outPC, time, labels)
   [ samplesMC, ddim, tdim ] = size(outMC);
   [ samplesPC, ddimPC, tdimPC ] = size(outPC);
 
   assert(ddim == ddimPC, 'The deterministic dimension is invalid.');
   assert(tdim == tdimPC, 'The time dimension is invalid.');
 
-  points = 100;
   draw = false;
 
   if nargin > 2
@@ -22,25 +21,19 @@ function error = comparePDF(outMC, outPC, time, labels)
     title('Probability Density Error');
   end
 
-  error = zeros(ddim, tdim);
-
   done = 0;
   total = ddim * tdim;
 
   h = ibar('Comparison of PDFs: step %d out of %d.', total);
+
+  localError = zeros(ddim, tdim);
 
   for i = 1:ddim
     for j = 1:tdim
       mc = outMC(:, i, j);
       pc = outPC(:, i, j);
 
-      minMC = min(mc);
-      maxMC = max(mc);
-
-      minPC = min(pc);
-      maxPC = max(pc);
-
-      x = linspace(min(minMC, minPC), max(maxMC, maxPC), points);
+      x = Utils.constructLinearSpace(mc, pc);
 
       densityMC = histc(mc, x) / samplesMC;
       densityPC = histc(pc, x) / samplesPC;
@@ -48,7 +41,7 @@ function error = comparePDF(outMC, outPC, time, labels)
       % densityMC = ksdensity(mc, x);
       % densityPC = ksdensity(pc, x);
 
-      error(i, j) = Utils.NRMSE(densityMC, densityPC);
+      localError(i, j) = Utils.NRMSE(densityMC, densityPC);
 
       done = done + 1;
       increase(h);
@@ -56,9 +49,11 @@ function error = comparePDF(outMC, outPC, time, labels)
 
     if draw
       color = Utils.pickColor(i);
-      line(time, error(i, :) * 100, 'Color', color);
+      line(time, localError(i, :) * 100, 'Color', color);
     end
   end
+
+  globalError = sqrt(sum(localError(:) .^ 2) / (ddim * tdim));
 
   if draw
     legend(labels{:});

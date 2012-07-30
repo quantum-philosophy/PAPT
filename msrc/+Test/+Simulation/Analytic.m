@@ -1,9 +1,9 @@
 init;
 
-c = Test.config('cores', 2);
+c = Config('cores', 2);
 c.display();
 
-hs = HotSpot.Analytic(c.hotspotSet{:});
+hs = HotSpot.Analytic(c.hotspotArguments{:});
 
 t = tic;
 [ T, leakagePower ] = hs.solve(c.dynamicPower, zeros(hs.sdim, 1));
@@ -22,6 +22,8 @@ for i = 1:c.cores
   color = Utils.pickColor(i);
   line(timeLine, T(i, :), 'Color', color);
 end
+xlabel('Time, s');
+ylabel('Temperature, C');
 
 subplot(2, 1, 2);
 title('Dynamic and Leakage Power');
@@ -30,3 +32,5 @@ for i = 1:c.cores
   line(timeLine, c.dynamicPower(i, :), 'Color', color);
   line(timeLine, leakagePower(i, :), 'Color', color, 'LineStyle', '--');
 end
+xlabel('Time, s');
+ylabel('Power, W');

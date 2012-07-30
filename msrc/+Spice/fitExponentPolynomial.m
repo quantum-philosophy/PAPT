@@ -1,11 +1,11 @@
 function f = fitExponentPolynomial(name, order, scale, draw)
   if nargin < 2 || numel(order) == 0, order = [ 2 2 ]; end
-  if nargin < 3 || numel(scale) == 0, scale = 1.0; end
+  if nargin < 3 || numel(scale) == 0, scale = [ 1 1 ]; end
   if nargin < 4, draw = false; end
 
   filename = [ 'Leakage_exponent_polynomial_', name, ...
     '_l', num2str(order(1)), '_t', num2str(order(2)), ...
-    sprintf('_s%.2f', scale), '.mat' ];
+    sprintf('_sl%.2f_st%.2f', scale(1), scale(2)), '.mat' ];
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
@@ -16,7 +16,8 @@ function f = fitExponentPolynomial(name, order, scale, draw)
           { '  Type: exponent of a polynomial' }, ...
           { '  Order of L: %d', order(1) }, ...
           { '  Order of T: %d', order(2) }, ...
-          { '  Scale: %.2f', scale });
+          { '  Scale of L: %.2f', scale(1) }, ...
+          { '  Scale of T: %.2f', scale(2) });
 
     D = dlmread(Utils.resolvePath([ name, '.leak' ], 'test'), '\t', 1, 0);
     Ldata = D(:, 1);
@@ -43,11 +44,12 @@ function f = fitExponentPolynomial(name, order, scale, draw)
       Lorder = str2num(attrs{1}{1});
       Torder = str2num(attrs{1}{2});
 
-      if Lorder > 0 || Torder > 0
-        logI = logI + scale * cvals(i) * Lnorm^Lorder * Tnorm^Torder;
-      else
-        logI = logI + cvals(i) * Lnorm^Lorder * Tnorm^Torder;
-      end
+      s = 1;
+
+      if Lorder > 0, s = s * scale(1); end
+      if Torder > 0, s = s * scale(2); end
+
+      logI = logI + s * cvals(i) * Lnorm^Lorder * Tnorm^Torder;
     end
 
     [ arguments, body ] = Utils.toFunctionString(logI, Lsym, Tsym);
@@ -58,6 +60,7 @@ function f = fitExponentPolynomial(name, order, scale, draw)
 
   if ~draw, return; end
 
+  figure;
   h = subplot(1, 1, 1);
 
   Luni = sort(unique(Ldata));
@@ -76,7 +79,7 @@ function f = fitExponentPolynomial(name, order, scale, draw)
       'MarkerFaceColor', 'b', ...
       'Parent', h);
 
-  title('Fitted Surface');
+  title('Exponent of Polynomial Fit');
   xlabel('L');
   ylabel('T');
   zlabel('I');

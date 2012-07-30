@@ -50,6 +50,7 @@ function f = fitPolynomial(name, order, draw)
 
   if ~draw, return; end
 
+  figure;
   h = subplot(1, 1, 1);
 
   Luni = sort(unique(Ldata));
@@ -68,7 +69,7 @@ function f = fitPolynomial(name, order, draw)
       'MarkerFaceColor', 'b', ...
       'Parent', h);
 
-  title('Fitted Surface');
+  title('Polynomial Fit');
   xlabel('L');
   ylabel('T');
   zlabel('I');

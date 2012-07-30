@@ -1,15 +1,13 @@
-function mc = constructMonteCarlo(method, c, samples)
-  if nargin < 3, samples = c.samples; end
-
+function mc = constructMonteCarlo(c)
   %
   % Construct an appropriate solver.
   %
-  hs = HotSpot.(method)(c.hotspotSet{:});
+  hs = HotSpot.(c.assessmentMethod)(c.hotspotArguments{:});
   f = @(rvs) hs.solve(c.dynamicPower, rvs);
 
   %
   % Construct a Monte Carlo sampler.
   %
-  mc = MonteCarlo(f, [ hs.sdim, hs.cores, size(c.dynamicPower, 2) ], ...
-    samples, c.stamp('prefix', method));
+  mc = MonteCarlo(f, [ hs.sdim, c.cores, c.steps ], ...
+    c.monteCarloTotalSamples, c.stamp);
 end

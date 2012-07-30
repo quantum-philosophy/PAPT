@@ -2,7 +2,7 @@ init;
 
 X = [ 2, 4, 8, 16, 32 ];
 
-fprintf('%15s%15s\n', 'Cores', 'PC + 1');
+fprintf('%15s%15s\n', 'Cores', 'Variables');
 
 for i = 1:length(X)
   cores = X(i);

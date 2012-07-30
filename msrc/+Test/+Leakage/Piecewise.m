@@ -1,8 +1,8 @@
 init;
 
-Lnom = 45e-9;
+Lnom = Leakage.Base.Lnom;
 
-f = Spice.fitExponentPolynomial('inverter_45nm', [ 2 2 ], 0.7);
+f = Spice.fitExponentPolynomial('inverter_45nm', [ 1 2 ], [ 0.7, 1 ]);
 [ T, B, Tglobal, Bglobal ] = Spice.fitPiecewiseLinear(f, Lnom);
 
 TT = [ T(:, 1); T(end, 2) ];
@@ -10,6 +10,9 @@ TT = [ T(:, 1); T(end, 2) ];
 figure;
 
 title('Leakage Current');
+xlabel('Temperature, K');
+ylabel('Leakage current, A');
+
 X = TT(1):0.1:TT(end);
 line(X, f(Lnom, X), 'Color', 'k');
 line(TT, f(Lnom, TT), 'LineStyle', 'none', 'Marker', 'o', 'Color', 'k');
