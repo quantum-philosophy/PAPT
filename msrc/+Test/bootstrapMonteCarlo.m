@@ -9,19 +9,22 @@ function [ exp, var, raw ] = bootstrapMonteCarlo(one, two, rounds)
 
   if nargin < 3, rounds = samples; end
 
+  h = ibar('Bootstrapping Monte Carlo: round %d out of %d.', rounds);
+
   exp = 0;
   var = 0;
   raw = 0;
 
-  h = ibar('Bootstrapping: round %d out of %d.', rounds);
+  I = [];
 
   for i = 1:rounds
-    [ e, v, r ] = mc.sampleWithReplacement(samples);
-    increase(h);
+    [ e, v, r, I ] = mc.sampleAccumulative(samples, I);
 
     exp = exp + e;
     var = var + v;
     raw = raw + r;
+
+    increase(h);
   end
 
   exp = exp / rounds;

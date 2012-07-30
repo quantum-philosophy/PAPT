@@ -3,6 +3,7 @@ init;
 c = Test.config('steps', 100, 'samples', 0);
 display(c);
 
+rounds = 1;
 chaosSamples = 10^5;
 
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
@@ -22,6 +23,8 @@ for i = 1:sampleCount
 end
 fprintf('\n');
 
+mRAW = {};
+
 for i = 1:length(orderSet)
   c.order = orderSet(i);
 
@@ -30,7 +33,7 @@ for i = 1:length(orderSet)
   %% Temperature analysis with Polynomial Chaos.
   %
 
-  [ ~, ~, cRaw ] = Test.sampleChaos(ch, chaosSamples);
+  [ ~, ~, cRaw ] = Test.bootstrapChaos(ch, chaosSamples, rounds);
 
   for j = 1:length(sampleSet);
     c.samples = sampleSet(j);
@@ -38,7 +41,11 @@ for i = 1:length(orderSet)
     %% Temperature analysis with Monte Carlo.
     %
 
-    [ ~, ~, mRaw ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+    if i == 1
+      [ ~, ~, mRAW{j} ] = Test.bootstrapMonteCarlo(mc, sampleSet(j), rounds);
+    end
+
+    mRaw = mRAW{j};
 
     % core = 1;
     % step = round(c.steps / 2);

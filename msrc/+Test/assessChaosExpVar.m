@@ -3,6 +3,8 @@ init;
 c = Test.config('steps', 100, 'samples', 0);
 display(c);
 
+rounds = 1;
+
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
 sampleSet = [ 10^2, 10^3, 10^4, 10^5 ];
 
@@ -25,6 +27,9 @@ for k = 1:2
 end
 fprintf('\n');
 
+mEXP = {};
+mVAR = {};
+
 for i = 1:length(orderSet)
   c.order = orderSet(i);
 
@@ -41,7 +46,12 @@ for i = 1:length(orderSet)
     %% Temperature analysis with Monte Carlo.
     %
 
-    [ mexp, mvar ] = Test.sampleMonteCarlo(mc, sampleSet(j));
+    if i == 1
+      [ mEXP{j}, mVAR{j} ] = Test.bootstrapMonteCarlo(mc, sampleSet(j), rounds);
+    end
+
+    mexp = mEXP{j};
+    mvar = mVAR{j};
 
     %% Comparison of the methods.
     %

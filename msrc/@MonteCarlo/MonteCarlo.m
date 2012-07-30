@@ -62,7 +62,7 @@ classdef MonteCarlo < handle
       if nargin < 3, I = []; end
 
       % Determine how many more to take.
-      more = min(0, count - size(I));
+      more = max(0, count - length(I));
 
       if more > 0
         % All the samples.
