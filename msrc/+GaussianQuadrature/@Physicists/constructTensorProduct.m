@@ -1,5 +1,5 @@
-function [ nodes, weights, count ] = constructTensorProduct(sdim, level)
-  [ nodes1D, weights1D ] = hermite_compute(level);
+function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
+  [ nodes1D, weights1D ] = hermite_compute(order);
 
   nodes = {};
   weights = {};
@@ -15,5 +15,5 @@ function [ nodes, weights, count ] = constructTensorProduct(sdim, level)
   weights = transpose(weights);
 
   points = size(weights, 2);
-  assert(points == level^sdim);
+  assert(points == order^sdim);
 end

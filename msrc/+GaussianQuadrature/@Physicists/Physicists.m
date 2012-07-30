@@ -1,55 +1,19 @@
-classdef Physicists < handle
-  properties (Access = 'protected')
-    %
-    % Precomputed value of each of the polynomials in the PC expansion
-    % in each of the points of the sparse grid.
-    %
-    plainGrid
-
-    %
-    % Precomputed value of each of the polynomials in the PC expansion
-    % in each of the points of the sparse grid multiplied by the
-    % corresponding weight and divided by the corresponding normalization
-    % coefficient.
-    %
-    niceGrid
-  end
-
-  properties (SetAccess = 'protected')
-    %
-    % The evaluation points for the integration.
-    %
-    nodes
-
-    %
-    % The number of points.
-    %
-    points
-  end
-
+classdef Physicists < GaussianQuadrature.Base
   methods
     function gq = Physicists(x, psi, order)
-      if nargin == 0, return; end
-      [ gq.nodes, gq.plainGrid, gq.niceGrid ] = gq.precomputeGrid(x, psi, order);
-      gq.points = size(gq.nodes, 2);
+      gq = gq@GaussianQuadrature.Base(x, psi, order);
     end
+  end
 
-    function result = integrateWithChaos(gq, f, ddim, c)
-      samples = f(gq.nodes);
-      result = sum(samples .* irep(gq.niceGrid(c, :), ddim, 1), 2);
-    end
-
-    function result = integrateChaosProduct(gq, c1, c2)
-      result = sum(gq.plainGrid(c1, :) .* gq.niceGrid(c2, :));
-    end
+  methods (Static)
+    [ nodes, weights, points ] = constructSparseGrid(sdim, order);
+    [ nodes, weights, points ] = constructTensorProduct(sdim, order);
   end
 
   methods (Static, Access = 'protected')
-    [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order);
-    [ nodes, weights, points ] = constructSparseGrid(sdim, level);
-    [ nodes, weights, points ] = constructTensorProduct(sdim, level);
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order);
 
-    function [ nodes, plainGrid, niceGrid ] = precomputeGrid(x, psi, order)
+    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(x, psi, order)
       %
       % A wrapper to cache the result of `doPrecomputeGrid'.
       %
@@ -62,9 +26,9 @@ classdef Physicists < handle
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, plainGrid, niceGrid ] = ...
+        [ nodes, plainGrid, niceGrid, norm ] = ...
           GaussianQuadrature.Physicists.doPrecomputeGrid(x, psi, order);
-        save(filename, 'nodes', 'plainGrid', 'niceGrid');
+        save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
       end
     end
   end

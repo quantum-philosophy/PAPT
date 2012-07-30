@@ -1,5 +1,5 @@
-function [ nodes, weights, points ] = constructTensorProduct(sdim, level);
-  [ nodes1D, weights1D ] = nwspgr('gqn', 1, level);
+function [ nodes, weights, points ] = constructTensorProduct(sdim, order);
+  [ nodes1D, weights1D ] = nwspgr('gqn', 1, order);
 
   nodes = {};
   weights = {};
@@ -14,5 +14,5 @@ function [ nodes, weights, points ] = constructTensorProduct(sdim, level);
   weights = transpose(weights);
 
   points = size(weights, 2);
-  assert(points == level^sdim);
+  assert(points == order^sdim);
 end

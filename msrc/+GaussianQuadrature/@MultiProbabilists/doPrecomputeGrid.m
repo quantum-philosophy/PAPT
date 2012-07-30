@@ -4,29 +4,28 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, index)
   order = PolynomialChaos.indexToOrder(index);
 
   %
-  % `level' means that for polynomial with of the order (2 * `level' - 1)
-  % the integration will be exact. We want to have the exactness for
-  % the order (2 * `order'), therefore, `level' = `order' + 1.
+  % `order' of a Gaussian quadrature rule means that for polynomials with
+  % order (2 * `order' - 1) the integration will be exact. We want to have
+  % the exactness for the order (2 * `order'), therefore, `order' := `order' + 1.
   %
-  level = order + 1;
+  requiredOrder = order + 1;
 
   [ nodes, weights, pointsSG ] = ...
-    GaussianQuadrature.MultiProbabilists.constructSparseGrid(sdim, level);
+    GaussianQuadrature.MultiProbabilists.constructSparseGrid(sdim, requiredOrder);
 
-  pointsTP = level^sdim;
+  pointsTP = requiredOrder^sdim;
 
   debug({ 'Precomputation of a new grid.' }, ...
         { '  Type: MultiProbabilists' }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
         { '  Polynomial order: %d', order }, ...
-        { '  Accuracy level: %d', level }, ...
         { '  Number of terms: %d', terms }, ...
         { '  Sparse grid points: %d', pointsSG }, ...
         { '  Tensor product points: %d', pointsTP });
 
   if pointsTP <= pointsSG
     [ nodes, weights ] = ...
-      GaussianQuadrature.MultiProbabilists.constructTensorProduct(sdim, level);
+      GaussianQuadrature.MultiProbabilists.constructTensorProduct(sdim, requiredOrder);
   end
 
   points = min(pointsTP, pointsSG);

@@ -1,5 +1,5 @@
-function [ nodes, weights, points ] = constructSparseGrid(sdim, level);
-  [ nodes, weights ] = nwspgr('gqn', sdim, level);
+function [ nodes, weights, points ] = constructSparseGrid(sdim, order);
+  [ nodes, weights ] = nwspgr('gqn', sdim, order);
   nodes = transpose(nodes);
   weights = transpose(weights);
 
