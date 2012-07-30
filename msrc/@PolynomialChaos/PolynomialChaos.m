@@ -58,6 +58,11 @@ classdef PolynomialChaos < handle
     coeffMap
 
     %
+    % A shortcut for coeffMap * rvProd.
+    %
+    mappedRvProd
+
+    %
     % The number of points in the rule.
     %
     points
@@ -79,6 +84,8 @@ classdef PolynomialChaos < handle
       [ pc.nodes, pc.norm, pc.grid, pc.rvPower, pc.rvProd, pc.coeffMap ] = ...
         pc.prepareExpansion(pc.sdim, pc.ddim, order);
 
+      pc.mappedRvProd = pc.coeffMap * pc.rvProd;
+
       pc.points = size(pc.nodes, 2);
       pc.terms = length(pc.norm);
     end
@@ -90,7 +97,7 @@ classdef PolynomialChaos < handle
       newCoeff = zeros(pc.ddim, terms);
 
       if nargin > 2
-        currentValue = (prevCoeff * pc.coeffMap) * pc.rvProd;
+        currentValue = prevCoeff * pc.mappedRvProd;
         samples = f(pc.nodes, currentValue);
       else
         samples = f(pc.nodes);
