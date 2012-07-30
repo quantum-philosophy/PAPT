@@ -37,9 +37,9 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, index)
   norm = zeros(1, terms);
 
   for i = 1:terms
-    norm(i) = prod(factorial(index(i, :) - 1));
     f = Utils.toFunction(psi(i), x, 'rows');
     plainGrid(i, :) = f(nodes);
+    norm(i) = prod(factorial(index(i, :) - 1));
     niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
 end

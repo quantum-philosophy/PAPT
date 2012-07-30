@@ -1,4 +1,4 @@
-function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
   sdim = length(x);
   terms = length(psi);
 
@@ -31,9 +31,12 @@ function [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order)
   plainGrid = zeros(terms, points);
   niceGrid = zeros(terms, points);
 
+  norm = zeros(1, terms);
+
   for i = 1:terms
     f = Utils.toFunction(psi(i), x, 'rows');
     plainGrid(i, :) = f(nodes);
-    niceGrid(i, :) = plainGrid(i, :) .* weights;
+    norm(i) = sum(plainGrid(i, :).^2 .* weights);
+    niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
 end

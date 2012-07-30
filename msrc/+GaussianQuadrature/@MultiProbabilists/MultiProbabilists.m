@@ -1,16 +1,7 @@
 classdef MultiProbabilists < GaussianQuadrature.Probabilists
-  properties (SetAccess = 'protected')
-    %
-    % The normalization coefficients of the expansion, i.e., <psi_i^2>.
-    %
-    norm
-  end
-
   methods
     function gq = MultiProbabilists(x, psi, index)
-      gq = gq@GaussianQuadrature.Probabilists();
-      [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, index);
-      gq.points = size(gq.nodes, 2);
+      gq = gq@GaussianQuadrature.Probabilists(x, psi, index);
     end
   end
 

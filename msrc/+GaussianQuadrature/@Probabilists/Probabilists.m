@@ -12,6 +12,11 @@ classdef Probabilists < handle
     % corresponding weight.
     %
     niceGrid
+
+    %
+    % The normalization coefficients of the expansion, i.e., <psi_i^2>.
+    %
+    norm
   end
 
   properties (SetAccess = 'protected')
@@ -28,27 +33,17 @@ classdef Probabilists < handle
 
   methods
     function gq = Probabilists(x, psi, order);
-      if nargin == 0, return; end
-      [ gq.nodes, gq.plainGrid, gq.niceGrid ] = gq.precomputeGrid(x, psi, order);
+      [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, order);
       gq.points = size(gq.nodes, 2);
-    end
-
-    function result = integrateWithChaos(gq, f, ddim, c)
-      samples = f(gq.nodes);
-      result = sum(samples .* irep(gq.niceGrid(c, :), ddim, 1), 2);
-    end
-
-    function result = integrateChaosProduct(gq, c1, c2)
-      result = sum(gq.plainGrid(c1, :) .* gq.niceGrid(c2, :));
     end
   end
 
   methods (Static, Access = 'protected')
-    [ nodes, plainGrid, niceGrid ] = doPrecomputeGrid(x, psi, order);
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order);
     [ nodes, weights, points ] = constructSparseGrid(sdim, level);
     [ nodes, weights, points ] = constructTensorProduct(sdim, level);
 
-    function [ nodes, plainGrid, niceGrid ] = precomputeGrid(x, psi, order)
+    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(x, psi, order)
       %
       % A wrapper to cache the result of `doPrecomputeGrid'.
       %
@@ -61,9 +56,9 @@ classdef Probabilists < handle
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, plainGrid, niceGrid ] = ...
+        [ nodes, plainGrid, niceGrid, norm ] = ...
           GaussianQuadrature.Probabilists.doPrecomputeGrid(x, psi, order);
-        save(filename, 'nodes', 'plainGrid', 'niceGrid');
+        save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
       end
     end
   end
