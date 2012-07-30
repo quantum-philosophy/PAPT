@@ -1,22 +1,22 @@
-function [ left, right ] = detectBounds(mc, pc);
-  minMC = min(mc);
-  minPC = min(pc);
+function [ left, right ] = detectBounds(varargin)
+  count = length(varargin);
 
-  maxMC = max(mc);
-  maxPC = max(pc);
+  left = zeros(count, 1);
+  right = zeros(count, 1);
 
-  expMC = mean(mc);
-  expPC = mean(pc);
+  for i = 1:count
+    one = varargin{i};
 
-  stdMC = sqrt(var(mc));
-  stdPC = sqrt(var(pc));
+    mn = min(one);
+    mx = max(one);
 
-  leftMC = max(minMC, expMC - 3 * stdMC);
-  leftPC = max(minPC, expPC - 3 * stdPC);
+    exp = mean(one);
+    std = sqrt(var(one));
 
-  rightMC = min(maxMC, expMC + 3 * stdMC);
-  rightPC = min(maxPC, expPC + 3 * stdPC);
+    left(i) = max(mn, exp - 3 * std);
+    right(i) = min(mx, exp + 3 * std);
+  end
 
-  left = min(leftMC, leftPC);
-  right = max(rightMC, rightPC);
+  left = min(left);
+  right = max(right);
 end

@@ -1,20 +1,20 @@
-function compareHistogram(outMC, outPC, labels)
-  [ samplesMC, ddim ] = size(outMC);
-  [ samplesPC, ~ ] = size(outPC);
+function compareHistogram(mcRaw, pcRaw, labels)
+  [ samplesMC, ddim ] = size(mcRaw);
+  [ samplesPC, ~ ] = size(pcRaw);
 
   figure;
 
   for i = 1:ddim
     p = subplot(1, ddim, i);
-    title('Histogram');
+    title('Empirical PDF');
 
-    mc = outMC(:, i);
-    pc = outPC(:, i);
+    mcraw = mcRaw(:, i);
+    pcraw = pcRaw(:, i);
 
-    x = Utils.constructLinearSpace(mc, pc);
+    x = Utils.constructLinearSpace(mcraw, pcraw);
 
-    mcHist = histc(mc, x) / samplesMC;
-    pcHist = histc(pc, x) / samplesPC;
+    mcHist = histc(mcraw, x) / samplesMC;
+    pcHist = histc(pcraw, x) / samplesPC;
 
     c = Utils.pickColor(1);
     bar(x, mcHist, 'FaceColor', c, 'Edgecolor', c);
@@ -29,5 +29,7 @@ function compareHistogram(outMC, outPC, labels)
     set(h, 'facealpha', 0.75);
 
     legend(labels{:});
+    xlabel('Temperature, C');
+    ylabel('Empirical PDF');
   end
 end

@@ -19,7 +19,7 @@ classdef Exponent < Leakage.Base
 
       if nargin < 4
         %
-        % One sample at a time (Monte-Carlo).
+        % One sample at a time (Monte Carlo).
         %
         points = 1;
       end
