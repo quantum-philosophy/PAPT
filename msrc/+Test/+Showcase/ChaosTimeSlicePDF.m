@@ -13,16 +13,6 @@ step = round(c.steps / 3);
 ch = Test.constructChaos(c);
 [ ~, ~, cRaw ] = Test.sampleChaos(ch, c);
 
-%% Show only the solution of Polynomial Chaos.
-%
-
-for i = 1:c.cores
-  Utils.plotHistogram(cRaw(:, i, step));
-  title(sprintf('Empirical Probability Density of Core %d', i));
-end
-
-return;
-
 %% Analyse with Monte Carlo.
 %
 

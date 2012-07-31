@@ -1,35 +1,33 @@
 classdef Probabilists < GaussianQuadrature.Base
   methods
-    function gq = Probabilists(x, psi, order);
-      gq = gq@GaussianQuadrature.Base(x, psi, order);
+    function gq = Probabilists(x, psi, order, varargin);
+      gq = gq@GaussianQuadrature.Base(x, psi, order, varargin{:});
     end
   end
 
-  methods (Static)
-    [ nodes, weights, points ] = constructSparseGrid(sdim, order);
-    [ nodes, weights, points ] = constructTensorProduct(sdim, order);
+  methods (Access = 'protected')
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
   end
 
-  methods (Static, Access = 'protected')
-    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order);
-
-    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(x, psi, order)
+  methods (Static)
+    function [ nodes, weights ] = construct1D(order)
       %
-      % A wrapper to cache the result of `doPrecomputeGrid'.
+      % `order' is the number of points involved.
       %
+      [ nodes, weights ] = nwspgr('gqn', 1, order);
+    end
 
-      sdim = length(x);
+    function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
+      [ nodes1D, weights1D ] = GaussianQuadrature.Probabilists.construct1D(order);
+      [ nodes, weights, points ] = ...
+        GaussianQuadrature.constructTensorProduct(sdim, nodes1D, weights1D);
+    end
 
-      filename = [ 'PrQuadrature_d', num2str(sdim), '_o', num2str(order), '.mat' ];
-      filename = Utils.resolvePath(filename, 'cache');
-
-      if exist(filename, 'file')
-        load(filename);
-      else
-        [ nodes, plainGrid, niceGrid, norm ] = ...
-          GaussianQuadrature.Probabilists.doPrecomputeGrid(x, psi, order);
-        save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
-      end
+    function [ nodes, weights, points ] = constructSparseGrid(sdim, order);
+      [ nodes, weights ] = nwspgr('gqn', sdim, order);
+      nodes = transpose(nodes);
+      weights = transpose(weights);
+      points = size(weights, 2);
     end
   end
 end

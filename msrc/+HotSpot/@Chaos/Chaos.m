@@ -7,15 +7,13 @@ classdef Chaos < HotSpot.Analytic
   end
 
   methods
-    function hs = Chaos(floorplan, config, line, order)
+    function hs = Chaos(floorplan, config, line, order, method)
       hs = hs@HotSpot.Analytic(floorplan, config, line);
-
-      if nargin < 4, order = 2; end
 
       %
       % Initialize the PC expansion.
       %
-      hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order);
+      hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order, method);
     end
 
     function [ ExpT, VarT, trace ] = solve(hs, Pdyn)

@@ -1,4 +1,4 @@
-function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order)
+function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order, method)
   %
   % Input:
   %
@@ -26,7 +26,16 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   % Now, the Gaussian quadrature rule.
   %
 
-  gq = GaussianQuadrature.MultiProbabilists(x, psi, index);
+  switch method
+  case 'Physicists'
+    gq = GaussianQuadrature.Physicists(x, psi, order);
+  case 'Probabilists'
+    gq = GaussianQuadrature.Probabilists(x, psi, order);
+  case 'MultiProbabilists'
+    gq = GaussianQuadrature.MultiProbabilists(x, psi, index);
+  otherwise
+    error('The method is unknown.');
+  end
 
   points = gq.points;
   nodes = gq.nodes;

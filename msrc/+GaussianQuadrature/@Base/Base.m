@@ -32,15 +32,29 @@ classdef Base < handle
   end
 
   methods
-    function gq = Base(x, psi, order);
-      [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, order);
+    function gq = Base(x, psi, order, varargin)
+      [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, order, varargin{:});
       gq.points = size(gq.nodes, 2);
     end
   end
 
-  methods (Static, Access = 'protected')
-    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(x, psi, order)
-      error('To be implemented.');
+  methods (Abstract, Access = 'protected')
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order, varargin)
+  end
+
+  methods (Access = 'protected')
+    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(gq, x, psi, order, varargin)
+      sdim = length(x);
+
+      filename = [ class(gq), '_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      filename = Utils.resolvePath(filename, 'cache');
+
+      if exist(filename, 'file')
+        load(filename);
+      else
+        [ nodes, plainGrid, niceGrid, norm ] = gq.doPrecomputeGrid(x, psi, order, varargin{:});
+        save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
+      end
     end
   end
 end

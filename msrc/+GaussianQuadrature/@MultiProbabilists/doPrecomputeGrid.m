@@ -1,7 +1,8 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, index)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order, index)
   sdim = length(x);
   terms = length(psi);
-  order = PolynomialChaos.indexToOrder(index);
+
+  assert(order == PolynomialChaos.indexToOrder(index), 'The index is invalid.');
 
   %
   % `order' of a Gaussian quadrature rule means that for polynomials with
@@ -41,4 +42,6 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, index)
     norm(i) = prod(factorial(index(i, :) - 1));
     niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
+
+  assert(all(norm >= 0), 'Normalization constants cannot be negative.');
 end

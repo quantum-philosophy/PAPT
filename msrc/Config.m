@@ -24,6 +24,11 @@ classdef Config < handle
   %
   properties (SetAccess = 'private')
     %
+    % Integration method.
+    %
+    integrationMethod = 'MultiProbabilists';
+
+    %
     % The order of the PC expansion.
     %
     polynomialOrder = 4;

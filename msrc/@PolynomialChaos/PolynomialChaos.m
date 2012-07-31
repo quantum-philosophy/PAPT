@@ -74,15 +74,13 @@ classdef PolynomialChaos < handle
   end
 
   methods
-    function pc = PolynomialChaos(dims, order)
-      if nargin < 2, order = 2; end
-
+    function pc = PolynomialChaos(dims, order, method)
       pc.sdim = dims(1);
       pc.ddim = dims(2);
       pc.order = order;
 
       [ pc.nodes, pc.norm, pc.grid, pc.rvPower, pc.rvProd, pc.coeffMap ] = ...
-        pc.prepareExpansion(pc.sdim, pc.ddim, order);
+        pc.prepareExpansion(pc.sdim, pc.ddim, order, method);
 
       pc.mappedRvProd = pc.coeffMap * pc.rvProd;
 
@@ -136,14 +134,15 @@ classdef PolynomialChaos < handle
   methods (Static, Access = 'private')
     psi = construct1D(x, order);
     [ psi, index ] = constructMD(x, order);
-    [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order);
+    [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order, method);
 
-    function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = prepareExpansion(sdim, ddim, order)
+    function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = prepareExpansion(sdim, ddim, order, method)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
 
       filename = [ 'PolynomialChaos', ...
+        '_', method, ...
         '_sd', num2str(sdim), ...
         '_dd', num2str(ddim), ...
         '_o', num2str(order), '.mat' ];
@@ -154,7 +153,7 @@ classdef PolynomialChaos < handle
         load(filename);
       else
         [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
-          PolynomialChaos.doPrepareExpansion(sdim, ddim, order);
+          PolynomialChaos.doPrepareExpansion(sdim, ddim, order, method);
         save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap');
       end
     end

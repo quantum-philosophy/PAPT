@@ -1,12 +1,6 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
   sdim = length(x);
   terms = length(psi);
-
-  %
-  % (*) The quadrature rule that is used here (Gauss-Hermite) assumes
-  % the physicists' weight function. We need the probabilists' one,
-  % therefore, a proper conversion is to be performed.
-  %
 
   %
   % `order' of a Gaussian quadrature rule means that for polynomials with
@@ -35,8 +29,6 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
 
   points = min(pointsTP, pointsSG);
 
-  nodes = nodes * sqrt(2); % See (*) above.
-
   plainGrid = zeros(terms, points);
   niceGrid = zeros(terms, points);
 
@@ -45,7 +37,9 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
   for i = 1:terms
     f = Utils.toFunction(psi(i), x, 'rows');
     plainGrid(i, :) = f(nodes);
-    norm(i) = sum(plainGrid(i, :).^2 .* weights) / pi^(sdim / 2); % See (*) above.
-    niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i) / pi^(sdim / 2); % See (*) above.
+    norm(i) = sum(plainGrid(i, :).^2 .* weights);
+    niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
+
+  assert(all(norm >= 0), 'Normalization constants cannot be negative.');
 end

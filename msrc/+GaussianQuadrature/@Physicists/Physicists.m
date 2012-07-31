@@ -1,35 +1,44 @@
 classdef Physicists < GaussianQuadrature.Base
   methods
-    function gq = Physicists(x, psi, order)
-      gq = gq@GaussianQuadrature.Base(x, psi, order);
+    function gq = Physicists(x, psi, order, varargin)
+      gq = gq@GaussianQuadrature.Base(x, psi, order, varargin{:});
     end
   end
 
-  methods (Static)
-    [ nodes, weights, points ] = constructSparseGrid(sdim, order);
-    [ nodes, weights, points ] = constructTensorProduct(sdim, order);
+  methods (Access = 'protected')
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
   end
 
-  methods (Static, Access = 'protected')
-    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order);
-
-    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(x, psi, order)
+  methods (Static)
+    function [ nodes, weights ] = construct1D(order)
       %
-      % A wrapper to cache the result of `doPrecomputeGrid'.
+      % `order' is the number of points involved.
       %
+      [ nodes, weights ] = hermite_compute(order);
 
-      sdim = length(x);
+      nodes = nodes * sqrt(2);
+      weights = weights / sqrt(pi);
+    end
 
-      filename = [ 'PhQuadrature_d', num2str(sdim), '_o', num2str(order), '.mat' ];
-      filename = Utils.resolvePath(filename, 'cache');
+    function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
+      [ nodes1D, weights1D ] = GaussianQuadrature.Physicists.construct1D(order);
+      [ nodes, weights, points ] = ...
+        GaussianQuadrature.constructTensorProduct(sdim, nodes1D, weights1D);
+    end
 
-      if exist(filename, 'file')
-        load(filename);
-      else
-        [ nodes, plainGrid, niceGrid, norm ] = ...
-          GaussianQuadrature.Physicists.doPrecomputeGrid(x, psi, order);
-        save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
-      end
+    function [ nodes, weights, points ] = constructSparseGrid(sdim, order)
+      %
+      % order = 2^level - 1  --->  level = log2(order + 1)
+      %
+      level = ceil(log2(order + 1));
+
+      error('Not clear how to choose the level.');
+
+      points = sparse_grid_herm_size(sdim, level);
+      [ weights, nodes ] = sparse_grid_herm(sdim, level, points);
+
+      nodes = nodes * sqrt(2);
+      weights = weights / sqrt(pi^sdim);
     end
   end
 end

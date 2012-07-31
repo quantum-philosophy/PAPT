@@ -1,5 +1,5 @@
-function [ nodes, weights, points ] = constructTensorProduct(sdim, order);
-  [ nodes1D, weights1D ] = nwspgr('gqn', 1, order);
+function [ nodes, weights, points ] = constructTensorProduct(sdim, nodes1D, weights1D)
+  order = length(weights1D);
 
   nodes = {};
   weights = {};
@@ -10,6 +10,7 @@ function [ nodes, weights, points ] = constructTensorProduct(sdim, order);
   end
 
   [ nodes, weights ] = tensor_product(nodes, weights);
+
   nodes = transpose(nodes);
   weights = transpose(weights);
 

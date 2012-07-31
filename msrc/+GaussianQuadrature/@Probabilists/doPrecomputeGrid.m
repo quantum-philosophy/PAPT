@@ -1,4 +1,4 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
   sdim = length(x);
   terms = length(psi);
 
@@ -40,4 +40,6 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(x, psi, order)
     norm(i) = sum(plainGrid(i, :).^2 .* weights);
     niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
+
+  assert(all(norm >= 0), 'Normalization constants cannot be negative.');
 end
