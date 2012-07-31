@@ -26,7 +26,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   % Now, the Gaussian quadrature rule.
   %
 
-  qd = Quadrature.(method)(x, psi, order, index);
+  qd = Quadrature.(method.name)(x, psi, order, index, method);
 
   points = qd.points;
   nodes = qd.nodes;

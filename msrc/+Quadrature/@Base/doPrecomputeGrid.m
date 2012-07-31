@@ -1,15 +1,14 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index, method)
   sdim = length(x);
   terms = length(psi);
 
   quadratureOrder = qd.polynomialOrderToQuadratureOrder(polynomialOrder);
 
-  [ nodes, weights, pointsSG ] = qd.constructSparseGrid(sdim, quadratureOrder);
-
+  pointsSG = qd.countSparseGridPoints(sdim, quadratureOrder);
   pointsTP = qd.countTensorProductPoints(sdim, quadratureOrder);
 
   debug({ 'Precomputation of a new grid.' }, ...
-        { '  Type: Probabilists' }, ...
+        { '  Method: %s', Quadrature.methodName(method) }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
         { '  Polynomial order: %d', polynomialOrder }, ...
         { '  Quadrature order: %d', quadratureOrder }, ...
@@ -17,11 +16,26 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, pol
         { '  Sparse grid points: %d', pointsSG }, ...
         { '  Tensor product points: %d', pointsTP });
 
-  if pointsTP <= pointsSG
-    [ nodes, weights ] = qd.constructTensorProduct(sdim, quadratureOrder);
+  type = lower(method.type);
+
+  if strcmp(type, 'adaptive')
+    if pointsTP <= pointsSG
+      type = 'tensor';
+    else
+      type = 'sparse';
+    end
   end
 
-  points = min(pointsTP, pointsSG);
+  switch type
+  case 'sparse'
+    [ nodes, weights, points ] = qd.constructSparseGrid(sdim, quadratureOrder);
+    assert(points == pointsSG, 'The number of points is invalid.');
+  case 'tensor'
+    [ nodes, weights, points ] = qd.constructTensorProduct(sdim, quadratureOrder);
+    assert(points == pointsTP, 'The number of points is invalid.');
+  otherwise
+    error('The method type is unknown.');
+  end
 
   plainGrid = zeros(terms, points);
   niceGrid = zeros(terms, points);

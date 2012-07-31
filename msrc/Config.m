@@ -26,7 +26,9 @@ classdef Config < handle
     %
     % Integration method.
     %
-    integrationMethod = 'GaussHermiteProbabilists';
+    integrationMethod = struct( ...
+      'name', 'GaussHermiteProbabilists', ...
+      'type', 'Adaptive');
 
     %
     % The order of the PC expansion.
@@ -131,6 +133,10 @@ classdef Config < handle
       fprintf('  Steps: %d\n', c.steps);
       fprintf('  Time step: %.2e\n', c.dt);
       fprintf('  Simulated time: %.2f s\n', c.dt * c.steps);
+      fprintf('  Assessment method: %s\n', c.assessmentMethod);
+      fprintf('  Number of MC samples: %d\n', c.monteCarloSamples);
+      fprintf('  Integration method: %s\n', ...
+        Quadrature.methodName(c.integrationMethod));
     end
 
     function args = hotspotArguments(c)

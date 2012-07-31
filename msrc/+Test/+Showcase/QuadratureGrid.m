@@ -1,77 +1,60 @@
 init;
 
-%
-% The number of stochastic dimensions.
-%
-sdim = 2;
+methodSet = { 'GaussHermiteProbabilists', 'GaussHermitePhysicists', 'KronrodPatterson' };
+orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
+coreSet = [ 2 4 8 16 32 ];
 
-%
-% The maximal total order of polynomials to integrate,
-% i.e., the order of the PC expansion.
-%
-order = 10;
+methodCount = length(methodSet);
+coreCount = length(coreSet);
+orderCount = length(orderSet);
 
-%
-% The order (points) of the quadrature rule
-% (as if it was one-dimensional).
-%
-quadratureOrder = order + 1;
+sdimSet = zeros(coreCount, 1);
 
-%
-% The product of two one-dimensional polynomials psi_7 * psi_3.
-%
-f = @(x) ...
-  + 315 .* x(1, :)    .* x(2, :)    ...
-  - 105 .* x(1, :)    .* x(2, :).^3 ...
-  - 315 .* x(1, :).^3 .* x(2, :)    ...
-  + 105 .* x(1, :).^3 .* x(2, :).^3 ...
-  +  63 .* x(1, :).^5 .* x(2, :)    ...
-  -  21 .* x(1, :).^5 .* x(2, :).^3 ...
-  -   3 .* x(1, :).^7 .* x(2, :)    ...
-  +        x(1, :).^7 .* x(2, :).^3;
+for i = 1:coreCount
+  floorplan = Utils.resolveTest(coreSet(i));
+  C = PrincipalComponent.perform(floorplan);
+  sdimSet(i) = size(C, 2);
+end
 
-fprintf('Random variables:    %d\n', sdim);
-fprintf('Polynomial order:    %d\n', order);
-fprintf('Integration order:   %d\n', quadratureOrder);
+for k = 1:(2 * methodCount)
+  method = methodSet{ceil(k / 2)};
 
-fprintf('\n');
+  sparse = mod(k, 2) == 1;
 
-[ nodes, weights, points ] = ...
-  Quadrature.GaussHermitePhysicists.constructSparseGrid(sdim, quadratureOrder);
-fprintf('Gauss-Hermite Physicists (SG):\n');
-fprintf('  Total points:      %d\n', points);
-fprintf('  Negative points:   %d\n', length(find(weights < 0)));
-fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
-fprintf('\n');
+  if sparse
+    fprintf('Method: %s (SG)\n', method);
+  else
+    fprintf('Method: %s (TP)\n', method);
+  end
 
-[ nodes, weights, points ] = ...
-  Quadrature.GaussHermiteProbabilists.constructSparseGrid(sdim, quadratureOrder);
-fprintf('Gauss-Hermite Probabilists (SG):\n');
-fprintf('  Total points:      %d\n', points);
-fprintf('  Negative points:   %d\n', length(find(weights < 0)));
-fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
-fprintf('\n');
+  fprintf('%15s', 'Order');
+  for i = 1:coreCount
+    fprintf('%15s', sprintf('Cores %d(%d)', coreSet(i), sdimSet(i)));
+  end
+  fprintf('\n');
 
-[ nodes, weights, points ] = ...
-  Quadrature.GaussHermitePhysicists.constructTensorProduct(sdim, quadratureOrder);
-fprintf('Gauss-Hermite Physicists (TP):\n');
-fprintf('  Total points:      %d\n', points);
-fprintf('  Negative points:   %d\n', length(find(weights < 0)));
-fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
-fprintf('\n');
+  for i = 1:orderCount
+    polynomialOrder = orderSet(i);
 
-[ nodes, weights, points ] = ...
-  Quadrature.GaussHermiteProbabilists.constructTensorProduct(sdim, quadratureOrder);
-fprintf('Gauss-Hermite Probabilists (TP):\n');
-fprintf('  Total points:      %d\n', points);
-fprintf('  Negative points:   %d\n', length(find(weights < 0)));
-fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
-fprintf('\n');
+    fprintf('%15d', polynomialOrder);
 
-[ nodes, weights, points ] = ...
-  Quadrature.KronrodPatterson.constructSparseGrid(sdim, quadratureOrder);
-fprintf('Kronrod-Patterson (SG):\n');
-fprintf('  Total points:      %d\n', points);
-fprintf('  Negative points:   %d\n', length(find(weights < 0)));
-fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
-fprintf('\n');
+    for j = 1:coreCount
+      sdim = sdimSet(j);
+
+      quadratureOrder = ...
+        Quadrature.(method).polynomialOrderToQuadratureOrder(polynomialOrder);
+
+      if sparse
+        points = ...
+          Quadrature.(method).countSparseGridPoints(sdim, quadratureOrder);
+      else
+        points = ...
+          Quadrature.(method).countTensorProductPoints(sdim, quadratureOrder);
+      end
+
+      fprintf('%15d', points);
+    end
+    fprintf('\n');
+  end
+  fprintf('\n');
+end

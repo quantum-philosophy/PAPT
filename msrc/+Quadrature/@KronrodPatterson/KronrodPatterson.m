@@ -1,17 +1,20 @@
 classdef KronrodPatterson < Quadrature.Base
   methods
-    function qd = KronrodPatterson(x, psi, order, varargin);
-      qd = qd@Quadrature.Base(x, psi, order, varargin{:});
-    end
-  end
-
-  methods (Access = 'protected')
-    function points = countTensorProductPoints(qd, sdim, order)
-      points = Inf;
+    function qd = KronrodPatterson(varargin);
+      qd = qd@Quadrature.Base(varargin{:});
     end
   end
 
   methods (Static)
+    function points = countTensorProductPoints(sdim, order)
+      points = Inf;
+    end
+
+    function points = countSparseGridPoints(sdim, order)
+      [ ~, weights ] = nwspgr('kpn', sdim, order);
+      points = length(weights);
+    end
+
     function [ nodes, weights ] = construct1D(order)
       error('It is meant to be sparse.');
     end

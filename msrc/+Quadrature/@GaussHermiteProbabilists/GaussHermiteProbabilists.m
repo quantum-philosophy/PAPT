@@ -1,11 +1,20 @@
 classdef GaussHermiteProbabilists < Quadrature.Base
   methods
-    function qd = GaussHermiteProbabilists(x, psi, order, varargin);
-      qd = qd@Quadrature.Base(x, psi, order, varargin{:});
+    function qd = GaussHermiteProbabilists(varargin);
+      qd = qd@Quadrature.Base(varargin{:});
     end
   end
 
   methods (Static)
+    function points = countTensorProductPoints(sdim, order)
+      points = order^sdim;
+    end
+
+    function points = countSparseGridPoints(sdim, order)
+      [ ~, weights ] = nwspgr('gqn', sdim, order);
+      points = length(weights);
+    end
+
     function [ nodes, weights ] = construct1D(order)
       %
       % `order' is the number of points involved.
