@@ -1,30 +1,24 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, polynomialOrder, index)
   sdim = length(x);
   terms = length(psi);
 
-  %
-  % `order' of a Gaussian quadrature rule means that for polynomials with
-  % order (2 * `order' - 1) the integration will be exact. We want to have
-  % the exactness for the order (2 * `order'), therefore, `order' := `order' + 1.
-  %
-  requiredOrder = order + 1;
+  quadratureOrder = gq.polynomialOrderToQuadratureOrder(polynomialOrder);
 
-  [ nodes, weights, pointsSG ] = ...
-    GaussianQuadrature.Probabilists.constructSparseGrid(sdim, requiredOrder);
+  [ nodes, weights, pointsSG ] = gq.constructSparseGrid(sdim, quadratureOrder);
 
-  pointsTP = requiredOrder^sdim;
+  pointsTP = gq.countTensorProductPoints(sdim, quadratureOrder);
 
   debug({ 'Precomputation of a new grid.' }, ...
         { '  Type: Probabilists' }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
-        { '  Polynomial order: %d', order }, ...
+        { '  Polynomial order: %d', polynomialOrder }, ...
+        { '  Quadrature order: %d', quadratureOrder }, ...
         { '  Number of terms: %d', terms }, ...
         { '  Sparse grid points: %d', pointsSG }, ...
         { '  Tensor product points: %d', pointsTP });
 
   if pointsTP <= pointsSG
-    [ nodes, weights ] = ...
-      GaussianQuadrature.Probabilists.constructTensorProduct(sdim, requiredOrder);
+    [ nodes, weights ] = gq.constructTensorProduct(sdim, quadratureOrder);
   end
 
   points = min(pointsTP, pointsSG);
@@ -37,7 +31,11 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, ord
   for i = 1:terms
     f = Utils.toFunction(psi(i), x, 'rows');
     plainGrid(i, :) = f(nodes);
-    norm(i) = sum(plainGrid(i, :).^2 .* weights);
+    if nargin < 5
+      norm(i) = sum(plainGrid(i, :).^2 .* weights);
+    else
+      norm(i) = prod(factorial(index(i, :) - 1));
+    end
     niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
 

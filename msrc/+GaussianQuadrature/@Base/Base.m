@@ -38,11 +38,25 @@ classdef Base < handle
     end
   end
 
-  methods (Abstract, Access = 'protected')
+  methods (Access = 'protected')
     [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order, varargin)
   end
 
   methods (Access = 'protected')
+    function quadratureOrder = polynomialOrderToQuadratureOrder(gq, polynomialOrder)
+      %
+      % The order of a Gaussian quadrature rule, denoted by `order', means that
+      % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
+      % exactness for polynomials of order (2 * `order'), therefore, the rule order
+      % should be increased by one.
+      %
+      quadratureOrder = polynomialOrder + 1;
+    end
+
+    function points = countTensorProductPoints(gq, sdim, order)
+      points = order^sdim;
+    end
+
     function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(gq, x, psi, order, varargin)
       sdim = length(x);
 

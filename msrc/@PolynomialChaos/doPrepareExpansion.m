@@ -28,11 +28,9 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
 
   switch method
   case 'Physicists'
-    gq = GaussianQuadrature.Physicists(x, psi, order);
+    gq = GaussianQuadrature.Physicists(x, psi, order, index);
   case 'Probabilists'
-    gq = GaussianQuadrature.Probabilists(x, psi, order);
-  case 'MultiProbabilists'
-    gq = GaussianQuadrature.MultiProbabilists(x, psi, index);
+    gq = GaussianQuadrature.Probabilists(x, psi, order, index);
   otherwise
     error('The method is unknown.');
   end

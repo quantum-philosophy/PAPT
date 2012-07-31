@@ -26,7 +26,7 @@ classdef Config < handle
     %
     % Integration method.
     %
-    integrationMethod = 'MultiProbabilists';
+    integrationMethod = 'Probabilists';
 
     %
     % The order of the PC expansion.

@@ -5,10 +5,6 @@ classdef Probabilists < GaussianQuadrature.Base
     end
   end
 
-  methods (Access = 'protected')
-    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order)
-  end
-
   methods (Static)
     function [ nodes, weights ] = construct1D(order)
       %
