@@ -4,9 +4,9 @@ c = Config('steps', 100);
 display(c);
 
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2, 10^3 10^4 10^5 ];
+sampleSet = [ 10^2 10^3 10^4 ];
 
-pick = [ 4, 10^4 ];
+pick = [ 0 0 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
@@ -57,7 +57,7 @@ for i = 1:length(orderSet)
     errorExp(i, j) = Utils.NRMSE(mexp, cexp) * 100;
     errorVar(i, j) = Utils.NRMSE(mvar, cvar) * 100;
 
-    if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
+    if i == pick(1) && j == pick(2)
       mExp = mexp;
       mVar = mvar;
       cExp = cexp;
@@ -76,13 +76,18 @@ for i = 1:length(orderSet)
   fprintf('\n');
 end
 
+if all(pick == 0), return; end
+
+order = orderSet(pick(1));
+samples = sampleSet(pick(2));
+
 time = c.timeLine;
 
 mf = Utils.plotExpStd(time, mExp, mVar);
-title(sprintf('%d-sample Monte Carlo', sampleSet(pick(2))));
+title(sprintf('%d-sample Monte Carlo', samples));
 
 cf = Utils.plotExpStd(time, cExp, cVar);
-title(sprintf('%d-order Polynomial Chaos', orderSet(pick(1))));
+title(sprintf('%d-order Polynomial Chaos', order));
 
 %% Make the plots match each other.
 %
@@ -115,7 +120,7 @@ for i = 1:c.cores
   line(time, mVar(i, :) - cVar(i, :), 'Color', color);
 end
 xlabel('Time, s');
-ylabel('Var(PC) - Var(MC), $C^2$');
+ylabel('Var(PC) - Var(MC), C^2');
 
 figure;
 subplot(2, 1, 1);

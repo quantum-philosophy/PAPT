@@ -41,7 +41,7 @@ for i = 1:kc.cores
   color = Utils.pickColor(i);
   line(time, kVar(i, :) - aVar(i, :), 'Color', color);
 end
-ylabel('Var(Kutta) - Var(Analytic), $C^2$');
+ylabel('Var(Kutta) - Var(Analytic), C^2');
 xlabel('Time, s');
 
 ExpNRMSE = Utils.NRMSE(kExp, aExp) * 100;

@@ -6,7 +6,7 @@ classdef Config < handle
     %
     % The MC method used to assess the PC expansion.
     %
-    assessmentMethod = 'Analytic';
+    assessmentMethod = 'Kutta';
 
     %
     % The total number of loaded samples of the MC method.

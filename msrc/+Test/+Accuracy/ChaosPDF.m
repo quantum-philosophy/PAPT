@@ -4,7 +4,7 @@ c = Config('steps', 100);
 display(c);
 
 orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2 10^3 10^4 10^5 ];
+sampleSet = [ 10^2 10^3 10^4 ];
 
 pick = [ 0 0 ];
 
@@ -46,7 +46,7 @@ for i = 1:length(orderSet)
 
     mRaw = mRAW{j};
 
-    if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
+    if i == pick(1) && j == pick(2)
       error(i, j) = Utils.comparePDF(mRaw, cRaw, ...
         c.timeLine, { 'Monte Carlo', 'Polynomial Chaos' }) * 100;
     else
