@@ -1,7 +1,7 @@
-classdef Probabilists < GaussianQuadrature.Base
+classdef GaussHermiteProbabilists < Quadrature.Base
   methods
-    function gq = Probabilists(x, psi, order, varargin);
-      gq = gq@GaussianQuadrature.Base(x, psi, order, varargin{:});
+    function qd = GaussHermiteProbabilists(x, psi, order, varargin);
+      qd = qd@Quadrature.Base(x, psi, order, varargin{:});
     end
   end
 
@@ -14,9 +14,9 @@ classdef Probabilists < GaussianQuadrature.Base
     end
 
     function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
-      [ nodes1D, weights1D ] = GaussianQuadrature.Probabilists.construct1D(order);
+      [ nodes1D, weights1D ] = Quadrature.GaussHermiteProbabilists.construct1D(order);
       [ nodes, weights, points ] = ...
-        GaussianQuadrature.constructTensorProduct(sdim, nodes1D, weights1D);
+        Quadrature.constructTensorProduct(sdim, nodes1D, weights1D);
     end
 
     function [ nodes, weights, points ] = constructSparseGrid(sdim, order);

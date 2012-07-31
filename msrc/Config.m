@@ -26,7 +26,7 @@ classdef Config < handle
     %
     % Integration method.
     %
-    integrationMethod = 'Probabilists';
+    integrationMethod = 'GaussHermiteProbabilists';
 
     %
     % The order of the PC expansion.

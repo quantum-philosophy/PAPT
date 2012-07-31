@@ -1,12 +1,12 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, polynomialOrder, index)
+function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index)
   sdim = length(x);
   terms = length(psi);
 
-  quadratureOrder = gq.polynomialOrderToQuadratureOrder(polynomialOrder);
+  quadratureOrder = qd.polynomialOrderToQuadratureOrder(polynomialOrder);
 
-  [ nodes, weights, pointsSG ] = gq.constructSparseGrid(sdim, quadratureOrder);
+  [ nodes, weights, pointsSG ] = qd.constructSparseGrid(sdim, quadratureOrder);
 
-  pointsTP = gq.countTensorProductPoints(sdim, quadratureOrder);
+  pointsTP = qd.countTensorProductPoints(sdim, quadratureOrder);
 
   debug({ 'Precomputation of a new grid.' }, ...
         { '  Type: Probabilists' }, ...
@@ -18,7 +18,7 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, pol
         { '  Tensor product points: %d', pointsTP });
 
   if pointsTP <= pointsSG
-    [ nodes, weights ] = gq.constructTensorProduct(sdim, quadratureOrder);
+    [ nodes, weights ] = qd.constructTensorProduct(sdim, quadratureOrder);
   end
 
   points = min(pointsTP, pointsSG);

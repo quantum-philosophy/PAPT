@@ -32,18 +32,18 @@ classdef Base < handle
   end
 
   methods
-    function gq = Base(x, psi, order, varargin)
-      [ gq.nodes, gq.plainGrid, gq.niceGrid, gq.norm ] = gq.precomputeGrid(x, psi, order, varargin{:});
-      gq.points = size(gq.nodes, 2);
+    function qd = Base(x, psi, order, varargin)
+      [ qd.nodes, qd.plainGrid, qd.niceGrid, qd.norm ] = qd.precomputeGrid(x, psi, order, varargin{:});
+      qd.points = size(qd.nodes, 2);
     end
   end
 
   methods (Access = 'protected')
-    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(gq, x, psi, order, varargin)
+    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, order, varargin)
   end
 
   methods (Access = 'protected')
-    function quadratureOrder = polynomialOrderToQuadratureOrder(gq, polynomialOrder)
+    function quadratureOrder = polynomialOrderToQuadratureOrder(qd, polynomialOrder)
       %
       % The order of a Gaussian quadrature rule, denoted by `order', means that
       % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
@@ -53,20 +53,22 @@ classdef Base < handle
       quadratureOrder = polynomialOrder + 1;
     end
 
-    function points = countTensorProductPoints(gq, sdim, order)
+    function points = countTensorProductPoints(qd, sdim, order)
       points = order^sdim;
     end
 
-    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(gq, x, psi, order, varargin)
+    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(qd, x, psi, order, varargin)
       sdim = length(x);
 
-      filename = [ class(gq), '_d', num2str(sdim), '_o', num2str(order), '.mat' ];
+      name = regexprep(class(qd), '^[^\.]*\.?', '');
+
+      filename = [ name, '_d', num2str(sdim), '_o', num2str(order), '.mat' ];
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, plainGrid, niceGrid, norm ] = gq.doPrecomputeGrid(x, psi, order, varargin{:});
+        [ nodes, plainGrid, niceGrid, norm ] = qd.doPrecomputeGrid(x, psi, order, varargin{:});
         save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
       end
     end

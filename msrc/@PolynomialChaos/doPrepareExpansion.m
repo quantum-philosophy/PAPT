@@ -27,24 +27,26 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   %
 
   switch method
-  case 'Physicists'
-    gq = GaussianQuadrature.Physicists(x, psi, order, index);
-  case 'Probabilists'
-    gq = GaussianQuadrature.Probabilists(x, psi, order, index);
+  case 'GaussHermitePhysicists'
+    qd = Quadrature.GaussHermitePhysicists(x, psi, order, index);
+  case 'GaussHermiteProbabilists'
+    qd = Quadrature.GaussHermiteProbabilists(x, psi, order, index);
+  case 'KronrodPatterson'
+    qd = Quadrature.KronrodPatterson(x, psi, order, index);
   otherwise
     error('The method is unknown.');
   end
 
-  points = gq.points;
-  nodes = gq.nodes;
-  norm = gq.norm;
+  points = qd.points;
+  nodes = qd.nodes;
+  norm = qd.norm;
 
   %
   % Precompute the grid for the given number of deterministic dimensions.
   %
   grid = zeros(ddim, points, terms);
   for i = 1:terms
-    grid(:, :, i) = irep(gq.niceGrid(i, :), ddim, 1);
+    grid(:, :, i) = irep(qd.niceGrid(i, :), ddim, 1);
   end
 
   %

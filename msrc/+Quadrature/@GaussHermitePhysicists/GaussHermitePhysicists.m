@@ -1,7 +1,7 @@
-classdef Physicists < GaussianQuadrature.Base
+classdef GaussHermitePhysicists < Quadrature.Base
   methods
-    function gq = Physicists(x, psi, order, varargin)
-      gq = gq@GaussianQuadrature.Base(x, psi, order, varargin{:});
+    function qd = GaussHermitePhysicists(x, psi, order, varargin)
+      qd = qd@Quadrature.Base(x, psi, order, varargin{:});
     end
   end
 
@@ -17,9 +17,9 @@ classdef Physicists < GaussianQuadrature.Base
     end
 
     function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
-      [ nodes1D, weights1D ] = GaussianQuadrature.Physicists.construct1D(order);
+      [ nodes1D, weights1D ] = Quadrature.GaussHermitePhysicists.construct1D(order);
       [ nodes, weights, points ] = ...
-        GaussianQuadrature.constructTensorProduct(sdim, nodes1D, weights1D);
+        Quadrature.constructTensorProduct(sdim, nodes1D, weights1D);
     end
 
     function [ nodes, weights, points ] = constructSparseGrid(sdim, order)
@@ -27,8 +27,6 @@ classdef Physicists < GaussianQuadrature.Base
       % order = 2^level - 1  --->  level = log2(order + 1)
       %
       level = ceil(log2(order + 1));
-
-      error('Not clear how to choose the level.');
 
       points = sparse_grid_herm_size(sdim, level);
       [ weights, nodes ] = sparse_grid_herm(sdim, level, points);

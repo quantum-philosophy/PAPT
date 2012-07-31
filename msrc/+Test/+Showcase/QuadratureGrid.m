@@ -15,7 +15,7 @@ order = 10;
 % The order (points) of the quadrature rule
 % (as if it was one-dimensional).
 %
-requiredOrder = order + 1;
+quadratureOrder = order + 1;
 
 %
 % The product of two one-dimensional polynomials psi_7 * psi_3.
@@ -32,37 +32,45 @@ f = @(x) ...
 
 fprintf('Random variables:    %d\n', sdim);
 fprintf('Polynomial order:    %d\n', order);
-fprintf('Integration order:   %d\n', requiredOrder);
+fprintf('Integration order:   %d\n', quadratureOrder);
 
 fprintf('\n');
 
 [ nodes, weights, points ] = ...
-  GaussianQuadrature.Physicists.constructSparseGrid(sdim, requiredOrder);
-fprintf('Sparse physicists:\n');
+  Quadrature.GaussHermitePhysicists.constructSparseGrid(sdim, quadratureOrder);
+fprintf('Gauss-Hermite Physicists (SG):\n');
 fprintf('  Total points:      %d\n', points);
 fprintf('  Negative points:   %d\n', length(find(weights < 0)));
 fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
 fprintf('\n');
 
 [ nodes, weights, points ] = ...
-  GaussianQuadrature.Probabilists.constructSparseGrid(sdim, requiredOrder);
-fprintf('Sparse probabilists:\n');
+  Quadrature.GaussHermiteProbabilists.constructSparseGrid(sdim, quadratureOrder);
+fprintf('Gauss-Hermite Probabilists (SG):\n');
 fprintf('  Total points:      %d\n', points);
 fprintf('  Negative points:   %d\n', length(find(weights < 0)));
 fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
 fprintf('\n');
 
 [ nodes, weights, points ] = ...
-  GaussianQuadrature.Physicists.constructTensorProduct(sdim, requiredOrder);
-fprintf('Tensor physicists:\n');
+  Quadrature.GaussHermitePhysicists.constructTensorProduct(sdim, quadratureOrder);
+fprintf('Gauss-Hermite Physicists (TP):\n');
 fprintf('  Total points:      %d\n', points);
 fprintf('  Negative points:   %d\n', length(find(weights < 0)));
 fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
 fprintf('\n');
 
 [ nodes, weights, points ] = ...
-  GaussianQuadrature.Probabilists.constructTensorProduct(sdim, requiredOrder);
-fprintf('Tensor probabilists:\n');
+  Quadrature.GaussHermiteProbabilists.constructTensorProduct(sdim, quadratureOrder);
+fprintf('Gauss-Hermite Probabilists (TP):\n');
+fprintf('  Total points:      %d\n', points);
+fprintf('  Negative points:   %d\n', length(find(weights < 0)));
+fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
+fprintf('\n');
+
+[ nodes, weights, points ] = ...
+  Quadrature.KronrodPatterson.constructSparseGrid(sdim, quadratureOrder);
+fprintf('Kronrod-Patterson (SG):\n');
 fprintf('  Total points:      %d\n', points);
 fprintf('  Negative points:   %d\n', length(find(weights < 0)));
 fprintf('  Integration:       %e\n', sum(f(nodes).^2 .* weights));
