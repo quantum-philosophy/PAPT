@@ -16,5 +16,7 @@ function debug(varargin)
     end
   end
 
-  warning(format, arguments{:});
+  fprintf('------------------------------\n');
+  fprintf(format, arguments{:});
+  fprintf('------------------------------\n');
 end

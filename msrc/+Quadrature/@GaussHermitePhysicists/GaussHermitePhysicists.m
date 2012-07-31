@@ -8,19 +8,10 @@ classdef GaussHermitePhysicists < Quadrature.Base
   methods (Static)
     function level = orderToLevel(order)
       %
-      % Description:
-      %
-      %   Here we are trying to estimate an appropriate level of the sparse grid
-      %   such that the grid can integrate polynomial of the given order `order' exactly.
-      %
       % Relationship:
       %
       %   order = 2^(level + 1) - 1
       %   level = log2(order + 1) - 1
-      %
-      % Source:
-      %
-      %   http://people.sc.fsu.edu/~jburkardt/m_src/sandia_sparse/sandia_sparse.html
       %
       level = ceil(log2(order + 1) - 1);
     end

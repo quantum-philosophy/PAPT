@@ -4,7 +4,7 @@ c = Config('polynomialOrder', 4, 'cores', 4);
 
 %% Initialize the solver.
 %
-ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder);
+ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder, c.integrationMethod);
 kt = HotSpot.Kutta(c.hotspotArguments{:});
 
 %% Define the needed measurements.

@@ -17,7 +17,7 @@ for i = 1:length(X)
 
   %% Initialize the solver.
   %
-  ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder);
+  ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder, c.integrationMethod);
   kt = HotSpot.Kutta(c.hotspotArguments{:});
 
   %% Perform the analysis.
