@@ -1,7 +1,7 @@
 init;
 
-methodSet = { 'GaussHermiteProbabilists', 'GaussHermitePhysicists', 'KronrodPatterson' };
-orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
+methodSet = { 'GaussHermiteProbabilists', 'GaussHermitePhysicists', 'KronrodPatterson', 'Sandia' };
+orderSet = [ 1 2 3 4 5 ];
 coreSet = [ 2 4 8 16 32 ];
 
 methodCount = length(methodSet);
