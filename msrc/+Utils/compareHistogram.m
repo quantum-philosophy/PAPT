@@ -28,7 +28,10 @@ function compareHistogram(mcRaw, pcRaw, labels)
     h = findobj(gca, 'Type', 'patch');
     set(h, 'facealpha', 0.75);
 
-    legend(labels{:});
+    error = Utils.NRMSE(mcHist, pcHist);
+
+    labelPC = sprintf('%s (NRMSE %.2e)', labels{2}, error);
+    legend(labels{1}, labelPC);
     xlabel('Temperature, C');
     ylabel('Empirical PDF');
   end

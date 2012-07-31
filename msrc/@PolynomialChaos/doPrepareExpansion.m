@@ -26,16 +26,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   % Now, the Gaussian quadrature rule.
   %
 
-  switch method
-  case 'GaussHermitePhysicists'
-    qd = Quadrature.GaussHermitePhysicists(x, psi, order, index);
-  case 'GaussHermiteProbabilists'
-    qd = Quadrature.GaussHermiteProbabilists(x, psi, order, index);
-  case 'KronrodPatterson'
-    qd = Quadrature.KronrodPatterson(x, psi, order, index);
-  otherwise
-    error('The method is unknown.');
-  end
+  qd = Quadrature.(method)(x, psi, order, index);
 
   points = qd.points;
   nodes = qd.nodes;
