@@ -16,7 +16,7 @@ errorVar = zeros(orderCount, sampleCount);
 
 mc = Test.constructMonteCarlo(c);
 
-fprintf('%15s%15s%15s', 'Order', 'NRMSE(ExpEm)', 'NRMSE(VarEm)');
+fprintf('%5s%15s%15s', 'Order', 'NRMSE(ExpEm)', 'NRMSE(VarEm)');
 for k = 1:2
   for i = 1:sampleCount
     fprintf('%15s', sprintf('MC %.1e', sampleSet(i)));
@@ -30,7 +30,7 @@ mVAR = {};
 for i = 1:length(orderSet)
   c.tune('polynomialOrder', orderSet(i));
 
-  fprintf('%15d', c.polynomialOrder);
+  fprintf('%5d', c.polynomialOrder);
 
   %% Temperature analysis with Polynomial Chaos.
   %

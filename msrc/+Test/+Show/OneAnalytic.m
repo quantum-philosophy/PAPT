@@ -1,6 +1,6 @@
 init;
 
-c = Config('cores', 2);
+c = Config();
 c.display();
 
 hs = HotSpot.Analytic(c.hotspotArguments{:});

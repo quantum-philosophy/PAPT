@@ -27,7 +27,7 @@ fprintf('\n');
 
 names = { 'NRMSE(PDF)', 'NRMSE(Exp)', 'NRMSE(Var)' };
 
-fprintf('%15s | ', '');
+fprintf('%5s | ', '');
 for i = 1:length(names)
   if i > 1, fprintf(' | '); end
 
@@ -47,7 +47,7 @@ for i = 1:length(names)
 end
 fprintf('\n');
 
-fprintf('%15s | ', 'Order');
+fprintf('%5s | ', 'Order');
 for i = 1:length(names)
   if i > 1, fprintf(' | '); end
 
@@ -60,7 +60,7 @@ fprintf('\n');
 for i = 1:length(orderSet)
   c.tune('polynomialOrder', orderSet(i));
 
-  fprintf('%15d | ', c.polynomialOrder);
+  fprintf('%5d | ', c.polynomialOrder);
 
   %% Temperature analysis with Polynomial Chaos.
   %
