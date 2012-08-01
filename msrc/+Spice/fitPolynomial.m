@@ -1,9 +1,18 @@
 function f = fitPolynomial(name, order, draw)
-  if nargin < 2 || numel(order) == 0, order = [ 3 3 ]; end
+  if nargin < 2 || numel(order) == 0, order = [ 2 2 ]; end
+
+  assert(numel(order) == 2, 'The order vector is invalid.');
+
   if nargin < 3, draw = false; end
 
+  %
+  % Compute a stamp for the order vector.
+  %
+  o = sprintf('%d %d', order(1), order(2));
+
   filename = [ 'Leakage_polynomial_', name, ...
-    '_l', num2str(order(1)), '_t', num2str(order(2)), '.mat' ];
+    '_o(', regexprep(o, ' ', '_'), ').mat' ];
+
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
@@ -12,8 +21,7 @@ function f = fitPolynomial(name, order, draw)
     debug({ 'Construction of a new SPICE fit.' }, ...
           { '  Circuit name: %s', name }, ...
           { '  Type: a polynomial' }, ...
-          { '  Order of L: %d', order(1) }, ...
-          { '  Order of T: %d', order(2) });
+          { '  Order of L and T: %s', o });
 
     D = dlmread(Utils.resolvePath([ name, '.leak' ], 'test'), '\t', 1, 0);
     Ldata = D(:, 1);

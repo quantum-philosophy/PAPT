@@ -16,7 +16,7 @@ errorVar = zeros(orderCount, sampleCount);
 
 mc = Test.constructMonteCarlo(c);
 
-fprintf('%15s', 'Order');
+fprintf('%15s%15s%15s', 'Order', 'NRMSE(ExpEm)', 'NRMSE(VarEm)');
 for k = 1:2
   for i = 1:sampleCount
     fprintf('%15s', sprintf('MC %.1e', sampleSet(i)));
@@ -36,7 +36,11 @@ for i = 1:length(orderSet)
   %
 
   ch = Test.constructChaos(c);
-  [ cexp, cvar ] = Test.sampleChaos(ch, c);
+  [ cexp, cvar, ~, cexpEm, cvarEm ] = Test.sampleChaos(ch, c);
+
+  fprintf('%15.2f%15.2f', ...
+    Utils.NRMSE(cexp, cexpEm) * 100, ...
+    Utils.NRMSE(cvar, cvarEm) * 100);
 
   for j = 1:length(sampleSet);
     c.tune('monteCarloSamples', sampleSet(j));
@@ -65,11 +69,11 @@ for i = 1:length(orderSet)
     end
   end
 
-  for j = 1:length(sampleSet);
+  for j = 1:length(sampleSet)
     fprintf('%15.2f', errorExp(i, j));
   end
 
-  for j = 1:length(sampleSet);
+  for j = 1:length(sampleSet)
     fprintf('%15.2f', errorVar(i, j));
   end
 

@@ -3,7 +3,8 @@ classdef Polynomial < Leakage.Base
     %
     % A multivariate polynomial p(L, T) to compute the leakage current.
     %
-    compute = Spice.fitExponentPolynomial('inverter_45nm', [ 1, 2 ], [ 0.7, 1 ]);
+    compute = Spice.fitExponentPolynomial( ...
+      'inverter_45nm', [ 1, 2 ], [ 1, 0.7, 0; 1, 1, 1 ]);
   end
 
   methods

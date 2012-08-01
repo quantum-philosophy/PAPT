@@ -1,11 +1,38 @@
 function f = fitExponentPolynomial(name, order, scale, draw)
   if nargin < 2 || numel(order) == 0, order = [ 2 2 ]; end
-  if nargin < 3 || numel(scale) == 0, scale = [ 1 1 ]; end
+
+  assert(numel(order) == 2, 'The order vector is invalid.');
+
+  maxOrder = max(order);
+
+  if nargin < 3 || numel(scale) == 0, scale = ones(2, maxOrder + 1); end
+
+  assert(size(scale, 1) == 2 && size(scale, 2) == maxOrder + 1, ...
+    'The scaling matrix is invalid.');
+
   if nargin < 4, draw = false; end
 
+  %
+  % Compute a stamp for the order vector.
+  %
+  o = sprintf('%d %d', order(1), order(2));
+
+  %
+  % Compute a stamp for the scaling matrix.
+  %
+  s = '';
+  for k = 1:2
+    if k > 1, s = [ s, ' ' ]; end
+    for i = 1:(maxOrder + 1)
+      if i > 1, s = [ s, ' ' ]; end
+      s = [ s, sprintf('%.2f', scale(k, i)) ];
+    end
+  end
+
   filename = [ 'Leakage_exponent_polynomial_', name, ...
-    '_l', num2str(order(1)), '_t', num2str(order(2)), ...
-    sprintf('_sl%.2f_st%.2f', scale(1), scale(2)), '.mat' ];
+    '_o(', regexprep(o, ' ', '_'), ')', ...
+    '_s(', regexprep(s, ' ', '_'), ').mat' ];
+
   filename = Utils.resolvePath(filename, 'cache');
 
   if exist(filename, 'file')
@@ -14,10 +41,8 @@ function f = fitExponentPolynomial(name, order, scale, draw)
     debug({ 'Construction of a new SPICE fit.' }, ...
           { '  Circuit name: %s', name }, ...
           { '  Type: exponent of a polynomial' }, ...
-          { '  Order of L: %d', order(1) }, ...
-          { '  Order of T: %d', order(2) }, ...
-          { '  Scale of L: %.2f', scale(1) }, ...
-          { '  Scale of T: %.2f', scale(2) });
+          { '  Order of L and T: %s', o }, ...
+          { '  Scale of L and T: %s', s });
 
     D = dlmread(Utils.resolvePath([ name, '.leak' ], 'test'), '\t', 1, 0);
     Ldata = D(:, 1);
@@ -44,10 +69,7 @@ function f = fitExponentPolynomial(name, order, scale, draw)
       Lorder = str2num(attrs{1}{1});
       Torder = str2num(attrs{1}{2});
 
-      s = 1;
-
-      if Lorder > 0, s = s * scale(1); end
-      if Torder > 0, s = s * scale(2); end
+      s = scale(1, Lorder + 1) * scale(2, Torder + 1);
 
       logI = logI + s * cvals(i) * Lnorm^Lorder * Tnorm^Torder;
     end

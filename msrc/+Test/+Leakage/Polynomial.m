@@ -1,3 +1,7 @@
 init;
 
-Spice.fitExponentPolynomial('inverter_45nm', [ 1 2 ], [ 0.7, 1 ], true);
+Spice.fitExponentPolynomial('inverter_45nm', ...
+  [ 2 2 ], [ 1, 1, 0; 1, 1, 1 ], true);
+
+Spice.fitPolynomial('inverter_45nm', ...
+  [ 3 2 ], true);
