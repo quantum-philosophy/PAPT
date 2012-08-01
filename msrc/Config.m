@@ -54,6 +54,11 @@ classdef Config < handle
     % The time step of system profiles.
     %
     dt = 1e-3;
+
+    %
+    % The scaling coefficient of the dynamic power.
+    %
+    powerScale = 1;
   end
 
   %
@@ -98,17 +103,7 @@ classdef Config < handle
       %
       % Load the power profile and adjust it if it is needed.
       %
-      dynamicPower = dlmread(c.powerTrace, '', 1, 0)';
-
-      if ~isempty(c.steps)
-        c.dynamicPower = Utils.replicate(dynamicPower, c.steps);
-      else
-        c.dynamicPower = dynamicPower;
-        c.steps = size(c.dynamicPower, 2);
-      end
-
-      assert(size(c.dynamicPower, 1) == c.cores, ...
-        'The number of cores is invalid.');
+      c.updateDynamicPower();
     end
 
     function tune(c, varargin)
@@ -119,8 +114,7 @@ classdef Config < handle
         switch name
         case 'steps'
           c.steps = value;
-          dynamicPower = dlmread(c.powerTrace, '', 1, 0)';
-          c.dynamicPower = Utils.replicate(dynamicPower, c.steps);
+          c.updateDynamicPower();
         otherwise
           c.(name) = value;
         end
@@ -165,6 +159,22 @@ classdef Config < handle
 
     function line = timeLine(c)
       line = ((1:c.steps) - 1) * c.dt;
+    end
+  end
+
+  methods (Access = 'private')
+    function updateDynamicPower(c)
+      dynamicPower = c.powerScale * dlmread(c.powerTrace, '', 1, 0)';
+
+      if ~isempty(c.steps)
+        c.dynamicPower = Utils.replicate(dynamicPower, c.steps);
+      else
+        c.dynamicPower = dynamicPower;
+        c.steps = size(c.dynamicPower, 2);
+      end
+
+      assert(size(c.dynamicPower, 1) == c.cores, ...
+        'The number of cores is invalid.');
     end
   end
 end
