@@ -1,4 +1,4 @@
-function plotHistogram(Raw)
+function plotHistogram(Raw, varargin)
   [ samples, ddim ] = size(Raw);
 
   figure;
@@ -11,7 +11,7 @@ function plotHistogram(Raw)
 
     raw = Raw(:, i);
 
-    x = Utils.constructLinearSpace(raw);
+    x = Utils.constructLinearSpace(raw, varargin{:});
 
     hist = histc(raw, x) / samples;
 
