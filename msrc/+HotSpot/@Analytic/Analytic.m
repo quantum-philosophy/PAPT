@@ -48,8 +48,8 @@ classdef Analytic < HotSpot.Base
   end
 
   methods
-    function hs = Analytic(floorplan, config, line)
-      hs = hs@HotSpot.Base(floorplan, config, line);
+    function hs = Analytic(varargin)
+      hs = hs@HotSpot.Base(varargin{:});
 
       hs.Cm12 = diag(sqrt(1 ./ hs.C));
 

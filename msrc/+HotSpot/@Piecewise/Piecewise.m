@@ -19,8 +19,8 @@ classdef Piecewise < HotSpot.Analytic
   end
 
   methods
-    function hs = Piecewise(floorplan, config, line)
-      hs = hs@HotSpot.Analytic(floorplan, config, line);
+    function hs = Piecewise(varargin)
+      hs = hs@HotSpot.Base(varargin{:});
 
       [ hs.Trange, hs.Icoeff ] = Spice.fitPiecewiseLinear(...
         Leakage.Polynomial.compute, Leakage.Polynomial.Lnom);

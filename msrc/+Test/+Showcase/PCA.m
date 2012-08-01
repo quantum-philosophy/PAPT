@@ -1,17 +1,28 @@
 init;
 
-X = [ 2, 4, 8, 16, 32 ];
+samples = 10^5;
+coreSet = [ 2, 4, 8, 16, 32 ];
+coreCount = length(coreSet);
 
-fprintf('%15s%15s\n', 'Cores', 'Variables');
+for i = 1:coreCount
+  floorplan = Utils.resolveTest(coreSet(i));
 
-for i = 1:length(X)
-  cores = X(i);
+  P = PrincipalComponent.perform(floorplan);
 
-  floorplan = Utils.resolveTest(cores);
+  [ cores, sdim ] = size(P);
 
-  C = PrincipalComponent.perform(floorplan);
+  assert(cores == coreSet(i), 'The constructed matrix is invalid.');
 
-  assert(size(C, 1) == cores, 'The constructed matrix is invalid.');
+  fprintf('Cores: %d, Random variables: %d\n', cores, sdim);
+  fprintf('%10s%20s%15s\n', 'Core', 'Expectation, nm', 'Deviation, nm');
 
-  fprintf('%15d%15d\n', cores, size(C, 2));
+  L = P * normrnd(0, 1, sdim, samples);
+  exp = mean(L, 2) * 1e9;
+  std = sqrt(var(L, 0, 2)) * 1e9;
+
+  for j = 1:cores
+    fprintf('%10d%20.2f%15.2f\n', j, exp(j), std(j));
+  end
+
+  fprintf('\n');
 end

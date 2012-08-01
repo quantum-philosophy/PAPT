@@ -47,7 +47,7 @@ classdef Base < handle
   end
 
   methods
-    function hs = Base(floorplan, config, line)
+    function hs = Base(floorplan, config, line, varargin)
       [ hs.C, hs.G, hs.nodes, hs.cores, hs.dt, hs.Tamb ] = ...
         HotSpot.Base.getCoefficients(floorplan, config, line);
 
@@ -56,7 +56,7 @@ classdef Base < handle
       %
       % Perform the PCA to extract independent r.v.'s.
       %
-      [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan);
+      [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan, varargin{:});
       assert(size(hs.pca, 1) == hs.cores, 'The dimensions do not match.');
     end
   end

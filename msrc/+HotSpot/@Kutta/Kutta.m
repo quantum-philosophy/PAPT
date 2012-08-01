@@ -5,8 +5,8 @@ classdef Kutta < HotSpot.Base
   end
 
   methods
-    function hs = Kutta(floorplan, config, line)
-      hs = hs@HotSpot.Base(floorplan, config, line);
+    function hs = Kutta(varargin)
+      hs = hs@HotSpot.Base(varargin{:});
 
       hs.At = - diag(1 ./ hs.C) * hs.G;
       hs.Bt = diag(1 ./ hs.C) * ...

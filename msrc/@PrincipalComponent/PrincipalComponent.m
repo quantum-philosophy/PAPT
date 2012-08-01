@@ -15,16 +15,16 @@ classdef PrincipalComponent < handle
     % The ratio of the global and local variations in the total
     % variations. (It is good when they sum up to 1.)
     %
-    globalRatio = 0.5;
     localRatio = 0.5;
+    globalRatio = 0.5;
   end
 
   methods (Static)
-    function [ P, sdim ] = perform(floorplan, Ldev)
+    function [ P, sdim ] = perform(floorplan, varargin)
       %
       % Description:
       %
-      %   Does the same as `perform', but on the correlation
+      %   Does the same as `performRegular', but on the correlation
       %   matrix of the given floorplan.
       %
       C = PrincipalComponent.computeCorrelation(floorplan);
@@ -32,25 +32,25 @@ classdef PrincipalComponent < handle
       lCount = size(C, 1);
       gCount = PrincipalComponent.globalCount;
 
-      %
-      % Take into account the global variations.
-      %
-      C((end + 1):(end + gCount), (end + 1):(end + gCount)) = diag(ones(1, gCount));
-
-      if nargin < 2, Ldev = Leakage.Base.Ldev; end
+      Ldev = Leakage.Base.Ldev;
 
       %
       % Take into account the proportions between the two parts.
       %
-      lLdev = PrincipalComponent.localRatio * Ldev;
-      gLdev = PrincipalComponent.globalRatio * Ldev;
+      lLdev = (PrincipalComponent.localRatio) * Ldev;
+      gLdev = (PrincipalComponent.globalRatio) * Ldev;
 
-      S = [ ones(1, lCount) * lLdev, ones(1, gCount) * gLdev ];
+      S = ones(1, lCount) * lLdev;
 
-      P = PrincipalComponent.performRegular(diag(S) * C * diag(S));
+      P = PrincipalComponent.performRegular(diag(S) * C * diag(S), varargin{:});
 
       %
-      % The last part is mapping the r.v.'s to the cores.
+      % Append the global r.v.'s.
+      %
+      P((end + 1):(end + gCount), (end + 1):(end + gCount)) = diag(ones(1, gCount) * gLdev);
+
+      %
+      % The last part is mapping of the r.v.'s to the cores.
       %
       M = [ diag(ones(1, lCount)), ones(lCount, gCount) ];
       P = M * P;
@@ -60,7 +60,7 @@ classdef PrincipalComponent < handle
   end
 
   methods (Static, Access = 'private')
-    function P = performRegular(M)
+    function P = performRegular(M, reduction)
       %
       % Description:
       %
@@ -69,9 +69,20 @@ classdef PrincipalComponent < handle
       %   the threshold, which is constant for now.
       %
       [ P, L, E ] = pcacov(M);
-      toKeep = min(find((cumsum(E) - PrincipalComponent.threshold) > 0));
-      if isempty(toKeep), toKeep = size(P, 1); end
-      P = P(:, 1:toKeep) * diag(sqrt(L(1:toKeep)));
+
+      if nargin < 2 || isempty(reduction), reduction = 'adjustable'; end
+
+      switch lower(reduction)
+      case 'adjustable'
+        keep = min(find((cumsum(E) - PrincipalComponent.threshold) > 0));
+        if isempty(keep), keep = size(P, 1); end
+      case 'none'
+        keep = size(P, 1);
+      otherwise
+        error('The reduction method is unknown.');
+      end
+
+      P = P(:, 1:keep) * diag(sqrt(L(1:keep)));
     end
 
     function C = computeCorrelation(floorplan)

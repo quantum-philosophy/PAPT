@@ -143,6 +143,10 @@ classdef Config < handle
       args = { c.floorplan, c.hotspotConfig, c.hotspotLine };
     end
 
+    function args = chaosArguments(c)
+      args = { c.polynomialOrder, c.integrationMethod };
+    end
+
     function s = stamp(c, varargin)
       p = struct(...
         'assessmentMethod', c.assessmentMethod, ...
