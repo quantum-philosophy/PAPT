@@ -12,7 +12,7 @@ classdef Base < handle
     % of the given dynamic power at temperature `Tref'.
     %
     PleakPdyn = 2/3;
-    Tref = Utils.toKelvin(100);
+    Tref = Utils.toKelvin(120);
   end
 
   properties (Access = 'protected')

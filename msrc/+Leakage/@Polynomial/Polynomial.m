@@ -25,12 +25,11 @@ classdef Polynomial < Leakage.Base
       % at the temperature level `T'.
       %
       P0 = lk.compute(lk.Lnom, lk.Tref);
-      lk.alpha = lk.PleakPdyn * mean(Pdyn, 2) ./ P0;
+      lk.alpha = lk.PleakPdyn * mean(mean(Pdyn)) ./ P0;
 
       %
       % Adjust to the dimension of the quadrature.
       %
-      lk.alpha = irep(lk.alpha, 1, points);
       lk.Tamb = irep(lk.Tamb, 1, points);
     end
 
