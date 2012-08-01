@@ -20,7 +20,7 @@ classdef Piecewise < HotSpot.Analytic
 
   methods
     function hs = Piecewise(varargin)
-      hs = hs@HotSpot.Base(varargin{:});
+      hs = hs@HotSpot.Analytic(varargin{:});
 
       [ hs.Trange, hs.Icoeff ] = Spice.fitPiecewiseLinear(...
         Leakage.Polynomial.compute, Leakage.Polynomial.Lnom);
@@ -85,6 +85,7 @@ classdef Piecewise < HotSpot.Analytic
       %
       leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
       alpha = leak.alpha;
+      if isscalar(alpha), alpha = ones(cores, 1) * alpha; end
       Kcoeff = zeros(pieces, cores);
       Mcoeff = zeros(pieces, cores);
       Lcoeff = zeros(pieces, cores);

@@ -2,7 +2,8 @@ init;
 
 Lnom = Leakage.Base.Lnom;
 
-f = Spice.fitExponentPolynomial('inverter_45nm', [ 1 2 ], [ 0.7, 1 ]);
+f = Spice.fitExponentPolynomial('inverter_45nm', ...
+  [ 1 2 ], [ 0.7, 1, 0; 1, 1, 1 ]);
 [ T, B, Tglobal, Bglobal ] = Spice.fitPiecewiseLinear(f, Lnom);
 
 TT = [ T(:, 1); T(end, 2) ];

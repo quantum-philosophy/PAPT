@@ -83,4 +83,5 @@ function f = fitPolynomial(name, order, draw)
   zlabel('I');
 
   grid on;
+  view(10, 10);
 end
