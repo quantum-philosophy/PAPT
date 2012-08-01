@@ -58,7 +58,7 @@ classdef Config < handle
     %
     % The scaling coefficient of the dynamic power.
     %
-    powerScale = 1;
+    powerScale = 2;
   end
 
   %

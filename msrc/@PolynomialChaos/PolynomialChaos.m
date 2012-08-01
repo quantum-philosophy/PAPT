@@ -95,7 +95,25 @@ classdef PolynomialChaos < handle
       newCoeff = zeros(pc.ddim, terms);
 
       if nargin > 2
+        %
+        % The first option is to perform a real evaluation of
+        % the current PC expansion of temperature like this...
+        %
         currentValue = prevCoeff * pc.mappedRvProd;
+        %
+        % However, it leads to an unstable behaviour of PDFs since
+        % the quadratures cannot properly integrate when the leakage
+        % current changes too rapidly (not smooth).
+        %
+        % Instead, one can try sampling the leakage current at
+        % the expected temperature like this...
+        %
+        % currentValue = irep(prevCoeff(:, 1), 1, pc.points);
+        %
+        % However, in this case, expectation and variance start
+        % deviating from the MCS too much. On the other hand, PDFs
+        % around mean values -/+ standard deviations are pretty good.
+        %
         samples = f(pc.nodes, currentValue);
       else
         samples = f(pc.nodes);

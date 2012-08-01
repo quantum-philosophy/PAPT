@@ -1,4 +1,4 @@
-function [ globalError, localError ] = comparePDF(outMC, outPC, time, labels)
+function [ globalError, localError ] = comparePDF(outMC, outPC, time, labels, varargin)
   [ samplesMC, ddim, tdim ] = size(outMC);
   [ samplesPC, ddimPC, tdimPC ] = size(outPC);
 
@@ -7,7 +7,7 @@ function [ globalError, localError ] = comparePDF(outMC, outPC, time, labels)
 
   draw = false;
 
-  if nargin > 2
+  if nargin > 2 && ~isempty(time)
     draw = true;
 
     if nargin < 4
@@ -33,7 +33,7 @@ function [ globalError, localError ] = comparePDF(outMC, outPC, time, labels)
       mc = outMC(:, i, j);
       pc = outPC(:, i, j);
 
-      x = Utils.constructLinearSpace(mc, pc);
+      x = Utils.constructLinearSpace(mc, pc, varargin{:});
 
       densityMC = histc(mc, x) / samplesMC;
       densityPC = histc(pc, x) / samplesPC;
