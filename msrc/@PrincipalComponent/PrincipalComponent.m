@@ -37,8 +37,8 @@ classdef PrincipalComponent < handle
       %
       % Take into account the proportions between the two parts.
       %
-      lLdev = (PrincipalComponent.localRatio) * Ldev;
-      gLdev = (PrincipalComponent.globalRatio) * Ldev;
+      lLdev = sqrt(PrincipalComponent.localRatio) * Ldev;
+      gLdev = sqrt(PrincipalComponent.globalRatio) * Ldev;
 
       S = ones(1, lCount) * lLdev;
 
