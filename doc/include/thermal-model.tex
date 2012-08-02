@@ -31,9 +31,9 @@ which are matrix-valued functions of $\t$. As shown in \cite{ukhov2012}, $\mE$ a
 \end{equation}
 where $\t \in [ 0, \dt_k ]$ and
 \begin{align*}
-  & \vX_0(0, \o) = \vZero & \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o) \\
-  & \vTO_0(0, \o) = \vTO_\amb & \vTO_k(0, \o) = \vTO_{k - 1}(\dt_{k - 1}, \o)
+  & \vX_0(0, \o) = \vZero & \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o)
+%  & \vTO_0(0, \o) = \vTO_\amb & \vTO_k(0, \o) = \vTO_{k - 1}(\dt_{k - 1}, \o)
 \end{align*}
 Here, without loss of generality, we let the initial temperature be equal to the ambient temperature.
 
-In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the (deterministic) transient temperature analysis (TTA), cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existence of nonlinear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.
+In the deterministic case, the analytical solution, which leads to the recurrence given by \eref{recurrence}, can readily be employed to perform the deterministic transient TA, cf. \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a stright-forward analysis of \eref{recurrence} is difficult to undertake due to the existence of nonlinear correlations between successive steps. In order to tackle this problem, we employ the mathematical framework introduced in \sref{introduction} and further discussed in the following subsection.
