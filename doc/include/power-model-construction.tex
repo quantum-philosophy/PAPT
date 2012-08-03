@@ -1,4 +1,4 @@
-The formula in \eref{power-model} is decomposed into dynamic and leakage power components denoted respectively by $\f_\dyn(\vP_\dyn(\t), \o)$ and $\f_\leak(\vTO(\t, \o), \o)$. The influence of the process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}. Taking it into account, we let the dynamic part be
+The formula in \eref{power-model} is decomposed into dynamic and leakage power components denoted respectively by $\f_\dyn(\vP_\dyn(\t), \o)$ and $\f_\leak(\vTO(\t, \o), \o)$. The influence of the process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}; therefore, we let
 \[
   \f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
 \]
@@ -6,13 +6,13 @@ On the other hand, the variability of the leakage power is significant and shoul
 \[
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
 \]
-where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. Consequently, the uncertain parameters of the current model are $\vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o), \gLeff(\o) }$. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the following radial model of correlations \cite{ghanem1991}:
+where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. that represents the global variation, and $\lLeff_i(\o)$ is a zero-mean r.v. for the local part. Consequently, the uncertain parameters of the current model are $\vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\cores(\o), \gLeff(\o) }$. The local variations are known to be highly correlated, hence, we should account for this as well. To this end, without loss of generality, we use the following radial model of correlations \cite{ghanem1991, cheng2011}:
 \begin{equation} \elabel{correlation-matrix}
   \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\corrLength}
 \end{equation}
 where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length.
 
-Having intrinsic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. In our example, we employ a circuit base on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is calibrated according to the Predictive Technology Model (PTM HP) \cite{ptm}. A surface fitting procedure is then carried out on the output data from the simulations, and the following exponential model is acquired:
+Having intrinsic sources of variations identified, we need to construct a leakage model with these sources as inputs. One additional and, moreover, essential parameter should be temperature. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits for each of the processing elements with various combinations of the channel length and temperature. In our example, we employ a circuit based on the Berkeley MOSFET transistor model BSIM4 \cite{bsim4}, which is calibrated according to the Predictive Technology Model (PTM HP) \cite{ptm}. A surface fitting procedure is then carried out on the output data from the simulations, and the following exponential model is acquired:
 \begin{equation} \elabel{leakage-current}
   I_\leak(\Leff, \T) = \text{exp} \big\{ \alpha_0 + \alpha_1 \Leff + \alpha_2 \T + \alpha_3 \Leff \T + \alpha_4 \T^2 \big\}
 \end{equation}
