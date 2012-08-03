@@ -27,7 +27,7 @@
 \newcommand{\tlabel}[1]{\label{tab:#1}}
 
 % Basic mathematics
-\newcommand{\cd}{\cdot}
+\newcommand{\idot}{\cdot}
 \newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
 \newcommand{\ifrac}[2]{{{#1}/{#2}}}
 \newcommand{\bigo}{\mathcal{O}}
@@ -47,8 +47,6 @@
 \newcommand{\mZero}{\m{0}}
 
 \newcommand{\diag}[1]{\text{diag}\left(#1\right)}
-
-\newcommand{\oEigen}[1]{\digamma[#1]}
 
 % ---- Vectors
 \renewcommand{\vec}[1]{(#1)}
@@ -90,7 +88,7 @@
 \renewcommand{\t}{t}
 \newcommand{\dt}{\Delta \t}
 \newcommand{\period}{\mathcal{T}}
-\newcommand{\sTime}{T}
+\newcommand{\sTime}{\mathcal{T}}
 
 % ---- Temperature
 \newcommand{\T}{\Theta}
@@ -106,6 +104,8 @@
 
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
+
+\newcommand{\f}{\mathcal{F}}
 
 % ---- Capacitance and conductance
 \newcommand{\mC}{\m{C}}
@@ -156,14 +156,14 @@
 \newcommand{\vZ}{\v{Z}}
 \newcommand{\vz}{\boldsymbol{\zeta}}
 
+\newcommand{\oTransform}[1]{T\left[#1\right]}
+\newcommand{\oInvTransform}[1]{T^{-1}\left[#1\right]}
+
 % ---- Process variation
 \newcommand{\Leff}{L}
 \newcommand{\nLeff}{L}
 \newcommand{\gLeff}{{L^{(g)}}}
 \newcommand{\lLeff}{L^{(l)}}
-\newcommand{\vlLeff}{{\vU^{(l)}}}
-\newcommand{\vlZ}{{\vZ^{(l)}}}
-\newcommand{\gZ}{{\Z^{(g)}}}
 \newcommand{\Lth}{\lambda_\text{th}}
 \newcommand{\corrLength}{\eta}
 

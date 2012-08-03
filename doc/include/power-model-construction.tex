@@ -1,8 +1,8 @@
-The influence of the process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}. Taking this into consideration, we let $\vP_\dyn(\t, \o) \equiv \vP_\dyn(\t)$. Hence, in \eref{power-model} we have
+The formula in \eref{power-model} is decomposed into dynamic and leakage power components denoted respectively by $\f_\dyn(\vP_\dyn(\t), \o)$ and $\f_\leak(\vTO(\t, \o), \o)$. The influence of the process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}. Taking it into account, we let the dynamic part be
 \[
-  f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
+  \f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)
 \]
-On the other hand, the variability of the leakage part is significant and should be properly analyzed and taken into account. The leakage current consists of two major parts: the subthreshold and gate currents. The former is known to be highly sensible to the process variation while the later recently became less important \cite{juan2011, juan2012}. Consequently, we focus on the subthreshold leakage and, more specifically, on the effective channel length $\Leff$. The variations of $\Leff$ are split into global (inter-die) and local (intra-die) parts, cf. \cite{juan2011, juan2012, shen2009, srivastava2010}. The global offset is by definition shared among all the processing elements, i.e., it is a single r.v., whereas there are $\cores$ distinct r.v.'s for the local deviations. Therefore, the channel length within the $i$th processing element is given as
+On the other hand, the variability of the leakage power is significant and should be properly modeled. The leakage current consists of two dominating parts: the subthreshold and gate currents. The former is known to be highly sensible to the process variation while the later recently became less important \cite{juan2011, juan2012}. Consequently, we focus on the subthreshold leakage and, more specifically, on the effective channel length $\Leff$. The variations of $\Leff$ are split into global (inter-die) and local (intra-die) parts, cf. \cite{juan2011, juan2012, shen2009, srivastava2010}. The global offset is by definition shared among all the processing elements, i.e., it is a single r.v., whereas there are $\cores$ distinct r.v.'s for the local deviations. Therefore, the channel length within the $i$th processing element is given as
 \[
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
 \]
@@ -18,6 +18,6 @@ Having intrinsic sources of variations identified, we need to construct a leakag
 \end{equation}
 where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\Leff, \T)$ is further scaled up to the power level of each of the processing elements. Finally, in \eref{power-model} we have
 \[
-  f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
+  \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
 \]
 for $i \in \{ 1, \dotsc, \cores \}$ where $\beta_i$ are scaling coefficients.
