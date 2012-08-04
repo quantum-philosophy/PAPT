@@ -1,4 +1,4 @@
-Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ \definition{thermal nodes} is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details defining the resulting accuracy. The thermal behaviour of the circuit is modeled with the following system of differential-algebraic equations (DAEs) with the state-space dimension equal to $\nodes$:
+Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ \definition{thermal nodes} is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details defining the resulting accuracy. The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations (DAEs) with the state-space dimension equal to $\nodes$:
 \begin{numcases}{}
   \mC \frac{d\vTI(\t, \o)}{d\t} + \mG \vTI(\t, \o) = \mM \vP(\t, \o) \elabel{fourier-original} \\
   \vTO(\t, \o) = \mM^T \vTI(\t, \o) + \vTO_\amb \nonumber
@@ -12,7 +12,7 @@ For convenience, we perform an auxiliary transformation \cite{ukhov2012} of the 
 \end{subnumcases}
 where $\vX$ is the new state vector. It should be noted that the coefficient matrix $\mA$ preserves the  symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a \emph{nonlinear} system of differential equations due to the power term, which has a nonlinear dependency on temperature (see \eref{power-model}). Hence, there is no closed-form solution to \eref{fourier-de}.
 
-Since the input power profile $\prof{\mP_\dyn}$ is discrete in time by definition (\sref{system-profiles}), it is natural to assume that the dynamic power stays constant between neighbour samples. (Otherwise, if power undergoes dramatical changes, one needs to capture a finer profile.) Also, since the time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ are short enough, the leakage power can be safely approximated by a constant within one interval. Therefore, if we focus only on $\t \in [0, \dt]$, \eref{fourier-de} can be rewritten as
+Since the input power profile $\prof{\mP_\dyn}$ is discrete in time by definition (\sref{system-profiles}), it is natural to assume that the dynamic power stays constant between neighbor samples. (Otherwise, if power undergoes dramatical changes, one needs to capture a finer profile.) Also, since the time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ are short enough, the leakage power can be safely approximated by a constant within one interval. Therefore, if we focus only on $\t \in [0, \dt]$, \eref{fourier-de} can be rewritten as
 \begin{equation} \elabel{fourier-ode}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(0, \o)
 \end{equation}
