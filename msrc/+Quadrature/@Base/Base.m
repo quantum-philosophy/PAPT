@@ -7,14 +7,14 @@ classdef Base < handle
     plainGrid
 
     %
-    % Precomputed value of each of the polynomials in the PC expansion
-    % in each of the points of the sparse grid multiplied by the
-    % corresponding weight.
+    % Precomputed value of each of the polynomials in the PC expansion in
+    % each of the points of the sparse grid multiplied by the corresponding
+    % weight and divided by the corresponding normalization constant.
     %
     niceGrid
 
     %
-    % The normalization coefficients of the expansion, i.e., <psi_i^2>.
+    % The normalization constants of the expansion, i.e., <psi_i^2>.
     %
     norm
   end
@@ -33,7 +33,8 @@ classdef Base < handle
 
   methods
     function qd = Base(varargin)
-      [ qd.nodes, qd.plainGrid, qd.niceGrid, qd.norm ] = qd.precomputeGrid(varargin{:});
+      [ qd.nodes, qd.plainGrid, qd.niceGrid, qd.norm ] = ...
+        qd.precomputeGrid(varargin{:});
       qd.points = size(qd.nodes, 2);
     end
   end
@@ -55,9 +56,12 @@ classdef Base < handle
   end
 
   methods (Access = 'protected')
-    [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, order, index, method)
+    [ nodes, plainGrid, niceGrid, norm ] = ...
+      doPrecomputeGrid(qd, x, psi, order, index, method)
 
-    function [ nodes, plainGrid, niceGrid, norm ] = precomputeGrid(qd, x, psi, order, index, method)
+    function [ nodes, plainGrid, niceGrid, norm ] = ...
+      precomputeGrid(qd, x, psi, order, index, method)
+
       sdim = length(x);
 
       filename = [ Quadrature.methodStamp(method), ...
@@ -69,7 +73,8 @@ classdef Base < handle
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, plainGrid, niceGrid, norm ] = qd.doPrecomputeGrid(x, psi, order, index, method);
+        [ nodes, plainGrid, niceGrid, norm ] = ...
+          qd.doPrecomputeGrid(x, psi, order, index, method);
         save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
       end
     end

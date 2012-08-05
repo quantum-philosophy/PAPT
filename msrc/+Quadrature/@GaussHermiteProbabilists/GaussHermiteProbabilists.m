@@ -6,10 +6,6 @@ classdef GaussHermiteProbabilists < Quadrature.Base
   end
 
   methods (Static)
-    function points = countTensorProductPoints(sdim, order)
-      points = order^sdim;
-    end
-
     function points = countSparseGridPoints(sdim, order)
       [ ~, weights ] = nwspgr('gqn', sdim, order);
       points = length(weights);

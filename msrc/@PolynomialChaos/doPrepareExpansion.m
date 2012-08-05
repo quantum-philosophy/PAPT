@@ -35,9 +35,9 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   %
   % Precompute the grid for the given number of deterministic dimensions.
   %
-  grid = zeros(ddim, points, terms);
+  grid = cell(terms);
   for i = 1:terms
-    grid(:, :, i) = irep(qd.niceGrid(i, :), ddim, 1);
+    grid{i} = irep(qd.niceGrid(i, :), ddim, 1);
   end
 
   %

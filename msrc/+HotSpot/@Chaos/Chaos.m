@@ -29,9 +29,10 @@ classdef Chaos < HotSpot.Analytic
       fprintf('  Quadrature nodes: %d x %d = %d\n', ...
         s(1), s(2), numel(pc.nodes));
 
-      s = size(pc.grid);
+      c = length(pc.grid);
+      s = size(pc.grid{1});
       fprintf('  Precomputed grid: %d x %d x %d = %d\n', ...
-        s(1), s(2), s(3), numel(pc.grid));
+        c, s(1), s(2), c * s(1) * s(2));
 
       s = size(pc.rvPower);
       fprintf('  Power matrix: %d x %d = %d\n', ...

@@ -120,7 +120,7 @@ classdef PolynomialChaos < handle
       end
 
       for i = 1:terms
-        newCoeff(:, i) = sum(samples .* grid(:, :, i), 2);
+        newCoeff(:, i) = sum(samples .* grid{i}, 2);
       end
     end
   end
