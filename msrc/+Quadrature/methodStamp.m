@@ -1,3 +1,3 @@
 function s = methodStamp(method)
-  s = [ method.name, '_', method.type ];
+  s = sprintf('Quadrature_%s_%s', method.quadratureName, method.quadratureType);
 end

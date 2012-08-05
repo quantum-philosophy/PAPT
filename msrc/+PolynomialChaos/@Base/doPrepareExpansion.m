@@ -1,4 +1,5 @@
-function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order, method)
+function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
+  doPrepareExpansion(pc, sdim, ddim, order, method)
   %
   % Input:
   %
@@ -7,9 +8,10 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   %   * order  - the maximal order of the polynomials.
   %
 
-  terms = PolynomialChaos.countTerms(sdim, order);
+  terms = pc.countTerms(sdim, order);
 
   debug({ 'Construction of a new PC expansion.' }, ...
+        { '  Method: %s', PolynomialChaos.methodName(method) }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
         { '  Polynomial order: %d', order }, ...
         { '  Number of terms: %d', terms });
@@ -18,7 +20,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
     x(i) = sympoly([ 'x', num2str(i) ]);
   end
 
-  [ psi, index ] = PolynomialChaos.constructMD(x, order);
+  [ psi, index ] = pc.constructMD(x, order);
 
   assert(terms == length(psi), 'The number of terms is invalid.');
 
@@ -26,7 +28,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(s
   % Now, the Gaussian quadrature rule.
   %
 
-  qd = Quadrature.(method.name)(x, psi, order, index, method);
+  qd = Quadrature.(method.quadratureName)(x, psi, order, index, method);
 
   points = qd.points;
   nodes = qd.nodes;

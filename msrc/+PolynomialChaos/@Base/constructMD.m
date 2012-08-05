@@ -1,4 +1,4 @@
-function [ psiMD, index ] = constructMD(x, order)
+function [ psiMD, index ] = constructMD(pc, x, order)
   sdim = length(x);
 
   index = PolynomialChaos.computeMultiIndex(ones(1, sdim) * order) + 1;
@@ -6,7 +6,7 @@ function [ psiMD, index ] = constructMD(x, order)
   %
   % Create a 1D polynomial.
   %
-  psi1D(1, :) = PolynomialChaos.construct1D(x(1), order);
+  psi1D(1, :) = pc.construct1D(x(1), order);
 
   %
   % If there is only one stochastic dimension,

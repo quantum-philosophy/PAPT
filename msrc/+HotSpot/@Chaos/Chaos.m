@@ -13,7 +13,7 @@ classdef Chaos < HotSpot.Analytic
       %
       % Initialize the PC expansion.
       %
-      hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order, method);
+      hs.pc = PolynomialChaos.Hermite([ hs.sdim, hs.cores ], order, method);
     end
 
     function display(hs)

@@ -16,7 +16,7 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, pol
         { '  Sparse grid points: %d', pointsSG }, ...
         { '  Tensor product points: %d', pointsTP });
 
-  type = lower(method.type);
+  type = lower(method.quadratureType);
 
   if strcmp(type, 'adaptive')
     if pointsTP <= pointsSG

@@ -24,11 +24,12 @@ classdef Config < handle
   %
   properties (SetAccess = 'private')
     %
-    % Integration method.
+    % Polynomial chaos and quadrature methods.
     %
-    integrationMethod = struct( ...
-      'name', 'GaussHermiteProbabilists', ...
-      'type', 'Adaptive');
+    constructionMethod = struct( ...
+      'chaosName', 'Hermite', ...
+      'quadratureName', 'GaussHermiteProbabilists', ...
+      'quadratureType', 'Adaptive');
 
     %
     % The order of the PC expansion.
@@ -129,8 +130,10 @@ classdef Config < handle
       fprintf('  Simulated time: %.2f s\n', c.dt * c.steps);
       fprintf('  Assessment method: %s\n', c.assessmentMethod);
       fprintf('  Number of MC samples: %d\n', c.monteCarloSamples);
+      fprintf('  Polynomial chaos: %s\n', ...
+        PolynomialChaos.methodName(c.constructionMethod));
       fprintf('  Integration method: %s\n', ...
-        Quadrature.methodName(c.integrationMethod));
+        Quadrature.methodName(c.constructionMethod));
     end
 
     function args = hotspotArguments(c)
@@ -138,7 +141,7 @@ classdef Config < handle
     end
 
     function args = chaosArguments(c)
-      args = { c.polynomialOrder, c.integrationMethod };
+      args = { c.polynomialOrder, c.constructionMethod };
     end
 
     function s = stamp(c, varargin)

@@ -48,7 +48,7 @@ fprintf('\n');
 
 fprintf('Polynomial Chaos preparation...');
 t = tic;
-pc = PolynomialChaos([ sdim ddim ], order);
+pc = PolynomialChaos.Hermite([ sdim ddim ], order);
 fprintf(' %.2f seconds.\n', toc(t));
 
 points = pc.points;

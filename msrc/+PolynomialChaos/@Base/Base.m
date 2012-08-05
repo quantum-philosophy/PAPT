@@ -1,4 +1,4 @@
-classdef PolynomialChaos < handle
+classdef Base < handle
   properties (SetAccess = 'protected')
     %
     % The stochastic dimension of the polynomial chaos (PC) expansion,
@@ -74,7 +74,7 @@ classdef PolynomialChaos < handle
   end
 
   methods
-    function pc = PolynomialChaos(dims, order, method)
+    function pc = Base(dims, order, method)
       pc.sdim = dims(1);
       pc.ddim = dims(2);
       pc.order = order;
@@ -126,8 +126,6 @@ classdef PolynomialChaos < handle
   end
 
   methods (Static)
-    multiIndex = computeMultiIndex(bounds);
-
     function count = countTerms(sdim, order, rule)
       if nargin < 3, rule = 'TD'; end
 
@@ -149,17 +147,20 @@ classdef PolynomialChaos < handle
     end
   end
 
-  methods (Static, Access = 'private')
-    psi = construct1D(x, order);
-    [ psi, index ] = constructMD(x, order);
-    [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = doPrepareExpansion(sdim, ddim, order, method);
+  methods (Abstract, Access = 'protected')
+    psi = construct1D(pc, x, order);
+  end
 
-    function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = prepareExpansion(sdim, ddim, order, method)
+  methods (Access = 'private')
+    [ psi, index ] = constructMD(pc, x, order);
+
+    function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
+      prepareExpansion(pc, sdim, ddim, order, method)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
 
-      filename = [ 'PolynomialChaos', ...
+      filename = [ PolynomialChaos.methodStamp(method), ...
         '_', Quadrature.methodStamp(method), ...
         '_sd', num2str(sdim), ...
         '_dd', num2str(ddim), ...
@@ -171,7 +172,7 @@ classdef PolynomialChaos < handle
         load(filename);
       else
         [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
-          PolynomialChaos.doPrepareExpansion(sdim, ddim, order, method);
+          pc.doPrepareExpansion(sdim, ddim, order, method);
         save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap');
       end
     end
