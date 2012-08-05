@@ -1,4 +1,5 @@
-function nrmse = NRMSE(observed, predicted, varargin)
-  rmse = Utils.RMSE(observed, predicted, varargin{:});
-  nrmse = rmse / (max(observed(:)) - min(observed(:)));
+function nrmse = NRMSE(observed, predicted)
+  o = observed(:);
+  p = predicted(:);
+  nrmse = sqrt(sum((o - p) .^ 2) / numel(o)) / (max(o) - min(o));
 end
