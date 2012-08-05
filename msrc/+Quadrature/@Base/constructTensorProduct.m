@@ -1,5 +1,5 @@
-function [ nodes, weights, points ] = constructTensorProduct(sdim, nodes1D, weights1D)
-  order = length(weights1D);
+function [ nodes, weights, points ] = constructTensorProduct(qd, sdim, order)
+  [ nodes1D, weights1D ] = qd.construct1D(order);
 
   nodes = {};
   weights = {};

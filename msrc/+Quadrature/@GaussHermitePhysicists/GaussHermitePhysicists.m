@@ -1,7 +1,38 @@
 classdef GaussHermitePhysicists < Quadrature.Base
+  properties Constant
+    nodeScale = sqrt(2);
+    weightScale = 1 / sqrt(pi);
+  end
+
   methods
     function qd = GaussHermitePhysicists(varargin)
       qd = qd@Quadrature.Base(varargin{:});
+    end
+  end
+
+  methods (Access = 'protected')
+    function [ nodes, weights ] = construct1D(qd, order)
+      %
+      % `order' is the number of points involved.
+      %
+      [ nodes, weights ] = hermite_compute(order);
+
+      nodes = qd.nodeScale * nodes;
+      weights = qd.weightScale * weights;
+    end
+
+    function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order)
+      level = Quadrature.GaussHermitePhysicists.orderToLevel(order);
+
+      points = sparse_grid_herm_size(sdim, level);
+      [ weights, nodes ] = sparse_grid_herm(sdim, level, points);
+
+      nodes = qd.nodeScale * nodes;
+      weights = qd.weightScale^sdim * weights;
+    end
+
+    function norm = computeNorm(qd, i, index)
+      norm = prod(factorial(index(i, :) - 1));
     end
   end
 
@@ -19,32 +50,6 @@ classdef GaussHermitePhysicists < Quadrature.Base
     function points = countSparseGridPoints(sdim, order)
       level = Quadrature.GaussHermitePhysicists.orderToLevel(order);
       points = sparse_grid_herm_size(sdim, level);
-    end
-
-    function [ nodes, weights ] = construct1D(order)
-      %
-      % `order' is the number of points involved.
-      %
-      [ nodes, weights ] = hermite_compute(order);
-
-      nodes = nodes * sqrt(2);
-      weights = weights / sqrt(pi);
-    end
-
-    function [ nodes, weights, points ] = constructTensorProduct(sdim, order)
-      [ nodes1D, weights1D ] = Quadrature.GaussHermitePhysicists.construct1D(order);
-      [ nodes, weights, points ] = ...
-        Quadrature.constructTensorProduct(sdim, nodes1D, weights1D);
-    end
-
-    function [ nodes, weights, points ] = constructSparseGrid(sdim, order)
-      level = Quadrature.GaussHermitePhysicists.orderToLevel(order);
-
-      points = sparse_grid_herm_size(sdim, level);
-      [ weights, nodes ] = sparse_grid_herm(sdim, level, points);
-
-      nodes = nodes * sqrt(2);
-      weights = weights / sqrt(pi^sdim);
     end
   end
 end

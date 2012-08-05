@@ -39,6 +39,12 @@ classdef Base < handle
     end
   end
 
+  methods (Abstract, Access = 'protected')
+    [ nodes, weights ] = construct1D(qd, order);
+    [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order);
+    norm = computeNorm(qd, i, index);
+  end
+
   methods (Static)
     function points = countTensorProductPoints(sdim, order)
       points = order^sdim;
@@ -56,6 +62,7 @@ classdef Base < handle
   end
 
   methods (Access = 'protected')
+    [ nodes, weights, points ] = constructTensorProduct(qd, sdim, order);
     [ nodes, plainGrid, niceGrid, norm ] = ...
       doPrecomputeGrid(qd, x, psi, order, index, method)
 

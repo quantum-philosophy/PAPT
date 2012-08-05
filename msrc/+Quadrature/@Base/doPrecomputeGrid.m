@@ -48,7 +48,7 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, pol
     if nargin < 5
       norm(i) = sum(plainGrid(i, :).^2 .* weights);
     else
-      norm(i) = prod(factorial(index(i, :) - 1));
+      norm(i) = qd.computeNorm(i, index);
     end
     niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
   end
