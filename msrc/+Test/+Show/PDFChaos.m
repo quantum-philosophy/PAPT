@@ -1,9 +1,9 @@
 init;
 
-c = Config('steps', 100);
+c = Config();
 c.display();
 
-step = round(c.steps / 3);
+step = round(c.steps / 2);
 
 ch = Test.constructChaos(c);
 [ ~, ~, cRaw ] = Test.sampleChaos(ch, c);
