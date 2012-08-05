@@ -32,9 +32,11 @@ classdef Base < handle
   end
 
   methods
-    function qd = Base(varargin)
+    function qd = Base(x, psi, order, index, varargin)
+      method = qd.prepare(varargin{:});
+
       [ qd.nodes, qd.plainGrid, qd.niceGrid, qd.norm ] = ...
-        qd.precomputeGrid(varargin{:});
+        qd.precomputeGrid(x, psi, order, index, method);
       qd.points = size(qd.nodes, 2);
     end
   end
@@ -43,28 +45,17 @@ classdef Base < handle
     [ nodes, weights ] = construct1D(qd, order);
     [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order);
     norm = computeNorm(qd, i, index);
-  end
-
-  methods (Static)
-    function points = countTensorProductPoints(sdim, order)
-      points = order^sdim;
-    end
-
-    function quadratureOrder = polynomialOrderToQuadratureOrder(polynomialOrder)
-      %
-      % The order of a Gaussian quadrature rule, denoted by `order', means that
-      % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
-      % exactness for polynomials of order (2 * `order'), therefore, the rule order
-      % should be increased by one.
-      %
-      quadratureOrder = polynomialOrder + 1;
-    end
+    points = countSparseGridPoints(qd, sdim, order);
   end
 
   methods (Access = 'protected')
     [ nodes, weights, points ] = constructTensorProduct(qd, sdim, order);
     [ nodes, plainGrid, niceGrid, norm ] = ...
       doPrecomputeGrid(qd, x, psi, order, index, method)
+
+    function method = prepare(qd, method)
+      if nargin < 2, method = struct(); end
+    end
 
     function [ nodes, plainGrid, niceGrid, norm ] = ...
       precomputeGrid(qd, x, psi, order, index, method)
@@ -84,6 +75,20 @@ classdef Base < handle
           qd.doPrecomputeGrid(x, psi, order, index, method);
         save(filename, 'nodes', 'plainGrid', 'niceGrid', 'norm');
       end
+    end
+
+    function points = countTensorProductPoints(qd, sdim, order)
+      points = order^sdim;
+    end
+
+    function quadratureOrder = polynomialOrderToQuadratureOrder(qd, polynomialOrder)
+      %
+      % The order of a Gaussian quadrature rule, denoted by `order', means that
+      % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
+      % exactness for polynomials of order (2 * `order'), therefore, the rule order
+      % should be increased by one.
+      %
+      quadratureOrder = polynomialOrder + 1;
     end
   end
 end

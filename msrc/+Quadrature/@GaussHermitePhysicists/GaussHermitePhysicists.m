@@ -34,10 +34,8 @@ classdef GaussHermitePhysicists < Quadrature.Base
     function norm = computeNorm(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
     end
-  end
 
-  methods (Static)
-    function level = orderToLevel(order)
+    function level = orderToLevel(qd, order)
       %
       % Relationship:
       %
@@ -47,7 +45,7 @@ classdef GaussHermitePhysicists < Quadrature.Base
       level = ceil(log2(order + 1) - 1);
     end
 
-    function points = countSparseGridPoints(sdim, order)
+    function points = countSparseGridPoints(qd, sdim, order)
       level = Quadrature.GaussHermitePhysicists.orderToLevel(order);
       points = sparse_grid_herm_size(sdim, level);
     end

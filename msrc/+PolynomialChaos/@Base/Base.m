@@ -74,7 +74,9 @@ classdef Base < handle
   end
 
   methods
-    function pc = Base(dims, order, method)
+    function pc = Base(dims, order, varargin)
+      method = pc.prepare(varargin{:});
+
       pc.sdim = dims(1);
       pc.ddim = dims(2);
       pc.order = order;
@@ -149,6 +151,16 @@ classdef Base < handle
 
   methods (Abstract, Access = 'protected')
     psi = construct1D(pc, x, order);
+  end
+
+  methods (Access = 'protected')
+    function nodes = generateSampleNodes(pc, points)
+      nodes = normrnd(0, 1, pc.sdim, points);
+    end
+
+    function method = prepare(pc, method)
+      if nargin < 2, method = struct(); end
+    end
   end
 
   methods (Access = 'private')

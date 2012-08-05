@@ -23,10 +23,8 @@ classdef GaussHermiteProbabilists < Quadrature.Base
     function norm = computeNorm(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
     end
-  end
 
-  methods (Static)
-    function points = countSparseGridPoints(sdim, order)
+    function points = countSparseGridPoints(qd, sdim, order)
       [ ~, weights ] = nwspgr('gqn', sdim, order);
       points = length(weights);
     end

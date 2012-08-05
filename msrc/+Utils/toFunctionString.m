@@ -60,10 +60,9 @@ function [ arguments, body ] = toFunctionString(p, varargin)
     s = regexprep(s, '\*', '.*');
     s = regexprep(s, '\/', './');
   else
-    warning('Using the MATLAB Symbolic Toolbox is not a good idea. Really.');
     f = matlabFunction(p);
     s = func2str(f);
-    s = regexprep(s, '@\([^)]+\)', '');
+    s = regexprep(s, '@\([^)]*\)', '');
   end
 
   for i = 1:count

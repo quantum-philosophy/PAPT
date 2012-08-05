@@ -7,6 +7,7 @@ function [ psiMD, index ] = constructMD(pc, x, order)
   % Create a 1D polynomial.
   %
   psi1D(1, :) = pc.construct1D(x(1), order);
+  assert(numel(psi1D(1, :)) == order + 1, 'The number of terms is invalid.');
 
   %
   % If there is only one stochastic dimension,
