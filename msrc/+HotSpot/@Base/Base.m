@@ -59,6 +59,15 @@ classdef Base < handle
       [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan, varargin{:});
       assert(size(hs.pca, 1) == hs.cores, 'The dimensions do not match.');
     end
+
+    function display(hs)
+      fprintf('%s:\n', class(hs));
+      fprintf('  Processing elements: %d\n', hs.cores);
+      fprintf('  Thermal nodes: %d\n', hs.nodes);
+      fprintf('  Time step: %.2e s\n', hs.dt);
+      fprintf('  Ambient temperature: %.2f C\n', Utils.toCelsius(hs.Tamb));
+      fprintf('  Stochastic dimensions: %d\n', hs.sdim);
+    end
   end
 
   methods (Static)

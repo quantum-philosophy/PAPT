@@ -16,6 +16,40 @@ classdef Chaos < HotSpot.Analytic
       hs.pc = PolynomialChaos([ hs.sdim, hs.cores ], order, method);
     end
 
+    function display(hs)
+      display@HotSpot.Analytic(hs);
+
+      pc = hs.pc;
+
+      fprintf('  Polynomial order: %d\n', pc.order);
+      fprintf('  Number of terms: %d\n', pc.terms);
+      fprintf('  Quadrature points: %d\n', pc.points);
+
+      s = size(pc.nodes);
+      fprintf('  Quadrature nodes: %d x %d = %d\n', ...
+        s(1), s(2), numel(pc.nodes));
+
+      s = size(pc.grid);
+      fprintf('  Precomputed grid: %d x %d x %d = %d\n', ...
+        s(1), s(2), s(3), numel(pc.grid));
+
+      s = size(pc.rvPower);
+      fprintf('  Power matrix: %d x %d = %d\n', ...
+        s(1), s(2), numel(pc.rvPower));
+
+      s = size(pc.rvProd);
+      fprintf('  Product matrix: %d x %d = %d\n', ...
+        s(1), s(2), numel(pc.rvProd));
+
+      s = size(pc.coeffMap);
+      fprintf('  Coefficient mapping matrix: %d x %d = %d\n', ...
+        s(1), s(2), numel(pc.rvProd));
+
+      s = size(pc.mappedRvProd);
+      fprintf('  Mapped product matrix: %d x %d = %d\n', ...
+        s(1), s(2), numel(pc.mappedRvProd));
+    end
+
     function [ ExpT, VarT, trace ] = solve(hs, Pdyn)
       [ cores, steps ] = size(Pdyn);
       assert(cores == hs.cores, 'The power profile is invalid.')

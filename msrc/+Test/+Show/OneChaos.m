@@ -4,6 +4,7 @@ c = Config();
 c.display();
 
 hs = HotSpot.Chaos(c.hotspotArguments{:}, c.chaosArguments{:});
+hs.display();
 
 t = tic;
 [ exp, var ] = hs.solve(c.dynamicPower);

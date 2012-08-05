@@ -123,9 +123,9 @@ classdef Config < handle
 
     function display(c)
       fprintf('Configuration:\n');
-      fprintf('  Cores: %d\n', c.cores);
-      fprintf('  Steps: %d\n', c.steps);
-      fprintf('  Time step: %.2e\n', c.dt);
+      fprintf('  Processing elements: %d\n', c.cores);
+      fprintf('  Profile steps: %d\n', c.steps);
+      fprintf('  Time step: %.2e s\n', c.dt);
       fprintf('  Simulated time: %.2f s\n', c.dt * c.steps);
       fprintf('  Assessment method: %s\n', c.assessmentMethod);
       fprintf('  Number of MC samples: %d\n', c.monteCarloSamples);
