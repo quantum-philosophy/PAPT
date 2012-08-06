@@ -6,7 +6,6 @@ function compareHistogram(mcRaw, pcRaw, labels)
 
   for i = 1:ddim
     p = subplot(1, ddim, i);
-    title('Empirical PDF');
 
     mcraw = mcRaw(:, i);
     pcraw = pcRaw(:, i);
@@ -33,9 +32,13 @@ function compareHistogram(mcRaw, pcRaw, labels)
 
     error = Utils.NRMSE(mcDensity, pcDensity);
 
-    labelPC = sprintf('%s (NRMSE %.2e)', labels{2}, error);
-    legend(labels{1}, labelPC);
+    title('Empirical PDF');
     xlabel('Temperature, C');
     ylabel('Empirical PDF');
+
+    if nargin < 3, continue; end
+
+    labelPC = sprintf('%s (NRMSE %.2e)', labels{2}, error);
+    legend(labels{1}, labelPC);
   end
 end

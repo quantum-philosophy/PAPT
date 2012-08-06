@@ -44,9 +44,8 @@ function [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, i
 
   for i = 1:terms
     f = Utils.toFunction(psi(i), x, 'rows');
-    values = f(nodes);
     norm(i) = qd.computeNormalizationConstant(i, index);
-    grid(i, :) = values .* weights / norm(i);
+    grid(i, :) = f(nodes) .* weights / norm(i);
   end
 
   [ nodes, grid, norm ] = qd.finalize(sdim, nodes, grid, norm);

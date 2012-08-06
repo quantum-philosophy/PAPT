@@ -35,8 +35,7 @@ classdef GaussJacobi < Quadrature.Base
 
     function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
       nodes = ((qd.b - qd.a) / 2) * nodes + (qd.b + qd.a) / 2;
-      grid = grid / (beta(qd.alpha + 1, qd.beta + 1))^sdim;
-      norm = ((qd.b - qd.a) / 2) * norm;
+      norm = norm / (2^(qd.alpha + qd.beta + 1) * beta(qd.alpha + 1, qd.beta + 1))^sdim;
     end
 
     function norm = computeNormalizationConstant(qd, i, index)
