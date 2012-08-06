@@ -1,6 +1,6 @@
 function compareHistogram(mcRaw, pcRaw, labels)
-  [ samplesMC, ddim ] = size(mcRaw);
-  [ samplesPC, ~ ] = size(pcRaw);
+  [ mcCount, ddim ] = size(mcRaw);
+  [ pcCount, ~ ] = size(pcRaw);
 
   figure;
 
@@ -11,24 +11,27 @@ function compareHistogram(mcRaw, pcRaw, labels)
     mcraw = mcRaw(:, i);
     pcraw = pcRaw(:, i);
 
-    x = Utils.constructLinearSpace(mcraw, pcraw);
+    [ x, dx ] = Utils.constructLinearSpace(mcraw, pcraw);
 
-    mcHist = histc(mcraw, x) / samplesMC;
-    pcHist = histc(pcraw, x) / samplesPC;
+    mcHist = histc(mcraw, x);
+    pcHist = histc(pcraw, x);
+
+    mcDensity = mcHist / (mcCount * dx);
+    pcDensity = pcHist / (pcCount * dx);
 
     c = Utils.pickColor(1);
-    bar(x, mcHist, 'FaceColor', c, 'Edgecolor', c);
+    bar(x, mcDensity, 'FaceColor', c, 'Edgecolor', c);
     h = findobj(gca, 'Type', 'patch');
     set(h, 'facealpha', 0.75);
 
     hold on;
 
     c = Utils.pickColor(2);
-    bar(x, pcHist, 'FaceColor', c, 'EdgeColor', c);
+    bar(x, pcDensity, 'FaceColor', c, 'EdgeColor', c);
     h = findobj(gca, 'Type', 'patch');
     set(h, 'facealpha', 0.75);
 
-    error = Utils.NRMSE(mcHist, pcHist);
+    error = Utils.NRMSE(mcDensity, pcDensity);
 
     labelPC = sprintf('%s (NRMSE %.2e)', labels{2}, error);
     legend(labels{1}, labelPC);
