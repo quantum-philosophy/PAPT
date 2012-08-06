@@ -45,7 +45,7 @@ classdef GaussJacobi < Quadrature.Base
       beta = qd.beta;
 
       one = 2^(alpha + beta + 1) ./ (2 * n + alpha + beta + 1);
-      two = gamma(n + alpha + 1) * gamma(n + beta + 1) ./ ...
+      two = gamma(n + alpha + 1) .* gamma(n + beta + 1) ./ ...
         (gamma(n + 1) .* gamma(n + alpha + beta + 1));
 
       norm = prod(one .* two);
