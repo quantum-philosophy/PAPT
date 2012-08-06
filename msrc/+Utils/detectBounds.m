@@ -1,11 +1,14 @@
 function [ left, right ] = detectBounds(varargin)
   count = length(varargin);
 
-  if ischar(varargin{end})
+  range = 'bounded';
+
+  if isa(varargin{end}, 'struct')
     count = count - 1;
-    method = lower(varargin{end});
-  else
-    method = 'bounded';
+    options = varargin{end};
+    if isfield(options, 'range')
+      range = options.range;
+    end
   end
 
   left = zeros(count, 1);
@@ -17,7 +20,7 @@ function [ left, right ] = detectBounds(varargin)
     mn = min(one);
     mx = max(one);
 
-    switch method
+    switch range
     case 'bounded'
       exp = mean(one);
       std = sqrt(var(one));

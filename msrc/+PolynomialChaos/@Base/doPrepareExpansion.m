@@ -39,7 +39,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
   %
   grid = cell(terms);
   for i = 1:terms
-    grid{i} = irep(qd.niceGrid(i, :), ddim, 1);
+    grid{i} = irep(qd.grid(i, :), ddim, 1);
   end
 
   %

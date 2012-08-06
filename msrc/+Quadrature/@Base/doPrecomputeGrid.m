@@ -1,4 +1,5 @@
-function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index, method)
+function [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index, method)
+
   sdim = length(x);
   terms = length(psi);
 
@@ -37,21 +38,18 @@ function [ nodes, plainGrid, niceGrid, norm ] = doPrecomputeGrid(qd, x, psi, pol
     error('The method type is unknown.');
   end
 
-  plainGrid = zeros(terms, points);
-  niceGrid = zeros(terms, points);
+  grid = zeros(terms, points);
 
   norm = zeros(1, terms);
 
   for i = 1:terms
     f = Utils.toFunction(psi(i), x, 'rows');
-    plainGrid(i, :) = f(nodes);
-    if nargin < 5
-      norm(i) = sum(plainGrid(i, :).^2 .* weights);
-    else
-      norm(i) = qd.computeNorm(i, index);
-    end
-    niceGrid(i, :) = plainGrid(i, :) .* weights / norm(i);
+    values = f(nodes);
+    norm(i) = qd.computeNormalizationConstant(i, index);
+    grid(i, :) = values .* weights / norm(i);
   end
+
+  [ nodes, grid, norm ] = qd.finalize(sdim, nodes, grid, norm);
 
   assert(all(norm >= 0), 'Normalization constants cannot be negative.');
 end

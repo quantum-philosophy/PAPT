@@ -20,7 +20,7 @@ classdef GaussHermiteProbabilists < Quadrature.Base
       points = size(weights, 2);
     end
 
-    function norm = computeNorm(qd, i, index)
+    function norm = computeNormalizationConstant(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
     end
 

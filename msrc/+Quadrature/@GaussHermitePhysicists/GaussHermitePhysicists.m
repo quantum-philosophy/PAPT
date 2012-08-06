@@ -31,7 +31,7 @@ classdef GaussHermitePhysicists < Quadrature.Base
       weights = qd.weightScale^sdim * weights;
     end
 
-    function norm = computeNorm(qd, i, index)
+    function norm = computeNormalizationConstant(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
     end
 

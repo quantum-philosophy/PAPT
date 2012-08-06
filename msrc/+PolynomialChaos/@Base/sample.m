@@ -1,10 +1,10 @@
-function [ E, C, out ] = sample(pc, f, points)
+function [ exp, var, raw ] = sample(pc, f, points)
   %
   % Output:
   %
-  %   * E   - the expectation of `f',
-  %   * C   - the covariance matrix of `f',
-  %   * out - a bunch of samples.
+  %   * exp - the expectation of `f',
+  %   * var - the variance of `f',
+  %   * raw - a bunch of samples.
   %
   %   NOTE: `out' is not used to compute the expectation and covariance.
   %
@@ -22,11 +22,11 @@ function [ E, C, out ] = sample(pc, f, points)
   %
   % Straight-forward stats.
   %
-  E = coeff(:, 1);
-  C = diag(sum(coeff(:, 2:end).^2 .* irep(pc.norm(2:end), ddim, 1), 2));
+  exp = coeff(:, 1);
+  var = diag(sum(coeff(:, 2:end).^2 .* irep(pc.norm(2:end), ddim, 1), 2));
 
   %
   % Now sampling.
   %
-  out = transpose(pc.evaluate(coeff, pc.generateSampleNodes(points)));
+  raw = transpose(pc.evaluate(coeff, pc.generateSampleNodes(points)));
 end

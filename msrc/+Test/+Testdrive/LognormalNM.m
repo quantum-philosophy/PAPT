@@ -74,4 +74,5 @@ fprintf('\n');
 % Plots
 %
 
-Utils.compare(out_MC, out_PC, { 'MC', 'PC' });
+Utils.compareSmooth(...
+  out_MC, out_PC, struct('labels', {{ 'MC', 'PC' }}));

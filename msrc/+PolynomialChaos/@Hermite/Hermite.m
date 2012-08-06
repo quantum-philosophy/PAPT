@@ -1,7 +1,7 @@
 classdef Hermite < PolynomialChaos.Base
   methods
-    function pc = Hermite(dims, order, method)
-      pc = pc@PolynomialChaos.Base(dims, order, method);
+    function pc = Hermite(varargin)
+      pc = pc@PolynomialChaos.Base(varargin{:});
     end
   end
 
