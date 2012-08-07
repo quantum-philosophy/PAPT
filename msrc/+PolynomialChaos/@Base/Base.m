@@ -74,15 +74,16 @@ classdef Base < handle
   end
 
   methods
-    function pc = Base(dims, order, varargin)
-      method = pc.prepare(varargin{:});
+    function pc = Base(dims, method)
+      method = pc.prepare(method);
 
       pc.sdim = dims(1);
       pc.ddim = dims(2);
-      pc.order = order;
+
+      pc.order = method.chaosOrder;
 
       [ pc.nodes, pc.norm, pc.grid, pc.rvPower, pc.rvProd, pc.coeffMap ] = ...
-        pc.prepareExpansion(pc.sdim, pc.ddim, order, method);
+        pc.prepareExpansion(pc.sdim, pc.ddim, method);
 
       pc.mappedRvProd = pc.coeffMap * pc.rvProd;
 
@@ -127,28 +128,6 @@ classdef Base < handle
     end
   end
 
-  methods (Static)
-    function count = countTerms(sdim, order, rule)
-      if nargin < 3, rule = 'TD'; end
-
-      switch (upper(rule))
-      case 'TD'
-        count = factorial(sdim + order) / factorial(sdim) / factorial(order);
-      case 'TP'
-        count = (1 + order)^sdim;
-      otherwise
-        error('Unknown rule.');
-      end
-    end
-
-    function order = indexToOrder(index)
-      %
-      % (-1) because in MATLAB indexes start from 1.
-      %
-      order = max(max(index)) - 1;
-    end
-  end
-
   methods (Abstract, Access = 'protected')
     psi = construct1D(pc, x, order);
   end
@@ -159,7 +138,6 @@ classdef Base < handle
     end
 
     function method = prepare(pc, method)
-      if nargin < 2, method = struct(); end
     end
   end
 
@@ -167,7 +145,7 @@ classdef Base < handle
     [ psi, index ] = constructMD(pc, x, order);
 
     function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
-      prepareExpansion(pc, sdim, ddim, order, method)
+      prepareExpansion(pc, sdim, ddim, method)
       %
       % A wrapper to cache the result of `doPrepareExpansion'.
       %
@@ -175,8 +153,7 @@ classdef Base < handle
       filename = [ PolynomialChaos.methodStamp(method), ...
         '_', Quadrature.methodStamp(method), ...
         '_sd', num2str(sdim), ...
-        '_dd', num2str(ddim), ...
-        '_o', num2str(order), '.mat' ];
+        '_dd', num2str(ddim), '.mat' ];
 
       filename = Utils.resolvePath(filename, 'cache');
 
@@ -184,7 +161,7 @@ classdef Base < handle
         load(filename);
       else
         [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
-          pc.doPrepareExpansion(sdim, ddim, order, method);
+          pc.doPrepareExpansion(sdim, ddim, method);
         save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap');
       end
     end

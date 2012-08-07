@@ -38,7 +38,7 @@ fprintf('mu = %.2f, var = %.2f\n\n', mu, var);
 
 fprintf('Polynomial Chaos preparation...');
 t = tic;
-pc = PolynomialChaos.Hermite([ sdim 1 ], order);
+pc = PolynomialChaos.Hermite([ sdim 1 ], struct('chaosOrder', order));
 fprintf(' %.2f seconds.\n', toc(t));
 
 points = pc.points;

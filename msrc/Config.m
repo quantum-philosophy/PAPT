@@ -28,17 +28,17 @@ classdef Config < handle
     %
     constructionMethod = struct( ...
       'chaosName', 'Hermite', ...
+      'chaosOrder', 4, ...
+      ...
       'quadratureName', 'GaussHermiteProbabilists', ...
       'quadratureType', 'Adaptive', ...
+      'quadratureOrder', [], ...
+      'quadratureLevel', [], ...
+      ...
       'jacobiAlpha', 8.1266, ...
       'jacobiBeta', 8.1266, ...
       'jacobiA', -4, ...
       'jacobiB', 4);
-
-    %
-    % The order of the PC expansion.
-    %
-    polynomialOrder = 4;
 
     %
     % The number of samples to use when sampling a PC expansion.
@@ -121,7 +121,7 @@ classdef Config < handle
           c.steps = value;
           c.updateDynamicPower();
         otherwise
-          c.(name) = value;
+          error('Not implemented yet.');
         end
       end
     end
@@ -145,7 +145,7 @@ classdef Config < handle
     end
 
     function args = chaosArguments(c)
-      args = { c.polynomialOrder, c.constructionMethod };
+      args = { c.constructionMethod };
     end
 
     function s = stamp(c, varargin)

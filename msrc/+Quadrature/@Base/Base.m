@@ -26,10 +26,10 @@ classdef Base < handle
   end
 
   methods
-    function qd = Base(x, psi, order, index, varargin)
-      method = qd.prepare(varargin{:});
+    function qd = Base(x, psi, index, method)
+      method = qd.prepare(method);
 
-      [ qd.nodes, qd.grid, qd.norm ] = qd.precomputeGrid(x, psi, order, index, method);
+      [ qd.nodes, qd.grid, qd.norm ] = qd.precomputeGrid(x, psi, index, method);
       qd.points = size(qd.nodes, 2);
     end
   end
@@ -46,41 +46,45 @@ classdef Base < handle
     [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, order, index, method)
 
     function method = prepare(qd, method)
-      if nargin < 2, method = struct(); end
+      if ~isfield(method, 'quadratureOrder') || isempty(method.quadratureOrder)
+        %
+        % The order of a Gaussian quadrature rule, denoted by `order', means that
+        % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
+        % exactness for polynomials of order (2 * `order'), therefore, the rule order
+        % should be increased by one.
+        %
+        method.quadratureOrder = method.chaosOrder + 1;
+      end
+      if ~isfield(method, 'quadratureLevel') || isempty(method.quadratureLevel)
+        %
+        %   order = 2^(level + 1) - 1
+        %   level = log2(order + 1) - 1
+        %
+        method.quadratureLevel = ceil(log2(method.quadratureOrder + 1) - 1);
+      end
     end
 
     function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
     end
 
-    function [ nodes, grid, norm ] = precomputeGrid(qd, x, psi, order, index, method)
+    function [ nodes, grid, norm ] = precomputeGrid(qd, x, psi, index, method)
       sdim = length(x);
 
       filename = [ Quadrature.methodStamp(method), ...
-        '_d', num2str(sdim), ...
-        '_o', num2str(order), '.mat' ];
+        '_sd', num2str(sdim), '.mat' ];
 
       filename = Utils.resolvePath(filename, 'cache');
 
       if exist(filename, 'file')
         load(filename);
       else
-        [ nodes, grid, norm ] = qd.doPrecomputeGrid(x, psi, order, index, method);
+        [ nodes, grid, norm ] = qd.doPrecomputeGrid(x, psi, index, method);
         save(filename, 'nodes', 'grid', 'norm');
       end
     end
 
     function points = countTensorProductPoints(qd, sdim, order)
       points = order^sdim;
-    end
-
-    function quadratureOrder = polynomialOrderToQuadratureOrder(qd, polynomialOrder)
-      %
-      % The order of a Gaussian quadrature rule, denoted by `order', means that
-      % the rule is exact for (2 * `order' - 1)-order polynomials. We want to have
-      % exactness for polynomials of order (2 * `order'), therefore, the rule order
-      % should be increased by one.
-      %
-      quadratureOrder = polynomialOrder + 1;
     end
   end
 end

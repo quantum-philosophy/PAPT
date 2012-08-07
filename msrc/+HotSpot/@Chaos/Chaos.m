@@ -7,13 +7,13 @@ classdef Chaos < HotSpot.Analytic
   end
 
   methods
-    function hs = Chaos(floorplan, config, line, order, method)
+    function hs = Chaos(floorplan, config, line, method)
       hs = hs@HotSpot.Analytic(floorplan, config, line);
 
       %
       % Initialize the PC expansion.
       %
-      hs.pc = PolynomialChaos.(method.chaosName)([ hs.sdim, hs.cores ], order, method);
+      hs.pc = PolynomialChaos.(method.chaosName)([ hs.sdim, hs.cores ], method);
     end
 
     function display(hs)

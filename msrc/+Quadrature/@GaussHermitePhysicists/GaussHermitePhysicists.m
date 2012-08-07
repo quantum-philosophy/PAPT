@@ -13,9 +13,7 @@ classdef GaussHermitePhysicists < Quadrature.Base
       weights = weights / sqrt(pi);
     end
 
-    function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order)
-      level = qd.orderToLevel(order);
-
+    function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order, level)
       points = sparse_grid_herm_size(sdim, level);
       [ weights, nodes ] = sparse_grid_herm(sdim, level, points);
 
@@ -23,26 +21,12 @@ classdef GaussHermitePhysicists < Quadrature.Base
       weights = weights / (sqrt(pi))^sdim;
     end
 
-    function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
+    function points = countSparseGridPoints(qd, sdim, order, level)
+      points = sparse_grid_herm_size(sdim, level);
     end
 
     function norm = computeNormalizationConstant(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
-    end
-
-    function level = orderToLevel(qd, order)
-      %
-      % Relationship:
-      %
-      %   order = 2^(level + 1) - 1
-      %   level = log2(order + 1) - 1
-      %
-      level = ceil(log2(order + 1) - 1);
-    end
-
-    function points = countSparseGridPoints(qd, sdim, order)
-      level = qd.orderToLevel(order);
-      points = sparse_grid_herm_size(sdim, level);
     end
   end
 end

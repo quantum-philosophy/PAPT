@@ -10,7 +10,7 @@ function f = fitPolynomial(name, order, draw)
   %
   o = sprintf('%d %d', order(1), order(2));
 
-  filename = [ 'Leakage_polynomial_', name, ...
+  filename = [ 'Leakage(Polynomial_', name, , ')', ...
     '_o(', regexprep(o, ' ', '_'), ').mat' ];
 
   filename = Utils.resolvePath(filename, 'cache');

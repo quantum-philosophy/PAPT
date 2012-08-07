@@ -7,8 +7,6 @@ classdef Hermite < PolynomialChaos.Base
 
   methods (Access = 'protected')
     function method = prepare(pc, method)
-      if nargin < 2, method = struct(); end
-
       method = Utils.merge(struct(...
         'quadratureName', 'GaussHermiteProbabilists', ...
         'quadratureType', 'Adaptive'), method);

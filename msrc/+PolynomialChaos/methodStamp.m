@@ -1,3 +1,3 @@
 function s = methodStamp(method)
-  s = sprintf('PolynomialChaos_%s', method.chaosName);
+  s = sprintf('PolynomialChaos(%s_co%d)', method.chaosName, method.chaosOrder);
 end

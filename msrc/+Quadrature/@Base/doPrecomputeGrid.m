@@ -1,23 +1,19 @@
-function [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, index, method)
-
+function [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, index, method)
   sdim = length(x);
   terms = length(psi);
 
-  quadratureOrder = qd.polynomialOrderToQuadratureOrder(polynomialOrder);
+  order = method.quadratureOrder;
+  level = method.quadratureLevel;
+  type = lower(method.quadratureType);
 
-  pointsSG = qd.countSparseGridPoints(sdim, quadratureOrder);
-  pointsTP = qd.countTensorProductPoints(sdim, quadratureOrder);
+  pointsTP = qd.countTensorProductPoints(sdim, order);
+  pointsSG = qd.countSparseGridPoints(sdim, order, level);
 
   debug({ 'Precomputation of a new grid.' }, ...
         { '  Method: %s', Quadrature.methodName(method) }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
-        { '  Polynomial order: %d', polynomialOrder }, ...
-        { '  Quadrature order: %d', quadratureOrder }, ...
-        { '  Number of terms: %d', terms }, ...
-        { '  Sparse grid points: %d', pointsSG }, ...
-        { '  Tensor product points: %d', pointsTP });
-
-  type = lower(method.quadratureType);
+        { '  Tensor product points: %d', pointsTP }, ...
+        { '  Sparse grid points: %d', pointsSG });
 
   if strcmp(type, 'adaptive')
     if pointsTP <= pointsSG
@@ -28,12 +24,12 @@ function [ nodes, grid, norm ] = doPrecomputeGrid(qd, x, psi, polynomialOrder, i
   end
 
   switch type
-  case 'sparse'
-    [ nodes, weights, points ] = qd.constructSparseGrid(sdim, quadratureOrder);
-    assert(points == pointsSG, 'The number of points is invalid.');
   case 'tensor'
-    [ nodes, weights, points ] = qd.constructTensorProduct(sdim, quadratureOrder);
+    [ nodes, weights, points ] = qd.constructTensorProduct(sdim, order);
     assert(points == pointsTP, 'The number of points is invalid.');
+  case 'sparse'
+    [ nodes, weights, points ] = qd.constructSparseGrid(sdim, order, level);
+    assert(points == pointsSG, 'The number of points is invalid.');
   otherwise
     error('The method type is unknown.');
   end

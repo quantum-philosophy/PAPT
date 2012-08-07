@@ -1,19 +1,17 @@
 function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
-  doPrepareExpansion(pc, sdim, ddim, order, method)
-  %
-  % Input:
-  %
-  %   * sdim   - the stochastic dimension of the expansion,
-  %   * sdim   - the deterministic dimension of the expansion,
-  %   * order  - the maximal order of the polynomials.
-  %
+  doPrepareExpansion(pc, sdim, ddim, method)
 
-  terms = pc.countTerms(sdim, order);
+  order = pc.order;
+  assert(order == method.chaosOrder, 'The polynomial chaos order is invalid.');
+
+  %
+  % The total-order principle.
+  %
+  terms = factorial(sdim + order) / factorial(sdim) / factorial(order);
 
   debug({ 'Construction of a new PC expansion.' }, ...
         { '  Method: %s', PolynomialChaos.methodName(method) }, ...
         { '  Stochastic dimensions: %d', sdim }, ...
-        { '  Polynomial order: %d', order }, ...
         { '  Number of terms: %d', terms });
 
   for i = 1:sdim
@@ -28,7 +26,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
   % Now, the Gaussian quadrature rule.
   %
 
-  qd = Quadrature.(method.quadratureName)(x, psi, order, index, method);
+  qd = Quadrature.(method.quadratureName)(x, psi, index, method);
 
   points = qd.points;
   nodes = qd.nodes;

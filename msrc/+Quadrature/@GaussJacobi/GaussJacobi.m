@@ -26,11 +26,13 @@ classdef GaussJacobi < Quadrature.Base
       [ nodes, weights ] = jacobi_compute(order, qd.alpha, qd.beta);
     end
 
-    function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order)
-      level = qd.orderToLevel(order);
-
+    function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order, level)
       [ nodes, weights, points ] = Quadrature.constructSandiaGrid(...
         sdim, level, 9, qd.alpha, qd.beta);
+    end
+
+    function points = countSparseGridPoints(qd, sdim, order, level)
+      points = Quadrature.countSandiaPoints(sdim, level, 9, qd.alpha, qd.beta);
     end
 
     function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
@@ -49,15 +51,6 @@ classdef GaussJacobi < Quadrature.Base
         (gamma(n + 1) .* gamma(n + alpha + beta + 1));
 
       norm = prod(one .* two);
-    end
-
-    function points = countSparseGridPoints(qd, sdim, order)
-      level = qd.orderToLevel(order);
-      points = Quadrature.countSandiaPoints(sdim, level, 9, qd.alpha, qd.beta);
-    end
-
-    function level = orderToLevel(qd, order)
-      level = ceil(log2(order + 1) - 1);
     end
   end
 end
