@@ -4,6 +4,8 @@ c = Config();
 c.display();
 
 hs = HotSpot.Chaos(c.hotspotArguments{:}, c.chaosArguments{:});
+hs.configureLeakage(c.dynamicPower);
+
 hs.display();
 
 t = tic;

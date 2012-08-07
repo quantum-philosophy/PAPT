@@ -86,18 +86,21 @@ classdef Analytic < HotSpot.Base
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
+      pca = hs.pca;
+      leak = @hs.computeLeakage;
+      Lnom = hs.Lnom;
+      alpha = hs.leakageAlpha;
 
       T = zeros(cores, steps);
 
       Pleak = zeros(size(Pdyn));
 
-      Pleak(:, 1) = leak.performAtAmbient(rvs);
+      Pleak(:, 1) = alpha * leak(pca * rvs + Lnom, Tamb);
       X = D * (Pdyn(:, 1) + Pleak(:, 1));
 
       for i = 2:steps
         T(:, i - 1) = BT * X + Tamb;
-        Pleak(:, i) = leak.performAtGiven(rvs, T(:, i - 1));
+        Pleak(:, i) = alpha * leak(pca * rvs + Lnom, T(:, i - 1));
         X = E * X + D * (Pdyn(:, i) + Pleak(:, i));
       end
 

@@ -58,9 +58,9 @@ end
 fprintf('\n');
 
 for i = 1:length(orderSet)
-  c.tune('polynomialOrder', orderSet(i));
+  c.tune('constructionMethod.chaosOrder', orderSet(i));
 
-  fprintf('%5d | ', c.polynomialOrder);
+  fprintf('%5d | ', c.constructionMethod.chaosOrder);
 
   %% Temperature analysis with Polynomial Chaos.
   %

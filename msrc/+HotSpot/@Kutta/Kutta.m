@@ -28,7 +28,10 @@ classdef Kutta < HotSpot.Base
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca);
+      pca = hs.pca;
+      leak = @hs.computeLeakage;
+      Lnom = hs.Lnom;
+      alpha = hs.leakageAlpha;
 
       TT = zeros(steps, cores);
 
@@ -37,7 +40,7 @@ classdef Kutta < HotSpot.Base
       for i = 1:steps
         [ ~, T0 ] = ode45(...
           @(t, T) At * (T - Tamb) + Bt * (Pdyn(:, i) ...
-              + leak.performAtGiven(rvs, T(1:cores))), ...
+              + alpha * leak(pca * rvs + Lnom, T(1:cores))), ...
           [ 0, dt ], T0);
 
           T0 = T0(end, :);

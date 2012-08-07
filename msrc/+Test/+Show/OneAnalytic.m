@@ -4,6 +4,7 @@ c = Config();
 c.display();
 
 hs = HotSpot.Analytic(c.hotspotArguments{:});
+hs.configureLeakage(c.dynamicPower);
 
 t = tic;
 [ T, leakagePower ] = hs.solve(c.dynamicPower, zeros(hs.sdim, 1));

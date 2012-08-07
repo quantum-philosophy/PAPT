@@ -94,7 +94,7 @@ classdef Config < handle
       for i = 1:floor(length(varargin) / 2)
         name = varargin{(i - 1) * 2 + 1};
         value = varargin{(i - 1) * 2 + 2};
-        c.(name) = value;
+        eval(sprintf('c.%s = value;', name));
       end
 
       %
@@ -121,7 +121,7 @@ classdef Config < handle
           c.steps = value;
           c.updateDynamicPower();
         otherwise
-          error('Not implemented yet.');
+          eval(sprintf('c.%s = value;', name));
         end
       end
     end

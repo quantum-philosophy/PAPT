@@ -24,9 +24,9 @@ fprintf('\n');
 mRAW = {};
 
 for i = 1:length(orderSet)
-  c.tune('polynomialOrder', orderSet(i));
+  c.tune('constructionMethod.chaosOrder', orderSet(i));
 
-  fprintf('%15d', c.polynomialOrder);
+  fprintf('%15d', c.constructionMethod.chaosOrder);
 
   %% Temperature analysis with Polynomial Chaos.
   %

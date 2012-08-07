@@ -16,7 +16,7 @@ classdef Chaos < HotSpot.Analytic
       hs.pc = PolynomialChaos.(method.chaosName)([ hs.sdim, hs.cores ], method);
     end
 
-    function display(hs)
+    function display(hs, extended)
       display@HotSpot.Analytic(hs);
 
       pc = hs.pc;
@@ -24,6 +24,8 @@ classdef Chaos < HotSpot.Analytic
       fprintf('  Polynomial order: %d\n', pc.order);
       fprintf('  Number of terms: %d\n', pc.terms);
       fprintf('  Quadrature points: %d\n', pc.points);
+
+      if nargin < 2 || ~extended, return; end
 
       s = size(pc.nodes);
       fprintf('  Quadrature nodes: %d x %d = %d\n', ...
@@ -78,13 +80,20 @@ classdef Chaos < HotSpot.Analytic
       %
       % Initialize the leakage model.
       %
-      leak = Leakage.Polynomial(Tamb, Pdyn, hs.pca, pc.points);
+      pca = hs.pca;
+      leak = @hs.computeLeakage;
+      Lnom = hs.Lnom;
+      alpha = hs.leakageAlpha;
+
+      sample = @(rvs) leak(pca * rvs + Lnom, Tamb);
 
       %
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = pc.computeExpansion(@leak.performAtAmbient);
+      Pcoeff = alpha * pc.computeExpansion(sample);
+
+      sample = @(rvs, T) leak(pca * rvs + Lnom, T);
 
       %
       % Add the dynamic power of the first step to the mean.
@@ -108,7 +117,7 @@ classdef Chaos < HotSpot.Analytic
         %
         % Perform the PC expansion.
         %
-        Pcoeff = pc.computeExpansion(@leak.performAtGiven, trace(:, :, i - 1));
+        Pcoeff = alpha * pc.computeExpansion(sample, trace(:, :, i - 1));
 
         %
         % Add the dynamic power to the mean.

@@ -7,7 +7,7 @@ coreCount = length(coreSet);
 for i = 1:coreCount
   floorplan = Utils.resolveTest(coreSet(i));
 
-  P = PrincipalComponent.perform(floorplan);
+  P = PrincipalComponent.perform(floorplan, HotSpot.Base.Lnom);
 
   [ cores, sdim ] = size(P);
 

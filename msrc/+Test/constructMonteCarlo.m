@@ -3,6 +3,7 @@ function mc = constructMonteCarlo(c)
   % Construct an appropriate solver.
   %
   hs = HotSpot.(c.assessmentMethod)(c.hotspotArguments{:}, 'none');
+  hs.configureLeakage(c.dynamicPower);
 
   assert(hs.sdim == (PrincipalComponent.globalCount + hs.cores), ...
     'The number of stochastic dimensions is invalid.');

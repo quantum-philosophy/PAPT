@@ -1,10 +1,10 @@
 init;
 
-c = Config('polynomialOrder', 4, 'cores', 4);
+c = Config('constructionMethod.chaosOrder', 4, 'cores', 4);
 
 %% Initialize the solver.
 %
-ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder, c.integrationMethod);
+ch = HotSpot.Chaos(c.hotspotArguments{:}, c.chaosArguments{:});
 kt = HotSpot.Kutta(c.hotspotArguments{:});
 
 %% Define the needed measurements.
@@ -19,6 +19,9 @@ for i = 1:length(X)
   c.tune('steps', X(i));
 
   fprintf('%15d', c.steps);
+
+  ch.configureLeakage(c.dynamicPower);
+  kt.configureLeakage(c.dynamicPower);
 
   %% Perform the analysis.
   %

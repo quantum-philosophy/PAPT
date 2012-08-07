@@ -1,6 +1,11 @@
 classdef PrincipalComponent < handle
   properties (Constant)
     %
+    % The standard deviation of variations.
+    %
+    deviationRatio = 0.05;
+
+    %
     % This constant determines the percentage of information that
     % kept principal components should explain.
     %
@@ -20,7 +25,7 @@ classdef PrincipalComponent < handle
   end
 
   methods (Static)
-    function [ P, sdim ] = perform(floorplan, varargin)
+    function [ P, sdim ] = perform(floorplan, nominal, varargin)
       %
       % Description:
       %
@@ -32,22 +37,23 @@ classdef PrincipalComponent < handle
       lCount = size(C, 1);
       gCount = PrincipalComponent.globalCount;
 
-      Ldev = Leakage.Base.Ldev;
+      deviation = PrincipalComponent.deviationRatio * nominal;
 
       %
       % Take into account the proportions between the two parts.
       %
-      lLdev = sqrt(PrincipalComponent.localRatio) * Ldev;
-      gLdev = sqrt(PrincipalComponent.globalRatio) * Ldev;
+      lDeviation = sqrt(PrincipalComponent.localRatio) * deviation;
+      gDeviation = sqrt(PrincipalComponent.globalRatio) * deviation;
 
-      S = ones(1, lCount) * lLdev;
+      S = ones(1, lCount) * lDeviation;
 
       P = PrincipalComponent.performRegular(diag(S) * C * diag(S), varargin{:});
 
       %
       % Append the global r.v.'s.
       %
-      P((end + 1):(end + gCount), (end + 1):(end + gCount)) = diag(ones(1, gCount) * gLdev);
+      P((end + 1):(end + gCount), (end + 1):(end + gCount)) = ...
+        diag(ones(1, gCount) * gDeviation);
 
       %
       % The last part is mapping of the r.v.'s to the cores.

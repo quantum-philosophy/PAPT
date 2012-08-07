@@ -1,10 +1,10 @@
 init;
 
-kc = Config('assessmentMethod', 'Kutta', 'steps', 100);
+kc = Config('assessmentMethod', 'Kutta');
 kt = Test.constructMonteCarlo(kc);
 [ ~, ~, kRaw ] = Test.sampleMonteCarlo(kt, kc);
 
-ac = Config('assessmentMethod', 'Analytic', 'steps', 100);
+ac = Config('assessmentMethod', 'Analytic');
 an = Test.constructMonteCarlo(ac);
 [ ~, ~, aRaw ] = Test.sampleMonteCarlo(an, ac);
 

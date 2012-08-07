@@ -1,4 +1,19 @@
 classdef Base < handle
+  properties (Constant)
+    %
+    % The nominal value of the channel length and its deviation.
+    %
+    Lnom = 45e-9;
+
+    %
+    % The following constants are used to construct an instance
+    % of the leakage model that produces `PleakPdyn' portion
+    % of the given dynamic power at temperature `Tref'.
+    %
+    PleakPdyn = 2/3;
+    Tref = Utils.toKelvin(120);
+  end
+
   properties (SetAccess = 'private')
     %
     % The number of thermal nodes in the thermal RC circuit.
@@ -44,6 +59,12 @@ classdef Base < handle
     % the global variations as well.
     %
     pca
+
+    %
+    % The leakage model.
+    %
+    computeLeakage
+    leakageAlpha
   end
 
   methods
@@ -56,8 +77,16 @@ classdef Base < handle
       %
       % Perform the PCA to extract independent r.v.'s.
       %
-      [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan, varargin{:});
+      [ hs.pca, hs.sdim ] = PrincipalComponent.perform(floorplan, hs.Lnom, varargin{:});
       assert(size(hs.pca, 1) == hs.cores, 'The dimensions do not match.');
+    end
+
+    function configureLeakage(hs, Pdyn)
+      hs.computeLeakage = Spice.fitExponentPolynomial( ...
+        'inverter_45nm', [ 1, 2 ], [ 1, 0.7, 0; 1, 1, 1 ]);
+
+      P0 = hs.computeLeakage(hs.Lnom, hs.Tref);
+      hs.leakageAlpha = hs.PleakPdyn * mean(mean(Pdyn)) / P0;
     end
 
     function display(hs)

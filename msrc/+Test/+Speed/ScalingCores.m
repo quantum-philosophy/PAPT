@@ -11,14 +11,17 @@ fprintf('%15s%15s%15s%15s\n', 'Cores', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 Y = zeros(length(X), 2);
 
 for i = 1:length(X)
-  c = Config('cores', X(i), 'polynomialOrder', 4, 'steps', steps);
+  c = Config('cores', X(i), 'constructionMethod.chaosOrder', 4, 'steps', steps);
 
   fprintf('%15d', c.cores);
 
   %% Initialize the solver.
   %
-  ch = HotSpot.Chaos(c.hotspotArguments{:}, c.polynomialOrder, c.integrationMethod);
+  ch = HotSpot.Chaos(c.hotspotArguments{:}, c.chaosArguments{:});
   kt = HotSpot.Kutta(c.hotspotArguments{:});
+
+  ch.configureLeakage(c.dynamicPower);
+  kt.configureLeakage(c.dynamicPower);
 
   %% Perform the analysis.
   %
