@@ -82,6 +82,10 @@ function f = fitExponentPolynomial(name, order, scale, draw)
 
   if ~draw, return; end
 
+  norm = f(HotSpot.Base.Lnom, Utils.toKelvin(27));
+
+  Idata = Idata / norm;
+
   figure;
   h = subplot(1, 1, 1);
 
@@ -94,7 +98,7 @@ function f = fitExponentPolynomial(name, order, scale, draw)
 
   mesh(L, T, I);
 
-  line(Ldata, Tdata, f(Ldata, Tdata), ...
+  line(Ldata, Tdata, f(Ldata, Tdata) / norm, ...
       'LineStyle', 'None', ...
       'Marker', 'o', ...
       'MarkerEdgeColor', 'w', ...

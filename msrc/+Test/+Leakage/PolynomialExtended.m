@@ -3,11 +3,13 @@ init;
 f = Spice.fitExponentPolynomial('inverter_45nm', ...
   [ 1 2 ], [ 1, 0.7, 0; 1, 1, 1 ], true);
 
-Lnom = 45e-9;
-Ldev = 0.05 * Lnom;
+Lnom = HotSpot.Base.Lnom;
+Ldev = PrincipalComponent.deviationRatio * Lnom;
 
-T = Utils.toKelvin(linspace(27, 150, 100));
-L = linspace(Lnom - 3 * Ldev, Lnom + 3 * Ldev, 100);
+Tref = Utils.toKelvin(27);
+
+T = linspace(Tref, Tref + 123, 100);
+L = linspace(Lnom - 4 * Ldev, Lnom + 4 * Ldev, 100);
 
 l = zeros(100 * 100, 1);
 t = zeros(100 * 100, 1);
@@ -21,7 +23,7 @@ for i = 1:100
   end
 end
 
-i = f(l, t);
+i = f(l, t) / f(HotSpot.Base.Lnom, Tref);
 
 hold on;
 

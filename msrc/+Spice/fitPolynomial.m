@@ -10,7 +10,7 @@ function f = fitPolynomial(name, order, draw)
   %
   o = sprintf('%d %d', order(1), order(2));
 
-  filename = [ 'Leakage(Polynomial_', name, , ')', ...
+  filename = [ 'Leakage(Polynomial_', name, ')', ...
     '_o(', regexprep(o, ' ', '_'), ').mat' ];
 
   filename = Utils.resolvePath(filename, 'cache');
@@ -58,6 +58,10 @@ function f = fitPolynomial(name, order, draw)
 
   if ~draw, return; end
 
+  norm = f(HotSpot.Base.Lnom, Utils.toKelvin(27));
+
+  Idata = Idata / norm;
+
   figure;
   h = subplot(1, 1, 1);
 
@@ -70,7 +74,7 @@ function f = fitPolynomial(name, order, draw)
 
   mesh(L, T, I);
 
-  line(Ldata, Tdata, f(Ldata, Tdata), ...
+  line(Ldata, Tdata, f(Ldata, Tdata) / norm, ...
       'LineStyle', 'None', ...
       'Marker', 'o', ...
       'MarkerEdgeColor', 'w', ...
