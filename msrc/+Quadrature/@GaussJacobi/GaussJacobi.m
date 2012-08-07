@@ -14,7 +14,7 @@ classdef GaussJacobi < Quadrature.Base
 
   methods (Access = 'protected')
     function method = prepare(qd, method)
-      if nargin < 2, method = struct(); end
+      method = prepare@Quadrature.Base(qd, method);
 
       qd.alpha = method.jacobiAlpha;
       qd.beta = method.jacobiBeta;
