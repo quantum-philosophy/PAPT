@@ -10,7 +10,43 @@
 \usepackage{booktabs}
 
 \usepackage[maxnames=1, sorting=none]{biblatex}
-\renewcommand*{\bibfont}{\footnotesize}
+\renewcommand*{\bibfont}{\scriptsize}
+
+\makeatletter
+\let\oldsection=\section
+\newcommand{\oldsectionStar}[1]{\oldsection*{#1}}
+\newcommand{\oldsectionStarless}[1]{\oldsection{#1}}
+\renewcommand{\section}{\@ifstar\oldsectionStar\oldsectionStarless}
+
+\let\oldsubsection=\subsection
+\renewcommand{\subsection}[1]{\oldsubsection{#1}}
+\makeatother
+
+% \columnsep 1pc
+% % \marginsize{4.5pc}{4.5pc}{4.5pc}{6pc}
+% \marginsize{4.3pc}{4.3pc}{3.0pc}{2pc}
+%
+% \topmargin 2pc
+% \advance\topmargin by -1in
+%
+
+% ---- Text
+\linespread{0.9}
+
+% \setlength{\parskip}{0pt}
+% \setlength{\parsep}{0pt}
+% \setlength{\headsep}{0pt}
+% \setlength{\topskip}{0pt}
+% \setlength{\partopsep}{0pt}
+
+% ---- Tables
+\setlength{\topsep}{0pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+
+% ---- Formulas
+\setlength\abovedisplayskip{5pt}
+\setlength\belowdisplayskip{5pt}
 
 % ---- References
 \newcommand{\eref}[1]{Eq.~(\ref{equ:#1})}
@@ -189,3 +225,7 @@
 \newcommand{\ePDF}{\err{\PDF}}
 
 \newcommand{\err}[1]{\delta#1}
+
+\newcommand{\mcs}[1]{\scriptstyle \mcsamples = 10^#1}
+\newcommand{\csep}{\hspace{7pt}}
+\newcommand{\psep}{\hspace{15pt}}
