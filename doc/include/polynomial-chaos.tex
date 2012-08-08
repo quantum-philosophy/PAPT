@@ -1,10 +1,10 @@
-At this point, the goal is to transform \eref{power-model} in such a way that the nonlinear correlations in the recurrence given by \eref{recurrence} are eliminated. To this end, we employ the polynomial chaos (PC), which deconstructs stochastic processes into infinite sequences of \emph{orthogonal} polynomials of r.v.'s. More specifically, the \emph{generalized} PC \cite{xiu2002} is utilized, which is an extension of the original PC where only Hermite polynomials and Gaussian r.v.'s were considered \cite{ghanem1991}. In contrast, the generalized PC covers the whole family of hypergeometric orthogonal polynomials from the Askey scheme, which the Hermite polynomials are a subset of, and handles different probability distributions. Even though we focus on the generalized PC, the proposed framework can be easily extended to other bases. For instance, if the power model $\f$ is steep or discontinuous in $\vZ(\o)$ (see \sref{power-model}), the Haar or multiwavelet bases can provide more robust predictions; refer to \cite{maitre2010} for an overview.
+At this point, the goal is to transform \eref{power-model} in such a way that the nonlinear correlations in \eref{recurrence} are eliminated. To this end, we employ the polynomial chaos (PC) where stochastic processes are deconstructed into infinite sequences of orthogonal polynomials of r.v.'s. More specifically, the generalized PC \cite{xiu2002} is utilized, which extends the original PC \cite{ghanem1991} to all the hypergeometric orthogonal polynomials from the Askey scheme and, consequently, non-Gaussian r.v.'s.\footnote{The proposed framework can be easily extended to other bases, e.g., if the power model $\f$ is steep or discontinuous in $\vZ(\o)$, the Haar or multiwavelet bases can produce more robust results; refer to \cite{maitre2010} for an overview.}
 
 Orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
 \begin{equation} \elabel{orthogonality}
-  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}
+  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} \eqdef \pcn_i \delta_{ij}
 \end{equation}
-where $i,j \in \natural{1}$, the operator $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ are normalization constants. The inner product with the weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
+where the operator $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ are normalization constants. The inner product with the weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
 \begin{equation} \elabel{inner-product-integral}
   \oInner{f(\vz)}{g(\vz)} \eqdef \int f(\vz) g(\vz) \PDF(\vz) d\vz
 \end{equation}
@@ -12,43 +12,41 @@ when $\PDF(\vz)$ is continuous, or as the following summation:
 \begin{equation} \elabel{inner-product-sum}
   \oInner{f(\vz)}{g(\vz)} \eqdef \sum f(\vz) g(\vz) \PDF(\vz)
 \end{equation}
-when $\PDF(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (or mass) function $\PDF_\vZ(\vz)$ of the r.v.'s $\vZ(\o)$, and the inner product coincides with the expectation operator. Therefore, it can be seen from \eref{orthogonality} that orthogonality is equal to the absence of correlations, and this is, in fact, what we seek for.
+when $\PDF(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (or mass) function $\PDF_\vZ(\vz)$ of $\vZ(\o)$, and the inner product coincides with the expectation operator. It can be seen that orthogonality is equal to the absence of correlations, and this is what we seek for.
 
-The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vZ(\o)) \}$ according to the Askey scheme of hypergeometric orthogonal polynomials \cite{xiu2002}. The step is crucial due to the following reason. In spite of the fact that a PC expansion is guaranteed to converge in $\L{2}$, the rate of convergence essentially depends on the chosen basis. Since infinite expansions should be truncated to become feasible for the practical computations, an inappropriately selected basis can lead either to a low accuracy or to a large number of terms in the expansion ruining the performance. There are no strict rules that can guarantee the optimal choice \cite{knio2006, maitre2010}; however, there are best practices saying that the choice should be governed by the underlying r.v.'s., which drive the stochastic system. For instance, the Hermite polynomials are suitable for Gaussian r.v.'s while the Charlier polynomials are preferable for Poisson variations; refer to \cite{xiu2002} for the other well-established combinations as well as the case of arbitrary probability distributions.
+The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vZ(\o)) \}$ according to the Askey scheme \cite{xiu2002}. The step is crucial as the rate of convergence essentially depends on it. There are no strict rules that guarantee the optimal choice \cite{knio2006, maitre2010}; however, in general, it should be governed by the underlying r.v.'s. For instance, the Hermite polynomials are suitable for Gaussian r.v.'s while the Charlier polynomials are preferable for Poisson variations; refer to \cite{xiu2002} for the other well-established combinations as well as the case of arbitrary probability distributions.
 
-Having an appropriate basis chosen, we apply the PC procedure to the power term in \eref{ode-solution}. In this case, the truncated expansion is defined as follows:
+Having an appropriate basis chosen, we apply the PC procedure to power in \eref{ode-solution}. The resulting infinite series should be truncated for practical computations. In this case, the expansion is defined as
 \begin{equation} \elabel{pc-expansion}
   \oPC{\vars}{\pcorder}{\vP(0, \o)} \eqdef \sum_{i = 1}^{\pcterms} \pcc{\vP}_i(0) \; \pcb_i(\vZ(\o))
 \end{equation}
-where $\pcc{\vP}_i(0) \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials. $\pcorder \in \natural{0}$ is the order of the expansion that determines the maximal degree of the $\vars$-variate polynomials involved in the expansion. Consequently, $\pcorder$ also defines the level of accuracy of the resulting model. When the total-order principle is used \cite{eldred2009}, $\pcterms$ can be computed as
+where $\pcc{\vP}_i(0) \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials. $\pcorder$ is the order of the expansion that determines the maximal degree of the $\vars$-variate polynomials involved in the expansion. Hence, $\pcorder$ also defines the level of accuracy. When the total-order principle is used \cite{eldred2009}, $\pcterms$ can be computed as
 \begin{equation} \elabel{pc-terms}
   \pcterms = {\pcorder + \vars \choose \pcorder}
 \end{equation}
 
-Finally, we need to determine the coefficients of the expansion $\pcc{\vP}_i(0)$, $i \in \{ 1, \dotsc, \pcterms \}$. To this end, a spectral projection of the stochastic process in \eref{power-model} onto the space spanned by the finite set of orthogonal polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is performed. In this case, one needs to compute the inner product of the governing equation \eref{power-model} with each polynomial from the truncated basis as
+Finally, we need to determine the coefficients of the expansion $\pcc{\vP}_i(0)$, $i \in \{ 1, \dotsc, \pcterms \}$. To this end, a spectral projection of the stochastic process in \eref{power-model} onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is performed. In this case, one needs to compute the inner product of \eref{power-model} with each polynomial from the basis as
 \[
   \oInner{\sum_{i=1}^{\pcterms} \pcc{\vP}_i(0) \pcb_i(\vZ(\o))}{\pcb_j(\vZ(\o))} = \oInner{\vP(0, \o)}{\pcb_j(\vZ(\o))}
 \]
-where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of the orthogonality property given by \eref{orthogonality}, we obtain
+where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of \eref{orthogonality}, we obtain
 \begin{equation} \elabel{pc-coefficients}
-  \pcc{\vP}_i(0) = \frac{1}{\pcn_i} \oInner{\vP(0, \o)}{\pcb_i(\vZ(\o))}
+  \pcc{\vP}_j(0) = \frac{1}{\pcn_j} \oInner{\vP(0, \o)}{\pcb_j(\vZ(\o))}
 \end{equation}
-for $i \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically; this type of projection is known as non-intrusive.\footnote{An illustrative example of this procedure for the continuous case is given in \sref{pc-computation} where the multidimensional integration is involved.} On the other hand, the normalization constants $\pcn_i$ are fixed for a particular polynomial basis; thus, they are precomputed and tabulated. \eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions: the so-called ``\emph{curse of dimensionality}'', which constitutes in a large number of terms in expansions and in the growing complexity of the corresponding coefficients when the number of stochastic dimensions is high. This issue is to be addressed in \sref{preprocessing-rvs} and \sref{pc-computation}.
+for $j \in \{ 1, \dotsc, \pcterms \}$. In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically; this type of projection is known as non-intrusive. On the other hand, the normalization constants $\pcn_j$ are fixed for a particular polynomial basis; thus, they are precomputed and tabulated. \eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions: the so-called curse of dimensionality, which constitutes in a large number of terms in expansions and in the growing complexity of the corresponding coefficients when the number of stochastic dimensions is high. This issue is to be addressed in \sref{preprocessing-rvs} and \sref{pc-computation}.
 
-It can be see from \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, the state vector $\vX_k(\t, \o)$ retains the same polynomial structure as the input vector of power at each step of the iterative process. Therefore, using the definition of the truncated PC expansion in \eref{pc-expansion}, the recurrence given by \eref{recurrence} is rewritten as
+It can be see in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\t, \o)$ retains the same polynomial structure as $\vP_k(0, \o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as
 \begin{align*}
   \oPC{\vars}{\pcorder}{\vX_k(\t, \o)} & = \mE(\t) \; \oPC{\vars}{\pcorder}{\vX_k(0, \o)} \\
   & {} + \mD(\t) \; \oPC{\vars}{\pcorder}{\vP_k(0, \o)}
 \end{align*}
-where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. There are two PC expansions here for two concurrent stochastic processes with the same basis, but different coefficients. The left- and right-hand sides of the last equation can be explicitly written as
+where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. Thus, there are two PC expansions for two concurrent stochastic processes with the same basis, but different coefficients. The left- and right-hand sides of the last equation can be explicitly written as
 \begin{align*}
   & \text{LHS} = \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki}(\t) \pcb_i(\vZ(\o)) \\
   & \text{RHS} = \sum_{i = 1}^{\pcterms} \left( \mE(\t) \pcc{\vX}_{ki}(0) + \mD(\t) \pcc{\vP}_{ki}(0) \right) \pcb_i(\vZ(\o))
 \end{align*}
-By the orthogonality property (see \eref{orthogonality}) of the polynomials $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$, we have
+By \eref{orthogonality}, we have
 \begin{equation} \elabel{pc-recurrence}
   \pcc{\vX}_{ki}(\t) = \mE(\t) \pcc{\vX}_{ki}(0) + \mD(\t) \pcc{\vP}_{ki}(0)
 \end{equation}
-where $k \in \{ 1, \dots, \steps \}$ and $i \in \{ 1, \dotsc, \pcterms \}$. The recurrence in \eref{pc-recurrence} is used to compute the coefficients of the PC expansion of the temperature vector $\vTO(\t, \o)$ based on the coefficients of the PC expansion of power since between $\vTO(\t, \o)$ and $\vX(\t, \o)$ there is only one step given by \eref{fourier-output}.
-
-It should be mentioned separately that, since $\vP(0, \o)$ stands for $\vP(0, \vTO(0, \vZ(\o)), \vZ(\o))$, at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}(0)$ (according to \eref{inner-product-integral} or \eref{inner-product-sum}) should be performed with respect to the current PC expansion for $\vTO_k(0, \o)$.
+where $k \in \{ 1, \dots, \steps \}$ and $i \in \{ 1, \dotsc, \pcterms \}$. Finally, \eref{pc-recurrence} is substituted into \eref{fourier-output} to compute the coefficients of the PC expansion of $\vTO(\t, \o)$ based on the coefficients of the PC expansion of $\vX(\t, \o)$. It should be noted that, since $\vP(0, \o)$ stands for $\vP(0, \vTO(0, \vZ(\o)), \vZ(\o))$, at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}(0)$ (according to \eref{inner-product-integral} or \eref{inner-product-sum}) should be performed with respect to the current PC expansion of $\vTO_k(0, \o)$.
