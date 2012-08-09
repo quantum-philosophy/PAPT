@@ -6,7 +6,7 @@ where $\nLeff$ is the nominal channel length, $\gLeff(\o)$ is a zero-mean r.v. t
 \begin{equation} \elabel{correlation-matrix}
   \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\corrLength}
 \end{equation}
-where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length. For conveniece, the resulting correlation matrix is expended by one dimension to pack $\gLeff(\o)$ together with $\lLeff_i(\o)$. In this case, the matrix obtains one additional non-zero element on the diagonal. Taking into account the variances of the r.v.'s, the covariance matrix denoted by $\mCov_\vU$ can be formed.
+where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length. For convenience, the resulting correlation matrix is expended by one dimension to pack $\gLeff(\o)$ together with $\lLeff_i(\o)$. In this case, the matrix obtains one additional non-zero element on the diagonal. Taking into account the variances of the r.v.'s, the covariance matrix denoted by $\mCov_\vU$ can be formed.
 
 Having intrinsic sources of variations identified, we need to construct a leakage model with these sources and temperature as inputs. Such a model can be obtained by performing a set of SPICE-type simulations of reference electrical circuits. In our example, we employ a circuit based on the Predictive Technology Model \cite{ptm}. A surface fitting procedure is then carried out on the output data, and the following exponential model is acquired:
 \begin{equation} \elabel{leakage-current}

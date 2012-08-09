@@ -1,25 +1,24 @@
+%
+% Thermal modeling.
+%
 @book{kreith2000,
-  title = {The CRC handbook of thermal engineering},
+  title = {The CRC Handbook of Thermal Engineering},
   author = {Kreith, F.},
   year = {2000},
   publisher = {CRC Press}
 }
 
-@book{kloeden1992,
-  title = {Numerical Solution of Stochastic Differential Equations},
-  author = {Kloeden, P. and Platen, E.},
-  year = {1992},
-  publisher = {Springer}
+@inproceedings{ukhov2012,
+  author = {Ukhov, I. and Bao, M. and Eles, P. and Peng, Z.},
+  title = {Steady-State Dynamic Temperature Analysis and Reliability Optimization for Embedded Multiprocessor Systems},
+  booktitle = {DAC},
+  year = {2012},
+  pages = {197--204}
 }
 
-@book{press2007,
-  author = {Press, W. and Teukolsky, S. and Vetterling, W. and Flannery, B.},
-  title = {Numerical Recipes: The Art of Scientific Computing},
-  publisher = {Cambridge University Press},
-  edition = {The 3rd edition},
-  year = {2007}
-}
-
+%
+% Probability theory.
+%
 @book{durrett2010,
   author = {Durrett, R.},
   title = {Probability: Theory and Examples},
@@ -28,6 +27,20 @@
   year = {2010}
 }
 
+%
+% Numerical analysis.
+%
+@book{press2007,
+  author = {Press, W. and Teukolsky, S. and Vetterling, W. and Flannery, B.},
+  title = {Numerical Recipes: The Art of Scientific Computing},
+  publisher = {Cambridge University Press},
+  edition = {The 3rd edition},
+  year = {2007}
+}
+
+%
+% Process variation.
+%
 @book{srivastava2010,
   author = {Srivastava, A. and Sylvester, D. and Blaauw, D.},
   title = {Statistical Analysis and Optimization for {VLSI}: Timing and Power},
@@ -35,18 +48,32 @@
   year = {2010}
 }
 
+@article{cheng2011,
+  author = {Cheng, L. and Gupta, P. and Spanos, C. and Qian, K. and He, L.},
+  journal = {Computer-Aided Design of Integrated Circuits and Systems},
+  title = {Physically Justifiable Die-Level Modeling of Spatial Variation in View of Systematic Across Wafer Variability},
+  year = {2011},
+  month = {March},
+  volume = {30},
+  number = {3},
+  pages = {388--401}
+}
+
 @inproceedings{liu2007,
   author = {Liu, Y. and Dick, R. and Shang, L. and Yang, H.},
-  title = {Accurate temperature-dependent integrated circuit leakage power estimation is easy},
-  booktitle = {DATE'07},
+  title = {Accurate Temperature-Dependent Integrated Circuit Leakage Power Estimation is Easy},
+  booktitle = {DATE},
   year = {2007},
   pages = {1526--1531}
 }
 
+%
+% Stochastic temperature modeling.
+%
 @inproceedings{juan2011,
   author = {Juan, D.-C. and Garg, S. and Marculescu, D.},
-  booktitle = {DATE'11},
-  title = {Statistical thermal evaluation and mitigation techniques for 3D Chip-Multiprocessors in the presence of process variations},
+  booktitle = {DATE},
+  title = {Statistical Thermal Evaluation and Mitigation Techniques for 3D Chip-Multiprocessors in the Presence of Process Variations},
   year = {2011},
   month = {March},
   pages = {383--388}
@@ -54,22 +81,21 @@
 
 @inproceedings{juan2012,
   author = {Juan, D.-C. and Chuang, Y.-L. and Marculescu, D. and Chang, Y.-W.},
-  booktitle = {DATE'12},
-  title = {Statistical thermal modeling and optimization considering leakage power variations},
+  booktitle = {DATE},
+  title = {Statistical Thermal Modeling and Optimization Considering Leakage Power Variations},
   year = {2012},
   month = {March},
   pages = {605-610}
 }
 
-@article{xiu2009,
-  author = {Xiu, D.},
-  title = {Fast Numerical Methods for Stochastic Computations: A Review},
-  journal = {Communications in Computational Physics},
-  year = {2009}
-  month = {February},
-  volume = {5},
-  number = {2--4},
-  pages = {242--272}
+%
+% Spectral methods for uncertainty quantification.
+%
+@book{ghanem1991,
+  author = {Ghanem, R. and Spanos, P.},
+  title = {Stochastic Finite Elements: A Spectral Approach},
+  publisher = {Springer Verlag},
+  year = {1991}
 }
 
 @article{xiu2002,
@@ -83,29 +109,15 @@
   pages = {619--644}
 }
 
-@book{ghanem1991,
-  author = {Ghanem, R. and Spanos, P.},
-  title = {Stochastic Finite Elements: A Spectral Approach},
-  publisher = {Springer Verlag},
-  year = {1991}
-}
-
-@inproceedings{ukhov2012,
-  author = {Ukhov, I. and Bao, M. and Eles, P. and Peng, Z.},
-  title = {Steady-State Dynamic Temperature Analysis and Reliability Optimization for Embedded Multiprocessor Systems},
-  booktitle = {DAC'12},
-  year = {2012},
-  pages = {197--204}
-}
-
-@article{knio2006,
-  author = {Knio, O. and Ma\^{i}tre, O. Le},
-  title = {Uncertainty propagation in {CFD} using polynomial chaos decomposition},
-  journal = {Fluid Dynamics Research},
-  volume = {38},
-  number = {9},
-  pages = {616--640},
-  year = {2006}
+@article{xiu2009,
+  author = {Xiu, D.},
+  title = {Fast Numerical Methods for Stochastic Computations: A Review},
+  journal = {Communications in Computational Physics},
+  year = {2009}
+  month = {February},
+  volume = {5},
+  number = {2--4},
+  pages = {242--272}
 }
 
 @book{xiu2010,
@@ -115,6 +127,75 @@
   year = {2010}
 }
 
+@article{knio2006,
+  author = {Knio, O. and Ma\^{i}tre, O. Le},
+  title = {Uncertainty Propagation in {CFD} Using Polynomial Chaos Decomposition},
+  journal = {Fluid Dynamics Research},
+  volume = {38},
+  number = {9},
+  pages = {616--640},
+  year = {2006}
+}
+
+@inproceedings{eldred2009,
+  author = {Eldred, M.},
+  title = {Recent Advances in Non-Intrusive Polynomial Chaos and Stochastic Collocation Methods for Uncertainty Analysis and Design},
+  booktitle = {Structures, Structural Dynamics, and Materials Conference},
+  month = {May},
+  year = {2009}
+}
+
+@book{maitre2010,
+  author = {Ma\^{i}tre, O. Le and Knio, O.},
+  title = {Spectral Methods for Uncertainty Quantification: With Applications to Computational Fluid Dynamics},
+  year = {2010},
+  publisher = {Springer}
+}
+
+%
+% Sparse grids.
+%
+@article{heiss2008,
+  author = {Heiss, F. and Winschel, V.},
+  title = {Likelihood Approximation by Numerical Integration on Sparse Grids},
+  journal = {Journal of Econometrics},
+  volume = {144},
+  number = {1},
+  pages = {62--80},
+  year = {2008}
+}
+
+%
+% Application of spectral methods.
+%
+@inproceedings{bhardwaj2006,
+  author = {Bhardwaj, S. and Vrudhula, S. and Ghanta, P. and Cao, Y.},
+  title = {Modeling of Intra-Die Process Variations for Accurate Analysis and Optimization of Nano-Scale Circuits},
+  booktitle = {DAC},
+  year = {2006},
+  pages = {791--796}
+}
+
+@inproceedings{ghanta2006,
+  author = {Ghanta, P. and Vrudhula, S. and Bhardwaj, S. and Panda, R.},
+  title = {Stochastic Variational Analysis of Large Power Grids Considering Intra-Die Correlations},
+  booktitle = {DAC},
+  year = {2006},
+  pages = {211--216}
+}
+
+@inproceedings{shen2009,
+  author = {Shen, R. and Mi, N. and Tan, S. and Cai, Y. and Hong, X.},
+  booktitle = {ASP-DAC},
+  title = {Statistical Modeling and Analysis of Chip-Level Leakage Power by Spectral Stochastic Method},
+  year = {2009},
+  month = {January},
+  pages = {161--166}
+}
+
+%
+% Tools.
+%
 @online{ptm,
   title = {Predictive Technology Model},
   organization = {Nanoscale Integration and Modeling Group, Arizona State University},
@@ -131,72 +212,4 @@
   title = {{HotSpot}},
   organization = {Laboratory for Computer Architecture, University of Virginia},
   url = {http://lava.cs.virginia.edu/HotSpot/}
-}
-
-@inproceedings{shen2009,
-  author = {Shen, R. and Mi, N. and Tan, S. and Cai, Y. and Hong, X.},
-  booktitle = {ASP-DAC'09},
-  title = {Statistical modeling and analysis of chip-level leakage power by spectral stochastic method},
-  year = {2009},
-  month = {January},
-  pages = {161--166}
-}
-
-@misc{burkardt2011,
-  title = {Sparse Grids for Stochastic Integrals},
-  author = {Burkardt, J.},
-  location = {Workshop on Efficient Numerical Methods for PDE’s, Ajou University},
-  year = {2011}
-}
-
-@inproceedings{eldred2009,
-  author = {Eldred, M.},
-  title = {Recent Advances in Non-Intrusive Polynomial Chaos and Stochastic Collocation Methods for Uncertainty Analysis and Design},
-  booktitle = {Structures, Structural Dynamics, and Materials Conference},
-  month = {May},
-  year = {2009}
-}
-
-@article{heiss2008,
-  author = {Heiss, F. and Winschel, V.},
-  title = {Likelihood approximation by numerical integration on sparse grids},
-  journal = {Journal of Econometrics},
-  volume = {144},
-  number = {1},
-  pages = {62--80},
-  year = {2008}
-}
-
-@book{maitre2010,
-  author = {Ma\^{i}tre, O. Le and Knio, O.},
-  title = {Spectral Methods for Uncertainty Quantification: With Applications to Computational Fluid Dynamics},
-  year = {2010},
-  publisher = {Springer}
-}
-
-@inproceedings{bhardwaj2006,
-  author = {Bhardwaj, S. and Vrudhula, S. and Ghanta, P. and Cao, Y.},
-  title = {Modeling of intra-die process variations for accurate analysis and optimization of nano-scale circuits},
-  booktitle = {DAC'06},
-  year = {2006},
-  pages = {791--796}
-}
-
-@inproceedings{ghanta2006,
-  author = {Ghanta, P. and Vrudhula, S. and Bhardwaj, S. and Panda, R.},
-  title = {Stochastic variational analysis of large power grids considering intra-die correlations},
-  booktitle = {DAC'06},
-  year = {2006},
-  pages = {211--216}
-}
-
-@article{cheng2011,
-  author = {Cheng, L. and Gupta, P. and Spanos, C. and Qian, K. and He, L.},
-  journal = {Computer-Aided Design of Integrated Circuits and Systems},
-  title = {Physically Justifiable Die-Level Modeling of Spatial Variation in View of Systematic Across Wafer Variability},
-  year = {2011},
-  month = {March},
-  volume = {30},
-  number = {3},
-  pages = {388--401}
 }
