@@ -8,7 +8,7 @@ The PC coefficients in \eref{pc-expansion} should be evaluated according to the 
 \[
   \oQuad{\vars}{\qdlevel}{f} \eqdef \sum_{i = 1}^{\qdorder} f(\qdn{\vZ}_i) \qdw_i
 \]
-where $\qdn{\vZ}_i \in \real^\vars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively. The level $\qdlevel$ is defined as the index of the quadrature in the corresponding family of rules with increasing precision; this value should be chosen in such a way that the rule is exact for polynomials of total order at least $2 \pcorder$ (twice the order of the PC expansion), which can be seen in \eref{pc-coefficients}. Therefore, $\qdlevel \geq \pcorder + 1$ since the quadrature is Gaussian. Hence, \eref{pc-coefficients} is rewritten as
+where $\qdn{\vZ}_i \in \real^\vars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively. The level $\qdlevel$ is defined as the index of the quadrature in the corresponding family of rules with increasing precision; this value should be chosen in such a way that the rule is exact for polynomials of total order at least $2 \pcorder$ (twice the order of the PC expansion), which can be seen in \eref{pc-coefficients} \cite{eldred2009}. Therefore, $\qdlevel \geq \pcorder + 1$ since the quadrature is Gaussian. Hence, \eref{pc-coefficients} is rewritten as
 \[
   \pcc{\vP}_i(0) = \frac{1}{\pcn_i} \oQuad{\vars}{\qdlevel}{\vP(0, \o) \pcb_i(\vZ(\o))}
 \]

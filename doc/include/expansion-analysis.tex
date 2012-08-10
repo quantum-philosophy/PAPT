@@ -2,7 +2,7 @@ For each time interval of the input dynamic power profile $\prof{\mP_\dyn}$, \er
 \begin{equation} \elabel{pc-k}
   \oPC{\vars}{\pcorder}{\vTO_k(\t, \o)} = \sum_{i = 1}^{\pcterms} \pcc{\vTO}_{ki}(\t) \pcb_i(\vZ(\o))
 \end{equation}
-where $\t \in [0, \dt_k]$, and $\pcc{\vTO}_{ki}(\t)$ are found using \eref{pc-recurrence} and \eref{fourier-output}. Let us, for example, find the expectation and covariance of the expansion. By definition \cite{xiu2002}, the first polynomial $\pcb_1(\vZ(\o))$ in a polynomial basis is 1, hence, $\oExp{\pcb_1(\vZ(\o))} = 1$. Therefore, using \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ(\o))} = 0$ for $i \in \{ 2, \dotsc, \pcterms \}$. Consequently, the expectation and covariance are
+where $\t \in [0, \dt_k]$, and $\pcc{\vTO}_{ki}(\t)$ are found using \eref{pc-recurrence} and \eref{fourier-output}. Let us, for example, find the expectation and covariance of the expansion. By definition \cite{xiu2002}, the first polynomial $\pcb_1(\vZ(\o))$ in a normalized polynomial basis is 1, hence, $\oExp{\pcb_1(\vZ(\o))} = 1$. Therefore, using \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ(\o))} = 0$ for $i \in \{ 2, \dotsc, \pcterms \}$. Consequently, the expectation and covariance are
 \begin{align*}
   & \oExp{\vTO_k(\t, \o)} = \pcc{\vTO}_{k1}(\t) \\
   & \oCov{\vTO_k(\t, \o)} = \sum_{i = 2}^{\pcterms} \pcc{\vTO}_{ki}(\t) \pcc{\vTO}_{ki}(\t)^T \pcn_i
