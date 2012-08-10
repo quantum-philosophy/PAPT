@@ -69,9 +69,10 @@ classdef Base < handle
 
     function [ nodes, grid, norm ] = precomputeGrid(qd, x, psi, index, method)
       sdim = length(x);
+      terms = length(psi);
 
       filename = [ Quadrature.methodStamp(method), ...
-        '_sd', num2str(sdim), '.mat' ];
+        '_sd', num2str(sdim), '_pt', num2str(terms), '.mat' ];
 
       filename = Utils.resolvePath(filename, 'cache');
 

@@ -142,7 +142,7 @@ classdef Base < handle
   end
 
   methods (Access = 'private')
-    [ psi, index ] = constructMD(pc, x, order);
+    psi = constructMD(pc, x, order, index);
 
     function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
       prepareExpansion(pc, sdim, ddim, method)

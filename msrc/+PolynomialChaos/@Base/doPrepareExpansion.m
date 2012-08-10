@@ -2,25 +2,31 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
   doPrepareExpansion(pc, sdim, ddim, method)
 
   order = pc.order;
+  type = lower(method.chaosType);
+
   assert(order == method.chaosOrder, 'The polynomial chaos order is invalid.');
-
-  %
-  % The total-order principle.
-  %
-  terms = factorial(sdim + order) / factorial(sdim) / factorial(order);
-
-  debug({ 'Construction of a new PC expansion.' }, ...
-        { '  Method: %s', PolynomialChaos.methodName(method) }, ...
-        { '  Stochastic dimensions: %d', sdim }, ...
-        { '  Number of terms: %d', terms });
 
   for i = 1:sdim
     x(i) = sympoly([ 'x', num2str(i) ]);
   end
 
-  [ psi, index ] = pc.constructMD(x, order);
+  switch type
+  case 'totalorder'
+    index = PolynomialChaos.constructMultiIndex(sdim, order, [], 'TO');
+  case 'tensorproduct'
+    index = PolynomialChaos.constructMultiIndex(sdim, order, [], 'TP');
+  otherwise
+    error('The method type is unknown.');
+  end
 
-  assert(terms == length(psi), 'The number of terms is invalid.');
+  psi = pc.constructMD(x, order, index);
+
+  terms = length(psi);
+
+  debug({ 'Construction of a new PC expansion.' }, ...
+        { '  Method: %s', PolynomialChaos.methodName(method) }, ...
+        { '  Stochastic dimensions: %d', sdim }, ...
+        { '  Number of terms: %d', terms });
 
   %
   % Now, the Gaussian quadrature rule.

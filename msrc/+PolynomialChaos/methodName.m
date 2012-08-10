@@ -1,3 +1,4 @@
 function s = methodName(method)
-  s = sprintf('%s, order %d', method.chaosName, method.chaosOrder);
+  s = sprintf('%s (%s), order %d', ...
+    method.chaosName, method.chaosType, method.chaosOrder);
 end

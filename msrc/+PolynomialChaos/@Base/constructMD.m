@@ -1,7 +1,5 @@
-function [ psiMD, index ] = constructMD(pc, x, order)
+function psiMD = constructMD(pc, x, order, index)
   sdim = length(x);
-
-  index = PolynomialChaos.computeMultiIndex(ones(1, sdim) * order) + 1;
 
   %
   % Create a 1D polynomial.
