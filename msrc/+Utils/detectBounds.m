@@ -1,13 +1,24 @@
 function [ left, right ] = detectBounds(varargin)
   count = length(varargin);
 
-  range = 'bounded';
+  range = '3sigma';
 
   if isa(varargin{end}, 'struct')
     count = count - 1;
     options = varargin{end};
     if isfield(options, 'range')
       range = options.range;
+    end
+  end
+
+  if isa(range, 'char')
+    if strcmpi(range, 'unbounded')
+      range = @(~, ~) [ -Inf, Inf ];
+    else
+      tokens = regexp(range, '^(.+)sigma$', 'tokens');
+      if isempty(tokens), error('The range in unknown.'); end
+      times = str2num(tokens{1}{1});
+      range = @(mu, sigma) [ mu - times * sigma, mu + times * sigma ];
     end
   end
 
@@ -20,19 +31,13 @@ function [ left, right ] = detectBounds(varargin)
     mn = min(one);
     mx = max(one);
 
-    switch range
-    case 'bounded'
-      exp = mean(one);
-      std = sqrt(var(one));
+    mu = mean(one);
+    sigma = sqrt(var(one));
 
-      left(i) = max(mn, exp - 3 * std);
-      right(i) = min(mx, exp + 3 * std);
-    case 'unbounded'
-      left(i) = mn;
-      right(i) = mx;
-    otherwise
-      error('The method is unknown.');
-    end
+    r = range(mu, sigma);
+
+    left(i) = max(mn, r(1));
+    right(i) = min(mx, r(2));
   end
 
   left = min(left);

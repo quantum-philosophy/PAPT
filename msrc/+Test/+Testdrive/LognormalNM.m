@@ -2,9 +2,11 @@ init;
 
 sdim = 2;
 ddim = 2;
+order = 4;
+samples = 2e4;
 
-n_mu = [ 2, 2 ]';
-n_sigma = [ 0.2, 0.8 ]';
+mu = [ 2, 2 ]';
+sigma = [ 0.2, 0.8 ]';
 
 A = [ 1, 0;
       0, 1 ];
@@ -12,67 +14,31 @@ A = [ 1, 0;
 fprintf('Y = exp((f1(X1, ..., X%d), ..., f%d(X1, ..., X%d))^T)\n', ...
   sdim, ddim, sdim);
 for i = 1:sdim
-  fprintf('X%d ~ N(%.2f, %.2f)\n', i, n_mu(i), n_sigma(i));
+  fprintf('X%d ~ N(%.2f, %.2f)\n', i, mu(i), sigma(i));
 end
 fprintf('\n');
-
-order = 4;
-samples = 2e4;
-
 fprintf('Number of spacial coordinates: %d\n', ddim);
 fprintf('Order of PC: %d\n', order);
 fprintf('Number of samples: %d\n', samples);
-fprintf('\n');
 
+%% Monte Carlo sampling
 %
-% Monte-Carlo
+f = @(x) exp(A * (mu + sigma .* x));
+[ ~, ~, mcRaw ] = MonteCarlo.sample1D(f, [ sdim ddim ], samples);
+
+%% Polynomial Chaos expansion
 %
-
-fprintf('Monte-Carlo simulation...');
-
-f = @(x) exp(A * (n_mu + n_sigma .* x));
-
-t = tic;
-[ mu, var, out_MC ] = MonteCarlo.sample1D(f, [ sdim ddim ], samples);
-fprintf(' %.2f seconds.\n', toc(t));
-
-fprintf('%10s%10s\n', 'mu', 'var');
-for i = 1:ddim
-  fprintf('%10.2f%10.2f\n', mu(i), var(i, i));
-end
-fprintf('\n');
-
-%
-% Polynomial Chaos expansion
-%
-
-fprintf('Polynomial Chaos preparation...');
-t = tic;
 pc = PolynomialChaos.Hermite([ sdim ddim ], struct('chaosOrder', order));
-fprintf(' %.2f seconds.\n', toc(t));
 
 points = pc.points;
-fprintf('Number of quadrature points: %d\n', points);
 
-n_mu = irep(n_mu, 1, points);
-n_sigma = irep(n_sigma, 1, points);
+mu = irep(mu, 1, points);
+sigma = irep(sigma, 1, points);
 
-f = @(x) exp(A * (n_mu + n_sigma .* x));
+f = @(x) exp(A * (mu + sigma .* x));
 
-fprintf('Polynomial Chaos simulation...');
-t = tic;
-[ mu, var, out_PC ] = pc.sample(f, samples);
-fprintf(' %.2f seconds.\n', toc(t));
+[ ~, ~, pcRaw ] = pc.sample(f, samples);
 
-fprintf('%10s%10s\n', 'mu', 'var');
-for i = 1:ddim
-  fprintf('%10.2f%10.2f\n', mu(i), var(i, i));
-end
-fprintf('\n');
-
+%% Comparison
 %
-% Plots
-%
-
-Utils.compareSmooth(...
-  out_MC, out_PC, struct('labels', {{ 'MC', 'PC' }}));
+Utils.compare(mcRaw, pcRaw, 'draw', true);

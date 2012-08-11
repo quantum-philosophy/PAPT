@@ -3,8 +3,8 @@ init;
 c = Config();
 display(c);
 
-orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2 10^3 10^4 ];
+orderSet = [ 1 2 3 4 5 ];
+sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
 pick = [ 0 0 ];
 
@@ -86,15 +86,9 @@ for i = 1:length(orderSet)
     errorVar(i, j) = Utils.NRMSE(mVar, cVar) * 100;
 
     if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
-      % core = 1;
-      % step = round(c.steps / 2);
-      % Utils.compareSmooth(mRaw(:, core, step), ...
-      %   cRaw(:, core, step), { 'Kutta', 'Chaos' });
-
-      errorPDF(i, j) = Utils.comparePDF(mRaw, cRaw, ...
-        c.timeLine, { 'Monte Carlo', 'Polynomial Chaos' }) * 100;
+      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw, 'draw', true) * 100;
     else
-      errorPDF(i, j) = Utils.comparePDF(mRaw, cRaw) * 100;
+      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw) * 100;
     end
 
     fprintf('%15.2f', errorPDF(i, j));

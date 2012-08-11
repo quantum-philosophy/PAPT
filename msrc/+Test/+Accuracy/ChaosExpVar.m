@@ -3,8 +3,8 @@ init;
 c = Config();
 display(c);
 
-orderSet = [ 1 2 3 4 5 6 7 8 9 10 ];
-sampleSet = [ 10^2 10^3 10^4 ];
+orderSet = [ 1 2 3 4 5 ];
+sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
 pick = [ 0 0 ];
 
@@ -89,20 +89,13 @@ time = c.timeLine;
 
 mf = Utils.plotExpStd(time, mExp, mVar);
 title(sprintf('%d-sample Monte Carlo', samples));
+mh = gca;
 
 cf = Utils.plotExpStd(time, cExp, cVar);
 title(sprintf('%d-order Polynomial Chaos', order));
+ch = gca;
 
-%% Make the plots match each other.
-%
-
-lim1 = ylim;
-figure(mf);
-lim2 = ylim;
-lim = [ min(lim1(1), lim2(1)) max(lim1(2), lim2(2)) ];
-ylim(lim);
-figure(cf);
-ylim(lim);
+Utils.evenScale(mh, ch);
 
 %% Comparison of the methods.
 %

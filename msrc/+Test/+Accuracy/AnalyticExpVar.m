@@ -10,19 +10,23 @@ an = Test.constructMonteCarlo(ac);
 
 time = kc.timeLine;
 
-%% Temperature analysis with Kutta.
+%% Temperature analysis with Kutta
 %
 
 Utils.plotExpStd(time, kExp, kVar);
 title(sprintf('%d-sample Monte Carlo with Kutta', kc.monteCarloSamples));
+kh = gca;
 
-%% Temperature analysis with Analytic.
+%% Temperature analysis with Analytic
 %
 
 Utils.plotExpStd(time, aExp, aVar);
 title(sprintf('%d-sample Monte Carlo with Analytic', ac.monteCarloSamples));
+ah = gca;
 
-%% Comparison of the methods.
+Utils.evenScale(kh, ah);
+
+%% Comparison
 %
 
 figure;

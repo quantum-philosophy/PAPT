@@ -1,6 +1,17 @@
-function [ x, dx ] = constructLinearSpace(varargin)
+function x = constructLinearSpace(varargin)
   [ left, right ] = Utils.detectBounds(varargin{:});
-  points = max((right - left) / 0.1, 100);
-  dx = (right - left) / (points - 1);
+
+  if isa(varargin{end}, 'struct')
+    options = varargin{end};
+  else
+    options = struct();
+  end
+
+  if isfield(options, 'points')
+    points = options.points;
+  else
+    points = max((right - left) / 0.1, 100);
+  end
+
   x = linspace(left, right, points);
 end
