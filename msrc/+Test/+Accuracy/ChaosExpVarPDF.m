@@ -3,6 +3,9 @@ init;
 c = Config();
 display(c);
 
+pfunction = 'pdf';
+method = 'histogram';
+
 orderSet = [ 1 2 3 4 5 ];
 sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
@@ -25,7 +28,7 @@ errorPDF = zeros(orderCount, sampleCount);
 
 fprintf('\n');
 
-names = { 'NRMSE(PDF)', 'NRMSE(Exp)', 'NRMSE(Var)' };
+names = { sprintf('NRMSE(%s)', upper(pfunction)), 'NRMSE(Exp)', 'NRMSE(Var)' };
 
 fprintf('%5s | ', '');
 for i = 1:length(names)
@@ -86,9 +89,11 @@ for i = 1:length(orderSet)
     errorVar(i, j) = Utils.NRMSE(mVar, cVar) * 100;
 
     if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
-      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw, 'draw', true) * 100;
+      errorPDF(i, j) = Utils.compareInTime( ...
+        mRaw, cRaw, 'method', method, 'function', pfunction, 'draw', true) * 100;
     else
-      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw) * 100;
+      errorPDF(i, j) = Utils.compareInTime( ...
+        mRaw, cRaw, 'method', method, 'function', pfunction) * 100;
     end
 
     fprintf('%15.2f', errorPDF(i, j));

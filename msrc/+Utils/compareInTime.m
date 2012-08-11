@@ -10,7 +10,7 @@ function [ globalError, localError ] = compareInTime(mcRaw, pcRaw, varargin)
   draw = Utils.extract(options, 'draw', false);
   options.draw = false;
 
-  h = ibar('Comparison of PDFs: step %d out of %d.', tdim);
+  h = ibar('Comparison: step %d out of %d.', tdim);
 
   localError = zeros(ddim, tdim);
 
