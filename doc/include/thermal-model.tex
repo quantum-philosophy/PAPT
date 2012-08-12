@@ -1,4 +1,4 @@
-Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ thermal nodes is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details, which defines the resulting accuracy. The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations (DAEs):
+Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ thermal nodes is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details, which defines the resulting accuracy. The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations:
 \begin{subnumcases}{\elabel{fourier-system-original}}
   \mC \frac{d\vTI(\t, \o)}{d\t} + \mG \vTI(\t, \o) = \mM \vP(\t, \o) \elabel{fourier-original} \\
   \vTO(\t, \o) = \mM^T \vTI(\t, \o) + \vTO_\amb
@@ -10,7 +10,7 @@ where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the t
 \end{subnumcases}
 where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a nonlinear system of differential equations due to $\vP(\t, \o)$, which has an arbitrary dependency on temperature (see \eref{power-model}). Hence, there are no closed-form solutions to \eref{fourier-de}.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of ordinary differential equations (ODEs), which can be solved analytically. The solution is
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of ordinary differential equations that can be solved analytically. The solution is
 \begin{equation} \elabel{ode-solution}
   \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \o)
 \end{equation}
@@ -27,4 +27,4 @@ where $\t \in [ 0, \dt_k ]$ and
 \begin{align*}
   & \vX_0(0, \o) = \vZero & \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o)
 \end{align*}
-Here, without loss of generality, we let the initial temperature be equal to the ambient temperature. In the deterministic case, the recurrence in \eref{recurrence} can be readily employed to perform the deterministic transient PTA \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a straight-forward analysis of \eref{recurrence} is problematic to undertake due to the presence of nonlinear correlations between and within successive steps.
+Here, without loss of generality, we let the initial temperature be equal to the ambient temperature. In the deterministic case, the recurrence in \eref{recurrence} can be readily employed to perform the deterministic transient PTA \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a straightforward analysis of \eref{recurrence} is problematic to undertake due to the presence of nonlinear correlations between and within successive steps.
