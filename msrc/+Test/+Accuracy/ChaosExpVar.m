@@ -1,6 +1,6 @@
 init;
 
-c = Config();
+c = Config('steps', 100);
 display(c);
 
 orderSet = [ 1 2 3 4 5 ];

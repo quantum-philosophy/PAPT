@@ -9,7 +9,7 @@ kt = HotSpot.Kutta(c.hotspotArguments{:});
 
 %% Define the needed measurements.
 %
-X = [ 10, 100, 1000, 10000, 100000 ];
+X = [ 10^2, 10^3, 10^4, 10^5, 10^6 ];
 
 fprintf('%15s%15s%15s%15s\n', 'Steps', 'Chaos, s', 'Kutta, h', 'Speedup, x');
 

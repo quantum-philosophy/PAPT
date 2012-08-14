@@ -19,10 +19,10 @@ f = @(x) x;
 %% Monte-Carlo
 %
 
-out_MC = f(ibetarnd(alpha, beta, a, b, 1, samples)).';
+mcRaw = f(ibetarnd(alpha, beta, a, b, 1, samples)).';
 
-e = mean(out_MC);
-v = var(out_MC);
+e = mean(mcRaw);
+v = var(mcRaw);
 
 fprintf('MC expectation: %.4f\n', e);
 fprintf('MC variance: %.4f\n', v);
@@ -40,7 +40,7 @@ method = struct( ...
   'jacobiB', b);
 
 pc = PolynomialChaos.Jacobi([ 1, 1 ], method);
-[ e, v, out_PC ] = pc.sample(f, samples);
+[ e, v, pcRaw ] = pc.sample(f, samples);
 
 fprintf('PC expectation: %.4f\n', e);
 fprintf('PC variance: %.4f\n', v);
@@ -48,7 +48,7 @@ fprintf('PC variance: %.4f\n', v);
 %% Comparison
 %
 
-Utils.compareHistogram(out_MC, out_PC)
+Utils.compare(mcRaw, pcRaw, 'draw', true);
 
 x = xlim(gca);
 x = linspace(x(1), x(2), 200);

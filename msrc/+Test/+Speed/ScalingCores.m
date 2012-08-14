@@ -1,6 +1,6 @@
 init;
 
-steps = 1000;
+steps = 10^3;
 
 %% Define the needed measurements.
 %

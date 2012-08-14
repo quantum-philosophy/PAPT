@@ -11,7 +11,7 @@ classdef Config < handle
     %
     % The total number of loaded samples of the MC method.
     %
-    monteCarloTotalSamples = 10^4;
+    monteCarloTotalSamples = 10^5;
 
     %
     % The number of samples to use when sampling a PC expansion.
@@ -65,6 +65,11 @@ classdef Config < handle
     % The scaling coefficient of the dynamic power.
     %
     powerScale = 2;
+
+    %
+    % The number of steps in system profiles.
+    %
+    steps
   end
 
   %
@@ -78,11 +83,6 @@ classdef Config < handle
     powerTrace
     hotspotConfig
     hotspotLine
-
-    %
-    % The number of steps in system profiles.
-    %
-    steps
 
     %
     % The loaded dynamic power profile.
