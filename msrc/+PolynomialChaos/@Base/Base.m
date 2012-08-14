@@ -31,7 +31,7 @@ classdef Base < handle
     norm
 
     %
-    % The grid for integration in multiple stochastic and deterministic dimensions.
+    % The grid for integration in multiple stochastic dimensions.
     %
     grid
 
@@ -122,9 +122,7 @@ classdef Base < handle
         samples = f(pc.nodes);
       end
 
-      for i = 1:terms
-        newCoeff(:, i) = sum(samples .* grid{i}, 2);
-      end
+      newCoeff = samples * pc.grid;
     end
   end
 

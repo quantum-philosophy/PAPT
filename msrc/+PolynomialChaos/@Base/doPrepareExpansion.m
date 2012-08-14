@@ -37,14 +37,7 @@ function [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
   points = qd.points;
   nodes = qd.nodes;
   norm = qd.norm;
-
-  %
-  % Precompute the grid for the given number of deterministic dimensions.
-  %
-  grid = cell(terms);
-  for i = 1:terms
-    grid{i} = irep(qd.grid(i, :), ddim, 1);
-  end
+  grid = transpose(qd.grid); % to multiply on the right
 
   %
   % Construct the final polynomial with abstract coefficients
