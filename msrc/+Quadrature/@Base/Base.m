@@ -38,6 +38,9 @@ classdef Base < handle
     [ nodes, weights ] = construct1D(qd, order);
     [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order);
     norm = computeNormalizationConstant(qd, i, index);
+  end
+
+  methods (Static, Abstract)
     points = countSparseGridPoints(qd, sdim, order);
   end
 
@@ -83,8 +86,10 @@ classdef Base < handle
         save(filename, 'nodes', 'grid', 'norm', '-v7.3');
       end
     end
+  end
 
-    function points = countTensorProductPoints(qd, sdim, order)
+  methods (Static)
+    function points = countTensorProductPoints(sdim, order)
       points = order^sdim;
     end
   end

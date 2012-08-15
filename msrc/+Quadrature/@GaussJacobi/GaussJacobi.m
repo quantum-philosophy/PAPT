@@ -27,17 +27,27 @@ classdef GaussJacobi < Quadrature.Base
     end
 
     function [ nodes, weights, points ] = constructSparseGrid(qd, sdim, order, level)
-      f = @(l) jacobi_compute(l, qd.alpha, qd.beta);
-      [ nodes, weights ] = nwspgr(f, sdim, order);
-      nodes = transpose(nodes);
-      weights = transpose(weights);
-      points = size(weights, 2);
-    end
+      o = ones(1, sdim);
+      rule  = o * 9;
+      alpha = o * qd.alpha;
+      beta  = o * qd.beta;
+      tol = sqrt(eps);
 
-    function points = countSparseGridPoints(qd, sdim, order, level)
-      f = @(l) jacobi_compute(l, qd.alpha, qd.beta);
-      [ ~, weights ] = nwspgr(f, sdim, order);
-      points = length(weights);
+      total_points = sparse_grid_mixed_size_total(sdim, level, rule);
+
+      points = sparse_grid_mixed_size(sdim, level, rule, alpha, beta, tol);
+
+      sparse_unique_index = sparse_grid_mixed_unique_index( ...
+        sdim, level, rule, alpha, beta, tol, points, total_points);
+
+      [ sparse_order, sparse_index ] = sparse_grid_mixed_index( ...
+        sdim, level, rule, points, total_points, sparse_unique_index);
+
+      nodes = sparse_grid_mixed_point(sdim, level, rule, ...
+        alpha, beta, points, sparse_order, sparse_index);
+
+      weights = sparse_grid_mixed_weight(sdim, level, rule, ...
+        alpha, beta, points, total_points, sparse_unique_index);
     end
 
     function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
@@ -56,6 +66,18 @@ classdef GaussJacobi < Quadrature.Base
         (gamma(n + 1) .* gamma(n + alpha + beta + 1));
 
       norm = prod(one .* two);
+    end
+  end
+
+  methods (Static)
+    function points = countSparseGridPoints(sdim, order, level)
+      o = ones(1, sdim);
+      rule  = o * 9;
+      alpha = o * 69;
+      beta  = o * 69;
+      tol = sqrt(eps);
+
+      points = sparse_grid_mixed_size(sdim, level, rule, alpha, beta, tol);
     end
   end
 end

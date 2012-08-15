@@ -1,15 +1,7 @@
 function [ left, right ] = detectBounds(varargin)
-  count = length(varargin);
+  [ raw, options ] = Options.extract(varargin{:});
 
-  range = '3sigma';
-
-  if isa(varargin{end}, 'struct')
-    count = count - 1;
-    options = varargin{end};
-    if isfield(options, 'range')
-      range = options.range;
-    end
-  end
+  range = options.get('range', '3sigma');
 
   if isa(range, 'char')
     if strcmpi(range, 'unbounded')
@@ -21,6 +13,8 @@ function [ left, right ] = detectBounds(varargin)
       range = @(mu, sigma) [ mu - times * sigma, mu + times * sigma ];
     end
   end
+
+  count = length(raw);
 
   left = zeros(count, 1);
   right = zeros(count, 1);

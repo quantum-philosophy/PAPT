@@ -4,7 +4,7 @@ clc;
 %
 mu = 0;
 sigma = 1;
-times = 4;
+times = 3;
 
 max = mu + times * sigma;
 min = mu - max;
@@ -25,7 +25,7 @@ if 0
 
   alpha = phat(1);
 else
-  f = @(a) Utils.NRMSE(n, ibetapdf(x, a, a, min, max));
+  f = @(a) Stats.NRMSE(n, ibetapdf(x, a, a, min, max));
   alpha = fminsearch(f, 8);
 end
 

@@ -48,7 +48,7 @@ fprintf('PC variance: %.4f\n', v);
 %% Comparison
 %
 
-Utils.compare(mcRaw, pcRaw, 'draw', true);
+Stats.compare(mcRaw, pcRaw, 'draw', true);
 
 x = xlim(gca);
 x = linspace(x(1), x(2), 200);

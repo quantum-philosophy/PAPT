@@ -21,12 +21,14 @@ classdef GaussHermitePhysicists < Quadrature.Base
       weights = weights / (sqrt(pi))^sdim;
     end
 
-    function points = countSparseGridPoints(qd, sdim, order, level)
-      points = sparse_grid_herm_size(sdim, level);
-    end
-
     function norm = computeNormalizationConstant(qd, i, index)
       norm = prod(factorial(index(i, :) - 1));
+    end
+  end
+
+  methods (Static)
+    function points = countSparseGridPoints(sdim, order, level)
+      points = sparse_grid_herm_size(sdim, level);
     end
   end
 end

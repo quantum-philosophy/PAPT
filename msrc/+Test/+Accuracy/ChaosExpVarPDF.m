@@ -1,6 +1,6 @@
 init;
 
-c = Config();
+c = Config('steps', 100);
 display(c);
 
 method = 'histogram';
@@ -10,7 +10,7 @@ pfunction = 'pdf';
 orderSet = [ 1 2 3 4 5 ];
 sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
-pick = [ 0 0 ];
+pick = [ 4 4 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
@@ -89,17 +89,17 @@ for i = 1:length(orderSet)
     mVar = mVAR{j};
     mRaw = mRAW{j};
 
-    errorExp(i, j) = Utils.NRMSE(mExp, cExp) * 100;
-    errorVar(i, j) = Utils.NRMSE(mVar, cVar) * 100;
+    errorExp(i, j) = Stats.NRMSE(mExp, cExp) * 100;
+    errorVar(i, j) = Stats.NRMSE(mVar, cVar) * 100;
 
-    if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
-      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw, ...
+    if i == pick(1) && j == pick(2)
+      errorPDF(i, j) = Stats.compare(mRaw, cRaw, ...
         'method', method, ...
         'range', range, ...
         'function', pfunction, ...
         'draw', true) * 100;
     else
-      errorPDF(i, j) = Utils.compareInTime(mRaw, cRaw, ...
+      errorPDF(i, j) = Stats.compare(mRaw, cRaw, ...
         'method', method, ...
         'range', range, ...
         'function', pfunction) * 100;

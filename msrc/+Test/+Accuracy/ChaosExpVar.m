@@ -6,7 +6,7 @@ display(c);
 orderSet = [ 1 2 3 4 5 ];
 sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
-pick = [ 0 0 ];
+pick = [ 4 4 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
@@ -39,8 +39,8 @@ for i = 1:length(orderSet)
   [ cexp, cvar, ~, cexpEm, cvarEm ] = Test.sampleChaos(ch, c);
 
   fprintf('%15.2f%15.2f', ...
-    Utils.NRMSE(cexp, cexpEm) * 100, ...
-    Utils.NRMSE(cvar, cvarEm) * 100);
+    Stats.NRMSE(cexp, cexpEm) * 100, ...
+    Stats.NRMSE(cvar, cvarEm) * 100);
 
   for j = 1:length(sampleSet);
     c.tune('monteCarloSamples', sampleSet(j));
@@ -58,8 +58,8 @@ for i = 1:length(orderSet)
     %% Comparison of the methods.
     %
 
-    errorExp(i, j) = Utils.NRMSE(mexp, cexp) * 100;
-    errorVar(i, j) = Utils.NRMSE(mvar, cvar) * 100;
+    errorExp(i, j) = Stats.NRMSE(mexp, cexp) * 100;
+    errorVar(i, j) = Stats.NRMSE(mvar, cvar) * 100;
 
     if i == pick(1) && j == pick(2)
       mExp = mexp;
@@ -87,37 +87,35 @@ samples = sampleSet(pick(2));
 
 time = c.timeLine;
 
-mf = Utils.plotExpStd(time, mExp, mVar);
+mf = Stats.drawEvolution(time, mExp, mVar);
 title(sprintf('%d-sample Monte Carlo', samples));
-mh = gca;
 
-cf = Utils.plotExpStd(time, cExp, cVar);
+cf = Stats.drawEvolution(time, cExp, cVar);
 title(sprintf('%d-order Polynomial Chaos', order));
-ch = gca;
 
-Utils.evenScale(mh, ch);
+Utils.evenScale(mf, cf);
 
 %% Comparison of the methods.
 %
 
 figure;
 subplot(2, 1, 1);
-title('Difference of Expectation');
+title('Error of Expectation');
 for i = 1:c.cores
   color = Utils.pickColor(i);
-  line(time, mExp(i, :) - cExp(i, :), 'Color', color);
+  line(time, (mExp(i, :) - cExp(i, :)) ./ mExp(i, :) * 100, 'Color', color);
 end
 xlabel('Time, s');
-ylabel('Exp(PC) - Exp(MC), C');
+ylabel('Error, %');
 
 subplot(2, 1, 2);
-title('Difference of Variance');
+title('Error of Variance');
 for i = 1:c.cores
   color = Utils.pickColor(i);
-  line(time, mVar(i, :) - cVar(i, :), 'Color', color);
+  line(time, (mVar(i, :) - cVar(i, :)) ./ mVar(i, :) * 100, 'Color', color);
 end
 xlabel('Time, s');
-ylabel('Var(PC) - Var(MC), C^2');
+ylabel('Error, %');
 
 figure;
 subplot(2, 1, 1);
@@ -133,3 +131,9 @@ color = Utils.pickColor(1);
 line(orderSet, errorVar(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE(Var), %');
+
+ExpNRMSE = Stats.NRMSE(mExp, cExp) * 100;
+VarNRMSE = Stats.NRMSE(mVar, cVar) * 100;
+
+fprintf('NRMSE(Exp): %.2f%%\n', ExpNRMSE);
+fprintf('NRMSE(Var): %.2f%%\n', VarNRMSE);

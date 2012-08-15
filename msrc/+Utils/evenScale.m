@@ -1,9 +1,12 @@
-function evenScale(h1, h2)
-  lim1 = get(h1, 'ylim');
-  lim2 = get(h2, 'ylim');
+function evenScale(one, two)
+  one = gca(one);
+  two = gca(two);
 
-  lim0 = [ min(lim1(1), lim2(1)) max(lim1(2), lim2(2)) ];
+  oneLimit = get(one, 'ylim');
+  twoLimit = get(two, 'ylim');
 
-  set(h1, 'ylim', lim0);
-  set(h2, 'ylim', lim0);
+  zeroLimit = [ min(oneLimit(1), twoLimit(1)) max(oneLimit(2), twoLimit(2)) ];
+
+  set(one, 'ylim', zeroLimit);
+  set(two, 'ylim', zeroLimit);
 end

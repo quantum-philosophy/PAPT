@@ -36,4 +36,4 @@ f = @(x) exp(sum(mu + sigma .* x));
 
 %% Comparison
 %
-Utils.compare(mcRaw, pcRaw, 'draw', true);
+Stats.compare(mcRaw, pcRaw, 'draw', true);

@@ -13,5 +13,5 @@ t = tic;
 time = toc(t);
 fprintf('Simulation time with Chaos: %.2f s\n', time);
 
-Utils.plotExpStd(c.timeLine, Utils.toCelsius(exp), var);
+Stats.drawEvolution(c.timeLine, Utils.toCelsius(exp), var);
 title(sprintf('Solution with Polynomial Chaos (%.2f s)', time));

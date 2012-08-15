@@ -1,6 +1,11 @@
 init;
 
-methodSet = { 'GaussHermiteProbabilists', 'GaussHermitePhysicists', 'KronrodPatterson', 'Sandia' };
+methodSet = { ...
+  'GaussHermiteProbabilists', ...
+  'GaussHermitePhysicists', ...
+  'GaussJacobi', ...
+  'KronrodPatterson' };
+
 orderSet = [ 1 2 3 4 5 ];
 coreSet = [ 2 4 8 16 32 ];
 
@@ -12,7 +17,7 @@ sdimSet = zeros(coreCount, 1);
 
 for i = 1:coreCount
   floorplan = Utils.resolveTest(coreSet(i));
-  C = PrincipalComponent.perform(floorplan);
+  C = PrincipalComponent.perform(floorplan, HotSpot.Base.Lnom);
   sdimSet(i) = size(C, 2);
 end
 
@@ -27,29 +32,28 @@ for k = 1:(2 * methodCount)
     fprintf('Method: %s (TP)\n', method);
   end
 
-  fprintf('%15s', 'Order');
+  fprintf('%10s%10s%10s', 'PC Order', 'QD Order', 'QD Level');
   for i = 1:coreCount
     fprintf('%15s', sprintf('Cores %d(%d)', coreSet(i), sdimSet(i)));
   end
   fprintf('\n');
 
   for i = 1:orderCount
-    polynomialOrder = orderSet(i);
+    chaosOrder = orderSet(i);
+    quadratureOrder = chaosOrder + 1;
+    quadratureLevel = chaosOrder; % ceil(log2(quadratureOrder + 1) - 1);
 
-    fprintf('%15d', polynomialOrder);
+    fprintf('%10d%10d%10d', chaosOrder, quadratureOrder, quadratureLevel);
 
     for j = 1:coreCount
       sdim = sdimSet(j);
 
-      quadratureOrder = ...
-        Quadrature.(method).polynomialOrderToQuadratureOrder(polynomialOrder);
-
       if sparse
-        points = ...
-          Quadrature.(method).countSparseGridPoints(sdim, quadratureOrder);
+        points = Quadrature.(method).countSparseGridPoints(...
+          sdim, quadratureOrder, quadratureLevel);
       else
-        points = ...
-          Quadrature.(method).countTensorProductPoints(sdim, quadratureOrder);
+        points = Quadrature.(method).countTensorProductPoints(...
+          sdim, quadratureOrder);
       end
 
       fprintf('%15d', points);
