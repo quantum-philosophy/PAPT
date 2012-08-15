@@ -160,7 +160,7 @@ classdef Base < handle
       else
         [ nodes, norm, grid, rvPower, rvProd, coeffMap ] = ...
           pc.doPrepareExpansion(sdim, ddim, method);
-        save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap', '-7.3');
+        save(filename, 'nodes', 'norm', 'grid', 'rvPower', 'rvProd', 'coeffMap', '-v7.3');
       end
     end
   end
