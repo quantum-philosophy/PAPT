@@ -6,7 +6,7 @@ display(c);
 orderSet = [ 1 2 3 4 5 ];
 sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
-pick = [ 0 0 ];
+pick = [ 4 4 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
@@ -100,22 +100,22 @@ Utils.evenScale(mf, cf);
 
 figure;
 subplot(2, 1, 1);
-title('Difference of Expectation');
+title('Error of Expectation');
 for i = 1:c.cores
   color = Utils.pickColor(i);
-  line(time, mExp(i, :) - cExp(i, :), 'Color', color);
+  line(time, (mExp(i, :) - cExp(i, :)) ./ mExp(i, :) * 100, 'Color', color);
 end
 xlabel('Time, s');
-ylabel('Exp(PC) - Exp(MC), C');
+ylabel('Error, %');
 
 subplot(2, 1, 2);
-title('Difference of Variance');
+title('Error of Variance');
 for i = 1:c.cores
   color = Utils.pickColor(i);
-  line(time, mVar(i, :) - cVar(i, :), 'Color', color);
+  line(time, (mVar(i, :) - cVar(i, :)) ./ mVar(i, :) * 100, 'Color', color);
 end
 xlabel('Time, s');
-ylabel('Var(PC) - Var(MC), C^2');
+ylabel('Error, %');
 
 figure;
 subplot(2, 1, 1);
@@ -131,3 +131,9 @@ color = Utils.pickColor(1);
 line(orderSet, errorVar(:, pick(2)), 'Color', color);
 xlabel('Polynomial Order');
 ylabel('NRMSE(Var), %');
+
+ExpNRMSE = Stats.NRMSE(mExp, cExp) * 100;
+VarNRMSE = Stats.NRMSE(mVar, cVar) * 100;
+
+fprintf('NRMSE(Exp): %.2f%%\n', ExpNRMSE);
+fprintf('NRMSE(Var): %.2f%%\n', VarNRMSE);

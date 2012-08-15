@@ -1,5 +1,5 @@
-function rmse = RMSE(observed, predicted)
+function rmse = RMSE(observed, predicted, offset)
   o = observed(:);
   p = predicted(:);
-  nrmse = sqrt(sum((o - p) .^ 2) / numel(o));
+  rmse = sqrt(sum((o - p) .^ 2) / numel(o));
 end

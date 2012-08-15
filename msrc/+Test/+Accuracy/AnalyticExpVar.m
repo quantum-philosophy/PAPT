@@ -29,21 +29,21 @@ Utils.evenScale(kf, af);
 
 figure;
 subplot(2, 1, 1);
-title('Difference of Expectations');
+title('Error of Expectation');
 for i = 1:kc.cores
   color = Utils.pickColor(i);
-  line(time, kExp(i, :) - aExp(i, :), 'Color', color);
+  line(time, (kExp(i, :) - aExp(i, :)) ./ kExp(i, :) * 100, 'Color', color);
 end
-ylabel('Exp(Kutta) - Exp(Analytic), C');
+ylabel('Error, %');
 xlabel('Time, s');
 
 subplot(2, 1, 2);
-title('Difference of Variances');
+title('Error of Variance');
 for i = 1:kc.cores
   color = Utils.pickColor(i);
-  line(time, kVar(i, :) - aVar(i, :), 'Color', color);
+  line(time, (kVar(i, :) - aVar(i, :)) ./ kVar(i, :) * 100, 'Color', color);
 end
-ylabel('Var(Kutta) - Var(Analytic), C^2');
+ylabel('Error, %');
 xlabel('Time, s');
 
 ExpNRMSE = Stats.NRMSE(kExp, aExp) * 100;

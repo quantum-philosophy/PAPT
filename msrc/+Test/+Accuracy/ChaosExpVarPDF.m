@@ -10,7 +10,7 @@ pfunction = 'pdf';
 orderSet = [ 1 2 3 4 5 ];
 sampleSet = [ 10^2 10^3 10^4 10^5 ];
 
-pick = [ 0 0 ];
+pick = [ 4 4 ];
 
 orderCount = length(orderSet);
 sampleCount = length(sampleSet);
@@ -92,7 +92,7 @@ for i = 1:length(orderSet)
     errorExp(i, j) = Stats.NRMSE(mExp, cExp) * 100;
     errorVar(i, j) = Stats.NRMSE(mVar, cVar) * 100;
 
-    if orderSet(i) == pick(1) && sampleSet(j) == pick(2)
+    if i == pick(1) && j == pick(2)
       errorPDF(i, j) = Stats.compare(mRaw, cRaw, ...
         'method', method, ...
         'range', range, ...
