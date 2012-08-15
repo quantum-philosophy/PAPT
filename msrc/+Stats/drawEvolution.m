@@ -6,8 +6,7 @@ function h = drawEvolution(time, exp, var)
 
   for i = 1:count
     color = Utils.pickColor(i);
-    line(time, exp(i, :), 'Color', color);
-    line(time, exp(i, :) + std(i, :), 'Color', color, 'LineStyle', '--');
-    line(time, exp(i, :) - std(i, :), 'Color', color, 'LineStyle', '--');
+    line(time, exp(i, :), 'Color', color, 'LineWidth', 1.5);
+    line(time, exp(i, :) + 3 * std(i, :), 'Color', color, 'LineStyle', '--');
   end
 end

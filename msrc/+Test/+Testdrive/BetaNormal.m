@@ -4,7 +4,7 @@ clc;
 %
 mu = 0;
 sigma = 1;
-times = 4;
+times = 3;
 
 max = mu + times * sigma;
 min = mu - max;
