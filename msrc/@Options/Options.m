@@ -32,7 +32,7 @@ classdef Options < dynamicprops
 
         names = fieldnames(options);
         for i = 1:length(names)
-          o.addprop(names{i});
+          if ~isprop(o, names{i}) o.addprop(names{i}); end
           o.(names{i}) = options.(names{i});
         end
       end
@@ -40,7 +40,9 @@ classdef Options < dynamicprops
 
     function display(o)
       fprintf('Options:\n');
-      for name = properties(o); name = name{1};
+      names = properties(o);
+      for i = 1:length(names)
+        name = names{i};
         value = o.(name);
         if isa(value, 'char')
           fprintf('%10s: %s\n', name, value);

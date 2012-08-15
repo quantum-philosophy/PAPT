@@ -1,6 +1,6 @@
 init;
 
-c = Config();
+c = Config('steps', 100);
 c.display();
 
 step = round(c.steps / 2);
@@ -12,7 +12,8 @@ mc = Test.constructMonteCarlo(c);
 [ ~, ~, mRaw ] = Test.sampleMonteCarlo(mc, c);
 
 for i = 1:c.cores
-  Utils.compareHistogram(mRaw(:, i, step), ...
-    cRaw(:, i, step), { c.assessmentMethod, 'Chaos' });
-  title(sprintf('Probability Density of Core %d', i));
+  Stats.compare(mRaw(:, i, step),  cRaw(:, i, step), ...
+    'method', 'histogram', 'draw', true);
+  title([ 'Probability Density of Core ', num2str(i) ]);
+  legend(c.assessmentMethod, 'Chaos');
 end
