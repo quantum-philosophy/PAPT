@@ -1,4 +1,4 @@
-function h = plotExpStd(time, exp, var)
+function h = drawEvolution(time, exp, var)
   h = figure;
 
   std = sqrt(var);
@@ -10,7 +10,4 @@ function h = plotExpStd(time, exp, var)
     line(time, exp(i, :) + std(i, :), 'Color', color, 'LineStyle', '--');
     line(time, exp(i, :) - std(i, :), 'Color', color, 'LineStyle', '--');
   end
-
-  xlabel('Time, s');
-  ylabel('Temperature, C');
 end

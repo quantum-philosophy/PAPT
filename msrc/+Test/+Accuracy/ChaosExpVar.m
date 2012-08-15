@@ -39,8 +39,8 @@ for i = 1:length(orderSet)
   [ cexp, cvar, ~, cexpEm, cvarEm ] = Test.sampleChaos(ch, c);
 
   fprintf('%15.2f%15.2f', ...
-    Utils.NRMSE(cexp, cexpEm) * 100, ...
-    Utils.NRMSE(cvar, cvarEm) * 100);
+    Stats.NRMSE(cexp, cexpEm) * 100, ...
+    Stats.NRMSE(cvar, cvarEm) * 100);
 
   for j = 1:length(sampleSet);
     c.tune('monteCarloSamples', sampleSet(j));
@@ -58,8 +58,8 @@ for i = 1:length(orderSet)
     %% Comparison of the methods.
     %
 
-    errorExp(i, j) = Utils.NRMSE(mexp, cexp) * 100;
-    errorVar(i, j) = Utils.NRMSE(mvar, cvar) * 100;
+    errorExp(i, j) = Stats.NRMSE(mexp, cexp) * 100;
+    errorVar(i, j) = Stats.NRMSE(mvar, cvar) * 100;
 
     if i == pick(1) && j == pick(2)
       mExp = mexp;
@@ -87,15 +87,13 @@ samples = sampleSet(pick(2));
 
 time = c.timeLine;
 
-mf = Utils.plotExpStd(time, mExp, mVar);
+mf = Stats.drawEvolution(time, mExp, mVar);
 title(sprintf('%d-sample Monte Carlo', samples));
-mh = gca;
 
-cf = Utils.plotExpStd(time, cExp, cVar);
+cf = Stats.drawEvolution(time, cExp, cVar);
 title(sprintf('%d-order Polynomial Chaos', order));
-ch = gca;
 
-Utils.evenScale(mh, ch);
+Utils.evenScale(mf, cf);
 
 %% Comparison of the methods.
 %

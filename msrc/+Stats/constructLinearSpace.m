@@ -1,5 +1,5 @@
 function x = constructLinearSpace(varargin)
-  [ left, right ] = Utils.detectBounds(varargin{:});
+  [ left, right ] = Stats.detectBounds(varargin{:});
 
   if isa(varargin{end}, 'struct')
     options = varargin{end};

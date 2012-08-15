@@ -25,7 +25,7 @@ if 0
 
   alpha = phat(1);
 else
-  f = @(a) Utils.NRMSE(n, ibetapdf(x, a, a, min, max));
+  f = @(a) Stats.NRMSE(n, ibetapdf(x, a, a, min, max));
   alpha = fminsearch(f, 8);
 end
 

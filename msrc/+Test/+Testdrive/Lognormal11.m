@@ -25,4 +25,4 @@ pc = PolynomialChaos.Hermite([ 1 1 ], struct('chaosOrder', order));
 
 %% Comparison
 %
-Utils.compare(mcRaw, pcRaw, 'draw', true);
+Stats.compare(mcRaw, pcRaw, 'draw', true);

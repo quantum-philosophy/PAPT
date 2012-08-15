@@ -1,10 +1,10 @@
 init;
 
-kc = Config('assessmentMethod', 'Kutta');
+kc = Config('steps', 100, 'assessmentMethod', 'Kutta');
 kt = Test.constructMonteCarlo(kc);
 [ kExp, kVar, kRaw ] = Test.sampleMonteCarlo(kt, kc);
 
-ac = Config('assessmentMethod', 'Analytic');
+ac = Config('steps', 100, 'assessmentMethod', 'Analytic');
 an = Test.constructMonteCarlo(ac);
 [ aExp, aVar, aRaw ] = Test.sampleMonteCarlo(an, ac);
 
@@ -13,18 +13,16 @@ time = kc.timeLine;
 %% Temperature analysis with Kutta
 %
 
-Utils.plotExpStd(time, kExp, kVar);
+kf = Stats.drawEvolution(time, kExp, kVar);
 title(sprintf('%d-sample Monte Carlo with Kutta', kc.monteCarloSamples));
-kh = gca;
 
 %% Temperature analysis with Analytic
 %
 
-Utils.plotExpStd(time, aExp, aVar);
+af = Stats.drawEvolution(time, aExp, aVar);
 title(sprintf('%d-sample Monte Carlo with Analytic', ac.monteCarloSamples));
-ah = gca;
 
-Utils.evenScale(kh, ah);
+Utils.evenScale(kf, af);
 
 %% Comparison
 %
@@ -48,8 +46,8 @@ end
 ylabel('Var(Kutta) - Var(Analytic), C^2');
 xlabel('Time, s');
 
-ExpNRMSE = Utils.NRMSE(kExp, aExp) * 100;
-VarNRMSE = Utils.NRMSE(kVar, aVar) * 100;
+ExpNRMSE = Stats.NRMSE(kExp, aExp) * 100;
+VarNRMSE = Stats.NRMSE(kVar, aVar) * 100;
 
 fprintf('NRMSE(Exp): %.2f%%\n', ExpNRMSE);
 fprintf('NRMSE(Var): %.2f%%\n', VarNRMSE);
