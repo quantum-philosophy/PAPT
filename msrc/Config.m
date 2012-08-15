@@ -131,6 +131,7 @@ classdef Config < handle
       fprintf('Configuration:\n');
       fprintf('  Processing elements: %d\n', c.cores);
       fprintf('  Profile steps: %d\n', c.steps);
+      fprintf('  Power scale: %d\n', c.powerScale);
       fprintf('  Time step: %.2e s\n', c.dt);
       fprintf('  Simulated time: %.2f s\n', c.dt * c.steps);
       fprintf('  Assessment method: %s\n', c.assessmentMethod);
