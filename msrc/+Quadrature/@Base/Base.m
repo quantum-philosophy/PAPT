@@ -80,7 +80,7 @@ classdef Base < handle
         load(filename);
       else
         [ nodes, grid, norm ] = qd.doPrecomputeGrid(x, psi, index, method);
-        save(filename, 'nodes', 'grid', 'norm');
+        save(filename, 'nodes', 'grid', 'norm', '-v7.3');
       end
     end
 
