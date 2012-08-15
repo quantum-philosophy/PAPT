@@ -34,12 +34,6 @@ classdef GaussJacobi < Quadrature.Base
       points = size(weights, 2);
     end
 
-    function points = countSparseGridPoints(qd, sdim, order, level)
-      f = @(l) jacobi_compute(l, qd.alpha, qd.beta);
-      [ ~, weights ] = nwspgr(f, sdim, order);
-      points = length(weights);
-    end
-
     function [ nodes, grid, norm ] = finalize(qd, sdim, nodes, grid, norm)
       nodes = ((qd.b - qd.a) / 2) * nodes + (qd.b + qd.a) / 2;
       norm = norm / (2^(qd.alpha + qd.beta + 1) * beta(qd.alpha + 1, qd.beta + 1))^sdim;
@@ -56,6 +50,14 @@ classdef GaussJacobi < Quadrature.Base
         (gamma(n + 1) .* gamma(n + alpha + beta + 1));
 
       norm = prod(one .* two);
+    end
+  end
+
+  methods (Static)
+    function points = countSparseGridPoints(sdim, order, level)
+      f = @(l) jacobi_compute(l, 69, 69);
+      [ ~, weights ] = nwspgr(f, sdim, order);
+      points = length(weights);
     end
   end
 end
