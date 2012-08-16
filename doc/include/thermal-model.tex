@@ -8,9 +8,9 @@ where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the t
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
-where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a nonlinear system of differential equations due to $\vP(\t, \o)$, which has an arbitrary dependency on temperature (see \eref{power-model}). Hence, there are no closed-form solutions to \eref{fourier-de}.
+where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a system of nonlinear differential equations due to $\vP(\t, \o)$, which has an arbitrary dependency on temperature (see \eref{power-model}). Hence, there are no closed-form solutions to \eref{fourier-de}.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of ordinary differential equations that can be solved analytically. The solution is
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
 \begin{equation} \elabel{ode-solution}
   \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \o)
 \end{equation}
