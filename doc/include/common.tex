@@ -8,6 +8,7 @@
 \usepackage{mathrsfs}
 \usepackage{multirow}
 \usepackage{booktabs}
+\usepackage{graphicx}
 
 \usepackage[maxnames=10, sorting=none]{biblatex}
 \renewcommand*{\bibfont}{\scriptsize}
@@ -28,7 +29,23 @@
 \textheight 750pt
 
 \definecolor{ipurple}{RGB}{195,0,191}
+
 \newcommand{\note}[1]{{\color{ipurple}$\star$}\marginpar{\scriptsize\color{ipurple}#1}}
+
+% ---- Graphics
+\definecolor{iblue}{RGB}{1,173,206}
+\definecolor{iorange}{RGB}{235,113,39}
+\definecolor{iyellow}{RGB}{195,167,6}
+\definecolor{igreen}{RGB}{102,204,0}
+\definecolor{ipink}{RGB}{214,48,86}
+
+\newcommand{\step}[3]{\textbf{Step #1.}\hspace{0.5em}\emph{#2}}
+
+\newcommand{\stepOne}[1]{\step{1}{#1}{iblue}}
+\newcommand{\stepTwo}[1]{\step{2}{#1}{iorange}}
+\newcommand{\stepThree}[1]{\step{3}{#1}{iyellow}}
+\newcommand{\stepFour}[1]{\step{4}{#1}{igreen}}
+\newcommand{\stepFive}[1]{\step{5}{#1}{ipink}}
 
 % ---- Tables
 \setlength{\topsep}{0pt}
@@ -43,10 +60,12 @@
 \newcommand{\eref}[1]{Eq.~(\ref{equ:#1})}
 \newcommand{\sref}[1]{Sec.~\ref{sec:#1}}
 \newcommand{\tref}[1]{Tab.~\ref{tab:#1}}
+\newcommand{\fref}[1]{Fig.~\ref{fig:#1}}
 
 \newcommand{\elabel}[1]{\label{equ:#1}}
 \newcommand{\slabel}[1]{\label{sec:#1}}
 \newcommand{\tlabel}[1]{\label{tab:#1}}
+\newcommand{\flabel}[1]{\label{fig:#1}}
 
 % Basic mathematics
 \newcommand{\idot}{\cdot}
@@ -142,6 +161,20 @@
 % ---- Profiles
 \newcommand{\part}{\boldsymbol{\Delta}}
 \newcommand{\prof}[1]{\Pi\left[\part, #1\right]}
+\newcommand{\profB}[1]{\Pi\lfloor\part, #1\rfloor}
+\newcommand{\profE}[1]{\Pi\lceil\part, #1\rceil}
+
+\makeatletter
+\def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
+\def\profPWithArgument#1{\profB{\mP(#1)}}
+\def\profPWithoutArgument{\profB{\mP}}
+
+\def\profT{\@ifnextchar\bgroup{\profTWithArgument}{\profTWithoutArgument}}
+\def\profTWithArgument#1{\profE{\mTO(#1)}}
+\def\profTWithoutArgument{\profE{\mTO}}
+\makeatother
+
+\def\profPdyn{\profB{\mP_\dyn}}
 
 % ---- Differential-algebraic system
 % dx/dt = A * x + B * u
@@ -211,8 +244,6 @@
 % Experimental results
 \newcommand{\hostOS}{OS X 10.8}
 \newcommand{\hostHardware}{a MacBook Pro 6.2 with Intel Core i7 2.66 GHz and 8 GB of RAM}
-% \newcommand{\hostOS}{a GNU/Linux distribution}
-% \newcommand{\hostHardware}{Intel Core i7 3.4 GHz with 8 GB of RAM}
 
 \newcommand{\eExp}{\err{\mathbb{E}}}
 \newcommand{\eVar}{\err{\mathbb{V}\text{ar}}}

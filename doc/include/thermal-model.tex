@@ -10,7 +10,7 @@ where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the t
 \end{subnumcases}
 where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a system of nonlinear differential equations due to $\vP(\t, \o)$, which has an arbitrary dependency on temperature (see \eref{power-model}). Hence, there are no closed-form solutions to \eref{fourier-de}.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ (see \sref{problem-formulation}) are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdyn$ (see \sref{problem-formulation}) are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
 \begin{equation} \elabel{ode-solution}
   \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \o)
 \end{equation}
@@ -19,7 +19,7 @@ where $\t \in [0, \dt]$, $\vP(0, \o)$ is the power dissipation at the beginning 
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
 \end{align*}
-As we previously shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
+As we previously shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\profPdyn$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
   \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o)
 \end{equation}

@@ -1,0 +1,11 @@
+At this stage, we need to construct a leakage model with the identified uncertain parameters $\vU(\o)$ and temperature as inputs. To this end, \eref{power-model} is decomposed into the sum of dynamic and leakage components denoted respectively by $\f_\dyn(\vP_\dyn(\t), \o)$ and $\f_\leak(\vTO(\t, \o), \o)$. As motivated in \sref{ie-problem-formulation}, we let $\f_\dyn(\vP_\dyn(\t), \o) = \vP_\dyn(\t)$. A model for the other part, i.e., the leakage power, can be obtained by, for instance, a set of SPICE-type simulations of reference electrical circuits. In our example, we employ a circuit based on the Predictive Technology Model \cite{ptm}. A surface fitting procedure is then carried out on the output data, and the following exponential model is acquired:
+\begin{equation} \elabel{leakage-current}
+  I_\leak(\Leff, \T) = \text{exp} \big\{ \alpha_0 + \alpha_1 \Leff + \alpha_2 \T + \alpha_3 \Leff \T + \alpha_4 \T^2 \big\}
+\end{equation}
+where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\Leff, \T)$ is further scaled up to the power level of each of the processing elements. Finally, we have
+\[
+  \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
+\]
+for $i \in \{ 1, \dotsc, \cores \}$ where $\beta_i$ are scaling coefficients.
+
+In order to construct equivalent thermal RC circuits, we first utilize HotSpot v5.02 \cite{hotspot} in order to obtain the thermal capacitance $\mC$ and conductance $\mG$ matrices. In this case, thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is $\nodes = 4 \cores + 12$. Then, we use the technique descrited in \cite{ukhov2012} to compute the coefficient matrices $\mE(\t)$ and $\mD(\t)$ of the recurrence in \eref{recurrence}.
