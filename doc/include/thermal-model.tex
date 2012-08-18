@@ -3,14 +3,14 @@ Given a thermal specification of the platform $\system$ (see \sref{architecture-
   \mC \frac{d\vTI(\t, \o)}{d\t} + \mG \vTI(\t, \o) = \mM \vP(\t, \o) \elabel{fourier-original} \\
   \vTO(\t, \o) = \mM^T \vTI(\t, \o) + \vTO_\amb
 \end{subnumcases}
-where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nodes$ is the vector the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\cores$ and $\mM \in \real^{\nodes \times \cores}$ are the input vector of power (see \eref{power-model}) and its mapping matrix to the thermal nodes; $\vTO \in \real^\cores$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature. Without loss of generality, the last is modeled as a deterministic variable. For convenience, we perform an auxiliary transformation of \eref{fourier-system-original} \cite{ukhov2012}. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^{-\ifrac{1}{2}} \mG \mC^{-\ifrac{1}{2}}$, and $\mB = \mC^{-\ifrac{1}{2}} \mM$, then
+where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nodes$ is the vector storing the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\cores$ and $\mM \in \real^{\nodes \times \cores}$ are the input vector of power (see \eref{power-model}) and its mapping matrix to the thermal nodes; $\vTO \in \real^\cores$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature. Without loss of generality, the last is modeled as a deterministic variable. For convenience, we perform an auxiliary transformation of \eref{fourier-system-original} \cite{ukhov2012}. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^{-\ifrac{1}{2}} \mG \mC^{-\ifrac{1}{2}}$, and $\mB = \mC^{-\ifrac{1}{2}} \mM$, then
 \begin{subnumcases}{\elabel{fourier-system}}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
 where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, \eref{fourier-de} is a system of nonlinear differential equations due to $\vP(\t, \o)$, which has an arbitrary dependency on temperature (see \eref{power-model}). Hence, there are no closed-form solutions to \eref{fourier-de}.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\prof{\mP_\dyn}$ (see \sref{problem-formulation}) are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
 \begin{equation} \elabel{ode-solution}
   \vX(\t, \o) = \mE(\t) \vX(0, \o) + \mD(\t) \vP(0, \o)
 \end{equation}
@@ -19,7 +19,7 @@ where $\t \in [0, \dt]$, $\vP(0, \o)$ is the power dissipation at the beginning 
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
 \end{align*}
-As shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
+As we previously shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\prof{\mP_\dyn}$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
 \begin{equation} \elabel{recurrence}
   \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o)
 \end{equation}
