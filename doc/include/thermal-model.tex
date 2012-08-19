@@ -1,9 +1,9 @@
-Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ thermal nodes is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details, which defines the resulting accuracy. The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations:
+Given a thermal specification of the platform $\system$ (see \sref{architecture-model}), an equivalent thermal RC circuit with $\nodes$ thermal nodes is constructed \cite{kreith2000}. The structure of the circuit depends on the intended level of details, which defines the resulting accuracy. For clarity, we assume that each processing element is mapped onto one node, and the thermal package is represented as a set of nodes (an example of such a partition is given in \sref{ie-thermal-model}). The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations:
 \begin{subnumcases}{\elabel{fourier-system-original}}
   \mC \frac{d\vTI(\t, \o)}{d\t} + \mG \vTI(\t, \o) = \mM \vP(\t, \o) \elabel{fourier-original} \\
   \vTO(\t, \o) = \mM^T \vTI(\t, \o) + \vTO_\amb
 \end{subnumcases}
-where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nodes$ is the vector storing the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\cores$ and $\mM \in \real^{\nodes \times \cores}$ are the input vector of power (see \eref{power-model}) and its mapping matrix to the thermal nodes; $\vTO \in \real^\cores$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature. Without loss of generality, the last is modeled as a deterministic variable. For convenience, we perform an auxiliary transformation of \eref{fourier-system-original} \cite{ukhov2012}. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^{-\ifrac{1}{2}} \mG \mC^{-\ifrac{1}{2}}$, and $\mB = \mC^{-\ifrac{1}{2}} \mM$, then
+where $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nodes$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\cores$ and $\mM \in \real^{\nodes \times \cores}$ are the input vector of power (see \eref{power-model}) and its mapping matrix to the thermal nodes; $\vTO \in \real^\cores$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature. Without loss of generality, the last is modeled as a deterministic variable. For convenience, we perform an auxiliary transformation of \eref{fourier-system-original} \cite{ukhov2012}. Let $\vX = \mC^\ifrac{1}{2} \vTI$, $\mA = -\mC^{-\ifrac{1}{2}} \mG \mC^{-\ifrac{1}{2}}$, and $\mB = \mC^{-\ifrac{1}{2}} \mM$, then
 \begin{subnumcases}{\elabel{fourier-system}}
   \frac{d\vX(\t, \o)}{d\t} = \mA \vX(\t, \o) + \mB \vP(\t, \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
@@ -20,11 +20,8 @@ where $\t \in [0, \dt]$, $\vP(0, \o)$ is the power dissipation at the beginning 
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
 \end{align*}
 As we previously shown in \cite{ukhov2012}, $\mE$ and $\mD$ can be efficiently computed using a factorization of $\mA$, which needs to be performed only once for a particular thermal circuit. Taking into consideration all $\steps$ time intervals of $\profPdyn$, we obtain the following recurrent expression for $k \in \{ 1, \dotsc, \steps \}$:
-\begin{equation} \elabel{recurrence}
-  \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o)
-\end{equation}
-where $\t \in [ 0, \dt_k ]$ and
-\begin{align*}
-  & \vX_0(0, \o) = \vZero & \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o)
-\end{align*}
-Here, without loss of generality, we let the initial temperature be equal to the ambient temperature. In the deterministic case, the recurrence in \eref{recurrence} can be readily employed to perform the deterministic transient PTA \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a straightforward analysis of \eref{recurrence} is problematic to undertake due to the presence of nonlinear correlations between and within successive steps.
+\begin{align}
+  & \vX_k(\t, \o) = \mE(\t) \vX_k(0, \o) + \mD(\t) \vP_k(0, \o) \elabel{recurrence} \\
+  & \vX_0(0, \o) = \vZero, \hspace{1em} \vX_k(0, \o) = \vX_{k - 1}(\dt_{k - 1}, \o) \nonumber
+\end{align}
+Note that, with a slight abuse of notation, we let $\t$ start from zero at each interval, i.e., $\t \in [ 0, \dt_k ]$. Also, without loss of generality, we let the initial temperature be equal to the ambient temperature. In the deterministic case, the recurrence in \eref{recurrence} can be readily employed to perform the deterministic transient PTA \cite{ukhov2012}. In the stochastic case, however, where $\vX_k(\t, \o)$, $\vTO_k(\t, \o)$, and $\vP_k(\t, \o)$ are probabilistic quantities, a straightforward analysis of \eref{recurrence} is problematic to undertake due to the presence of nonlinear correlations between and within successive steps. To tackle the difficulty, we utilize the theory of spectral expansions introduced in \sref{introduction} and further discussed in the next section.
