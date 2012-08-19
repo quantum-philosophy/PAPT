@@ -22,7 +22,7 @@ Having an appropriate basis chosen, we first apply the PC procedure to power in 
 \end{equation}
 where $\pcc{\vP}_i \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials. $\pcorder$ is the order of the expansion that determines the maximal degree of the $\vars$-variate polynomials involved in the expansion; hence, $\pcorder$ also defines the level of accuracy. When the total-order polynomial space is used \cite{beck2011}, $\pcterms$ is
 \begin{equation} \elabel{pc-terms}
-  \pcterms = \frac{(\pcorder + \vars)!}{\pcorder! \; \vars!}
+  \pcterms = {(\pcorder + \vars)!} \; / \; {(\pcorder! \; \vars!)}
 \end{equation}
 
 Finally, we need to determine the coefficients of the expansion $\pcc{\vP}_i$, $i \in \{ 1, \dotsc, \pcterms \}$. To this end, a spectral Galerkin projection of the stochastic process in \eref{power-model} onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is performed. Consequently, one needs to compute the inner product of \eref{power-model}, taken at the beginning of the corresponding time interval, with each polynomial from the basis as
