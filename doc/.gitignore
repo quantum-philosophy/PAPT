@@ -5,5 +5,5 @@
 *.run.xml
 *.bbl
 *.dvi
-*.pdf
+paper.pdf
 paper-blx.bib
