@@ -1,14 +1,14 @@
 In this section, we present the proposed framework and begin with a brief overview of the major steps of our technique depicted in \fref{algorithm} and discussed in the following.
 
-\stepOne{Uncertain Parameters Processing (\sref{uncertain-parameters}).} Since the employed mathematical framework works with independent RVs, the input set of uncertain parameters should be preprocessed in order to satisfy the requirement.
+\step{1}{Uncertain Parameters Processing (\sref{uncertain-parameters}).} Since the employed mathematical framework operates on independent RVs, the input set of uncertain parameters should be preprocessed in order to satisfy the requirement.
 
-\stepTwo{Power Model Construction (\sref{power-model}).} A power model that captures the effect of the uncertain parameters and temperature on the power dissipation of the processing elements within the system is chosen at this stage.
+\step{2}{Power Model Construction (\sref{power-model}).} A power model that captures the effect of the uncertain parameters and temperature on the power dissipation of the processing elements within the system is chosen at this stage.
 
-\stepThree{Thermal Model Construction (\sref{thermal-model}).} With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, an equivalent thermal representation of the system is constructed, in which the processing elements and thermal package are mapped onto a set of so-called thermal nodes.
+\step{3}{Thermal Model Construction (\sref{thermal-model}).} With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, an equivalent thermal representation of the system is constructed, in which the processing elements and thermal package are mapped onto a set of so-called thermal nodes.
 
-\stepFour{Polynomial Chaos Expansion (\sref{polynomial-chaos}).} The key step where, for each time interval of the input dynamic power profile, the corresponding PC expansions of the stochastic power dissipation and temperature are calculated.
+\step{4}{Polynomial Chaos (PC) Expansion (\sref{polynomial-chaos}).} The key step where, for each time interval of the input dynamic power profile, the corresponding PC expansions of the stochastic power dissipation and temperature are calculated.
 
-\stepFive{Output Analysis (\sref{expansion-analysis}).} The computed PC expansions are trivially analyzed in order to obtain the desired characteristics of the system (moments, probability density functions, cumulative distribution functions, etc.).
+\step{5}{Output Analysis (\sref{expansion-analysis}).} The computed PC expansions are trivially analyzed in order to obtain the desired characteristics of the system (moments, probability density functions, cumulative distribution functions, etc.).
 
 \subsection{Uncertain Parameters Processing} \slabel{uncertain-parameters}
 \input{include/uncertain-parameters.tex}

@@ -28,24 +28,11 @@
 \topmargin -60pt
 \textheight 750pt
 
+% ---- Helpers
 \definecolor{ipurple}{RGB}{195,0,191}
-
 \newcommand{\note}[1]{{\color{ipurple}$\star$}\marginpar{\scriptsize\color{ipurple}#1}}
 
-% ---- Graphics
-\definecolor{iblue}{RGB}{1,173,206}
-\definecolor{iorange}{RGB}{235,113,39}
-\definecolor{iyellow}{RGB}{195,167,6}
-\definecolor{igreen}{RGB}{102,204,0}
-\definecolor{ipink}{RGB}{214,48,86}
-
-\newcommand{\step}[3]{\textbf{Step #1.}\hspace{0.5em}\emph{#2}}
-
-\newcommand{\stepOne}[1]{\step{1}{#1}{iblue}}
-\newcommand{\stepTwo}[1]{\step{2}{#1}{iorange}}
-\newcommand{\stepThree}[1]{\step{3}{#1}{iyellow}}
-\newcommand{\stepFour}[1]{\step{4}{#1}{igreen}}
-\newcommand{\stepFive}[1]{\step{5}{#1}{ipink}}
+\newcommand{\step}[2]{\textbf{Step #1.}\hspace{0.5em}\emph{#2}}
 
 % ---- Tables
 \setlength{\topsep}{0pt}
@@ -230,6 +217,7 @@
 \newcommand{\cores}{{N_\text{p}}}
 \newcommand{\steps}{N_\text{s}}
 \newcommand{\vars}{{N_\text{v}}}
+\newcommand{\params}{{\tilde{N}_\text{v}}}
 
 \newcommand{\pcorder}{{N_\text{po}}}
 \newcommand{\pcterms}{{N_\text{pt}}}
