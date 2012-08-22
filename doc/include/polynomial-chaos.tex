@@ -1,4 +1,4 @@
-At this point, the goal is to transform \eref{power-model} in such a way that the nonlinear correlations in \eref{recurrence} are eliminated. To this end, we employ a mathematical framework called the polynomial chaos (PC), which deconstructs stochastic processes into infinite sequences of orthogonal polynomials of \rvs. More specifically, the generalized PC \cite{xiu2002} is utilized, which extends the classical PC \cite{ghanem1991} to the hypergeometric orthogonal polynomials from the Askey scheme and, consequently, non-Gaussian \rvs. Even though we focus on the generalized PC, the proposed framework can be easily extended to other, i.e., non-polynomial, bases. For instance, if the power model $\f$ is steep and/or discontinuous in $\vZ(\o)$, the multiwavelet basis can produce more robust results; refer to \cite{maitre2010} for an overview.
+At this point, the goal is to transform \eref{power-model} in such a way that the nonlinear correlations in \eref{recurrence} are eliminated. To this end, we employ a mathematical framework called the polynomial chaos (PC), which deconstructs stochastic processes into infinite sequences of orthogonal polynomials of \rvs. More specifically, the generalized PC \cite{xiu2002} is utilized that extends the classical PC based on the Hermite polynomials \cite{ghanem1991} to the other hypergeometric orthogonal polynomials from the Askey scheme, which are suitable for of non-Gaussian \rvs. Even though we focus on the generalized PC, the proposed framework can be easily extended to other spectral expansion techniques. For instance, the KL expansion is applicable for stochastic processes with known covariance functions, and the multiwavelet-based expansion is a viable choice when the power model $\f$ is steep and/or discontinuous in $\vZ(\o)$; we refer the reader to \cite{xiu2010, maitre2010} for an overview.
 
 Orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
 \begin{equation} \elabel{orthogonality}
@@ -40,11 +40,11 @@ It can be seen in \eref{recurrence} that, due to the linearity of the operations
   \oPC{\vars}{\pcorder}{\vX_k(\t, \o)} & = \mE(\t) \; \oPC{\vars}{\pcorder}{\vX_k(0, \o)} \\
   & {} + \mD(\t) \; \oPC{\vars}{\pcorder}{\vP_k(0, \o)}
 \end{align*}
-where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. Thus, there are two PC expansions for two concurrent stochastic processes with the same basis, but different coefficients. The last equation can be explicitly written as
+where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. Thus, there are two PC expansions for two concurrent stochastic processes with the same basis, but different coefficients. The above equation can be explicitly written as
 \[
   \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki}(\t) \pcb_i(\vZ(\o)) = \sum_{i = 1}^{\pcterms} \left( \mE(\t) \pcc{\vX}_{ki} + \mD(\t) \pcc{\vP}_{ki} \right) \pcb_i(\vZ(\o))
 \]
-Multiplying the last equation by each polynomial from the basis and making use of \eref{orthogonality}, we have
+Multiplying the above equation by each polynomial from the basis and making use of \eref{orthogonality}, we have
 \begin{equation} \elabel{pc-recurrence}
   \pcc{\vX}_{ki}(\t) = \mE(\t) \pcc{\vX}_{ki} + \mD(\t) \pcc{\vP}_{ki}
 \end{equation}
