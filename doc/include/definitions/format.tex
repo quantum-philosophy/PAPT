@@ -1,0 +1,61 @@
+\usepackage{caption}
+
+%
+% Make the bibliography smaller.
+%
+\renewcommand*{\bibfont}{\small}
+
+%
+% Make the title smaller and remove authors.
+%
+\newfont{\titlefont}{ptmb8t at 18pt}
+
+\makeatletter
+\renewcommand{\@maketitle}{
+  \newpage
+  \null
+  \begin{center}%
+    {\titlefont \@title \par}%
+    \vspace{1em}%
+  \end{center}%
+  \par%
+}
+\makeatother
+
+%
+% Remove the copyright.
+%
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\maketitle}{\@copyrightspace}{}{}{}
+\makeatother
+
+%
+% Tune pages.
+%
+\columnsep 1.5pc % Default: 2pc
+
+\advance\oddsidemargin by -0pc  % Default: 4.5pc
+\advance\evensidemargin by -0pc % Default: 4.5pc
+\advance\topmargin by -0pc      % Default: 4.5pc
+
+%
+% Tune text.
+%
+\linespread{0.95} % Default: 1
+
+\textheight 666pt % Default: 666pt
+\textwidth 42pc   % Default: 42pc
+
+%
+% Tune tables.
+%
+\setlength{\topsep}{0pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+
+%
+% Tune formulas.
+%
+\setlength\abovedisplayskip{5pt}
+\setlength\belowdisplayskip{5pt}

@@ -1,0 +1,118 @@
+%
+% Thermal model:
+%
+%      dT
+%  C * -- + (G - G_amb) * T = P
+%      dt
+%
+
+% Specification
+\newcommand{\system}{\mathcal{S}}
+
+% Capacitance and conductance
+\newcommand{\mC}{\m{C}}
+\newcommand{\mG}{\m{G}}
+
+\newcommand{\nodes}{N_\text{n}}
+\newcommand{\cores}{{N_\text{p}}}
+
+%
+% Transformed thermal model:
+%
+%  dX
+%  -- = A * X + B * P
+%  dt
+%
+%  Y = B^T * X
+%
+\newcommand{\vX}{\v{X}}
+\newcommand{\mA}{\m{A}}
+\newcommand{\mB}{\m{B}}
+
+% Processor elements/thermal nodes mapping.
+\newcommand{\mM}{\m{\tilde{B}}}
+
+% Recurrence coefficients
+\newcommand{\mE}{\m{E}}
+\newcommand{\mD}{\m{D}}
+
+%
+% Time.
+%
+\renewcommand{\t}{t}
+\newcommand{\dt}{\Delta \t}
+\newcommand{\period}{\mathcal{T}}
+\newcommand{\sTime}{\mathcal{T}}
+
+%
+% Temperature.
+%
+\newcommand{\T}{\Theta}
+\newcommand{\vTI}{\v{\tilde{X}}}
+\newcommand{\vTO}{{\boldsymbol\Theta}}
+\newcommand{\mTO}{{\boldsymbol\Theta}}
+
+\newcommand{\amb}{\text{amb}}
+
+%
+% Power.
+%
+\newcommand{\vP}{\v{P}}
+\newcommand{\mP}{\m{P}}
+
+\newcommand{\dyn}{\text{dyn}}
+\newcommand{\leak}{\text{leak}}
+
+\newcommand{\f}{\mathcal{F}}
+
+%
+% System profiles.
+%
+\renewcommand{\part}{\boldsymbol{\Delta}}
+\newcommand{\prof}[1]{\Pi\left[\part, #1\right]}
+\newcommand{\profB}[1]{\Pi\lfloor\part, #1\rfloor}
+\newcommand{\profE}[1]{\Pi\lceil\part, #1\rceil}
+
+\makeatletter
+\def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
+\def\profPWithArgument#1{\profB{\mP(#1)}}
+\def\profPWithoutArgument{\profB{\mP}}
+
+\def\profT{\@ifnextchar\bgroup{\profTWithArgument}{\profTWithoutArgument}}
+\def\profTWithArgument#1{\profE{\mTO(#1)}}
+\def\profTWithoutArgument{\profE{\mTO}}
+\makeatother
+
+\def\profPdyn{\profB{\mP_\dyn}}
+
+\newcommand{\steps}{N_\text{s}}
+
+%
+% Uncertain parameters.
+%
+\newcommand{\U}{U}
+\newcommand{\vU}{\v{U}}
+
+\newcommand{\params}{{\tilde{N}_\text{v}}}
+
+%
+% Independent random variables.
+%
+\newcommand{\Z}{Z}
+\newcommand{\vZ}{\v{Z}}
+\newcommand{\vz}{\boldsymbol{\zeta}}
+
+\newcommand{\oTransform}[1]{T\left[#1\right]}
+\newcommand{\oInvTransform}[1]{T^{-1}\left[#1\right]}
+
+\newcommand{\vars}{{N_\text{v}}}
+
+%
+% Process variation.
+%
+\newcommand{\Leff}{L}
+\newcommand{\nLeff}{L}
+\newcommand{\gLeff}{{L^{(g)}}}
+\newcommand{\lLeff}{L^{(l)}}
+\newcommand{\Lth}{\lambda_\text{th}}
+\newcommand{\corrLength}{\eta}

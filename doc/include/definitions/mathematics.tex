@@ -1,0 +1,87 @@
+\newcommand{\idot}{\cdot}
+\newcommand{\eqdef}{\stackrel{\text{\tiny def}}{=}}
+\newcommand{\ifrac}[2]{{{#1}/{#2}}}
+
+%
+% Spaces.
+%
+\renewcommand{\L}[1]{\mathcal{L}_{#1}}
+
+%
+% Sets.
+%
+\newcommand{\real}{\mathbb{R}}
+\renewcommand{\natural}[1]{\mathbb{N}_{#1}}
+
+%
+% Linear algebra.
+%
+\newcommand{\mtx}[1]{(#1)}
+\newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
+
+\newcommand{\mI}{\m{I}}
+\newcommand{\mZero}{\m{0}}
+
+\newcommand{\diag}[1]{\text{diag}\left(#1\right)}
+
+\renewcommand{\vec}[1]{(#1)^T}
+\let\vtick\v
+\renewcommand{\v}[1]{\mathbf{#1}}
+
+\newcommand{\vZero}{\v{0}}
+
+%
+% Probability theory.
+%
+\newcommand{\outcomes}{\Omega}
+\renewcommand{\o}{\omega}
+\newcommand{\sAlgebra}{\mathscr{F}}
+\newcommand{\pMeasure}{\mathscr{P}}
+
+\renewcommand{\exp}{\mu}
+\newcommand{\var}{\sigma^2}
+\newcommand{\std}{\sigma}
+
+\newcommand{\vExp}{{\boldsymbol\mu}}
+\newcommand{\mCov}{\m{\Sigma}}
+
+\newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
+\newcommand{\oCov}[1]{\mathbb{C}\text{ov}\left[#1\right]}
+\newcommand{\oCorr}[1]{\mathbb{C}\text{orr}\left[#1\right]}
+
+\newcommand{\PDF}{\rho}
+
+\newcommand{\normal}[2]{\mathcal{N}\left( #1, #2 \right)}
+
+\newcommand{\mcsamples}{N_\text{mcs}}
+
+%
+% Polynomial chaos expansion.
+%
+\newcommand{\support}{S}
+\newcommand{\pcb}{\Phi}
+\newcommand{\pcn}{\gamma}
+\newcommand{\pcc}[1]{\hat{#1}}
+\newcommand{\oPC}[3]{\mathcal{P}_{#1}^{#2}\left[#3\right]}
+
+\makeatletter
+  \def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
+  \def\oInnerSingle#1{\left\langle #1 \right\rangle}
+  \def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
+\makeatother
+
+\newcommand{\pcorder}{{N_\text{po}}}
+\newcommand{\pcterms}{{N_\text{pt}}}
+
+%
+% Integration with quadratures.
+%
+\newcommand{\qdn}[1]{\hat{#1}}
+\newcommand{\qdw}{w}
+\newcommand{\oQuad}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
+
+\newcommand{\qdlevel}{N_\text{ql}}
+\newcommand{\qdorder}{N_\text{qo}}
+\newcommand{\qdorderone}{\tilde{N}_\text{qo}}
+\newcommand{\qdprecision}{N_\text{qp}}

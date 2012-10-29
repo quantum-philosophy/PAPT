@@ -1,33 +1,10 @@
-\documentclass[conference,a4paper]{IEEEtran}
-\input{include/common}
+\documentclass{sig-alternate}
+\input{include/definitions.tex}
 
 \bibliography{include/references.bib}
 
-\makeatletter
-\renewcommand{\@maketitle}{
-  \newpage
-  \null
-  \begin{center}%
-    {\Huge \@title \par}%
-    \vspace{0.10em}%
-  \end{center}%
-  \par%
-}
-\makeatother
-
 \begin{document}
   \title{Uncertainty Quantification of Power and Temperature for Multiprocessor System Design}
-
-  \author{
-    \IEEEauthorblockN{Ivan Ukhov}
-    \IEEEauthorblockA{Link\"{o}ping University\\Sweden\\ivan.ukhov@liu.se}
-    \and
-    \IEEEauthorblockN{Petru Eles}
-    \IEEEauthorblockA{Link\"{o}ping University\\Sweden\\petru.eles@liu.se}
-    \and
-    \IEEEauthorblockN{Zebo Peng}
-    \IEEEauthorblockA{Link\"{o}ping University\\Sweden\\zebo.peng@liu.se}
-  }
 
   \maketitle
 
@@ -53,6 +30,8 @@
   \section{Conclusion} \slabel{conclusion}
   \input{include/conclusion.tex}
 
-  \vspace{-2pt}
   \printbibliography
+
+  \appendix
+  \input{include/appendix.tex}
 \end{document}
