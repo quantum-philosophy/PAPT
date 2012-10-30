@@ -1,157 +1,77 @@
 classdef Chaos < HotSpot.Analytic
   properties (SetAccess = 'private')
-    %
-    % The polynomial chaos.
-    %
-    pc
+    options
+
+    Lnom
+    rvMap
+    rvCount
   end
 
   methods
-    function hs = Chaos(floorplan, config, line, method)
-      hs = hs@HotSpot.Analytic(floorplan, config, line);
+    function this = Chaos(floorplan, config, line, varargin)
+      this = this@HotSpot.Analytic(floorplan, config, line);
 
-      %
-      % Initialize the PC expansion.
-      %
-      hs.pc = PolynomialChaos.(method.chaosName)([ hs.sdim, hs.cores ], method);
+      this.Lnom = LeakagePower.Lnom;
+
+      [ this.rvMap, this.rvCount ] = ...
+        ProcessVariation.analyze(floorplan, this.Lnom);
+
+      this.options = Options( ...
+        'inputCount', this.rvCount, ...
+        'outputCount', 0, ...
+        'order', 4, ...
+        'quadratureOptions', Options( ...
+          'method', 'tensor', ...
+          'order', 5));
     end
 
-    function display(hs, extended)
-      display@HotSpot.Analytic(hs);
+    function [ Texp, Tvar ] = computeWithLeakage(this, Pdyn, leakage)
+      [ processorCount, stepCount ] = size(Pdyn);
+      assert(processorCount == this.processorCount);
 
-      pc = hs.pc;
+      inputCount = this.rvCount;
+      outputCount = processorCount * stepCount;
 
-      fprintf('  Polynomial order: %d\n', pc.order);
-      fprintf('  Number of terms: %d\n', pc.terms);
-      fprintf('  Quadrature points: %d\n', pc.points);
+      E = this.E;
+      D = this.D;
+      BT = this.BT;
+      Tamb = this.ambientTemperature;
+      Lnom = this.Lnom;
+      rvMap = this.rvMap;
 
-      if nargin < 2 || ~extended, return; end
+      zeros = @uninit;
 
-      s = size(pc.nodes);
-      fprintf('  Quadrature nodes: %d x %d = %d\n', ...
-        s(1), s(2), numel(pc.nodes));
+      function data = solve(samples)
+        sampleCount = size(samples, 1);
+        samples = Lnom + rvMap * transpose(samples);
 
-      c = length(pc.grid);
-      s = size(pc.grid{1});
-      fprintf('  Precomputed grid: %d x %d x %d = %d\n', ...
-        c, s(1), s(2), c * s(1) * s(2));
+        data = zeros(sampleCount, outputCount);
 
-      s = size(pc.rvPower);
-      fprintf('  Power matrix: %d x %d = %d\n', ...
-        s(1), s(2), numel(pc.rvPower));
+        for i = 1:sampleCount
+          L = samples(:, i);
+          T = zeros(processorCount, stepCount);
 
-      s = size(pc.rvProd);
-      fprintf('  Product matrix: %d x %d = %d\n', ...
-        s(1), s(2), numel(pc.rvProd));
+          X = D * (Pdyn(:, 1) + leakage.evaluate(L, Tamb));
+          T(:, 1) = BT * X + Tamb;
 
-      s = size(pc.coeffMap);
-      fprintf('  Coefficient mapping matrix: %d x %d = %d\n', ...
-        s(1), s(2), numel(pc.rvProd));
+          for j = 2:stepCount
+            X = E * X + D * (Pdyn(:, j) + leakage.evaluate(L, T(:, j - 1)));
+            T(:, j) = BT * X + Tamb;
+          end
 
-      s = size(pc.mappedRvProd);
-      fprintf('  Mapped product matrix: %d x %d = %d\n', ...
-        s(1), s(2), numel(pc.mappedRvProd));
-    end
-
-    function [ ExpT, VarT, trace ] = solve(hs, Pdyn)
-      [ cores, steps ] = size(Pdyn);
-      assert(cores == hs.cores, 'The power profile is invalid.')
-
-      %
-      % General shortcuts.
-      %
-      nodes = hs.nodes;
-      E = hs.E;
-      D = hs.D;
-      BT = hs.BT;
-      Tamb = hs.Tamb;
-
-      %
-      % Shortcuts for the PC expansion.
-      %
-      pc = hs.pc;
-      terms = pc.terms;
-
-      %
-      % Here we are going to store the stochastic temperature.
-      %
-      trace = zeros(cores, terms, steps);
-
-      %
-      % Initialize the leakage model.
-      %
-      pca = hs.pca;
-      leak = @hs.computeLeakage;
-      Lnom = hs.Lnom;
-      alpha = hs.leakageAlpha;
-
-      sample = @(rvs) leak(pca * rvs + Lnom, Tamb);
-
-      %
-      % Perform the PC expansion and obtain the coefficients of
-      % the current power.
-      %
-      Pcoeff = alpha * pc.computeExpansion(sample);
-
-      sample = @(rvs, T) leak(pca * rvs + Lnom, T);
-
-      %
-      % Add the dynamic power of the first step to the mean.
-      %
-      Pcoeff(:, 1) = Pcoeff(:, 1) + Pdyn(:, 1);
-
-      %
-      % The first step is special because we do not have any expansion yet,
-      % and the (projected) temperature is assumed to be zero.
-      %
-      Tcoeff = D * Pcoeff;
-
-      for i = 2:steps
-        %
-        % Calculate the previous temperature coefficients
-        % (it is a real temperature now, i.e., in Kelvin).
-        %
-        trace(:, :, i - 1) = BT * Tcoeff;
-        trace(:, 1, i - 1) = trace(:, 1, i - 1) + Tamb;
-
-        %
-        % Perform the PC expansion.
-        %
-        Pcoeff = alpha * pc.computeExpansion(sample, trace(:, :, i - 1));
-
-        %
-        % Add the dynamic power to the mean.
-        %
-        Pcoeff(:, 1) = Pcoeff(:, 1) + Pdyn(:, i);
-
-        %
-        % Compute new coefficients for each of the terms
-        % of the PC expansion.
-        %
-        Tcoeff = E * Tcoeff + D * Pcoeff;
+          data(i, :) = reshape(T, 1, []);
+        end
       end
 
-      %
-      % Do not forget about the last coefficients.
-      %
-      trace(:, :, steps) = BT * Tcoeff;
-      trace(:, 1, steps) = trace(:, 1, steps) + Tamb;
+      options = this.options;
+      options.outputCount = outputCount;
 
-      %
-      % Compute the expectation.
-      %
-      ExpT = squeeze(trace(:, 1, :));
+      chaos = PolynomialChaos.Hermite(@solve, this.options);
 
-      %
-      % Compute the variance.
-      %
-      % NOTE: The correlation matrix is full of ones.
-      %
-      VarT = zeros(cores, steps);
-      norm = irep(pc.norm(2:end), cores, 1);
-      for i = 1:steps
-        VarT(:, i) = sum(trace(:, 2:end, i).^2 .* norm, 2);
-      end
+      display(chaos);
+
+      Texp = reshape(chaos.expectation, processorCount, stepCount);
+      Tvar = reshape(chaos.variance, processorCount, stepCount);
     end
   end
 end
