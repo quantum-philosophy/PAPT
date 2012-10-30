@@ -34,10 +34,9 @@ where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of \eref{orthogonality}, we 
 In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically. \eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions: the so-called curse of dimensionality, which results in a large number of terms in expansions and in the growing complexity of their coefficients when the number of stochastic dimensions is high. This issue is to be addressed in \sref{ie-uncertain-parameters} and \sref{ie-polynomial-chaos}.
 
 It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\t, \o)$ retains the same polynomial structure as $\vP_k(0, \o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as
-\begin{align*}
-  \oPC{\vars}{\pcorder}{\vX_k(\t, \o)} & = \mE(\t) \; \oPC{\vars}{\pcorder}{\vX_k(0, \o)} \\
-  & {} + \mD(\t) \; \oPC{\vars}{\pcorder}{\vP_k(0, \o)}
-\end{align*}
+\[
+  \oPC{\vars}{\pcorder}{\vX_k(\t, \o)} = \mE(\t) \; \oPC{\vars}{\pcorder}{\vX_k(0, \o)} + \mD(\t) \; \oPC{\vars}{\pcorder}{\vP_k(0, \o)}
+\]
 where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. Thus, there are two PC expansions for two concurrent stochastic processes with the same basis but different coefficients. The above equation can be explicitly written as
 \[
   \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki}(\t) \pcb_i(\vZ(\o)) = \sum_{i = 1}^{\pcterms} \left( \mE(\t) \pcc{\vX}_{ki} + \mD(\t) \pcc{\vP}_{ki} \right) \pcb_i(\vZ(\o))
