@@ -29,49 +29,40 @@ classdef Chaos < HotSpot.Analytic
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
-      inputCount = this.rvCount;
-      outputCount = processorCount * stepCount;
+      chaos = PolynomialChaos.Hermite(@(L) this.solve(Pdyn, leakage, L), ...
+        this.options, 'outputCount', processorCount * stepCount);
+
+      Texp = reshape(chaos.expectation, processorCount, stepCount);
+      Tvar = reshape(chaos.variance, processorCount, stepCount);
+    end
+  end
+
+  methods (Access = 'private')
+    function T = solve(this, Pdyn, leakage, L)
+      [ processorCount, stepCount ] = size(Pdyn);
+      assert(processorCount == this.processorCount);
 
       E = this.E;
       D = this.D;
       BT = this.BT;
       Tamb = this.ambientTemperature;
-      Lnom = this.Lnom;
-      rvMap = this.rvMap;
 
-      zeros = @uninit;
+      sampleCount = size(L, 1);
+      L = this.Lnom + this.rvMap * transpose(L);
 
-      function data = solve(samples)
-        sampleCount = size(samples, 1);
-        samples = Lnom + rvMap * transpose(samples);
+      range = 1:processorCount;
+      T = zeros(processorCount * stepCount, sampleCount);
 
-        data = zeros(sampleCount, outputCount);
+      X = D * bsxfun(@plus, Pdyn(:, 1), leakage.evaluate(L, Tamb));
+      T(range, :) = BT * X + Tamb;
 
-        for i = 1:sampleCount
-          L = samples(:, i);
-          T = zeros(processorCount, stepCount);
-
-          X = D * (Pdyn(:, 1) + leakage.evaluate(L, Tamb));
-          T(:, 1) = BT * X + Tamb;
-
-          for j = 2:stepCount
-            X = E * X + D * (Pdyn(:, j) + leakage.evaluate(L, T(:, j - 1)));
-            T(:, j) = BT * X + Tamb;
-          end
-
-          data(i, :) = reshape(T, 1, []);
-        end
+      for i = 2:stepCount
+        X = E * X + D * bsxfun(@plus, Pdyn(:, i), leakage.evaluate(L, T(range, :)));
+        range = range + processorCount;
+        T(range, :) = BT * X + Tamb;
       end
 
-      options = this.options;
-      options.outputCount = outputCount;
-
-      chaos = PolynomialChaos.Hermite(@solve, this.options);
-
-      display(chaos);
-
-      Texp = reshape(chaos.expectation, processorCount, stepCount);
-      Tvar = reshape(chaos.variance, processorCount, stepCount);
+      T = transpose(T);
     end
   end
 end

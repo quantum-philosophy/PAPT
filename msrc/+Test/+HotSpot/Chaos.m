@@ -12,7 +12,7 @@ function Chaos
 
   leakageFilename = File.join(path, 'inverter_45nm.leak');
 
-  Pdyn = dlmread(powerProfile, '', 1, 0).';
+  Pdyn = 2 * dlmread(powerProfile, '', 1, 0).';
 
   leakage = LeakagePower(Pdyn, ...
     'filename', leakageFilename, ...
@@ -23,13 +23,9 @@ function Chaos
 
   display(hotspot);
 
-  profile on;
-  profile clear;
   tic;
   [ Texp, Tvar ] = hotspot.computeWithLeakage(Pdyn, leakage);
   fprintf('Polynomial chaos expansion: %.2f s\n', toc);
-  profile report;
-  profile off;
 
   time = 1e-3 * (1:size(Pdyn, 2));
 
