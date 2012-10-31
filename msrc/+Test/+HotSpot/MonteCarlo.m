@@ -2,7 +2,7 @@ function MonteCarlo
   clear all;
   setup;
 
-  [ hotspotArguments, Pdyn, leakage ] = Test.HotSpot.configure;
+  options = Test.HotSpot.configure;
 
   chaosOptions = Options('order', 10, ...
     'quadratureOptions', Options('order', 11));
@@ -10,26 +10,30 @@ function MonteCarlo
   %
   % One polynomial chaos.
   %
-  hotspot = HotSpot.Chaos(hotspotArguments{:}, chaosOptions);
+  hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
+    options.hotspotConfig, options.hotspotLine, chaosOptions);
 
   display(hotspot);
 
   tic;
-  [ Texp1, Tvar1 ] = hotspot.computeWithLeakage(Pdyn, leakage);
+  [ Texp1, Tvar1 ] = hotspot.computeWithLeakage( ...
+    options.powerProfile, options.leakage);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   %
   % Monte Carlo simulations.
   %
-  hotspot = HotSpot.MonteCarlo(hotspotArguments{:});
+  hotspot = HotSpot.MonteCarlo(options.floorplan, ...
+    options.hotspotConfig, options.hotspotLine);
 
   display(hotspot);
 
   tic;
-  [ Texp2, Tvar2 ] = hotspot.computeWithLeakage(Pdyn, leakage);
+  [ Texp2, Tvar2 ] = hotspot.computeWithLeakage( ...
+    options.powerProfile, options.leakage);
   fprintf('Monte Carlo: %.2f s\n', toc);
 
-  time = 1e-3 * (1:size(Pdyn, 2));
+  time = 1e-3 * (1:options.stepCount);
 
   Test.HotSpot.draw(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...

@@ -4,34 +4,36 @@ function Chaos
 
   use('Vendor', 'heatmaps');
 
-  [ hotspotArguments, Pdyn, leakage ] = Test.HotSpot.configure;
+  options = Test.HotSpot.configure;
 
-  chaosOptions = Options('order', 10, ...
-    'quadratureOptions', Options('order', 11));
+  chaosOptions = Options('order', 4, ...
+    'quadratureOptions', Options('order', 5));
 
   %
   % One polynomial chaos.
   %
-  hotspot = HotSpot.Chaos(hotspotArguments{:}, chaosOptions);
+  hotspot = HotSpot.Chaos(options.floorplan, ...
+    options.hotspotConfig, options.hotspotLine, chaosOptions);
 
   display(hotspot);
 
   tic;
   [ Texp1, Tvar1, coefficients1 ] = ...
-    hotspot.computeWithLeakage(Pdyn, leakage);
+    hotspot.computeWithLeakage(options.powerProfile, options.leakage);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   %
   % Another polynomial chaos.
   %
-  hotspot = HotSpot.StepwiseChaos(hotspotArguments{:}, chaosOptions);
+  hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
+    options.hotspotConfig, options.hotspotLine, chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
-    hotspot.computeWithLeakage(Pdyn, leakage);
+    hotspot.computeWithLeakage(options.powerProfile, options.leakage);
   fprintf('Stepwise polynomial chaos: %.2f s\n', toc);
 
-  time = 1e-3 * (1:size(Pdyn, 2));
+  time = 1e-3 * (1:options.stepCount);
 
   Test.HotSpot.draw(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
