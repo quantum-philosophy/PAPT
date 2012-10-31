@@ -4,22 +4,7 @@ function Chaos
 
   use('Vendor', 'heatmaps');
 
-  path = File.join(File.trace, '..', 'Assets');
-
-  floorplan = File.join(path, '04.flp');
-  powerProfile = File.join(path, '04.ptrace');
-
-  hotspotConfig = File.join(path, 'hotspot.config');
-  hotspotLine = 'sampling_intvl 1e-3';
-
-  leakageFilename = File.join(path, 'inverter_45nm.leak');
-
-  Pdyn = 2 * dlmread(powerProfile, '', 1, 0).';
-
-  leakage = LeakagePower(Pdyn, ...
-    'filename', leakageFilename, ...
-    'order', [ 1, 2 ], ...
-    'scale', [ 1, 1, 1; 1, 1, 1 ]);
+  [ hotspotArguments, Pdyn, leakage ] = Test.HotSpot.configure;
 
   chaosOptions = Options('order', 10, ...
     'quadratureOptions', Options('order', 11));
@@ -27,8 +12,7 @@ function Chaos
   %
   % One polynomial chaos.
   %
-  hotspot = HotSpot.Chaos(floorplan, hotspotConfig, ...
-    hotspotLine, chaosOptions);
+  hotspot = HotSpot.Chaos(hotspotArguments{:}, chaosOptions);
 
   display(hotspot);
 
@@ -38,10 +22,9 @@ function Chaos
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   %
-  % One polynomial chaos.
+  % Another polynomial chaos.
   %
-  hotspot = HotSpot.StepwiseChaos(floorplan, hotspotConfig, ...
-    hotspotLine, chaosOptions);
+  hotspot = HotSpot.StepwiseChaos(hotspotArguments{:}, chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
@@ -50,30 +33,11 @@ function Chaos
 
   time = 1e-3 * (1:size(Pdyn, 2));
 
-  drawTemperature(time, ...
+  Test.HotSpot.draw(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
     { Tvar1, Tvar2 });
 
   showCoefficients(time, { coefficients1, coefficients2 });
-end
-
-function drawTemperature(time, expectationSet, varianceSet)
-  setCount = length(expectationSet);
-  processorCount = size(expectationSet{1}, 1);
-
-  for i = 1:processorCount
-    figure;
-    for j = 1:setCount
-      color = Color.pick(j);
-      line(time, expectationSet{j}(i, :), ...
-        'Color', color, 'LineWidth', 1);
-      line(time, expectationSet{j}(i, :) + sqrt(varianceSet{j}(i, :)), ...
-        'Color', color, 'LineStyle', '--');
-    end
-    Plot.title('Temperature (PE%d)', i);
-    Plot.label('Time, s', 'Temperature, C');
-    Plot.limit(time);
-  end
 end
 
 function showCoefficients(~, coefficientSet)

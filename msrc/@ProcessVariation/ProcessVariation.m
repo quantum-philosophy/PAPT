@@ -92,7 +92,7 @@ classdef ProcessVariation < handle
       %
       [ P, L, E ] = pcacov(M);
 
-      reduction = options.get('method', 'adjustable');
+      reduction = options.get('reduction', 'adjustable');
 
       switch lower(reduction)
       case 'adjustable'
