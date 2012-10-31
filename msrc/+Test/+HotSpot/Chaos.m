@@ -24,8 +24,10 @@ function Chaos
   display(hotspot);
 
   tic;
-  [ Texp, Tvar ] = hotspot.computeWithLeakage(Pdyn, leakage);
+  [ Texp, Tvar, chaos ] = hotspot.computeWithLeakageStepwise(Pdyn, leakage);
   fprintf('Polynomial chaos expansion: %.2f s\n', toc);
+
+  display(chaos);
 
   time = 1e-3 * (1:size(Pdyn, 2));
 
