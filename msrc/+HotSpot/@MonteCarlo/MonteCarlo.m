@@ -21,7 +21,7 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
       sampleCount = this.sampleCount;
 
       filename = sprintf('MonteCarlo_%s.mat', ...
-        DataHash({ Pdyn, sampleCount }));
+        DataHash({ Pdyn, Utils.toString(leakage), sampleCount }));
 
       if File.exist(filename)
         load(filename);
