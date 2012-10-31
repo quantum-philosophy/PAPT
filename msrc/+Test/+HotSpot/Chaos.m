@@ -19,32 +19,45 @@ function Chaos
   leakage = LeakagePower(Pdyn, ...
     'filename', leakageFilename, ...
     'order', [ 1, 2 ], ...
-    'scale', [ 1, 0.7, 0; 1, 1, 1 ]);
+    'scale', [ 1, 1, 1; 1, 1, 1 ]);
 
-  hotspot = HotSpot.Chaos(floorplan, hotspotConfig, hotspotLine);
+  chaosOptions = Options('order', 10, ...
+    'quadratureOptions', Options('order', 11));
+
+  %
+  % One polynomial chaos.
+  %
+  hotspot = HotSpot.Chaos(floorplan, hotspotConfig, ...
+    hotspotLine, chaosOptions);
 
   display(hotspot);
 
   tic;
   [ Texp1, Tvar1, coefficients1 ] = ...
     hotspot.computeWithLeakage(Pdyn, leakage);
-  fprintf('Polynomial chaos expansion: %.2f s\n', toc);
+  fprintf('Polynomial chaos: %.2f s\n', toc);
+
+  %
+  % One polynomial chaos.
+  %
+  hotspot = HotSpot.StepwiseChaos(floorplan, hotspotConfig, ...
+    hotspotLine, chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
-    hotspot.computeWithLeakageStepwise(Pdyn, leakage);
-  fprintf('Polynomial chaos expansion stepwise: %.2f s\n', toc);
+    hotspot.computeWithLeakage(Pdyn, leakage);
+  fprintf('Stepwise polynomial chaos: %.2f s\n', toc);
 
   time = 1e-3 * (1:size(Pdyn, 2));
 
-  draw(time, ...
+  drawTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
     { Tvar1, Tvar2 });
 
   showCoefficients(time, { coefficients1, coefficients2 });
 end
 
-function draw(time, expectationSet, varianceSet)
+function drawTemperature(time, expectationSet, varianceSet)
   setCount = length(expectationSet);
   processorCount = size(expectationSet{1}, 1);
 
@@ -63,9 +76,9 @@ function draw(time, expectationSet, varianceSet)
   end
 end
 
-function showCoefficients(time, coefficientSet);
+function showCoefficients(~, coefficientSet)
   setCount = length(coefficientSet);
-  [ coefficientCount, processorCount, stepCount ] = size(coefficientSet{1});
+  [ ~, processorCount, ~ ] = size(coefficientSet{1});
 
   for i = 1:processorCount
     figure;

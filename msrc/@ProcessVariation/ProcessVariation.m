@@ -24,8 +24,26 @@ classdef ProcessVariation < handle
     globalRatio = 0.5;
   end
 
-  methods (Static)
-    function [ P, dimension ] = analyze(floorplan, nominal, varargin)
+  properties (Access = 'protected')
+    Lnom
+
+    rvMap
+    rvCount
+  end
+
+  methods
+    function this = ProcessVariation(floorplan, varargin)
+      options = Options(varargin{:});
+
+      this.Lnom = options.get('Lnom', LeakagePower.Lnom);
+
+      [ this.rvMap, this.rvCount ] = ...
+        ProcessVariation.analyze(floorplan, this.Lnom, options);
+    end
+  end
+
+  methods (Static, Access = 'private')
+    function [ P, dimension ] = analyze(floorplan, Lnom, options)
       %
       % Description:
       %
@@ -37,7 +55,7 @@ classdef ProcessVariation < handle
       lCount = size(C, 1);
       gCount = ProcessVariation.globalCount;
 
-      deviation = ProcessVariation.deviationRatio * nominal;
+      deviation = ProcessVariation.deviationRatio * Lnom;
 
       %
       % Take into account the proportions between the two parts.
@@ -47,7 +65,7 @@ classdef ProcessVariation < handle
 
       S = ones(1, lCount) * lDeviation;
 
-      P = ProcessVariation.performPCA(diag(S) * C * diag(S), varargin{:});
+      P = ProcessVariation.performPCA(diag(S) * C * diag(S), options);
 
       %
       % Append the global r.v.'s.
@@ -63,10 +81,8 @@ classdef ProcessVariation < handle
 
       dimension = size(P, 2);
     end
-  end
 
-  methods (Static, Access = 'private')
-    function P = performPCA(M, reduction)
+    function P = performPCA(M, options)
       %
       % Description:
       %
@@ -76,7 +92,7 @@ classdef ProcessVariation < handle
       %
       [ P, L, E ] = pcacov(M);
 
-      if nargin < 2 || isempty(reduction), reduction = 'adjustable'; end
+      reduction = options.get('method', 'adjustable');
 
       switch lower(reduction)
       case 'adjustable'
