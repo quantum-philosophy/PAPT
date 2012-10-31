@@ -1,12 +1,19 @@
 classdef Chaos < HotSpot.Analytic
-  properties (SetAccess = 'private')
-    options
-
+  properties (Access = 'private')
     Lnom
+
     rvMap
     rvCount
 
     chaos
+
+    %
+    % For the stepwise version.
+    %
+    ET
+    DT
+    B
+    rvMapT
   end
 
   methods
@@ -24,9 +31,14 @@ classdef Chaos < HotSpot.Analytic
         'quadratureOptions', Options( ...
           'method', 'tensor', ...
           'order', 5));
+
+      this.ET = this.E.';
+      this.DT = this.D.';
+      this.B = this.BT.';
+      this.rvMapT = this.rvMap.';
     end
 
-    function [ Texp, Tvar, chaos ] = computeWithLeakage(this, Pdyn, leakage)
+    function [ Texp, Tvar, coefficients ] = computeWithLeakage(this, Pdyn, leakage)
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
@@ -35,32 +47,30 @@ classdef Chaos < HotSpot.Analytic
 
       Texp = reshape(chaos.expectation, processorCount, stepCount);
       Tvar = reshape(chaos.variance, processorCount, stepCount);
+      coefficients = reshape(chaos.coefficients, chaos.termCount, processorCount, stepCount);
     end
 
-    function [ Texp, Tvar, chaos ] = computeWithLeakageStepwise(this, Pdyn, leakage)
+    function [ Texp, Tvar, coefficients ] = computeWithLeakageStepwise(this, Pdyn, leakage)
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
-      %
-      % General shortcuts.
-      %
-      ET = this.E.';
-      DT = this.D.';
-      B = this.BT.';
-      Tamb = this.ambientTemperature;
       PdynT = Pdyn.';
-      rvMapT = this.rvMap.';
+
+      Tamb = this.ambientTemperature;
+
       Lnom = this.Lnom;
 
-      %
-      % Shortcuts for the PC expansion.
-      %
       chaos = this.chaos;
+
+      ET = this.ET;
+      DT = this.DT;
+      B = this.B;
+      rvMapT = this.rvMapT;
 
       %
       % Here we are going to store the stochastic temperature.
       %
-      trace = zeros(chaos.termCount, processorCount, stepCount);
+      coefficients = zeros(chaos.termCount, processorCount, stepCount);
 
       sample = @(L) leakage.evaluate(Lnom + L * rvMapT, Tamb);
 
@@ -88,13 +98,13 @@ classdef Chaos < HotSpot.Analytic
         % Calculate the previous temperature coefficients
         % (it is a real temperature now, i.e., in Kelvin).
         %
-        trace(:, :, i - 1) = Tcoeff * B;
-        trace(1, :, i - 1) = trace(1, :, i - 1) + Tamb;
+        coefficients(:, :, i - 1) = Tcoeff * B;
+        coefficients(1, :, i - 1) = coefficients(1, :, i - 1) + Tamb;
 
         %
         % Perform the PC expansion.
         %
-        Pcoeff = chaos.expand(sample, trace(:, :, i - 1));
+        Pcoeff = chaos.expand(sample, coefficients(:, :, i - 1));
 
         %
         % Add the dynamic power to the mean.
@@ -111,13 +121,13 @@ classdef Chaos < HotSpot.Analytic
       %
       % Do not forget about the last coefficients.
       %
-      trace(:, :, stepCount) = Tcoeff * B;
-      trace(1, :, stepCount) = trace(1, :, stepCount) + Tamb;
+      coefficients(:, :, stepCount) = Tcoeff * B;
+      coefficients(1, :, stepCount) = coefficients(1, :, stepCount) + Tamb;
 
       %
       % Compute the expectation.
       %
-      Texp = squeeze(trace(1, :, :));
+      Texp = squeeze(coefficients(1, :, :));
 
       %
       % Compute the variance.
@@ -125,7 +135,7 @@ classdef Chaos < HotSpot.Analytic
       Tvar = zeros(stepCount, processorCount);
       norm = Utils.replicate(chaos.norm(2:end), 1, processorCount);
       for i = 1:stepCount
-        Tvar(i, :) = sum(trace(2:end, :, i).^2 .* norm, 1);
+        Tvar(i, :) = sum(coefficients(2:end, :, i).^2 .* norm, 1);
       end
       Tvar = Tvar.';
     end
