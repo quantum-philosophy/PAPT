@@ -29,7 +29,7 @@ function MonteCarlo
   display(hotspot);
 
   tic;
-  [ Texp2, Tvar2 ] = hotspot.computeWithLeakage( ...
+  [ Texp2, Tvar2 ] = hotspot.computeWithLeakageInParallel( ...
     options.powerProfile, options.leakage);
   fprintf('Monte Carlo: %.2f s\n', toc);
 
