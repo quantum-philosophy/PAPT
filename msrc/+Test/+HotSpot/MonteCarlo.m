@@ -2,7 +2,7 @@ function MonteCarlo
   clear all;
   setup;
 
-  options = Test.HotSpot.configure;
+  options = configure;
 
   chaosOptions = Options('order', 10, ...
     'quadratureOptions', Options('order', 11));
@@ -35,7 +35,7 @@ function MonteCarlo
 
   time = 1e-3 * (1:options.stepCount);
 
-  Test.HotSpot.draw(time, ...
+  compareTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
     { Tvar1, Tvar2 });
 end

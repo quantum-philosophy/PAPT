@@ -1,7 +1,7 @@
 function options = configure(varargin)
   options = Options(varargin{:});
 
-  path = File.join(File.trace, '..', 'Assets');
+  path = File.join(File.trace, '..', '..', 'Assets');
 
   processorCount = options.getSet('processorCount', 4);
 
