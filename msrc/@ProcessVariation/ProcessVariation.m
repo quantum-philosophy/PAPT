@@ -42,8 +42,8 @@ classdef ProcessVariation < handle
     end
   end
 
-  methods (Static, Access = 'private')
-    function [ P, dimension ] = analyze(floorplan, Lnom, options)
+  methods (Static)
+    function [ P, dimension ] = analyze(floorplan, Lnom, varargin)
       %
       % Description:
       %
@@ -65,7 +65,7 @@ classdef ProcessVariation < handle
 
       S = ones(1, lCount) * lDeviation;
 
-      P = ProcessVariation.performPCA(diag(S) * C * diag(S), options);
+      P = ProcessVariation.performPCA(diag(S) * C * diag(S), varargin{:});
 
       %
       % Append the global r.v.'s.
@@ -81,7 +81,9 @@ classdef ProcessVariation < handle
 
       dimension = size(P, 2);
     end
+  end
 
+  methods (Static, Access = 'private')
     function P = performPCA(M, options)
       %
       % Description:
@@ -92,7 +94,11 @@ classdef ProcessVariation < handle
       %
       [ P, L, E ] = pcacov(M);
 
-      reduction = options.get('reduction', 'adjustable');
+      if nargin < 2
+        reduction = 'adjustable';
+      else
+        reduction = options.get('reduction', 'adjustable');
+      end
 
       switch lower(reduction)
       case 'adjustable'

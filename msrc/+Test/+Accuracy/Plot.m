@@ -1,4 +1,4 @@
-init;
+setup;
 
 fontName = 'CMU_Sans_Serif';
 
