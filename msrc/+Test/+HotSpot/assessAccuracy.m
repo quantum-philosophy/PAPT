@@ -6,7 +6,7 @@ function assessAccuracy
   chaosSampleCount = 1e5;
 
   comparisonOptions = Options( ...
-    'method', 'histogram', 'range', '3sigma', 'function', 'pdf');
+    'method', 'histogram', 'range', 'unbounded', 'function', 'pdf');
 
   display(comparisonOptions, 'Comparison options');
 
@@ -31,7 +31,8 @@ function assessAccuracy
 
   for i = 1:sampleCount
     numeric = HotSpot.MonteCarlo(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine);
+      options.hotspotConfig, options.hotspotLine, ...
+      'sampleCount', sampleCountSet(i));
 
     [ mcTexp{i}, mcTvar{i}, mcTdata{i} ] = ...
       numeric.computeWithLeakageInParallel( ...
