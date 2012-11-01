@@ -16,7 +16,9 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
       this.sampleCount = options.get('sampleCount', 1e3);
     end
 
-    function [ Texp, Tvar ] = computeWithLeakageInParallel(this, Pdyn, leakage)
+    function [ Texp, Tvar, Tdata ] = computeWithLeakageInParallel( ...
+      this, Pdyn, leakage)
+
       [ processorCount, stepCount ] = size(Pdyn);
       sampleCount = this.sampleCount;
 
@@ -33,17 +35,17 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
       Lnom = leakage.Lnom;
       rvMap = this.rvMap;
 
-      data = zeros(processorCount, stepCount, sampleCount);
+      Tdata = zeros(processorCount, stepCount, sampleCount);
 
       parfor i = 1:sampleCount
-        data(:, :, i) = this.computeWithLeakage( ...
+        Tdata(:, :, i) = this.computeWithLeakage( ...
           Pdyn, leakage, Lnom + rvMap * rvs(:, i));
       end
 
-      Texp = mean(data, 3);
-      Tvar = var(data, [], 3);
+      Texp = mean(Tdata, 3);
+      Tvar = var(Tdata, [], 3);
 
-      save(filename, 'Texp', 'Tvar', '-v7.3');
+      save(filename, 'Texp', 'Tvar', 'Tdata', '-v7.3');
     end
   end
 end
