@@ -69,7 +69,7 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
 
       [ processorCount, stepCount ] = size(Pdyn);
 
-      rvs = rvs.';
+      rvs = leakage.Lnom + this.rvMap * rvs.';
       sampleCount = size(rvs, 2);
 
       Lnom = leakage.Lnom;
@@ -79,7 +79,7 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
 
       parfor i = 1:sampleCount
         Tdata(:, :, i) = this.computeWithLeakage( ...
-          Pdyn, leakage, Lnom + rvMap * rvs(:, i));
+          Pdyn, leakage, rvs(:, i));
       end
 
       Tdata = permute(Tdata, [ 3 1 2 ]);

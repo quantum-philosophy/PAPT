@@ -11,12 +11,12 @@ function MonteCarlo
     'quadratureOptions', Options( ...
       'method', 'sparse', ...
       'ruleName', 'GaussHermiteHW', ...
-      'order', 6));
+      'order', 5 + 1));
 
-  time = 1e-3 * (0:(options.stepCount - 1));
+  time = options.samplingInterval * (0:(options.stepCount - 1));
 
   timeSlice = 0.04;
-  k = floor(timeSlice / 1e-3);
+  k = floor(timeSlice / options.samplingInterval);
 
   %
   % One polynomial chaos.
@@ -98,7 +98,7 @@ function MonteCarlo
       line(rvs, Tdata1(:, i), 'Color', color, 'Marker', 'o');
       line(rvs, Tdata2(:, i), 'Color', color, 'Marker', 'x');
     end
-    Plot.title('Sweep at %.3f s', time);
+    Plot.title('Sweep at %.3f s', timeSlice);
     Plot.label('Random parameter', 'Temperature, C');
   end
 end

@@ -6,11 +6,17 @@ function Chaos
 
   options = configure;
 
+  chaosOptions = Options('order', 5, ...
+    'quadratureOptions', Options( ...
+      'method', 'sparse', ...
+      'ruleName', 'GaussHermiteHW', ...
+      'order', 5 + 1));
+
   %
   % One polynomial chaos.
   %
   hotspot = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+    options.hotspotConfig, options.hotspotLine, chaosOptions);
 
   display(hotspot);
 
@@ -23,18 +29,18 @@ function Chaos
   % Another polynomial chaos.
   %
   hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+    options.hotspotConfig, options.hotspotLine, chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
     hotspot.computeWithLeakage(options.powerProfile, options.leakage);
   fprintf('Stepwise polynomial chaos: %.2f s\n', toc);
 
-  time = 1e-3 * (1:options.stepCount);
+  time = options.samplingInterval * (1:options.stepCount);
 
   Utils.drawTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-    { Tvar1, Tvar2 }, 'labels', { 'PC 1', 'PC stepwise' });
+    { Tvar1, Tvar2 }, 'labels', { 'PC', 'PC stepwise' });
 
   showCoefficients(time, { coefficients1, coefficients2 });
 end

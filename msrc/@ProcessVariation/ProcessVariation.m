@@ -136,7 +136,7 @@ classdef ProcessVariation < handle
 
       distance = sqrt((dieX - coreX).^2 + (dieY - coreY).^2);
 
-      C = diag(ones(1, cores));
+      C = eye(cores);
 
       for i = 1:cores
         for j = (i + 1):cores
