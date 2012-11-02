@@ -34,7 +34,7 @@ function Chaos
 
   Utils.drawTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-    { Tvar1, Tvar2 });
+    { Tvar1, Tvar2 }, 'labels', { 'PC 1', 'PC stepwise' });
 
   showCoefficients(time, { coefficients1, coefficients2 });
 end

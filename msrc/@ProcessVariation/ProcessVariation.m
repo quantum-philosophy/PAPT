@@ -24,7 +24,7 @@ classdef ProcessVariation < handle
     globalRatio = 0.5;
   end
 
-  properties (Access = 'protected')
+  properties (SetAccess = 'protected')
     Lnom
 
     rvMap

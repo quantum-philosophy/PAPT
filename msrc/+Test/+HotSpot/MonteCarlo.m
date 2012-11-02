@@ -2,65 +2,103 @@ function MonteCarlo
   clear all;
   setup;
 
-  chaosSampleCount = 1e4;
-  carloSampleCount = 1e3;
+  chaosSampleCount = 1e5;
+  carloSampleCount = 1e4;
 
   options = configure;
 
-  chaosOptions = Options('order', 6, ...
+  chaosOptions = Options('order', 5, ...
     'quadratureOptions', Options( ...
       'method', 'sparse', ...
       'ruleName', 'GaussHermiteHW', ...
-      'order', 7));
+      'order', 6));
+
+  time = 1e-3 * (0:(options.stepCount - 1));
+
+  timeSlice = 0.04;
+  k = floor(timeSlice / 1e-3);
 
   %
   % One polynomial chaos.
   %
-  hotspot = HotSpot.Chaos(options.floorplan, ...
+  chaos = HotSpot.Chaos(options.floorplan, ...
     options.hotspotConfig, options.hotspotLine, chaosOptions);
 
-  display(hotspot);
-
-  tic;
-  [ Texp1, Tvar1, coefficients ] = hotspot.computeWithLeakage( ...
-    options.powerProfile, options.leakage);
-  fprintf('Polynomial chaos: %.2f s\n', toc);
-
-  Tdata1 = hotspot.sample(coefficients, chaosSampleCount);
+  display(chaos);
 
   %
   % Monte Carlo simulations.
   %
-  hotspot = HotSpot.MonteCarlo(options.floorplan, ...
+  mc = HotSpot.MonteCarlo(options.floorplan, ...
     options.hotspotConfig, options.hotspotLine, ...
     'sampleCount', carloSampleCount, 'verbose', 'true');
 
-  display(hotspot);
+  display(mc);
 
-  [ Texp2, Tvar2, Tdata2 ] = hotspot.computeWithLeakageInParallel( ...
+  tic;
+  [ Texp1, Tvar1, coefficients ] = chaos.computeWithLeakage( ...
     options.powerProfile, options.leakage);
+  fprintf('Polynomial chaos: construction time %.2f s.\n', toc);
 
-  Tdata2 = permute(Tdata2, [ 3 1 2 ]);
+  %
+  % Comparison of expectations, variances, and PDFs.
+  %
+  if Terminal.question('Compare expectations, variances, and PDFs? ')
+    tic;
+    Tdata1 = chaos.sample(coefficients, chaosSampleCount);
+    fprintf('Polynomial chaos: sampling time %.2f s (%d samples).\n', ...
+      toc, chaosSampleCount);
 
-  time = 1e-3 * (0:(options.stepCount - 1));
+    [ Texp2, Tvar2, Tdata2 ] = mc.computeWithLeakageInParallel( ...
+      options.powerProfile, options.leakage);
 
-  labels = { 'MC', 'PC' };
+    labels = { 'PC', 'MC' };
 
-  Utils.drawTemperature(time, ...
-    { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-    { Tvar1, Tvar2 }, 'labels', labels);
+    Utils.drawTemperature(time, ...
+      { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
+      { Tvar1, Tvar2 }, 'labels', labels);
 
-  k = floor(options.stepCount / 2);
+    Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
+    Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
 
-  limit = ylim;
-  ylim(limit);
-  line(1e-3 * [ k - 1, k - 1 ], limit, 'Color', Color.pick(4));
+    Data.compare(Tdata1, Tdata2, ...
+      'method', 'histogram', 'range', 'unbounded', ...
+      'layout', 'separate', 'draw', true, ...
+      'labels', labels);
+  end
 
-  Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
-  Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
+  %
+  % Sweeping of the random parameters.
+  %
+  rvs = -7:0.2:7;
+  index = uint8(1);
+  while Terminal.question('Sweep random variables? ')
+    index = Terminal.request( ...
+     'prompt', sprintf('Which random variables? [%s] ', Utils.toString(index)), ...
+     'type', 'uint8', 'default', index);
 
-  Data.compare(Tdata2, Tdata1, ...
-    'method', 'smooth', 'range', '4sigma', ...
-    'layout', 'separate', 'draw', true, ...
-    'labels', labels);
+     if any(index > chaos.rvCount), continue; end
+
+    RVs = zeros(length(rvs), options.processorCount + 1);
+    for i = index
+      RVs(:, i) = rvs;
+    end
+
+    Tdata1 = chaos.evaluate(coefficients, RVs);
+
+    Tdata2 = mc.evaluateWithLeakageInParallel( ...
+      options.powerProfile, options.leakage, RVs);
+
+    Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
+    Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
+
+    figure;
+    for i = 1:options.processorCount
+      color = Color.pick(i);
+      line(rvs, Tdata1(:, i), 'Color', color, 'Marker', 'o');
+      line(rvs, Tdata2(:, i), 'Color', color, 'Marker', 'x');
+    end
+    Plot.title('Sweep at %.3f s', time);
+    Plot.label('Random parameter', 'Temperature, C');
+  end
 end

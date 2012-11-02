@@ -59,8 +59,30 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
 
         save(filename, 'Texp', 'Tvar', 'Tdata', 'time', '-v7.3');
       end
-
       verbose('Monte Carlo: simulation time %.2f s.\n', time);
+
+      Tdata = permute(Tdata, [ 3 1 2 ]);
+    end
+
+   function Tdata = evaluateWithLeakageInParallel( ...
+      this, Pdyn, leakage, rvs)
+
+      [ processorCount, stepCount ] = size(Pdyn);
+
+      rvs = rvs.';
+      sampleCount = size(rvs, 2);
+
+      Lnom = leakage.Lnom;
+      rvMap = this.rvMap;
+
+      Tdata = zeros(processorCount, stepCount, sampleCount);
+
+      parfor i = 1:sampleCount
+        Tdata(:, :, i) = this.computeWithLeakage( ...
+          Pdyn, leakage, Lnom + rvMap * rvs(:, i));
+      end
+
+      Tdata = permute(Tdata, [ 3 1 2 ]);
     end
   end
 end

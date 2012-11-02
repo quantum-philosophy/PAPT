@@ -38,8 +38,17 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
     end
 
     function Tdata = sample(this, coefficients, sampleCount)
-      samples = normrnd(0, 1, sampleCount, this.rvCount);
-      Tdata = this.chaos.evaluateSet(samples, coefficients);
+      rvs = normrnd(0, 1, sampleCount, this.rvCount);
+      Tdata = this.evaluate(coefficients, rvs);
+    end
+
+    function Tdata = evaluate(this, coefficients, rvs)
+      Tdata = this.chaos.evaluateSet(rvs, coefficients);
+    end
+
+    function display(this)
+      display@HotSpot.Analytic(this);
+      display(this.chaos);
     end
   end
 
