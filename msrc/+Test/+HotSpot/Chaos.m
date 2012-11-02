@@ -6,14 +6,11 @@ function Chaos
 
   options = configure;
 
-  chaosOptions = Options('order', 4, ...
-    'quadratureOptions', Options('order', 5));
-
   %
   % One polynomial chaos.
   %
   hotspot = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, chaosOptions);
+    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
   display(hotspot);
 
@@ -26,7 +23,7 @@ function Chaos
   % Another polynomial chaos.
   %
   hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, chaosOptions);
+    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
@@ -35,7 +32,7 @@ function Chaos
 
   time = 1e-3 * (1:options.stepCount);
 
-  compareTemperature(time, ...
+  Utils.drawTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
     { Tvar1, Tvar2 });
 

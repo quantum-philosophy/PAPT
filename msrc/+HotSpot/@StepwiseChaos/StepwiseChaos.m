@@ -107,10 +107,5 @@ classdef StepwiseChaos < HotSpot.Chaos
       end
       Tvar = Tvar.';
     end
-
-    function Tdata = sample(this, coefficients, sampleCount)
-      samples = normrnd(0, 1, sampleCount, this.rvCount);
-      Tdata = this.chaos.evaluateSet(samples, coefficients);
-    end
   end
 end

@@ -24,12 +24,22 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
       assert(processorCount == this.processorCount);
 
       chaos = this.chaos;
-      chaos.expandPermanent(@(L) this.solve(Pdyn, leakage, L));
 
-      Texp = reshape(chaos.expectation, processorCount, stepCount);
-      Tvar = reshape(chaos.variance, processorCount, stepCount);
-      coefficients = reshape(chaos.coefficients, chaos.termCount, ...
+      coefficients = chaos.expand(@(L) this.solve(Pdyn, leakage, L));
+
+      outputCount = processorCount * stepCount;
+
+      Texp = reshape(coefficients(1, :), processorCount, stepCount);
+      Tvar = reshape(sum(coefficients(2:end, :).^2 .* ...
+        Utils.replicate(chaos.norm(2:end), 1, outputCount), 1), ...
         processorCount, stepCount);
+      coefficients = reshape(coefficients, chaos.termCount, ...
+        processorCount, stepCount);
+    end
+
+    function Tdata = sample(this, coefficients, sampleCount)
+      samples = normrnd(0, 1, sampleCount, this.rvCount);
+      Tdata = this.chaos.evaluateSet(samples, coefficients);
     end
   end
 
