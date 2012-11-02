@@ -6,7 +6,8 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
   methods
     function this = Chaos(floorplan, config, line, varargin)
       this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation(floorplan, varargin{:});
+      this = this@ProcessVariation(floorplan, varargin{:}, ...
+        'reduction', 'adjustable');
 
       this.chaos = PolynomialChaos.Hermite( ...
         'inputCount', this.rvCount, ...

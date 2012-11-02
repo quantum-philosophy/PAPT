@@ -59,7 +59,8 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
 
         save(filename, 'Texp', 'Tvar', 'Tdata', 'time', '-v7.3');
       end
-      verbose('Monte Carlo: simulation time %.2f s.\n', time);
+      verbose('Monte Carlo: simulation time %.2f s (%d samples).\n', ...
+        time, sampleCount);
 
       Tdata = permute(Tdata, [ 3 1 2 ]);
     end

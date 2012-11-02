@@ -3,15 +3,15 @@ function MonteCarlo
   setup;
 
   chaosSampleCount = 1e5;
-  carloSampleCount = 1e4;
+  carloSampleCount = 1e5;
 
   options = configure;
 
-  chaosOptions = Options('order', 5, ...
+  chaosOptions = Options('order', 6, ...
     'quadratureOptions', Options( ...
       'method', 'sparse', ...
       'ruleName', 'GaussHermiteHW', ...
-      'order', 5 + 1));
+      'order', 6 + 1));
 
   time = options.samplingInterval * (0:(options.stepCount - 1));
 
