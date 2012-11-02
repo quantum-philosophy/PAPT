@@ -33,24 +33,28 @@ function MonteCarlo
   %
   hotspot = HotSpot.MonteCarlo(options.floorplan, ...
     options.hotspotConfig, options.hotspotLine, ...
-    'sampleCount', carloSampleCount);
+    'sampleCount', carloSampleCount, 'verbose', 'true');
 
   display(hotspot);
 
-  tic;
   [ Texp2, Tvar2, Tdata2 ] = hotspot.computeWithLeakageInParallel( ...
     options.powerProfile, options.leakage);
-  fprintf('Monte Carlo: %.2f s\n', toc);
 
   Tdata2 = permute(Tdata2, [ 3 1 2 ]);
 
   time = 1e-3 * (0:(options.stepCount - 1));
 
+  labels = { 'MC', 'PC' };
+
   Utils.drawTemperature(time, ...
     { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-    { Tvar1, Tvar2 });
+    { Tvar1, Tvar2 }, 'labels', labels);
 
-  k = floor(2 * options.stepCount / 3);
+  k = floor(options.stepCount / 2);
+
+  limit = ylim;
+  ylim(limit);
+  line(1e-3 * [ k - 1, k - 1 ], limit, 'Color', Color.pick(4));
 
   Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
   Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
@@ -58,5 +62,5 @@ function MonteCarlo
   Data.compare(Tdata2, Tdata1, ...
     'method', 'smooth', 'range', '4sigma', ...
     'layout', 'separate', 'draw', true, ...
-    'labels', { 'Monte Carlo', 'Polynomial chaos' });
+    'labels', labels);
 end
