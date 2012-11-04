@@ -63,15 +63,15 @@
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
 
-\newcommand{\f}{\mathcal{W}}
+\newcommand{\f}{f}
 
 %
 % System profiles.
 %
 \renewcommand{\part}{\boldsymbol{\Delta}}
-\newcommand{\prof}[1]{\Pi\left[\part, #1\right]}
-\newcommand{\profB}[1]{\Pi\lfloor\part, #1\rfloor}
-\newcommand{\profE}[1]{\Pi\lceil\part, #1\rceil}
+\newcommand{\prof}[1]{\left[\part, #1\right]}
+\newcommand{\profB}[1]{\lfloor\part, #1\rfloor}
+\newcommand{\profE}[1]{\lceil\part, #1\rceil}
 
 \makeatletter
 \def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
