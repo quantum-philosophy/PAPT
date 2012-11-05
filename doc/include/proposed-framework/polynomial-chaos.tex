@@ -1,50 +1,25 @@
-At this point, the goal is to transform \eref{power-model} in such a way that the recurrence in \eref{recurrence} becomes computationally feasible. To this end, we employ a mathematical framework called the generalized polynomial chaos (PC) \cite{xiu2002}, which deconstructs stochastic processes into infinite sequences of hypergeometric orthogonal polynomials, given by the Askey scheme, of \rvs. Orthogonality of a set of polynomials $\{ \pcb_i(\vz) \}$ is defined as
-\begin{equation} \elabel{orthogonality}
-  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} \eqdef \pcn_i \delta_{ij}
-\end{equation}
-where the operator $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ are normalization constants. The inner product with a weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
-\begin{equation} \elabel{inner-product-integral}
-  \oInner{f(\vz)}{g(\vz)} \eqdef \int f(\vz) g(\vz) \PDF(\vz) d\vz
-\end{equation}
-when $\PDF(\vz)$ is continuous, or as the following summation:
-\begin{equation} \elabel{inner-product-sum}
-  \oInner{f(\vz)}{g(\vz)} \eqdef \sum f(\vz) g(\vz) \PDF(\vz)
-\end{equation}
-when $\PDF(\vz)$ is discrete. In our case, the weight function corresponds to the probability density (or mass) function $\PDF_\vZ(\vz)$ of $\vZ(\o)$, and the inner product coincides with the expectation operator. It can be seen that orthogonality is equivalent to the absence of correlations, and this is what we seek for.
+The goal now is to transform the ``problematic'' term in \eref{recurrence}, \ie, the power term defined by \eref{power-model}, in such a way that the recurrence in \eref{recurrence} becomes computationally feasible. Our solution is construction of a surrogate model, or equally a meta model, for the power model in \eref{power-model}, which we shall further propagate through \eref{recurrence} to construct an approximant for temperature. To this end, we employ the generalized polynomial chaos (PC) \cite{xiu2002}, which decomposes stochastic quantities into infinite series of orthogonal polynomials of \rvs. Such a series is especially attractive from the post-processing perspective as it is nothing more than a polynomial, the concept that everybody is familiar with; therefore, a PC expansion is easy to interpret and is essentially easy to evaluate. A brief introduction to orthogonal polynomials can be found in the appendix, \aref{orthogonal-polynomials}.
 
-The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vZ(\o)) \}$ according to the Askey scheme \cite{xiu2002}. The step is crucial as the rate of convergence essentially depends on it. There are no strict rules that guarantee the optimal choice \cite{maitre2010, knio2006}; however, in general, one should be guided by the underlying \rvs. For instance, the Hermite polynomials are suitable for Gaussian \rvs\ while the Jacobi polynomials are preferable for beta variations; refer to \cite{xiu2010, xiu2002} for the other choices of polynomial bases and probability distributions as well as the case of arbitrary distributions.
+\input{include/assets/askey.tex}
+The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}$, which is typically picked from the Askey scheme of hypergeometric orthogonal polynomials \cite{xiu2002}. The step is crucial as the rate of convergence of future expansions essentially depends on it. There are no strict rules that guarantee the optimal choice \cite{maitre2010, knio2006}; however, as a rule of thumbs, one should be guided by the probability distributions of the \rvs\ that drive the stochastic system. The reason for this is that each polynomial basis is orthogonal with respect to a certain weight function (see \aref{orthogonal-polynomials}), and some of such weight functions directly correspond to certain \pdfs; therefore, when these two functions match each other, it can have a positive effect on convergence, even make it exponential \cite{xiu2002}. \tref{askey} displays several examples of paired probability distributions and polynomial bases; it can be seen that the weight functions are equal the standard \pdfs\ up to a constant factor. Therefore, if the \rvs\ $\vZ(\o)$ follow, for instance, a beta distribution, the Jacobi basis is worth being tried first; refer to \cite{xiu2010, xiu2002} for further discussions.
 
-Having an appropriate basis chosen, we first apply the PC procedure to power in \eref{ode-solution}. The resulting infinite series should be truncated to become feasible for practical computations. In this case, the expansion is defined as
+Having an appropriate basis chosen, we apply the PC procedure to power in \eref{recurrence} and truncate the resulting infinite series in order to make it feasible for practical implementations. We formally define such an expansion as
 \begin{equation} \elabel{pc-expansion}
-  \oPC{\vars}{\pcorder}{\vP(0, \o)} \eqdef \sum_{i = 1}^{\pcterms} \pcc{\vP}_i \; \pcb_i(\vZ(\o))
+  \oPC{\vars}{\pcorder}{\vP_k(\o)} \eqdef \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \; \pcb_i(\vZ(\o))
 \end{equation}
-where $\pcc{\vP}_i \in \real^\cores$ are the coefficients of the expansion, and $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials. $\pcorder$ is the order of the expansion that determines the maximal degree of the $\vars$-variate polynomials involved in the expansion; hence, $\pcorder$ also defines the level of accuracy. When the total-order polynomial space is used \cite{beck2011}, $\pcterms$ is
+where $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials of $\vars$ variables, and $\pcc{\vP}_{ki} \in \real^\cores$ are the coefficients of the expansion. The latter are computed using spectral projections as it is thoroughly explained in the appendinx, \aref{spectral-projection}. $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\vars$-variate polynomials involved in the expansion; hence, $\pcorder$ also defines the level of accuracy. When the total-order polynomial space is used \cite{beck2011}, $\pcterms$ is
 \begin{equation} \elabel{pc-terms}
-  \pcterms = \frac{(\pcorder + \vars)!}{\pcorder! \; \vars!}
+  \pcterms = { \pcorder + \vars \choose \vars }.
 \end{equation}
 
-Finally, we need to determine the coefficients of the expansion, $\pcc{\vP}_i$. To this end, a spectral projection of the stochastic process in \eref{power-model} onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is performed. Consequently, one needs to compute the inner product of \eref{power-model}, taken at the beginning of the corresponding time interval, with each polynomial from the basis as
-\[
-  \oInner{\sum_{i=1}^{\pcterms} \pcc{\vP}_i \pcb_i(\vZ(\o))}{\pcb_j(\vZ(\o))} = \oInner{\vP(0, \o)}{\pcb_j(\vZ(\o))}
-\]
-where $j \in \{ 1, \dotsc, \pcterms \}$. Making use of \eref{orthogonality}, we obtain
-\begin{equation} \elabel{pc-coefficients}
-  \pcc{\vP}_j = \frac{1}{\pcn_j} \oInner{\vP(0, \o)}{\pcb_j(\vZ(\o))}
+It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\o)$ retains the same polynomial structure as $\vP_k(\o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as follows for $k = 1, \dotsc, \steps$:
+\begin{equation} \elabel{expanded-recurrence}
+  \oPC{\vars}{\pcorder}{\vX_k(\o)} = \mE_k \: \oPC{\vars}{\pcorder}{\vX_{k-1}(\o)} + \mD_k \: \oPC{\vars}{\pcorder}{\vP_k(\o)}.
 \end{equation}
-In general, the evaluation of the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product-integral} and \eref{inner-product-sum}, should be done numerically. \eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions: the so-called curse of dimensionality, which results in a large number of terms in expansions and in the growing complexity of their coefficients when the number of stochastic dimensions is high. This issue is to be addressed in \sref{ie-uncertain-parameters} and \sref{ie-polynomial-chaos}.
-
-It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\t, \o)$ retains the same polynomial structure as $\vP_k(0, \o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as
-\[
-  \oPC{\vars}{\pcorder}{\vX_k(\t, \o)} = \mE(\t) \; \oPC{\vars}{\pcorder}{\vX_k(0, \o)} + \mD(\t) \; \oPC{\vars}{\pcorder}{\vP_k(0, \o)}
-\]
-where $k \in \{ 1, \dotsc, \steps \}$ and $\t \in [0, \dt_k]$. Thus, there are two PC expansions for two concurrent stochastic processes with the same basis but different coefficients. The above equation can be explicitly written as
-\[
-  \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki}(\t) \pcb_i(\vZ(\o)) = \sum_{i = 1}^{\pcterms} \left( \mE(\t) \pcc{\vX}_{ki} + \mD(\t) \pcc{\vP}_{ki} \right) \pcb_i(\vZ(\o))
-\]
-Multiplying the above equation by each polynomial from the basis and making use of \eref{orthogonality}, we have
+Thus, there are two PC expansions for two concurrent stochastic processes with the same basis but different coefficients. As shown in \aref{spectral-projection}, \eref{expanded-recurrence} can be reduced to
 \begin{equation} \elabel{pc-recurrence}
-  \pcc{\vX}_{ki}(\t) = \mE(\t) \pcc{\vX}_{ki} + \mD(\t) \pcc{\vP}_{ki}
+  \pcc{\vX}_{ki} = \mE_k \: \pcc{\vX}_{(k - 1)i} + \mD_k \: \pcc{\vP}_{ki}
 \end{equation}
-where $k \in \{ 1, \dots, \steps \}$ and $i \in \{ 1, \dotsc, \pcterms \}$. Finally, \eref{pc-recurrence} is substituted into \eref{fourier-output} to compute the coefficients of the PC expansion of the temperature vector $\vTO(\t, \o)$. It should be noted that, since $\vP(0, \o)$ depends on temperature (see \sref{power-model}), at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be undertaken with respect to the current PC expansion of $\vTO_k(0, \o)$.
+where $k = 1, \dotsc, \steps$ and $i = 1, \dotsc, \pcterms$. Finally, \eref{pc-recurrence} and \eref{fourier-output} are combined together to compute the coefficients of the PC expansion of the temperature vector $\vTO_k(\o)$.
 
-It can be seen that the PC has replaced the recurrence in \eref{recurrence}---wherein an arbitrary functional $\vP_k(0, \omega)$ (see \sref{power-model}) of the uncertain parameters and stochastic temperature is involved, which, moreover, needs to be summed up in the presence of correlations with another random vector, $\vX_k(0, \omega)$---with a \emph{deterministic} recurrence in \eref{pc-recurrence}, where only linear operations are used.
+It can be seen that the performed spectral decompositions have replaced the recurrence in \eref{recurrence}---wherein an arbitrary functional $\vP_k(\omega)$ (see \sref{power-model}) of the uncertain parameters and stochastic temperature is involved, which, moreover, needs to be summed up in the presence of correlations with another random vector, $\vX_k(\omega)$---with a purely deterministic recurrence in \eref{pc-recurrence}, where only linear operations are used.

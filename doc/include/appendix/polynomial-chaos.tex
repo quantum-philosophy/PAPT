@@ -1,0 +1,31 @@
+\subsection{Orthogonal Polynomials} \alabel{orthogonal-polynomials}
+In this subsection, we outline the basic properties of orthogonal polynomials that are necessary for PC expansions derived in \sref{polynomial-chaos}. A set of polynomials $\{ \pcb_i(\vz) \}$ is called orthogonal if
+\begin{equation} \elabel{orthogonality}
+  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} \eqdef \pcn_i \delta_{ij}, \qquad \forall i, j
+\end{equation}
+where the operator $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ are normalization constants. The inner product with a weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
+\begin{equation} \elabel{inner-product}
+  \oInner{f(\vz)}{g(\vz)} \eqdef \int f(\vz) g(\vz) \PDF(\vz) d\vz.
+\end{equation}
+In our case, the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}), which we denote by $\PDF_\vZ(\vz)$; therefore, the inner product coincides with expectation. It can be seen that orthogonality is equivalent to the absence of correlations, and this is what we seek for. Note that, although we focus on continuous \rvs, the generalized PC and, thus, our framework based on it work equally well for discrete \rvs; see, \eg, \cite{xiu2010, maitre2010, xiu2002}.
+
+\subsection{Computational Aspects} \alabel{spectral-projection}
+In order to find the coefficient of the PC expansion in \eref{pc-expansion}, a spectral projection of the stochastic quantity being expanded, \ie, $\vP_k(\o)$, onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is to be performed. This means that one needs to compute inner products of \eref{power-model}, taken at the beginning of the $k$th time interval, with each polynomial from the basis as
+\[
+  \oInner{\vP_k(\o)}{\pcb_j(\vZ(\o))} = \oInner{\sum_{i=1}^{\pcterms} \pcc{\vP}_{ki} \: \pcb_i(\vZ(\o))}{\pcb_j(\vZ(\o))}
+\]
+where $j = 1, \dotsc, \pcterms$. Making use of \eref{orthogonality}, we obtain
+\begin{equation} \elabel{pc-coefficients}
+  \pcc{\vP}_{kj} = \frac{1}{\pcn_j} \oInner{\vP_k(\o)}{\pcb_j(\vZ(\o))}.
+\end{equation}
+In general, the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product}, should be evaluated numerically. The overall procedure is to be perform for $k = 1, \dotsc, \steps$.
+
+\eref{expanded-recurrence} can be explicitly written as
+\[
+  \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki} \: \pcb_i(\vZ(\o)) = \sum_{i = 1}^{\pcterms} \left( \mE_k \: \pcc{\vX}_{(k - 1)i} + \mD_k \: \pcc{\vP}_{ki} \right) \pcb_i(\vZ(\o))
+\]
+Multiplying the above equation by each polynomial from the basis and making use of \eref{orthogonality}, we obtain \eref{pc-recurrence}. We would like to return to \eref{pc-coefficients} and remark that, since $\vP(\o)$ depends on temperature (see \sref{power-model}), at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the current PC expansion of temperature, \ie, $\vTO_k(\o)$.
+
+\eref{pc-terms} together with \eref{pc-coefficients} reveal the major difficulty with polynomial expansions: they suffer from the so-called curse of dimensionality, \ie, as the number of stochastic dimensions increases, the number of polynomial terms as well as the complexity of the corresponding coefficients exhibit a significant growth, which exponential without special treatments. The problem does not have a general solution and is one of the central topics of active reseach. In this paper, we mitigate the problem by reducing the number of stochastic dimensions, discussed in \sref{ie-uncertain-parameters}, and using efficient integration techniques, discussed in \sref{ie-polynomial-chaos}.
+
+By definition \cite{xiu2010}, the first polynomial $\pcb_1(\vZ(\o))$ in an orthogonal polynomial basis is unity; hence, $\oExp{\pcb_1(\vZ(\o))} = 1$. Therefore, using \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ(\o))} = 0$ for $i = 2, \dotsc, \pcterms$.
