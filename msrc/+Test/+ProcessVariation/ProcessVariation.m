@@ -7,16 +7,14 @@ for i = 1:length(processorCount)
   floorplan = File.join( ...
     File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
 
-  PCA = ProcessVariation.analyze(floorplan, LeakagePower.Lnom);
+  process = ProcessVariation.Discrete(floorplan);
 
-  [ ~, dimension ] = size(PCA);
-
-  fprintf('Processors: %d, Random variables: %d\n', ...
-    processorCount(i), dimension);
+  fprintf('Processors: %d, random variables: %d\n', ...
+    processorCount(i), process.dimension);
 
   fprintf('%10s%20s%15s\n', 'Processor', 'Expectation, nm', 'Deviation, nm');
 
-  L = PCA * normrnd(0, 1, dimension, sampleCount);
+  L = process.Ldev * process.Lmap * normrnd(0, 1, process.dimension, sampleCount);
   expectation = mean(L, 2) * 1e9;
   deviation = sqrt(var(L, 0, 2)) * 1e9;
 

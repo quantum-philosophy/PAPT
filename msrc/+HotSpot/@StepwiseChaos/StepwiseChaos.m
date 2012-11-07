@@ -3,7 +3,7 @@ classdef StepwiseChaos < HotSpot.Chaos
     ET
     DT
     B
-    rvMapT
+    LmapT
   end
 
   methods
@@ -13,7 +13,7 @@ classdef StepwiseChaos < HotSpot.Chaos
       this.ET = this.E.';
       this.DT = this.D.';
       this.B = this.BT.';
-      this.rvMapT = this.rvMap.';
+      this.LmapT = this.Lmap.';
     end
 
     function [ Texp, Tvar, coefficients ] = ...
@@ -26,21 +26,22 @@ classdef StepwiseChaos < HotSpot.Chaos
 
       Tamb = this.ambientTemperature;
 
-      Lnom = this.Lnom;
-
       chaos = this.chaos;
 
       ET = this.ET;
       DT = this.DT;
       B = this.B;
-      rvMapT = this.rvMapT;
+
+      Lnom = this.Lnom;
+      Ldev = this.Ldev;
+      LmapT = this.LmapT;
 
       %
       % Here we are going to store the stochastic temperature.
       %
       coefficients = zeros(chaos.termCount, processorCount, stepCount);
 
-      sample = @(L) leakage.evaluate(Lnom + L * rvMapT, Tamb);
+      sample = @(rvs) leakage.evaluate(Lnom + rvs * LmapT * Ldev, Tamb);
 
       %
       % Perform the PC expansion and obtain the coefficients of
@@ -53,7 +54,7 @@ classdef StepwiseChaos < HotSpot.Chaos
       %
       Pcoeff(1, :) = Pcoeff(1, :) + PdynT(1, :);
 
-      sample = @(L, T) leakage.evaluate(Lnom + L * rvMapT, T);
+      sample = @(rvs, T) leakage.evaluate(Lnom + rvs * LmapT * Ldev, T);
 
       %
       % The first step is special because we do not have any expansion yet,

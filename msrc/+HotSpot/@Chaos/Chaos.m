@@ -1,4 +1,4 @@
-classdef Chaos < HotSpot.Analytic & ProcessVariation
+classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
   properties (Access = 'protected')
     chaos
   end
@@ -6,11 +6,11 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
   methods
     function this = Chaos(floorplan, config, line, varargin)
       this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation(floorplan, varargin{:}, ...
+      this = this@ProcessVariation.Discrete(floorplan, ...
         'reduction', 'adjustable');
 
       this.chaos = PolynomialChaos.Hermite( ...
-        'inputCount', this.rvCount, ...
+        'inputCount', this.dimension, ...
         'order', 4, ...
         'quadratureOptions', Options( ...
           'method', 'tensor', ...
@@ -39,7 +39,7 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
     end
 
     function Tdata = sample(this, coefficients, sampleCount)
-      rvs = normrnd(0, 1, sampleCount, this.rvCount);
+      rvs = normrnd(0, 1, sampleCount, this.dimension);
       Tdata = this.evaluate(coefficients, rvs);
     end
 
@@ -54,7 +54,7 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
   end
 
   methods (Access = 'private')
-    function T = solve(this, Pdyn, leakage, L)
+    function T = solve(this, Pdyn, leakage, rvs)
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
@@ -63,8 +63,8 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation
       BT = this.BT;
       Tamb = this.ambientTemperature;
 
-      sampleCount = size(L, 1);
-      L = this.Lnom + this.rvMap * transpose(L);
+      sampleCount = size(rvs, 1);
+      L = this.Lnom + this.Ldev * this.Lmap * transpose(rvs);
 
       range = 1:processorCount;
       T = zeros(processorCount * stepCount, sampleCount);

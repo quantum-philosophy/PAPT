@@ -77,7 +77,7 @@ function MonteCarlo
      'prompt', sprintf('Which random variables? [%s] ', Utils.toString(index)), ...
      'type', 'uint8', 'default', index);
 
-     if any(index > chaos.rvCount), continue; end
+     if any(index > chaos.dimension), continue; end
 
     RVs = zeros(length(rvs), options.processorCount + 1);
     for i = index

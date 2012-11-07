@@ -1,4 +1,4 @@
-classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
+classdef MonteCarlo < HotSpot.Analytic & ProcessVariation.Discrete
   properties (SetAccess = 'private')
     sampleCount
     verbose
@@ -9,10 +9,10 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
       options = Options(varargin{:});
 
       this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation(floorplan, options, ...
+      this = this@ProcessVariation.Discrete(floorplan, ...
         'reduction', 'none');
 
-      assert(this.rvCount == this.processorCount + 1);
+      assert(this.dimension == this.processorCount + 1);
 
       this.sampleCount = options.get('sampleCount', 1e3);
       if options.get('verbose', false)
@@ -40,17 +40,18 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
       else
         verbose('Monte Carlo: running %d simulations...\n', sampleCount);
 
-        rvs = normrnd(0, 1, this.rvCount, sampleCount);
+        rvs = normrnd(0, 1, this.dimension, sampleCount);
 
-        Lnom = leakage.Lnom;
-        rvMap = this.rvMap;
+        Lnom = this.Lnom;
+        Ldev = this.Ldev;
+        Lmap = this.Lmap;
 
         Tdata = zeros(processorCount, stepCount, sampleCount);
 
         tic;
         parfor i = 1:sampleCount
           Tdata(:, :, i) = this.computeWithLeakage( ...
-            Pdyn, leakage, Lnom + rvMap * rvs(:, i));
+            Pdyn, leakage, Lnom + Ldev * Lmap * rvs(:, i));
         end
         time = toc;
 
@@ -70,7 +71,7 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation
 
       [ processorCount, stepCount ] = size(Pdyn);
 
-      rvs = leakage.Lnom + this.rvMap * rvs.';
+      rvs = this.Lnom + this.Ldev * this.Lmap * rvs.';
       sampleCount = size(rvs, 2);
 
       Lnom = leakage.Lnom;
