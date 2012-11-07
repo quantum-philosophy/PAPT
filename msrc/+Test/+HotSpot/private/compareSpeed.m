@@ -1,10 +1,11 @@
-function measureSpeed(varargin)
+function compareSpeed(varargin)
   setup;
 
   sampleCount = 1e4;
 
   experiment = Options(varargin{:});
   experimentCount = length(experiment.range);
+  repeat = experiment.get('repeat', ones(1, experimentCount));
 
   fprintf('%15s%15s%15s%15s%15s%15s\n', ...
     experiment.shortName, 'Chaos, s', ...
@@ -27,23 +28,28 @@ function measureSpeed(varargin)
     numeric = HotSpot.Numeric(options.floorplan, ...
       options.hotspotConfig, options.hotspotLine);
 
-    tic;
-    chaos.computeWithLeakage(options.powerProfile, options.leakage);
-    measurements(i, 1) = toc;
-    fprintf('%15.2f', measurements(i, 1));
+    for j = 1:repeat(i)
+      tic;
+      chaos.computeWithLeakage(options.powerProfile, options.leakage);
+      measurements(i, 1) = measurements(i, 1) + toc;
 
-    tic;
-    analytic.computeWithLeakage(options.powerProfile, options.leakage);
-    measurements(i, 2) = toc * sampleCount;
+      tic;
+      analytic.computeWithLeakage(options.powerProfile, options.leakage);
+      measurements(i, 2) = measurements(i, 2) + toc * sampleCount;
+
+
+      tic;
+      numeric.computeWithLeakage(options.powerProfile, options.leakage);
+      measurements(i, 3) = measurements(i, 3) + toc * sampleCount;
+    end
+
+    measurements(i, :) = measurements(i, :) / repeat(i); 
+
+    fprintf('%15.2f', measurements(i, 1));
     fprintf('%15.2f', measurements(i, 2) / 60);
     fprintf('%15.2e', measurements(i, 2) / measurements(i, 1));
-
-    tic;
-    numeric.computeWithLeakage(options.powerProfile, options.leakage);
-    measurements(i, 3) = toc * sampleCount;
     fprintf('%15.2f', measurements(i, 3) / 60 / 60);
     fprintf('%15.2e', measurements(i, 3) / measurements(i, 1));
-
     fprintf('\n');
   end
 
