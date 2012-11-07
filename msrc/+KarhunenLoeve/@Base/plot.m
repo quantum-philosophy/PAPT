@@ -10,8 +10,8 @@ function plot(this)
   Plot.title('Eigenfunctions');
 
   figure;
-  plot(1:d, this.values / this.values(1), 'Color', Color.pick(1));
-  Plot.title('Eigenvalue decay');
+  plot(1:d, this.values, 'Color', Color.pick(1));
+  Plot.title('Eigenvalues');
 
   figure;
   plot(1:d, this.values ./ cumsum(this.values), 'Color', Color.pick(1));

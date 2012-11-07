@@ -1,4 +1,4 @@
-classdef KarhunenLoeve < handle
+classdef Base < handle
   properties (SetAccess = 'private')
     dimension
     domainBoundary
@@ -9,20 +9,22 @@ classdef KarhunenLoeve < handle
   end
 
   methods
-    function this = KarhunenLoeve(varargin)
+    function this = Base(varargin)
       options = Options(varargin{:});
       this.initialize(options);
     end
   end
 
-  methods (Access = 'private')
+  methods (Abstract, Access = 'protected')
     [ values, functions ] = construct(this, options)
+  end
 
+  methods (Access = 'private')
     function initialize(this, options)
-      this.dimension = options.dimension;
       this.domainBoundary = options.domainBoundary;
       this.correlationLength = options.correlationLength;
       [ this.values, this.functions ] = this.construct(options);
+      this.dimension = length(this.values);
     end
   end
 end
