@@ -1,4 +1,4 @@
-function C = computeCorrelation(floorplan, threshold)
+function C = construct(this, floorplan, options)
   D = dlmread(floorplan, '', 0, 1);
 
   W = D(:, 1);
@@ -11,13 +11,13 @@ function C = computeCorrelation(floorplan, threshold)
 
   processorX = X + W / 2 - dieW / 2;
   processorY = Y + H / 2 - dieH / 2;
-  
+
   domain = max(dieW, dieH) / 2;
 
   kl = KarhunenLoeve.Exponential( ...
     'domainBoundary', domain, ...
     'correlationLength', domain, ...
-    'threshold', 1 - threshold);
+    'threshold', 1 - options.get('threshold', this.threshold));
 
   processorCount = size(D, 1);
   dimensionCount = kl.dimension;
