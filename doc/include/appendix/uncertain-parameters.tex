@@ -1,5 +1,41 @@
-Since any covariance matrix is necessarily a real, symmetric matrix, it admits the eigenvalue factorization \cite{press2007} as $\mCov_\vU = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_\vU$, respectively. Consequently, $\vU(\o)$ can be decomposed as $\vU(\o) = \m{V} \m{\Lambda}^\ifrac{1}{2} \vZ(\o) = \oInvTransform{\vZ(\o)}$ where $\vZ(\o) \sim \normal{\vZero}{\mI}$ is the desired vector of centered, normalized, and mutually independent uncertain parameters, and $\oInvTransform{\idot}$ is the corresponding inverse transformation (see \sref{uncertain-parameters}).
+In the illustrative example from \sref{illustrative-example}, we assume that the uncertain input that corresponds to the local (intra-die) variability is given as a stochastic process $\lLeff(r, \o)$. Following the strategy in \sref{uncertain-parameters}, we utilize the Karhunen-Lo\`{e}ve (KL) expansion in order to reduce the process to a finite set of independent \rvs, which, together with the global (inter-die) \rv\ $\gLeff(\o)$, form the overall parametrization $\vZ(\o)$. In this section, we show the application of KL to the covariance function $\fCov{\lLeff}{r_1, r_2}$ of $\lLeff(r, \o)$ given by \eref{covariance-function} \cite{maitre2010, ghanem1991, ghanta2006}; in what follows, the superscript of the process is omitted for clarity reasons. We encourage the reader to draw an analogy between the development of KL with the one that corresponds to the well-known singular value decomposition (SVD) as the latter is a special case of KL.
 
-The number of stochastic dimensions $\vars$, which so far is $\cores + 1$, directly impacts the computational cost of a PC expansion as it is seen in \eref{pc-terms}. Therefore, one should consider a possibility of model order reduction before constructing PC expansions. The intuition is that, due to the existing correlations between \rvs, some of them can be harmlessly replaced by linear combinations of the rest. One way to reveal these redundancies is to analyze the eigenvalues $\lambda_i$ found in $\m{\Lambda}$. Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\bar{\lambda}_i = \lambda_i / \sum_j \lambda_j$. Gradually summing up the arranged and normalized eigenvalues $\bar{\lambda}_i$, we can identify a subset of them, which has the cumulative sum greater than a certain threshold $\Lth$. When $\Lth$ is sufficiently high (close to one), the rest of the eigenvalues and their eigenvectors can be dropped as being insignificant, reducing the number of stochastic dimensions $\vars$. The results of the algorithm are reported in \sref{experimental-results}.
+Let the stochastic process $\Leff(r, \o)$ be defined over a spicial domain $\domain$, be centered, and have a finite variance. Since the covariance function $\fCov{\Leff}{r_1, r_2}$ is bounded, symmetric, and positive-definite by definition, it admits the following spectral decomposition:
+\[
+  \fCov{\Leff}{r_1, r_2} = \sum_{i = 1}^\infty \klv_i \: \klf{\Leff}_i(r_1) \: \klf{\Leff}_i(r_2)
+\]
+where $\klv_i$ and $\klf{\Leff}_i(r)$ are known as eigenvalues and eigenfunctions of $\fCov{\Leff}{r_1, r_2}$; the latter are orthogonal. The eigenpairs are found by solving the following integral equation:
+\begin{equation} \elabel{kl-eigenpairs}
+  \int_\domain \fCov{\Leff}{r_1, r_2} \: \klf{\Leff}_i (r) \: dr_1 = \klv_i \: \klf{\Leff}_i(r_2)
+\end{equation}
+Sequentially, the stochastic process $\Leff(r, \o)$ can be expanded into the following Fourier-like series:
+\begin{equation} \elabel{kl-expansion}
+  \Leff(r, \o) = \sum_{i = 1}^\infty \sqrt{\lambda_i} \: \pcc{\Leff}_i(r) \: \Z_i(\o)
+\end{equation}
+where $\Z_i(\o)$ are centered and uncorrelated \rvs, which have the following formula:
+\[
+  \Z_i(\o) = \frac{1}{\sqrt{\klv_i}} \int_\domain \Leff(r, \o) \: \klf{\Leff}_i \: dr
+\]
+If the process is Gaussian, $\Z_i(\o)$ are Gaussian and, hence, are independent. The final step is truncation of \eref{kl-expansion} as the series is infinite. The most common stategy to achieve this is to monitor the decay of the eigenvalues $\klv_i$ and to find the smallest $k$ such that $\klv_k / \sum_{i = 1}^k \klv_i$ is below than a predefined threshold.
 
-In the model order reduction technique (see \sref{ie-uncertain-parameters}) the threshold parameter $\Lth$ is set to $0.99$ preserving $99\%$ of the variance of the data.
+In general, \eref{kl-eigenpairs} does not have a closed-form solution; however, such a solution is available for some of the most important covariance functions, and \eref{covariance-function} is one of them. It can be shown \cite{ghanem1991} that the eigenfunctions of $\fCov{\Leff}{r_1, r_2}$ are
+\begin{align*}
+  & \klf{\Leff}_i(r) = \frac{\cos(w_i \: r)}{\sqrt{a + \frac{\sin(2 w_i a)}{2 w_i}}}, & \klf{\Leff}_i(r) = \frac{\sin(w_i \: r)}{\sqrt{a - \frac{\sin(2 w_i a)}{2 w_i}}}
+\end{align*}
+for even and odd $i$, respectively, and the corresponding eigenvalues are found using
+\[
+  \klv_i = \frac{2 c}{w_i^2 + c^2}
+\]
+In the above equations, the process is assumed to be defined over the domain $\domain = [-a, a]$; $c$ is the inverse of the correlation length $\corrLength$, \ie, $c = 1 / \corrLength$; and $w$ is a shortcut for
+\[
+  w^2 = \frac{2 c - c^2 \klv}{\klv}
+\]
+The latter can be computed by solving the following transcendental equations using, for instance, the bisection method \cite{press2007}:
+\begin{equation*}
+  \begin{cases}
+    & c - w \: \tan (w a) = 0 \\
+    & w + c \: \tan (w a) = 0
+  \end{cases}
+\end{equation*}
+
+It is worth being noted that the KL expansion is, in fact, a convenient and widespread way to perform simulations of stochastic processes with given covariance functions. The key feature of the decomposition is that the error due to truncation is minimal in the mean-square sense \cite{ghanem1991}. Therefore, the MC approach used in the experimental results, \sref{experimental-results}, to assess our framework internally uses KL. However, in order to draw a more objective comparison, the threshold parameter, used to truncate expansions, in MC is higher that those used in our technique. To be precise, the threshold parameter is set to $0.99$ for the MC-based approach and to $0.95$ for our method.
