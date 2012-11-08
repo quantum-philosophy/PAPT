@@ -4,27 +4,23 @@ fontName = 'CMU_Sans_Serif';
 
 order = 1:5;
 
-exp = [ 0.16 0.09 0.11 0.11 0.11 ];
-var = [ 36.44 11.96 2.19 1.67 1.68 ];
-pdf = [ 17.51 15.67 8.38 4.99 3.81 ];
-pdf = [ 8.11 6.61 4.11 1.86 1.48 ];
-cdf = [ 5.77 2.51 1.13 0.66 0.51 ];
-
-color = [ 1, 173, 206; 235, 113, 39; 195, 167, 6; 102, 204, 0; 214, 48, 86 ] / 255;
+exp = [  0.44  0.16 0.14 0.13 0.13 ];
+var = [ 36.92 14.97 6.32 3.01 1.72 ];
+pdf = [  8.80  6.33 3.07 1.74 1.59 ];
 
 figure;
 
 line(order, exp, ...
-  'Color', color(1, :), ...
-  'LineWidth', 2);
+  'Color', Color.pick(1), ...
+  'LineWidth', 2, 'Marker', 'v', 'MarkerSize', 8);
 
 line(order, var, ...
-  'Color', color(2, :), ...
-  'LineWidth', 2);
+  'Color', Color.pick(2), ...
+  'LineWidth', 2, 'Marker', 's', 'MarkerSize', 8);
 
 line(order, pdf, ...
-  'Color', color(3, :), ...
-  'LineWidth', 2);
+  'Color', Color.pick(3), ...
+  'LineWidth', 2, 'Marker', 'o', 'MarkerSize', 8);
 
 set(gca, 'XTick', order);
 

@@ -1,6 +1,6 @@
 function assessAccuracy
   setup;
-  rng(0);
+  rng(1);
 
   stepCount = 1e2;
   chaosSampleCount = 1e5;
@@ -13,47 +13,50 @@ function assessAccuracy
   orderSet       = [ 1 2 3 4 5 ];
   sampleCountSet = [ 1e2 1e3 1e4 1e5 ];
 
-  pick = [ 0 0 ];
+  pick = [ 4 1e5 ];
 
   orderCount = length(orderSet);
   sampleCount = length(sampleCountSet);
 
   options = configure('stepCount', stepCount);
 
-  printHeader(sampleCountSet);
-
   %
   % Monte Carlo simulation.
   %
+  numeric = HotSpot.MonteCarlo(options.floorplan, ...
+    options.hotspotConfig, options.hotspotLine, ...
+    'sampleCount', max(sampleCountSet), 'verbose', true);
+
+  [ ~, ~, mcTDATA ] = ...
+    numeric.computeWithLeakageInParallel( ...
+    options.powerProfile, options.leakage);
+
   mcTexp = cell(sampleCount, 1);
   mcTvar = cell(sampleCount, 1);
   mcTdata = cell(sampleCount, 1);
 
   for i = 1:sampleCount
-    numeric = HotSpot.MonteCarlo(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine, ...
-      'sampleCount', sampleCountSet(i));
-
-    [ mcTexp{i}, mcTvar{i}, mcTdata{i} ] = ...
-      numeric.computeWithLeakageInParallel( ...
-      options.powerProfile, options.leakage);
-
-    mcTdata{i} = permute(mcTdata{i}, [ 3, 1, 2 ]);
+    mcTdata{i} = mcTDATA(1:sampleCountSet(i), :, :);
+    mcTexp{i} = mean(mcTdata{i}, 1);
+    mcTvar{i} = var(mcTdata{i}, [], 1);
   end
 
   errorExp = zeros(orderCount, sampleCount);
   errorVar = zeros(orderCount, sampleCount);
   errorPDF = zeros(orderCount, sampleCount);
 
+  printHeader(sampleCountSet);
+
   %
   % Polynomial chaos expansion.
   %
   for i = 1:orderCount
     options.chaosOptions.order = orderSet(i);
+    options.chaosOptions.quadratureOptions.polynomialOrder = orderSet(i);
 
     fprintf('%5d | ', orderSet(i));
 
-    chaos = HotSpot.StepwiseChaos(options.floorplan, ...
+    chaos = HotSpot.Chaos(options.floorplan, ...
       options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
     [ Texp, Tvar, coefficients ] = chaos.computeWithLeakage( ...
@@ -66,10 +69,10 @@ function assessAccuracy
       errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, Tvar) * 100;
 
       if all([ i, j ] == pick)
-        errorPDF(i, j) = compareData(mcTdata{j}, Tdata, ...
+        errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
           comparisonOptions, 'draw', true) * 100;
       else
-        errorPDF(i, j) = compareData(mcTdata{j}, Tdata, ...
+        errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
           comparisonOptions) * 100;
       end
 

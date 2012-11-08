@@ -7,11 +7,11 @@ function MonteCarlo
 
   options = configure;
 
-  chaosOptions = Options('order', 6, ...
+  chaosOptions = Options('order', 4, ...
     'quadratureOptions', Options( ...
       'method', 'sparse', ...
       'ruleName', 'GaussHermiteHW', ...
-      'order', 6 + 1));
+      'order', 4 + 1));
 
   time = options.samplingInterval * (0:(options.stepCount - 1));
 
@@ -79,7 +79,7 @@ function MonteCarlo
 
      if any(index > chaos.dimension), continue; end
 
-    RVs = zeros(length(rvs), options.processorCount + 1);
+    RVs = zeros(length(rvs), chaos.dimension);
     for i = index
       RVs(:, i) = rvs;
     end

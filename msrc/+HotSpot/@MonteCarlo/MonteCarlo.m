@@ -1,4 +1,4 @@
-classdef MonteCarlo < HotSpot.Analytic & ProcessVariation.Continuous
+classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
   properties (SetAccess = 'private')
     sampleCount
     verbose
@@ -8,10 +8,10 @@ classdef MonteCarlo < HotSpot.Analytic & ProcessVariation.Continuous
     function this = MonteCarlo(floorplan, config, line, varargin)
       options = Options(varargin{:});
 
-      this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.99);
+      this = this@HotSpot.Numeric(floorplan, config, line);
+      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.95);
 
-      assert(this.dimension == this.processorCount + 1);
+      % assert(this.dimension >= this.processorCount + 1);
 
       this.sampleCount = options.get('sampleCount', 1e3);
       if options.get('verbose', false)
