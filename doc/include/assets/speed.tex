@@ -1,22 +1,22 @@
 \begin{table}[b]
-  \vspace{-16pt}
+  \vspace{-10pt}
   \centering
   \caption{Scaling with the number of processing elements $\cores$.}
-  \begin{tabular*}{0.85\linewidth}{p{20pt}crrr}
+  \begin{tabular*}{0.90\linewidth}{p{30pt}rrr}
     \toprule
-    $\cores$ & $\vars$ & PC, seconds & MC, hours & Speedup, times \\
+    $\cores$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
-    $ 2$ & $2$ & $0.28$ & $30.98$ & $3.99 \times 10^5$ \\
-    $ 4$ & $3$ & $0.30$ & $31.04$ & $3.73 \times 10^5$ \\
-    $ 8$ & $4$ & $0.59$ & $31.06$ & $1.88 \times 10^5$ \\
-    $16$ & $5$ & $1.37$ & $38.97$ & $1.03 \times 10^5$ \\
-    $32$ & $6$ & $6.78$ & $40.27$ & $2.14 \times 10^4$ \\
+    $ 2$ & $0.47$ & $37.30$ & $2.86 \times 10^5$ \\
+    $ 4$ & $0.89$ & $41.52$ & $1.67 \times 10^5$ \\
+    $ 8$ & $1.52$ & $42.56$ & $1.01 \times 10^5$ \\
+    $16$ & $2.11$ & $43.38$ & $7.41 \times 10^4$ \\
+    $32$ & $3.01$ & $47.22$ & $5.65 \times 10^4$ \\
     \bottomrule
   \end{tabular*}
   \tlabel{scaling-cores}
   \vspace{5pt}
   \caption{Scaling with the number of steps $\steps$.}
-  \begin{tabular*}{0.85\linewidth}{p{42pt}rrr}
+  \begin{tabular*}{0.90\linewidth}{p{30pt}rrr}
     \toprule
     $\steps$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule

@@ -19,3 +19,5 @@ where $\t \in [0, \dt]$, $\vP(0, \o)$ is the power dissipation at the beginning 
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
 \end{align*}
 Repeating the procedure for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ of the power profile and letting the initial temperature be equal to the abmient temperature, which has no loss of generality, we obtain the recurrence in \eref{recurrence}.
+
+Then, we use the technique described in \cite{ukhov2012} to compute the coefficient matrices $\mE(\t)$ and $\mD(\t)$ of the recurrence in \eref{recurrence}.

@@ -18,7 +18,11 @@ where $j = 1, \dotsc, \pcterms$. Making use of \eref{orthogonality}, we obtain
 \begin{equation} \elabel{pc-coefficients}
   \pcc{\vP}_{kj} = \frac{1}{\pcn_j} \oInner{\vP_k(\o)}{\pcb_j(\vZ(\o))}.
 \end{equation}
-In general, the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product}, should be evaluated numerically. The overall procedure is to be perform for $k = 1, \dotsc, \steps$.
+In general, the inner product in \eref{pc-coefficients}, which is defined by \eref{inner-product}, should be evaluated numerically. The total number of the coefficient, $\pcterms$, is given by the following expression, which corresponds to the total-order polynomial space \cite{beck2011}:
+\begin{equation} \elabel{pc-terms}
+  \pcterms = { \pcorder + \vars \choose \vars }.
+\end{equation}
+The overall procedure is to be perform for $k = 1, \dotsc, \steps$.
 
 \eref{expanded-recurrence} can be explicitly written as
 \[
