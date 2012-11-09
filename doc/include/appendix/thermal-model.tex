@@ -9,7 +9,7 @@ where the number of differential equations is equal to the number of thermal nod
 \end{equation*}
 and obtain the system in \eref{fourier-system}, which is rewritten in the stochastic form, where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, the differential part in \eref{fourier-system}, or equally in \eref{fourier-system-original}, is nonlinear due to the source term $\vP(\t)$ since we do not make any assumptions about its structure (see the discussion in \eref{power-model}). Therefore, there are no closed-form solutions to the system.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdyn$, which is given in \sref{problem-formulation}, are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdyn$, which is given in \sref{problem-formulation}, are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is \cite{ukhov2012}
 \begin{equation} \elabel{ode-solution}
   \vX(\t) = \mE(\t) \: \vX(0) + \mD(\t) \: \vP(0)
 \end{equation}
@@ -18,4 +18,4 @@ where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation
   & \mE(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \\
   & \mD(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
 \end{align*}
-The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the abmient temperature. It is worth being noted that when the power profile is evenly sampled, the coefficient matrices $\mE(\t)$ and $\mD(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome of the probability space, we obtain the recurrence in \eref{recurrence}.
+The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the abmient temperature. It is worth being noted that when the power profile is evenly sampled, the coefficient matrices $\mE(\t)$ and $\mD(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome, $\o$, of the probability space, we obtain the recurrence in \eref{recurrence}.
