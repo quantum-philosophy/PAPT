@@ -10,11 +10,11 @@ where $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\p
 
 It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\o)$ retains the same polynomial structure as $\vP_k(\o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as follows for $k = 1, \dotsc, \steps$:
 \begin{equation} \elabel{expanded-recurrence}
-  \oPC{\vars}{\pcorder}{\vX_k(\o)} = \mE_k \: \oPC{\vars}{\pcorder}{\vX_{k-1}(\o)} + \mD_k \: \oPC{\vars}{\pcorder}{\vP_k(\o)}.
+  \oPC{\vars}{\pcorder}{\vX_k(\o)} = \mCF_k \: \oPC{\vars}{\pcorder}{\vX_{k-1}(\o)} + \mCS_k \: \oPC{\vars}{\pcorder}{\vP_k(\o)}.
 \end{equation}
 Thus, there are two PC expansions for two concurrent stochastic processes with the same basis but different coefficients. As shown in \aref{spectral-projection}, \eref{expanded-recurrence} can be reduced to
 \begin{equation} \elabel{pc-recurrence}
-  \pcc{\vX}_{ki} = \mE_k \: \pcc{\vX}_{(k - 1)i} + \mD_k \: \pcc{\vP}_{ki}
+  \pcc{\vX}_{ki} = \mCF_k \: \pcc{\vX}_{(k - 1)i} + \mCS_k \: \pcc{\vP}_{ki}
 \end{equation}
 where $k = 1, \dotsc, \steps$ and $i = 1, \dotsc, \pcterms$. Finally, \eref{fourier-output} and \eref{pc-recurrence} are combined together to compute the coefficients of the PC expansion of the temperature vector $\vTO_k(\o)$.
 
