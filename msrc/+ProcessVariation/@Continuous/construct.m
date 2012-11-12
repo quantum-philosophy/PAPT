@@ -9,10 +9,13 @@ function C = construct(this, floorplan, options)
   dieW = max(X + W);
   dieH = max(Y + H);
 
-  processorX = X + W / 2 - dieW / 2;
-  processorY = Y + H / 2 - dieH / 2;
+  dieX = dieW / 2;
+  dieY = dieH / 2;
 
-  domain = max(dieW, dieH) / 2;
+  processorX = X + W / 2 - dieX;
+  processorY = Y + H / 2 - dieY;
+
+  domain = sqrt(dieX^2 + dieY^2);
 
   kl = KarhunenLoeve.Exponential( ...
     'domainBoundary', domain, ...

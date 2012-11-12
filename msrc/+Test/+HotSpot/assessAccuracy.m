@@ -10,10 +10,10 @@ function assessAccuracy
 
   display(comparisonOptions, 'Comparison options');
 
-  orderSet       = [ 1 2 3 4 5 ];
+  orderSet       = [ 1 2 3 4 5 6 7 ];
   sampleCountSet = [ 1e2 1e3 1e4 1e5 ];
 
-  pick = [ 4 1e5 ];
+  pick = [ 0 0 ];
 
   orderCount = length(orderSet);
   sampleCount = length(sampleCountSet);

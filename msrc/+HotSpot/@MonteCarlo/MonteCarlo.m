@@ -9,9 +9,7 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
       options = Options(varargin{:});
 
       this = this@HotSpot.Numeric(floorplan, config, line);
-      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.95);
-
-      % assert(this.dimension >= this.processorCount + 1);
+      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.99);
 
       this.sampleCount = options.get('sampleCount', 1e3);
       if options.get('verbose', false)
