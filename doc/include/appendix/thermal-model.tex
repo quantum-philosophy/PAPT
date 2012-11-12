@@ -16,6 +16,6 @@ The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdy
 where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation at the beginning of the time interval with respect to the corresponding temperature, and
 \begin{align*}
   & \mCF(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \\
-  & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \mB \in \real^{\nodes \times \cores}
+  & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \: \mB \in \real^{\nodes \times \cores}
 \end{align*}
-The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the abmient temperature. It is worth being noted that when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome, $\o$, of the probability space, we obtain the recurrence in \eref{recurrence}.
+The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the abmient temperature. It is worth being noted that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome, $\o$, of the probability space, we obtain the recurrence in \eref{recurrence}.

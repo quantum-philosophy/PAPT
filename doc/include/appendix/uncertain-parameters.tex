@@ -6,7 +6,7 @@ Let the stochastic process $\Leff(r, \o)$ be defined over a spicial domain $\dom
 \]
 where $\klv_i$ and $\klf{\Leff}_i(r)$ are known as eigenvalues and eigenfunctions of $\fCov{\Leff}{r_1, r_2}$; the latter are orthogonal. The eigenpairs are found by solving the following integral equation:
 \begin{equation} \elabel{kl-eigenpairs}
-  \int_\domain \fCov{\Leff}{r_1, r_2} \: \klf{\Leff}_i (r) \: dr_1 = \klv_i \: \klf{\Leff}_i(r_2)
+  \int_\domain \fCov{\Leff}{r_1, r_2} \: \klf{\Leff}_i (r) \: dr_1 = \klv_i \: \klf{\Leff}_i(r_2).
 \end{equation}
 Sequentially, the stochastic process $\Leff(r, \o)$ can be expanded into the following Fourier-like series:
 \begin{equation} \elabel{kl-expansion}
@@ -14,9 +14,9 @@ Sequentially, the stochastic process $\Leff(r, \o)$ can be expanded into the fol
 \end{equation}
 where $\Z_i(\o)$ are centered and uncorrelated \rvs, which have the following formula:
 \[
-  \Z_i(\o) = \frac{1}{\sqrt{\klv_i}} \int_\domain \Leff(r, \o) \: \klf{\Leff}_i \: dr
+  \Z_i(\o) = \frac{1}{\sqrt{\klv_i}} \int_\domain \Leff(r, \o) \: \klf{\Leff}_i \: dr.
 \]
-If the process is Gaussian, $\Z_i(\o)$ are Gaussian and, hence, are independent. The final step is truncation of \eref{kl-expansion} as the series is infinite. The most common stategy to achieve this is to monitor the decay of the eigenvalues $\klv_i$ and to find the smallest $k$ such that $\klv_k / \sum_{i = 1}^k \klv_i$ is below than a predefined threshold.
+If the process is Gaussian, $\Z_i(\o)$ are independent Gaussian \rvs. The final step is truncation of \eref{kl-expansion} as the series is infinite. The most common stategy to perform this is to monitor the decay of the eigenvalues $\klv_i$ and to find the smallest $k$ such that $\klv_k / \sum_{i = 1}^k \klv_i$ is below than a predefined threshold.
 
 In general, \eref{kl-eigenpairs} does not have a closed-form solution; however, such a solution is available for some of the most important covariance functions, and \eref{covariance-function} is one of them. It can be shown \cite{ghanem1991} that the eigenfunctions of $\fCov{\Leff}{r_1, r_2}$ are
 \begin{align*}
@@ -24,11 +24,11 @@ In general, \eref{kl-eigenpairs} does not have a closed-form solution; however, 
 \end{align*}
 for even and odd $i$, respectively, and the corresponding eigenvalues are found using
 \[
-  \klv_i = \frac{2 c}{w_i^2 + c^2}
+  \klv_i = \frac{2 c}{w_i^2 + c^2}.
 \]
 In the above equations, the process is assumed to be defined over the domain $\domain = [-a, a]$; $c$ is the inverse of the correlation length $\corrLength$, \ie, $c = 1 / \corrLength$; and $w$ is a shortcut for
 \[
-  w^2 = \frac{2 c - c^2 \klv}{\klv}
+  w^2 = \frac{2 c - c^2 \klv}{\klv}.
 \]
 The latter can be computed by solving the following transcendental equations using, for instance, the bisection method \cite{press2007}:
 \begin{equation*}
@@ -38,4 +38,4 @@ The latter can be computed by solving the following transcendental equations usi
   \end{cases}
 \end{equation*}
 
-It is worth being noted that the KL expansion is, in fact, a convenient and widespread way to perform simulations of stochastic processes with given covariance functions. The key feature of the decomposition is that the error due to truncation is minimal in the mean-square sense \cite{ghanem1991}. Therefore, the MC approach used in the experimental results, \sref{experimental-results}, to assess our framework internally uses KL. However, in order to draw a more objective comparison, the threshold parameter, used to truncate expansions, in MC is higher that those used in our technique. To be precise, the threshold is set to $0.99$ for the MC-based approach and to $0.95$ for our method. In either case, the domain $\domain = [-a, a]$ is such that the whole die is covered by the smallest circle with radius $a$ (recall $r$ is the radial distance from the center of the die), and the correlation length $\corrLength$ is equal to the radius, \ie, $a = \corrLength$.
+It is worth being noted that the KL expansion is, in fact, a convenient and widespread way to perform simulations of stochastic processes with given covariance functions. The key feature of the decomposition is that the error due to truncation is minimal in the mean-square sense \cite{ghanem1991}. Therefore, the MC approach used in the experimental results, \sref{experimental-results}, to assess our framework internally uses KL. However, in order to draw a more objective comparison, the threshold parameter, used to truncate expansions, in MC is higher that those used in our technique. To be precise, the threshold is set to $0.99$ for the MC-based approach and to $0.95$ for our method. In both cases, the domain $\domain = [-a, a]$ is such that the whole die is covered by the smallest circle with radius $a$ (recall $r$ is the radial distance from the center of the die), and the correlation length $\corrLength$ is equal to the radius, \ie, $a = \corrLength$.
