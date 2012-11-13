@@ -6,17 +6,11 @@ function Chaos
 
   options = configure;
 
-  chaosOptions = Options('order', 5, ...
-    'quadratureOptions', Options( ...
-      'method', 'sparse', ...
-      'ruleName', 'GaussHermiteHW', ...
-      'order', 5 + 1));
-
   %
   % One polynomial chaos.
   %
   hotspot = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, chaosOptions);
+    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
   display(hotspot);
 
@@ -29,7 +23,7 @@ function Chaos
   % Another polynomial chaos.
   %
   hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, chaosOptions);
+    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...

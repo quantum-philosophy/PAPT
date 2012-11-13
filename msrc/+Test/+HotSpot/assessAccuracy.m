@@ -31,6 +31,8 @@ function assessAccuracy
     numeric.computeWithLeakageInParallel( ...
     options.powerProfile, options.leakage);
 
+  mcTDATA = mcTDATA(randperm(max(sampleCountSet)), :, :);
+
   mcTexp = cell(sampleCount, 1);
   mcTvar = cell(sampleCount, 1);
   mcTdata = cell(sampleCount, 1);

@@ -7,12 +7,6 @@ function MonteCarlo
 
   options = configure;
 
-  chaosOptions = Options('order', 4, ...
-    'quadratureOptions', Options( ...
-      'method', 'sparse', ...
-      'ruleName', 'GaussHermiteHW', ...
-      'order', 4 + 1));
-
   time = options.samplingInterval * (0:(options.stepCount - 1));
 
   timeSlice = 0.04;
@@ -22,7 +16,7 @@ function MonteCarlo
   % One polynomial chaos.
   %
   chaos = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, chaosOptions);
+    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
 
   display(chaos);
 
