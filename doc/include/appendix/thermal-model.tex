@@ -5,7 +5,7 @@ In this section, we provide additional details on the thermal model utilized by 
 \end{subnumcases}
 where the number of differential equations is equal to the number of thermal nodes, $\nodes$; $\mC, \mG \in \real^{\nodes \times \nodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^{\nodes}$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\cores$ and $\mM \in \real^{\nodes \times \cores}$ are the input vector of power and its mapping matrix to the thermal nodes; $\vTO \in \real^\cores$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\cores$ is the vector of the ambient temperature. For convenience, we perform an auxiliary transformation of \eref{fourier-system-original} using \cite{ukhov2012}
 \begin{equation*}
-  \vX = \mC^\frac{1}{2} \vTI, \qquad \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \qquad \mB = \mC^{-\frac{1}{2}} \mM
+  \vX = \mC^\frac{1}{2} \vTI, \hspace{1em} \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \hspace{1em} \text{and} \hspace{1em} \mB = \mC^{-\frac{1}{2}} \mM
 \end{equation*}
 and obtain the system in \eref{fourier-system}, which is rewritten in the stochastic form, where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, the differential part in \eref{fourier-system}, or equally in \eref{fourier-system-original}, is nonlinear due to the source term $\vP(\t)$ since we do not make any assumptions about its structure (see the discussion in \eref{power-model}). Therefore, there are no closed-form solutions to the system.
 
@@ -13,9 +13,10 @@ The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdy
 \begin{equation} \elabel{ode-solution}
   \vX(\t) = \mCF(\t) \: \vX(0) + \mCS(\t) \: \vP(0)
 \end{equation}
-where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation at the beginning of the time interval with respect to the corresponding temperature, and
+where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation at the beginning of the time interval with respect to the corresponding temperature,
 \begin{align*}
-  & \mCF(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes} \\
-  & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \: \mB \in \real^{\nodes \times \cores}
+  & \mCF(\t) = e^{\mA \t} \in \real^{\nodes \times \nodes}, \text{ and} \\
+  & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \: \mB \in \real^{\nodes \times \cores}.
 \end{align*}
-The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the abmient temperature. It is worth being noted that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome, $\o$, of the probability space, we obtain the recurrence in \eref{recurrence}.
+The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^{\steps}$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the ambient temperature. It is worth being noted that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on the outcome, $\o$, of the probability space, we obtain the recurrence in \eref{recurrence}.
+\input{include/assets/circuit.tex}

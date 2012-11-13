@@ -6,6 +6,6 @@ where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\lea
 \[
   \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i I_{\leak, i}(\Leff_i(\o), \T_i(\t, \o))
 \]
-where $\beta_i$ are scaling coefficients, and $\Leff_i(\o) = \gLeff(\o) + \lLeff(r_i, \o)$.
+where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\gLeff(\o)$ and $\lLeff(r_i, \o)$ as discussed in \sref{ie-uncertain-parameters}.
 
 At Stage~3, the equivalent thermal RC circuits---specifically, the coefficient matrices in \eref{fourier-system}---are constructed by means of HotSpot v5.02 \cite{hotspot}. Thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nodes = 4 \cores + 12$. An example of such a circuit is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.

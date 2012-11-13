@@ -6,7 +6,7 @@ It can be seen in \eref{inner-product} that the integrand can be decomposed into
 \]
 where $\qdn{\vZ}_i \in \real^\vars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively, $\qdorder$ is their number, and $\qdlevel$ is the accuracy level of the quadrature rule, which is $\vars$-variate. Note that, once the rule to use is identified, $\qdn{\vZ}_i$ and $\qdw_i$ are fixed, \ie, there are no any additional computational efforts.
 
-Since in the illustrative example in \sref{illustrative-example} we need to compute inner products with respect to Gaussian measures, the Gauss-Hermite quadrature rule is of particular interest. The rule belongs to a broad class of rules known as Gaussian rules, which implies that its order $\qdorder$ and presicion $\qdprecision$ are related as $\qdprecision = 2 \qdorder - 1$; this feature makes Gaussian quadratures especially efficient \cite{heiss2008}. Consequently, we rewrite \eref{pc-coefficients} as
+Since in the illustrative example in \sref{illustrative-example} we need to compute inner products with respect to Gaussian measures, the Gauss-Hermite quadrature rule is of particular interest. The rule belongs to a broad class of rules known as Gaussian rules, which implies that its order $\qdorder$ and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorder - 1$; this feature makes Gaussian quadratures especially efficient \cite{heiss2008}. Consequently, we rewrite \eref{pc-coefficients} as
 \[
   \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oQuad{\vars}{\qdlevel}{\vP_k(\o) \pcb_i(\vZ(\o))}
 \]

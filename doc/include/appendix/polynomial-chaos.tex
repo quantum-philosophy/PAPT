@@ -1,9 +1,9 @@
 \input{include/assets/askey.tex}
-Due to the inherent complexity, a real-world UQ problem is typically viewed as an approximation problem, wherein one first constructs a light representation of the initial model and then studies the constructed surrogate as it is computationally more efficient; this is the idea behind this paper. The generalized polynomial chaos (PC) \cite{xiu2002} is one way to perform such an approxiamtion, in which the approximating functions are orthogonal polynomials. In this section, we provide some of the basic properties \cite{xiu2010, maitre2010} of this class of polynomials necessary for the PC expansions derived in \sref{polynomial-chaos}.
+Due to the inherent complexity, a real-world UQ problem is typically viewed as an approximation problem, wherein one first constructs a light representation of the initial model and then studies the constructed surrogate as it is computationally more efficient; this is the idea behind this paper. The generalized polynomial chaos (PC) \cite{xiu2002} is one way to perform such an approximation, in which the approximating functions are orthogonal polynomials. In this section, we provide some of the basic properties \cite{xiu2010, maitre2010} of this class of polynomials necessary for the PC expansions derived in \sref{polynomial-chaos}.
 
 A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
 \begin{equation} \elabel{orthogonality}
-  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j
+  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
 \end{equation}
 where $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ is a normalization constant. The inner product with a weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
 \begin{equation} \elabel{inner-product}
@@ -25,7 +25,7 @@ In general, the inner product in \eref{pc-coefficients}, which is defined by \er
 \end{equation}
 The overall procedure is to be perform for $k = 1, \dotsc, \steps$.
 
-Finally, we need to show the derivation of the recurrent expession in \eref{pc-recurrence}, which is used together with \eref{fourier-output} to compute the PC coefficients of temperature. Using the definition in \eref{pc-expansion}, \eref{expanded-recurrence} can be explicitly written as
+Finally, we need to show the derivation of the recurrent expression in \eref{pc-recurrence}, which is used together with \eref{fourier-output} to compute the PC coefficients of temperature. Using the definition in \eref{pc-expansion}, \eref{expanded-recurrence} can be explicitly written as
 \[
   \sum_{i = 1}^{\pcterms} \pcc{\vX}_{ki} \: \pcb_i(\vZ(\o)) = \sum_{i = 1}^{\pcterms} \left( \mCF_k \: \pcc{\vX}_{(k - 1)i} + \mCS_k \: \pcc{\vP}_{ki} \right) \pcb_i(\vZ(\o)).
 \]
