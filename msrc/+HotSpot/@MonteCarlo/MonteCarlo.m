@@ -1,6 +1,7 @@
 classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
   properties (SetAccess = 'private')
     sampleCount
+    filename
     verbose
   end
 
@@ -12,6 +13,7 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
       this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.99);
 
       this.sampleCount = options.get('sampleCount', 1e3);
+      this.filename = options.get('filename', []);
       if options.get('verbose', false)
         this.verbose = @(varargin) fprintf(varargin{:});
       else
@@ -27,8 +29,11 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
 
       verbose = this.verbose;
 
-      filename = sprintf('MonteCarlo_%s.mat', ...
-        DataHash({ Pdyn, Utils.toString(leakage), sampleCount }));
+      filename = this.filename;
+      if isempty(filename)
+        filename = sprintf('MonteCarlo_%s.mat', ...
+          DataHash({ Pdyn, Utils.toString(leakage), sampleCount }));
+      end
 
       if File.exist(filename)
         verbose('Monte Carlo: using cached data in "%s"...\n', filename);

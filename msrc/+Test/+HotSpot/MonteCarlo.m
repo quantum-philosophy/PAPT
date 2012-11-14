@@ -3,7 +3,7 @@ function MonteCarlo
   setup;
 
   chaosSampleCount = 1e5;
-  carloSampleCount = 1e5;
+  carloSampleCount = 1e4;
 
   options = configure;
 
