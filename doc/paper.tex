@@ -1,6 +1,8 @@
 \documentclass{sig-alternate}
 \input{include/definitions.tex}
 
+\usepackage{setspace}
+
 \bibliography{include/references.bib}
 
 \begin{document}
@@ -32,11 +34,15 @@
   \input{include/experimental-results.tex}
 
   \vspace{-0.5em}
-  \section{Conclusion and Future Work} \slabel{conclusion}
+  \section{Conclusion} \slabel{conclusion}
   \input{include/conclusion.tex}
 
-  \vspace{-0.5em}
+  \vspace{-1.2em}
+  \begingroup
+  \setstretch{0.8}
+  \setlength\bibitemsep{1pt}
   \printbibliography
+  \endgroup
 
   \appendix
   \input{include/appendix.tex}
