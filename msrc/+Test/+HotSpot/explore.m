@@ -89,6 +89,7 @@ function explore
   gaOptions.MutationFcn = @mutate;
   gaOptions.PopulationSize = populationSize;
   gaOptions.SelectionFcn = @selectiontournament;
+  gaOptions.UseParallel = 'always';
 
   tic;
   best = ga(@evaluate, 2 * taskCount, gaOptions);
