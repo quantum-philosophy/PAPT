@@ -1,22 +1,10 @@
-classdef StepwiseChaos < HotSpot.Chaos
-  properties (Access = 'protected')
-    ET
-    DT
-    B
-    LmapT
-  end
-
+classdef PowerStepwiseChaos < HotSpot.StepwiseChaos
   methods
-    function this = StepwiseChaos(varargin)
-      this = this@HotSpot.Chaos(varargin{:});
-
-      this.ET = this.E.';
-      this.DT = this.D.';
-      this.B = this.BT.';
-      this.LmapT = this.Lmap.';
+    function this = PowerStepwiseChaos(varargin)
+      this = this@HotSpot.StepwiseChaos(varargin{:});
     end
 
-    function [ Texp, Tvar, coefficients ] = ...
+    function [ Texp, Tvar, Tcoeff, Pexp, Pvar, Pcoeff ] = ...
       computeWithLeakage(this, Pdyn, leakage)
 
       [ processorCount, stepCount ] = size(Pdyn);
@@ -37,9 +25,10 @@ classdef StepwiseChaos < HotSpot.Chaos
       LmapT = this.LmapT;
 
       %
-      % Here we are going to store the stochastic temperature.
+      % Here we are going to store the stochastic power and temperature.
       %
-      coefficients = zeros(chaos.termCount, processorCount, stepCount);
+      Pcoeff = zeros(chaos.termCount, processorCount, stepCount);
+      Tcoeff = zeros(chaos.termCount, processorCount, stepCount);
 
       sample = @(rvs) leakage.evaluate(Lnom + rvs * LmapT * Ldev, Tamb);
 
@@ -47,12 +36,12 @@ classdef StepwiseChaos < HotSpot.Chaos
       % Perform the PC expansion and obtain the coefficients of
       % the current power.
       %
-      Pcoeff = chaos.expand(sample);
+      Pcoeff(:, :, 1) = chaos.expand(sample);
 
       %
       % Add the dynamic power of the first step to the mean.
       %
-      Pcoeff(1, :) = Pcoeff(1, :) + PdynT(1, :);
+      Pcoeff(1, :, 1) = Pcoeff(1, :, 1) + PdynT(1, :);
 
       sample = @(rvs, T) leakage.evaluate(Lnom + rvs * LmapT * Ldev, T);
 
@@ -60,53 +49,73 @@ classdef StepwiseChaos < HotSpot.Chaos
       % The first step is special because we do not have any expansion yet,
       % and the (projected) temperature is assumed to be zero.
       %
-      Tcoeff = Pcoeff * DT;
+      Xcoeff = Pcoeff(:, :, 1) * DT;
 
       for i = 2:stepCount
         %
         % Calculate the previous temperature coefficients
         % (it is a real temperature now, i.e., in Kelvin).
         %
-        coefficients(:, :, i - 1) = Tcoeff * B;
-        coefficients(1, :, i - 1) = coefficients(1, :, i - 1) + Tamb;
+        Tcoeff(:, :, i - 1) = Xcoeff * B;
+        Tcoeff(1, :, i - 1) = Tcoeff(1, :, i - 1) + Tamb;
 
         %
         % Perform the PC expansion.
         %
-        Pcoeff = chaos.expand(sample, coefficients(:, :, i - 1));
+        Pcoeff(:, :, i) = chaos.expand(sample, Tcoeff(:, :, i - 1));
 
         %
         % Add the dynamic power to the mean.
         %
-        Pcoeff(1, :) = Pcoeff(1, :) + PdynT(i, :);
+        Pcoeff(1, :, i) = Pcoeff(1, :, i) + PdynT(i, :);
 
         %
         % Compute new coefficients for each of the terms
         % of the PC expansion.
         %
-        Tcoeff = Tcoeff * ET + Pcoeff * DT;
+        Xcoeff = Xcoeff * ET + Pcoeff(:, :, i) * DT;
       end
 
       %
       % Do not forget about the last coefficients.
       %
-      coefficients(:, :, stepCount) = Tcoeff * B;
-      coefficients(1, :, stepCount) = coefficients(1, :, stepCount) + Tamb;
+      Tcoeff(:, :, stepCount) = Xcoeff * B;
+      Tcoeff(1, :, stepCount) = Tcoeff(1, :, stepCount) + Tamb;
 
       %
-      % Compute the expectation.
+      % Compute the expectation of temperature.
       %
-      Texp = squeeze(coefficients(1, :, :));
+      Texp = squeeze(Tcoeff(1, :, :));
+
+      if nargout < 2, return; end
 
       %
-      % Compute the variance.
+      % Compute the variance of temperature.
       %
       Tvar = zeros(stepCount, processorCount);
       norm = Utils.replicate(chaos.norm(2:end), 1, processorCount);
       for i = 1:stepCount
-        Tvar(i, :) = sum(coefficients(2:end, :, i).^2 .* norm, 1);
+        Tvar(i, :) = sum(Tcoeff(2:end, :, i).^2 .* norm, 1);
       end
       Tvar = Tvar.';
+
+      if nargout < 4, return; end
+
+      %
+      % Compute the expectation of power.
+      %
+      Pexp = squeeze(Pcoeff(1, :, :));
+
+      if nargout < 5, return; end
+
+      %
+      % Compute the variance of power.
+      %
+      Pvar = zeros(stepCount, processorCount);
+      for i = 1:stepCount
+        Pvar(i, :) = sum(Pcoeff(2:end, :, i).^2 .* norm, 1);
+      end
+      Pvar = Pvar.';
     end
   end
 end
