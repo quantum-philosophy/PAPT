@@ -5,8 +5,10 @@ function options = configure(varargin)
 
   processorCount = options.getSet('processorCount', 4);
 
+  powerScale = options.getSet('powerScale', 2);
+
   powerProfile = File.join(path, sprintf('%02d.ptrace', processorCount));
-  options.set('powerProfile', 2 * dlmread(powerProfile, '', 1, 0).');
+  options.set('powerProfile', powerScale * dlmread(powerProfile, '', 1, 0).');
   options.set('processorCount', size(options.powerProfile, 1));
 
   leakage = File.join(path, 'inverter_45nm.leak');

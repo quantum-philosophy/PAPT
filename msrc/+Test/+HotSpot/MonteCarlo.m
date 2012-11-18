@@ -9,7 +9,7 @@ function MonteCarlo
 
   time = options.samplingInterval * (0:(options.stepCount - 1));
 
-  timeSlice = 0.04;
+  timeSlice = options.stepCount * options.samplingInterval / 2;
   k = floor(timeSlice / options.samplingInterval);
 
   %

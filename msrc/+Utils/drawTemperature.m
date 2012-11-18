@@ -11,76 +11,69 @@ function drawTemperature(time, expectationSet, varianceSet, varargin)
     varianceSet = { varianceSet };
   end
 
-  switch options.get('layout', 'separate')
-  case 'separate'
-    drawSeparate(time, expectationSet, varianceSet, options);
-  case 'joint'
-    drawJoint(time, expectationSet, varianceSet, options);
-  end
-end
+  layout = options.get('layout', 'separate');
 
-function drawSeparate(time, expectationSet, varianceSet, options)
   setCount = length(expectationSet);
   processorCount = size(expectationSet{1}, 1);
 
   labels = options.get('labels', cell(1, setCount));
 
-  for i = 1:processorCount
+  switch layout
+  case 'separate'
+  case 'joint'
     figure;
-    legend = {};
-    for j = 1:setCount
-      color = Color.pick(j);
-      line(time, expectationSet{j}(i, :), ...
-        'Color', color, 'LineWidth', 1);
-
-      if isempty(varianceSet{j})
-        legend{end + 1} = labels{j};
-        continue;
-      else
-        legend{end + 1} = sprintf('%s: mean', labels{j});
-      end
-
-      line(time, expectationSet{j}(i, :) + sqrt(varianceSet{j}(i, :)), ...
-        'Color', color, 'LineStyle', '--');
-      legend{end + 1} = ...
-        sprintf('%s: mean + sigma', labels{j});
-    end
-    Plot.title('Temperature (PE%d)', i);
+    Plot.title('Temperature');
     Plot.label('Time, s', 'Temperature, C');
     Plot.limit(time);
-    Plot.legend(legend{:});
+    legend = {};
+  otherwise
+    assert(false);
   end
-end
 
-function drawJoint(time, expectationSet, varianceSet, options)
-  setCount = length(expectationSet);
-  processorCount = size(expectationSet{1}, 1);
-
-  labels = options.get('labels', cell(1, setCount));
-
-  figure;
-  legend = {};
   for i = 1:processorCount
+    switch layout
+    case 'separate'
+      figure;
+      Plot.title('Temperature');
+      Plot.label('Time, s', 'Temperature, C');
+      Plot.limit(time);
+      legend = {};
+    case 'joint'
+    end
+
     color = Color.pick(i);
     for j = 1:setCount
       line(time, expectationSet{j}(i, :), ...
         'Color', color, 'LineWidth', 1);
 
+      if ~isempty(labels{j})
+        prefix = sprintf('%s: ', labels{j});
+      else
+        prefix = '';
+      end
+
       if isempty(varianceSet{j})
-        legend{end + 1} = sprintf('%s: PE%d', labels{j}, i);
+        legend{end + 1} = sprintf('%sPE%d', prefix, i);
         continue;
       else
-        legend{end + 1} = sprintf('%s: PE%d: mean', labels{j}, i);
+        legend{end + 1} = sprintf('%sPE%d: Expectation', prefix, i);
       end
 
       line(time, expectationSet{j}(i, :) + sqrt(varianceSet{j}(i, :)), ...
         'Color', color, 'LineStyle', '--');
-      legend{end + 1} = ...
-        sprintf('%s: PE%d: mean + sigma (%s)', labels{j}, i);
+      legend{end + 1} = sprintf('%sPE%d: Deviation', prefix, i);
+    end
+
+    switch layout
+    case 'separate'
+      Plot.legend(legend{:});
+    case 'joint'
     end
   end
-  Plot.title('Temperature', i);
-  Plot.label('Time, s', 'Temperature, C');
-  Plot.limit(time);
-  Plot.legend(legend{:});
+
+  switch layout
+  case 'separate'
+  case 'joint'
+    Plot.legend(legend{:});
+  end
 end
