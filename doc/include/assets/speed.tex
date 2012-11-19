@@ -1,30 +1,30 @@
 \begin{table}[b]
-  \vspace{-10pt}
+  \vspace{-16pt}
   \centering
   \caption{Scaling with the number of processing elements $\cores$.}
-  \begin{tabular*}{1.00\linewidth}{p{20pt}rrrrr}
+  \begin{tabular*}{1\linewidth}{p{20pt}crrr}
     \toprule
-    $\cores$ & PM, s & $\text{MC}_\text{a}$, m & $\text{MC}_\text{n}$, h & $\text{MC}_\text{a}/\text{PC}$ & $\text{MC}_\text{n}/\text{PC}$ \\
+    $\cores$ & $\vars$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
-    $ 2$ & $2.00$ & $12.10$ & $27.94$ & $3.64 \cdot 10^2$ & $5.04 \cdot 10^4$ \\
-    $ 4$ & $2.21$ & $12.04$ & $28.16$ & $3.27 \cdot 10^2$ & $4.58 \cdot 10^4$ \\
-    $ 8$ & $2.41$ & $12.21$ & $28.55$ & $3.04 \cdot 10^2$ & $4.27 \cdot 10^4$ \\
-    $16$ & $2.98$ & $13.02$ & $29.91$ & $2.62 \cdot 10^2$ & $3.61 \cdot 10^4$ \\
-    $32$ & $4.37$ & $14.43$ & $32.06$ & $1.98 \cdot 10^2$ & $2.64 \cdot 10^4$ \\
+    $ 2$ & $2$ & $0.28$ & $30.98$ & $3.99 \times 10^5$ \\
+    $ 4$ & $3$ & $0.30$ & $31.04$ & $3.73 \times 10^5$ \\
+    $ 8$ & $4$ & $0.59$ & $31.06$ & $1.88 \times 10^5$ \\
+    $16$ & $5$ & $1.37$ & $38.97$ & $1.03 \times 10^5$ \\
+    $32$ & $6$ & $6.78$ & $40.27$ & $2.14 \times 10^4$ \\
     \bottomrule
   \end{tabular*}
   \tlabel{scaling-cores}
   \vspace{5pt}
   \caption{Scaling with the number of steps $\steps$.}
-  \begin{tabular*}{1.00\linewidth}{lrrrrr}
+  \begin{tabular*}{1\linewidth}{p{46pt}rrr}
     \toprule
-    $\steps$ & PM, s & $\text{MC}_\text{a}$, m & $\text{MC}_\text{n}$, h & $\text{MC}_\text{a}/\text{PC}$ & $\text{MC}_\text{n}/\text{PC}$ \\
+    $\steps$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
-    $10^2$ & $   0.25$ & $    2.55$ & $    3.35$ & $6.10 \cdot 10^2$ & $4.82 \cdot 10^4$ \\
-    $10^3$ & $   2.30$ & $   12.24$ & $   28.29$ & $3.19 \cdot 10^2$ & $4.42 \cdot 10^4$ \\
-    $10^4$ & $  24.39$ & $  122.67$ & $  284.56$ & $3.02 \cdot 10^2$ & $4.20 \cdot 10^4$ \\
-    $10^5$ & $ 232.52$ & $ 1223.05$ & $ 2834.78$ & $3.16 \cdot 10^2$ & $4.39 \cdot 10^4$ \\
-    $10^6$ & $2654.83$ & $15612.86$ & $28453.61$ & $3.53 \cdot 10^2$ & $3.86 \cdot 10^4$ \\
+    $10^2$ & $  0.07$ & $    3.56$ & $1.93 \times 10^5$ \\
+    $10^3$ & $  0.27$ & $   31.11$ & $4.11 \times 10^5$ \\
+    $10^4$ & $  2.68$ & $  304.56$ & $4.09 \times 10^5$ \\
+    $10^5$ & $ 26.29$ & $ 3037.04$ & $4.16 \times 10^5$ \\
+    $10^6$ & $263.30$ & $31067.41$ & $4.25 \times 10^5$ \\
     \bottomrule
   \end{tabular*}
   \tlabel{scaling-steps}

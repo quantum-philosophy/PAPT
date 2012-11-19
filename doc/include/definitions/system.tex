@@ -94,7 +94,7 @@
 \newcommand{\U}{U}
 \newcommand{\vU}{\v{U}}
 
-\newcommand{\params}{{\tilde{N}_\text{v}}}
+\newcommand{\params}{{N_\text{up}}}
 
 %
 % Independent random variables.
@@ -104,14 +104,21 @@
 \newcommand{\vZ}{\v{Z}}
 \newcommand{\vz}{\boldsymbol{\zeta}}
 
-\newcommand{\oTransform}[1]{\mathcal{T}\left[#1\right]}
+\makeatletter
+\def\oTransform{\@ifnextchar\bgroup{\oTransformWithArgument}{\oTransformWithoutArgument}}
+\def\oTransformWithArgument#1{\mathcal{T}\left[#1\right]}
+\def\oTransformWithoutArgument{\mathcal{T}}
+\makeatother
 
 \newcommand{\vars}{{N_\text{rv}}}
+
+\newcommand{\Lth}{\lambda_\text{th}}
 
 %
 % Process variation.
 %
 \newcommand{\Leff}{L}
+\newcommand{\nLeff}{L}
 \newcommand{\gLeff}{{\delta L^{(g)}}}
 \newcommand{\lLeff}{\delta L^{(l)}}
 \newcommand{\corrLength}{b}
