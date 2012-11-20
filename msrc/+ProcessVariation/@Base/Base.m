@@ -6,7 +6,7 @@ classdef Base < handle
     %
     % The portion of the information that is to be preserved.
     %
-    threshold = 0.95;
+    threshold = 0.99;
 
     %
     % The contribution of the global variations.

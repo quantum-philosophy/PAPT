@@ -1,4 +1,4 @@
-classdef Chaos < HotSpot.Analytic & ProcessVariation.Continuous
+classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
   properties (Access = 'protected')
     chaos
   end
@@ -6,7 +6,8 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation.Continuous
   methods
     function this = Chaos(floorplan, config, line, varargin)
       this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.95);
+      this = this@ProcessVariation.Discrete(floorplan, ...
+        'reduction', 'adjustable');
 
       this.chaos = PolynomialChaos.Hermite( ...
         'inputCount', this.dimension, ...

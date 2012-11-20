@@ -1,4 +1,4 @@
-classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
+classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Discrete
   properties (SetAccess = 'private')
     sampleCount
     filename
@@ -10,7 +10,8 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Continuous
       options = Options(varargin{:});
 
       this = this@HotSpot.Numeric(floorplan, config, line);
-      this = this@ProcessVariation.Continuous(floorplan, 'threshold', 0.99);
+      this = this@ProcessVariation.Discrete(floorplan, ...
+        'reduction', 'none');
 
       this.sampleCount = options.get('sampleCount', 1e3);
       this.filename = options.get('filename', []);

@@ -7,7 +7,7 @@ for i = 1:length(processorCount)
   floorplan = File.join( ...
     File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
 
-  process = ProcessVariation.Continuous(floorplan);
+  process = ProcessVariation.Discrete(floorplan);
 
   fprintf('Processors: %d, random variables: %d\n', ...
     processorCount(i), process.dimension);

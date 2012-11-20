@@ -4,7 +4,14 @@ quadratureRule = { 'GaussHermite' };
 polynomialOrder = [ 1 2 3 4 5 ];
 processorCount  = [ 2 4 8 16 32 ];
 
-dimension = 5 * ones(1, 5);
+dimension = zeros(length(processorCount), 1);
+
+for i = 1:length(processorCount)
+  floorplan = File.join( ...
+    File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
+  process = ProcessVariation.Discrete(floorplan);
+  dimension(i) = process.dimension;
+end
 
 for k = 1:(2 * length(quadratureRule))
   ruleName = quadratureRule{ceil(k / 2)};
