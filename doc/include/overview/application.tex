@@ -1,6 +1,7 @@
 Before diving into details, we demonstrate a particular application of the proposed framework. Specifically, we shall perform stochastic PTA of a dual-core platform, wherein the parameters that affect the leakage current are uncertain. The application is a part of the illustrative example in \sref{illustrative-example} and, therefore, will be described in details later on.
 
-\input{include/assets/power.tex}
+\input{include/assets/application-power.tex}
+\input{include/assets/application-temperature.tex}
 Without loss of generality, we address one of the most critical leakage parameters: the effective channel length \cite{chandra2010, juan2011, juan2012, srivastava2010, shen2009}. Due to process variation, the channel length is a \rv, which we denote by $\Leff(\o)$. The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts. Assume $\gLeff(\o)$ is shared among the processors whereas each processor has its own local \rv\ $\lLeff_i(\o)$. Therefore, the channel length of the $i$th processor is
 \begin{equation} \elabel{leakage-partition}
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
@@ -24,4 +25,3 @@ where $\pccs_{ki}$ are vectors with two elements corresponding to the two proces
   \oExp{\vTO_k(\o)} = \pccs_{k1} \hspace{1em} \text{and} \hspace{1em} \oVar{\vTO_k(\o)} = \sum_{i = 2}^{6} \pcn_i \: \pccs_{ki}^2
 \]
 where $\pcn_i$ are normalization constants, and the squaring should be understood element-wise. For instance, assume the power profile of the system is the one shown in \fref{power}. Then, after the computations at \stage{4}, we get the corresponding stochastic temperature profile and can observe its expectation and standard deviation, which are shown in \fref{temperature}. The displayed curves closely match those obtained by MC simulations with $10^4$ samples; however, our method takes less than a second, on a personal computer, while the MC-based approach takes more than a day as we shall discuss in \sref{experimental-results}.
-\input{include/assets/temperature.tex}
