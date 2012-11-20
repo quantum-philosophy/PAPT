@@ -1,0 +1,11 @@
+The major steps of our technique are depicted in \fref{algorithm} and are outlined below whereas a detailed description is given the next section, \sref{proposed-framework}, which is elaborated even further in the appendix, \aref{thermal-model}--\aref{gauss-quadrature}.
+
+\stage{1}{Uncertain Parameters (\sref{uncertain-parameters}).} The PC expansions, employed in this paper to perform UQ of multiprocessor systems, operate on mutually independent \rvs. The uncertain parameters $\vU(\o)$ might not satisfy this requirement and, therefore, should be preprocessed; we shall denote the corresponding independent set of \rvs\ by $\vZ(\o)$.
+
+\stage{2}{Power Model (\sref{power-model}).} A model of the power dissipation is defined at this stage: the user determines the effect that the uncertain parameters have on the total consumption of power $\vP(\t, \o)$ given the nominal dynamic power $\vP_\dyn(\t)$, temperature $\vTO(\t, \o)$, and uncertain parameters $\vU(\o)$, for some fixed values of $\t$ and $\o$.
+
+\stage{3}{Thermal Model (\sref{thermal-model}).} With respect to the thermal specification $\system$ (see \sref{problem-formulation}), a mathematical model of the thermal system is constructed. The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding power and temperature profiles for a given nominal dynamic power profile and $\vU(\o)$.
+
+\stage{4}{Surrogate Model (\sref{polynomial-chaos}).} The surrogate model is attained by traversing the given nominal power profile and gradually constructing polynomial expansions, in terms of the processed uncertain parameters $\vZ(\o)$ from \stage{1}, for the stochastic power and temperature profiles. The output is essentially a substitute for the model produced at \stage{3}\ with respect to the power model determined at \stage{2}.
+
+\stage{5}{Post-processing (\sref{output-processing}).} The computed PC expansions are analyzed in order to obtain the desired characteristics of the system, \eg, \cdfs, \pdfs, moments.

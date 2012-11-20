@@ -3,13 +3,13 @@ In this section, we aim to give a concrete numerical illustration of each of the
   \Leff(\o) = \Leff + \gLeff(\o) \sim \normal\left(45 \cdot 10^{-9}, \left(2.25 \cdot 10^{-9}\right)^2\right).
 \]
 
-\step{1}{Uncertain Parameters (\sref{uncertain-parameters}).} In the scenario at hand, the transformation $\U(\o) = \oTransform{\Z(\o)}$ involves only centring and normalization of $\Leff(\o)$. Therefore,
+\stage{1}{Uncertain Parameters (\sref{uncertain-parameters}).} In the scenario at hand, the transformation $\U(\o) = \oTransform{\Z(\o)}$ involves only centring and normalization of $\Leff(\o)$. Therefore,
 \begin{equation} \elabel{ne-uncertain-parameters}
   \U(\o) \equiv \Leff(\o) = \oTransform{\Z(\o)} = 45 \cdot 10^{-9} (1 + 0.05 \: \Z(\o))
 \end{equation}
 where $\Z(\o) \sim \normal(0, 1)$.
 
-\step{2}{Power Model (\sref{power-model}).}
+\stage{2}{Power Model (\sref{power-model}).}
 Assume that, after the corresponding fitting procedure, we get the following expression for the leakage current defined in \eref{leakage-current}:
 \begin{align*}
   I_\leak(\T, \Leff) = \exp(& -10.18 - 3.52 \cdot 10^8 \Leff + 0.03 \; \T \\
@@ -33,10 +33,10 @@ Finally, the power model in \eref{power-model} is
 \]
 where $\P_{\dyn, i}(\t)$ and $\T_i(\t, \o)$ are the dynamic power and temperature of the $i$th processing element, respectively, and $\Leff$ is replaced by \eref{ne-uncertain-parameters}. In the equation above, it is assumed that the leakage model is the same for both processors.
 
-\step{3}{Thermal Model (\sref{thermal-model}).} The main components of the thermal specification $\system$ of the platform are shown in \tref{hotspot}, which is a part of the default configuration of HotSpot \cite{hotspot}. Assume the two processors are placed side by side to each other and occupy a square of $16$ $\text{mm}^2$ each. As before, we utilize HotSpot to construct the equivalent RC thermal circuit of the system. The number of thermal nodes, $\nodes$, is $4 \times 2 + 12 = 20$ (see \fref{circuit}). Consequently, we obtain the matrices $\mC, \mG \in \real^{20 \times 20}$ in \eref{fourier-original} and the coefficient matrices $\mCF \in \real^{20 \times 20}, \mCS \in \real^{20 \times 2}$ in \eref{recurrence}. The discretization interval of power and temperature profiles, $\dt$, is assumed to be constant and equal to $10^{-3}$~s; therefore, the these matrices are also constant.
+\stage{3}{Thermal Model (\sref{thermal-model}).} The main components of the thermal specification $\system$ of the platform are shown in \tref{hotspot}, which is a part of the default configuration of HotSpot \cite{hotspot}. Assume the two processors are placed side by side to each other and occupy a square of $16$ $\text{mm}^2$ each. As before, we utilize HotSpot to construct the equivalent RC thermal circuit of the system. The number of thermal nodes, $\nodes$, is $4 \times 2 + 12 = 20$ (see \fref{circuit}). Consequently, we obtain the matrices $\mC, \mG \in \real^{20 \times 20}$ in \eref{fourier-original} and the coefficient matrices $\mCF \in \real^{20 \times 20}, \mCS \in \real^{20 \times 2}$ in \eref{recurrence}. The discretization interval of power and temperature profiles, $\dt$, is assumed to be constant and equal to $10^{-3}$~s; therefore, the these matrices are also constant.
 \input{include/assets/hotspot.tex}
 
-\step{4}{Surrogate Model (\sref{polynomial-chaos}).} As motivated earlier, the Hermite polynomial basis is adopted (see \tref{askey} and \fref{hermite}). Assume we decide to construct PC expansions of the total order equal to two, \ie, $\pcorder = 2$. Then, the expansion for power has the following form:
+\stage{4}{Surrogate Model (\sref{polynomial-chaos}).} As motivated earlier, the Hermite polynomial basis is adopted (see \tref{askey} and \fref{hermite}). Assume we decide to construct PC expansions of the total order equal to two, \ie, $\pcorder = 2$. Then, the expansion for power has the following form:
 \[
   \oPC{1}{2}{\vP_k(\o)} = \pcc{\vP}_{k, 1} + \pcc{\vP}_{k, 2} \Z(\o) + \pcc{\vP}_{k, 3} (\Z(\o)^2 - 1)
 \]
@@ -55,6 +55,6 @@ the nodes $\qdn{\z}_i$ and weights $\qdw_i$ are taken from \tref{quadrature}, an
 
 To actually perform all the computations described so far, we need a dynamic power profile $\profPdyn$; assume it is the one depicted in \fref{power}, which contains 476 power samples, \ie, $\steps = 476$. Now, for $k = 1, \dotsc, 467$, we compute the coefficients for power using the above equations and, sequentially, calculate the coefficient for temperature using \eref{pc-recurrence} and then \eref{fourier-output}.
 \input{include/assets/quadrature.tex}
-\input{include/assets/power.tex}
+\input{include/assets/temperature.tex}
 
-\step{5}{Post-processing (\sref{output-processing}).}
+\stage{5}{Post-processing (\sref{output-processing}).}

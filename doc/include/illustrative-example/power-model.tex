@@ -1,4 +1,4 @@
-At Stage~2 in \fref{algorithm}, we need to decide on the power model with the nominal dynamic power, identified uncertain parameters, and temperature as inputs. To this end, \eref{power-model} is decomposed into the sum of dynamic and leakage components denoted by $\f_\dyn(\vP_\dyn(\t), \vU(\o))$ and $\f_\leak(\vTO(\t, \o), \vU(\o))$, respectively. As motivated in the previous subsection, we let
+At \stage{2}\ in \fref{algorithm}, we need to decide on the power model with the nominal dynamic power, identified uncertain parameters, and temperature as inputs. To this end, \eref{power-model} is decomposed into the sum of dynamic and leakage components denoted by $\f_\dyn(\vP_\dyn(\t), \vU(\o))$ and $\f_\leak(\vTO(\t, \o), \vU(\o))$, respectively. As motivated in the previous subsection, we let
 \[
   \f_\dyn(\vP_\dyn(\t), \vU(\o)) = \vP_\dyn(\t).
 \]
@@ -12,4 +12,4 @@ where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\lea
 \]
 where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\Leff$, $\gLeff(\o)$, and $\lLeff(r_i, \o)$ as discussed in \sref{ie-uncertain-parameters}.
 
-At Stage~3, the equivalent thermal RC circuits---specifically, the coefficient matrices in \eref{fourier-system}---are constructed by means of HotSpot v5.02 \cite{hotspot}. Thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nodes = 4 \cores + 12$. An example of such a circuit is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.
+At \stage{3}, the equivalent thermal RC circuits---specifically, the coefficient matrices in \eref{fourier-system}---are constructed by means of HotSpot v5.02 \cite{hotspot}. Thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nodes = 4 \cores + 12$. An example of such a circuit is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.
