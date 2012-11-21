@@ -4,7 +4,7 @@ The major steps of our technique are depicted in \fref{algorithm} and are outlin
 
 \stage{2}{Power Model (\sref{power-model}).} At this stage, the user specifies the power model of the system via a ``black-box'' functional $\f$, which outputs the total power $\vP(\t, \o)$ for a particular temperature $\vTO(\t, \o)$ and an outcome of the uncertain parameters $\vU(\o)$, \ie, $\t$ and $\o$ are fixed.
 
-\stage{3}{Thermal Model (\sref{thermal-model}).} With respect to the thermal specification $\system$ (see \sref{problem-formulation}), a mathematical model of the thermal system is constructed. The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding power and temperature profiles for a given nominal dynamic power profile and $\vU(\o)$.
+\stage{3}{Thermal Model (\sref{thermal-model}).} With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, a mathematical model of the thermal system is constructed. The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding temperature profile of the workload that is being analyzed.
 
 \stage{4}{Surrogate Model (\sref{polynomial-chaos}).} The surrogate model is attained by traversing the desired time span and gradually constructing polynomial expansions, in terms of the processed uncertain parameters $\vZ(\o)$ from \stage{1}, for the stochastic power and temperature profiles. The output is essentially a substitute for the model produced at \stage{3}\ with respect to the power model determined at \stage{2}.
 
