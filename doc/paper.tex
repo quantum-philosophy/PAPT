@@ -41,9 +41,15 @@
   \begingroup
   \setstretch{0.8}
   \setlength\bibitemsep{1pt}
-  \printbibliography
+  \printbibliography[notkeyword=appendix]
   \endgroup
 
   \appendix
   \input{include/appendix.tex}
+
+  \begingroup
+  \setstretch{0.8}
+  \setlength\bibitemsep{1pt}
+  \printbibliography[keyword=appendix, title=Additional References, prefixnumbers=S, resetnumbers=true]
+  \endgroup
 \end{document}
