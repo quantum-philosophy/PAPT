@@ -9,7 +9,7 @@ where the number of differential equations is equal to the number of thermal nod
 \end{equation*}
 and obtain the system in \eref{fourier-system}, which is rewritten in the stochastic form, where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$. In general, the differential part in \eref{fourier-system}, or equally in \eref{fourier-system-original}, is nonlinear due to the source term $\vP(\t)$ since we do not make any assumptions about its structure (see the discussion in \sref{power-model}). Therefore, there are no closed-form solutions to the system.
 
-The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the input profile $\profPdyn$, which is given in \sref{problem-formulation}, are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is \cite{ukhov2012}
+The time intervals $\{ \dt_i \}_{i = 1}^{\steps}$ of the power sampling (see \sref{problem-formulation}) are assumed to be short enough such that the total power can be approximated by a constant within one interval. In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically. The solution is \cite{ukhov2012}
 \begin{equation} \elabel{ode-solution}
   \vX(\t) = \mCF(\t) \: \vX(0) + \mCS(\t) \: \vP(0)
 \end{equation}
