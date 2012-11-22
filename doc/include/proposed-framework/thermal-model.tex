@@ -7,7 +7,7 @@ The thermal behavior of the circuit is modeled with the following system of diff
 \end{subnumcases}
 where $\vP, \vTO \in \real^\cores$ are the input power and output temperature vectors of the processing elements, respectively, and $\vX \in \real^{\nodes}$ is the vector of the internal state of the system. In general, \eref{fourier-de} does not have a closed-form solution due to the power term, which is an arbitrary function.
 
-Recall that the power profile we work with is a discrete-time representation of the power consumption, which contains $\steps$ power samples, or steps (see \sref{problem-formulation}). As detailed in \aref{thermal-model}, we let the total power be constant between neighbor steps of $\profPdyn$ and reduce the solution process of \eref{fourier-system} to the recurrence, for $k = 1, \dotsc, \steps$,
+Recall that the power profile we work with is a discrete-time representation of the power consumption, which contains $\steps$ power samples, or steps (see \sref{problem-formulation}). As detailed in \aref{thermal-model}, we let the total power be constant between neighbor steps of $\profPdyn$ and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \steps$,
 \begin{equation} \elabel{recurrence}
   \vX_k(\o) = \mCF_k \: \vX_{k - 1}(\o) + \mCS_k \: \vP_k(\o) \hspace{1em} \text{where} \hspace{1em} \vX_0(\o) = \vZero.
 \end{equation}
