@@ -6,7 +6,7 @@ Having an appropriate basis chosen, we apply the PC procedure to power in \eref{
 \begin{equation} \elabel{pc-expansion}
   \oPC{\vars}{\pcorder}{\vP_k(\o)} = \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \; \pcb_i(\vZ(\o))
 \end{equation}
-where $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomial terms of $\vars$ variables, and $\pcc{\vP}_{ki} \in \real^\cores$ are the coefficients of the expansion. The latter are computed using spectral projections as it is explained in the appendix, \aref{spectral-projection}. $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\vars$-variate polynomials involved in the expansion; hence, $\pcorder$ also defines accuracy.
+where $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomial terms of $\vars$ variables, and $\pcc{\vP}_{ki} \in \real^\cores$ are the coefficients of the expansion. The latter are computed using spectral projections as it is explained in the appendix, \aref{spectral-projection}. $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\vars$-variate polynomials involved in the expansion; hence, $\pcorder$ also determines accuracy.
 
 It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\o)$ retains the same polynomial structure as $\vP_k(\o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as follows, for $k = 1, \dotsc, \steps$:
 \begin{equation} \elabel{expanded-recurrence}

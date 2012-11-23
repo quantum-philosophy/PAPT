@@ -2,7 +2,7 @@ At \stage{2}\ in \fref{algorithm}, we need to decide on the power model with the
 \begin{equation} \elabel{leakage-current}
   I_\leak(\T, \Leff) = \exp \left( \alpha_0 + \alpha_1 \Leff + \alpha_2 \T + \alpha_3 \Leff \T + \alpha_4 \T^2 \right)
 \end{equation}
-where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\T, \Leff)$ is further scaled up to the power level of each of the processing elements, \ie, for $i = 1, \dotsc, \cores$, we have
+where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\T, \Leff)$ is further scaled to the power level of each of the processing elements, \ie, for $i = 1, \dotsc, \cores$, we have
 \[
   \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i \: I_{\leak, i}(\T_i(\t, \o), \Leff_i(\o))
 \]
