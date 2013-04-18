@@ -13,8 +13,7 @@ function explore
 
   schedule = Schedule.Dense(platform, application);
 
-  hotspot = HotSpot.PowerStepwiseChaos( ...
-    options.hotspotOptions, options.chaosOptions);
+  hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
   display(hotspot);
 

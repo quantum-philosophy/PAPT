@@ -21,7 +21,7 @@ function compareSpeed(varargin)
 
     options = experiment.configure(parameter);
 
-    chaos = HotSpot.StepwiseChaos(options.hotspotOptions, options.chaosOptions);
+    chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
     analytic = HotSpot.Analytic(options.hotspotOptions);
     numeric = HotSpot.Numeric(options.hotspotOptions);
 
