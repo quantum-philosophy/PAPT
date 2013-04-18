@@ -1,8 +1,7 @@
-function motivation2
-  options = configure;
+function plotTraces
+  options = Test.configure;
 
-  mc = HotSpot.MonteCarlo(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine);
+  mc = HotSpot.MonteCarlo(options.hotspotOptions);
 
   processors = [ 1, 2 ];
 
@@ -13,7 +12,7 @@ function motivation2
 
   figure;
   for i = 1:length(scale)
-    T = Utils.toCelsius(mc.computeWithLeakage( ...
+    T = Utils.toCelsius(mc.compute( ...
       options.powerProfile, options.leakage, scale(i) * Lnom));
     for j = processors
       line(t, T(j, :), 'Color', Color.pick(i), 'LineWidth', 1);

@@ -5,7 +5,7 @@ function MonteCarlo
   chaosSampleCount = 1e5;
   carloSampleCount = 1e4;
 
-  options = configure;
+  options = Test.configure;
 
   time = options.samplingInterval * (0:(options.stepCount - 1));
 
@@ -15,22 +15,20 @@ function MonteCarlo
   %
   % One polynomial chaos.
   %
-  chaos = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+  chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
   display(chaos);
 
   %
   % Monte Carlo simulations.
   %
-  mc = HotSpot.MonteCarlo(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, ...
+  mc = HotSpot.MonteCarlo(options.hotspotOptions, ...
     'sampleCount', carloSampleCount, 'verbose', 'true');
 
   display(mc);
 
   tic;
-  [ Texp1, Tvar1, coefficients ] = chaos.computeWithLeakage( ...
+  [ Texp1, Tvar1, coefficients ] = chaos.compute( ...
     options.powerProfile, options.leakage);
   fprintf('Polynomial chaos: construction time %.2f s.\n', toc);
 
@@ -43,7 +41,7 @@ function MonteCarlo
     fprintf('Polynomial chaos: sampling time %.2f s (%d samples).\n', ...
       toc, chaosSampleCount);
 
-    [ Texp2, Tvar2, Tdata2 ] = mc.computeWithLeakageInParallel( ...
+    [ Texp2, Tvar2, Tdata2 ] = mc.computeInParallel( ...
       options.powerProfile, options.leakage);
 
     labels = { 'PC', 'MC' };
@@ -62,7 +60,7 @@ function MonteCarlo
   end
 
   %
-  % Sweeping of the random parameters.
+  % Sweeping the random parameters.
   %
   rvs = -7:0.2:7;
   index = uint8(1);
@@ -71,16 +69,16 @@ function MonteCarlo
      'prompt', sprintf('Which random variables? [%s] ', Utils.toString(index)), ...
      'type', 'uint8', 'default', index);
 
-     if any(index > chaos.dimension), continue; end
+    if any(index > chaos.process.dimensionCount), continue; end
 
-    RVs = zeros(length(rvs), chaos.dimension);
+    RVs = zeros(length(rvs), chaos.process.dimensionCount);
     for i = index
       RVs(:, i) = rvs;
     end
 
     Tdata1 = chaos.evaluate(coefficients, RVs);
 
-    Tdata2 = mc.evaluateWithLeakageInParallel( ...
+    Tdata2 = mc.evaluateInParallel( ...
       options.powerProfile, options.leakage, RVs);
 
     Tdata1 = Utils.toCelsius(Tdata1(:, :, k));

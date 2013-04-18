@@ -2,32 +2,28 @@ function Chaos
   clear all;
   setup;
 
-  use('Vendor', 'heatmaps');
-
-  options = configure;
+  options = Test.configure;
 
   %
   % One polynomial chaos.
   %
-  hotspot = HotSpot.Chaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+  hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
   display(hotspot);
 
   tic;
   [ Texp1, Tvar1, coefficients1 ] = ...
-    hotspot.computeWithLeakage(options.powerProfile, options.leakage);
+    hotspot.compute(options.powerProfile, options.leakage);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   %
   % Another polynomial chaos.
   %
-  hotspot = HotSpot.StepwiseChaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+  hotspot = HotSpot.StepwiseChaos(options.hotspotOptions, options.chaosOptions);
 
   tic;
   [ Texp2, Tvar2, coefficients2 ] = ...
-    hotspot.computeWithLeakage(options.powerProfile, options.leakage);
+    hotspot.compute(options.powerProfile, options.leakage);
   fprintf('Stepwise polynomial chaos: %.2f s\n', toc);
 
   time = options.samplingInterval * (1:options.stepCount);

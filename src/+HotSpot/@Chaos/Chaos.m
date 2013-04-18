@@ -1,16 +1,21 @@
-classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
-  properties (Access = 'protected')
+classdef Chaos < HotSpot.Analytic
+  properties (SetAccess = 'protected')
+    process
     chaos
   end
 
   methods
-    function this = Chaos(floorplan, config, line, varargin)
-      this = this@HotSpot.Analytic(floorplan, config, line);
-      this = this@ProcessVariation.Discrete(floorplan, ...
-        'reduction', 'adjustable');
+    function this = Chaos(varargin)
+      options = Options(varargin{:});
+
+      this = this@HotSpot.Analytic(options);
+
+      this.process = ProcessVariation(options, ...
+        'expectation', LeakagePower.Lnom, ...
+        'deviation', 0.05 * LeakagePower.Lnom);
 
       this.chaos = PolynomialChaos.Hermite( ...
-        'inputCount', this.dimension, ...
+        'inputCount', this.process.dimensionCount, ...
         'order', 4, ...
         'quadratureOptions', Options( ...
           'method', 'tensor', ...
@@ -18,9 +23,7 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
         Options(varargin{:}));
     end
 
-    function [ Texp, Tvar, coefficients ] = ...
-      computeWithLeakage(this, Pdyn, leakage)
-
+    function [ Texp, Tvar, coefficients ] = compute(this, Pdyn, leakage)
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
@@ -39,7 +42,7 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
     end
 
     function Tdata = sample(this, coefficients, sampleCount)
-      rvs = normrnd(0, 1, sampleCount, this.dimension);
+      rvs = normrnd(0, 1, sampleCount, this.process.dimensionCount);
       Tdata = this.evaluate(coefficients, rvs);
     end
 
@@ -49,6 +52,7 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
 
     function display(this)
       display@HotSpot.Analytic(this);
+      display(this.process);
       display(this.chaos);
     end
   end
@@ -62,9 +66,10 @@ classdef Chaos < HotSpot.Analytic & ProcessVariation.Discrete
       D = this.D;
       BT = this.BT;
       Tamb = this.ambientTemperature;
+      process = this.process;
 
       sampleCount = size(rvs, 1);
-      L = this.Lnom + this.Ldev * this.Lmap * transpose(rvs);
+      L = process.expectation + process.deviation * process.mapping * transpose(rvs);
 
       range = 1:processorCount;
       T = zeros(processorCount * stepCount, sampleCount);

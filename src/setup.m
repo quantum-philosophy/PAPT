@@ -1,7 +1,8 @@
 function setup
-  evalin('base', 'clear remove all');
-  use('TemperatureAnalysis');
-  use('SystemSimulation');
   use('Approximation');
+  use('LinearAlgebra');
+  use('SystemSimulation');
+  use('TemperatureAnalysis');
+  use('Vendor', 'heatmaps');
   use('Vendor', 'uninit');
 end

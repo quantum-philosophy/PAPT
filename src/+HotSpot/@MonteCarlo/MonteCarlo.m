@@ -1,17 +1,19 @@
-classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Discrete
-  properties (SetAccess = 'private')
+classdef MonteCarlo < HotSpot.Numeric
+  properties (SetAccess = 'protected')
+    process
+
     sampleCount
     filename
     verbose
   end
 
   methods
-    function this = MonteCarlo(floorplan, config, line, varargin)
+    function this = MonteCarlo(varargin)
       options = Options(varargin{:});
 
-      this = this@HotSpot.Numeric(floorplan, config, line);
-      this = this@ProcessVariation.Discrete(floorplan, ...
-        'reduction', 'none');
+      this = this@HotSpot.Numeric(options);
+
+      this.process = ProcessVariation('threshold', '1', options);
 
       this.sampleCount = options.get('sampleCount', 1e3);
       this.filename = options.get('filename', []);
@@ -22,9 +24,7 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Discrete
       end
     end
 
-    function [ Texp, Tvar, Tdata ] = computeWithLeakageInParallel( ...
-      this, Pdyn, leakage)
-
+    function [ Texp, Tvar, Tdata ] = computeInParallel(this, Pdyn, leakage)
       [ processorCount, stepCount ] = size(Pdyn);
       sampleCount = this.sampleCount;
 
@@ -43,18 +43,20 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Discrete
       else
         verbose('Monte Carlo: running %d simulations...\n', sampleCount);
 
-        rvs = normrnd(0, 1, this.dimension, sampleCount);
+        process = this.process;
 
-        Lnom = this.Lnom;
-        Ldev = this.Ldev;
-        Lmap = this.Lmap;
+        rvs = normrnd(0, 1, process.dimensionCount, sampleCount);
+
+        expectation = process.expectation;
+        deviation = process.deviation;
+        mapping = process.mapping;
 
         Tdata = zeros(processorCount, stepCount, sampleCount);
 
         tic;
         parfor i = 1:sampleCount
-          Tdata(:, :, i) = this.computeWithLeakage( ...
-            Pdyn, leakage, Lnom + Ldev * Lmap * rvs(:, i));
+          Tdata(:, :, i) = this.compute( ...
+            Pdyn, leakage, expectation + deviation * mapping * rvs(:, i));
         end
         time = toc;
 
@@ -69,22 +71,18 @@ classdef MonteCarlo < HotSpot.Numeric & ProcessVariation.Discrete
       Tdata = permute(Tdata, [ 3 1 2 ]);
     end
 
-   function Tdata = evaluateWithLeakageInParallel( ...
-      this, Pdyn, leakage, rvs)
-
+   function Tdata = evaluateInParallel(this, Pdyn, leakage, rvs)
       [ processorCount, stepCount ] = size(Pdyn);
 
-      rvs = this.Lnom + this.Ldev * this.Lmap * rvs.';
-      sampleCount = size(rvs, 2);
+      process = this.process;
 
-      Lnom = leakage.Lnom;
-      rvMap = this.rvMap;
+      rvs = process.expectation + process.deviation * process.mapping * rvs.';
+      sampleCount = size(rvs, 2);
 
       Tdata = zeros(processorCount, stepCount, sampleCount);
 
       parfor i = 1:sampleCount
-        Tdata(:, :, i) = this.computeWithLeakage( ...
-          Pdyn, leakage, rvs(:, i));
+        Tdata(:, :, i) = this.compute(Pdyn, leakage, rvs(:, i));
       end
 
       Tdata = permute(Tdata, [ 3 1 2 ]);

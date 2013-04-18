@@ -9,8 +9,8 @@ dimension = zeros(length(processorCount), 1);
 for i = 1:length(processorCount)
   floorplan = File.join( ...
     File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
-  process = ProcessVariation.Discrete(floorplan);
-  dimension(i) = process.dimension;
+  process = ProcessVariation('floorplan', floorplan);
+  dimension(i) = process.dimensionCount;
 end
 
 for k = 1:(2 * length(quadratureRule))

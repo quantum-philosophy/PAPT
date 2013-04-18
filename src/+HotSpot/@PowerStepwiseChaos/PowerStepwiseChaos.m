@@ -5,7 +5,7 @@ classdef PowerStepwiseChaos < HotSpot.StepwiseChaos
     end
 
     function [ Texp, Tvar, Tcoeff, Pexp, Pvar, Pcoeff ] = ...
-      computeWithLeakage(this, Pdyn, leakage)
+      compute(this, Pdyn, leakage)
 
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
@@ -14,15 +14,16 @@ classdef PowerStepwiseChaos < HotSpot.StepwiseChaos
 
       Tamb = this.ambientTemperature;
 
+      process = this.process;
       chaos = this.chaos;
 
       ET = this.ET;
       DT = this.DT;
       B = this.B;
 
-      Lnom = this.Lnom;
-      Ldev = this.Ldev;
-      LmapT = this.LmapT;
+      expectation = process.expectation;
+      deviation = process.deviation;
+      mappingT = this.mappingT;
 
       %
       % Here we are going to store the stochastic power and temperature.
@@ -30,7 +31,8 @@ classdef PowerStepwiseChaos < HotSpot.StepwiseChaos
       Pcoeff = zeros(chaos.termCount, processorCount, stepCount);
       Tcoeff = zeros(chaos.termCount, processorCount, stepCount);
 
-      sample = @(rvs) leakage.evaluate(Lnom + rvs * LmapT * Ldev, Tamb);
+      sample = @(rvs) leakage.evaluate( ...
+        expectation + rvs * mappingT * deviation, Tamb);
 
       %
       % Perform the PC expansion and obtain the coefficients of
@@ -43,7 +45,8 @@ classdef PowerStepwiseChaos < HotSpot.StepwiseChaos
       %
       Pcoeff(1, :, 1) = Pcoeff(1, :, 1) + PdynT(1, :);
 
-      sample = @(rvs, T) leakage.evaluate(Lnom + rvs * LmapT * Ldev, T);
+      sample = @(rvs, T) leakage.evaluate( ...
+        expectation + rvs * mappingT * deviation, T);
 
       %
       % The first step is special because we do not have any expansion yet,
