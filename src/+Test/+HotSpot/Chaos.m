@@ -4,35 +4,19 @@ function Chaos
 
   options = Test.configure;
 
-  %
-  % One polynomial chaos.
-  %
   hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
   display(hotspot);
 
   tic;
-  [ Texp1, Tvar1, coefficients1 ] = ...
+  [ Texp, Tvar, coefficients ] = ...
     hotspot.compute(options.powerProfile, options.leakage);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
-  %
-  % Another polynomial chaos.
-  %
-  hotspot = HotSpot.StepwiseChaos(options.hotspotOptions, options.chaosOptions);
-
-  tic;
-  [ Texp2, Tvar2, coefficients2 ] = ...
-    hotspot.compute(options.powerProfile, options.leakage);
-  fprintf('Stepwise polynomial chaos: %.2f s\n', toc);
-
   time = options.samplingInterval * (1:options.stepCount);
 
-  Utils.drawTemperature(time, ...
-    { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-    { Tvar1, Tvar2 }, 'labels', { 'PC', 'PC stepwise' });
-
-  showCoefficients(time, { coefficients1, coefficients2 });
+  Utils.drawTemperature(time, { Utils.toCelsius(Texp) }, { Tvar });
+  showCoefficients(time, { coefficients });
 end
 
 function showCoefficients(~, coefficientSet)
