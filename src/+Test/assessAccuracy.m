@@ -18,17 +18,15 @@ function assessAccuracy
   orderCount = length(orderSet);
   sampleCount = length(sampleCountSet);
 
-  options = configure('stepCount', stepCount);
+  options = Test.configure('stepCount', stepCount);
 
   %
   % Monte Carlo simulation.
   %
-  numeric = HotSpot.MonteCarlo(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, ...
+  numeric = HotSpot.MonteCarlo(options.hotspotOptions, ...
     'sampleCount', max(sampleCountSet), 'verbose', true);
 
-  [ ~, ~, mcTDATA ] = ...
-    numeric.computeWithLeakageInParallel( ...
+  [ ~, ~, mcTDATA ] = numeric.computeInParallel( ...
     options.powerProfile, options.leakage);
 
   mcTDATA = mcTDATA(randperm(max(sampleCountSet)), :, :);
@@ -58,10 +56,9 @@ function assessAccuracy
 
     fprintf('%5d | ', orderSet(i));
 
-    chaos = HotSpot.Chaos(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+    chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
-    [ Texp, Tvar, coefficients ] = chaos.computeWithLeakage( ...
+    [ Texp, Tvar, coefficients ] = chaos.compute( ...
       options.powerProfile, options.leakage);
 
     Tdata = chaos.sample(coefficients, chaosSampleCount);

@@ -21,29 +21,26 @@ function compareSpeed(varargin)
 
     options = experiment.configure(parameter);
 
-    chaos = HotSpot.StepwiseChaos(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine, options.chaosOptions);
-    analytic = HotSpot.Analytic(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine);
-    numeric = HotSpot.Numeric(options.floorplan, ...
-      options.hotspotConfig, options.hotspotLine);
+    chaos = HotSpot.StepwiseChaos(options.hotspotOptions, options.chaosOptions);
+    analytic = HotSpot.Analytic(options.hotspotOptions);
+    numeric = HotSpot.Numeric(options.hotspotOptions);
 
     for j = 1:repeat(i)
       tic;
-      chaos.computeWithLeakage(options.powerProfile, options.leakage);
+      chaos.compute(options.powerProfile, options.leakage);
       measurements(i, 1) = measurements(i, 1) + toc;
 
       tic;
-      analytic.computeWithLeakage(options.powerProfile, options.leakage);
+      analytic.compute(options.powerProfile, options.leakage);
       measurements(i, 2) = measurements(i, 2) + toc * sampleCount;
 
 
       tic;
-      numeric.computeWithLeakage(options.powerProfile, options.leakage);
+      numeric.compute(options.powerProfile, options.leakage);
       measurements(i, 3) = measurements(i, 3) + toc * sampleCount;
     end
 
-    measurements(i, :) = measurements(i, :) / repeat(i); 
+    measurements(i, :) = measurements(i, :) / repeat(i);
 
     fprintf('%15.2f', measurements(i, 1));
     fprintf('%15.2f', measurements(i, 2) / 60);

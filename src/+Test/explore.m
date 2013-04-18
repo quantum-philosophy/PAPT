@@ -2,12 +2,10 @@ function explore
   clear all;
   setup;
 
-  use('SystemSimulation');
-
   processorCount = 2;
   taskCount = 40;
 
-  options = configure('processorCount', processorCount);
+  options = Test.configure('processorCount', processorCount);
 
   [ platform, application ] = parseTGFF( ...
     File.join(File.trace, '..', 'Assets', ...
@@ -15,8 +13,8 @@ function explore
 
   schedule = Schedule.Dense(platform, application);
 
-  hotspot = HotSpot.PowerStepwiseChaos(options.floorplan, ...
-    options.hotspotConfig, options.hotspotLine, options.chaosOptions);
+  hotspot = HotSpot.PowerStepwiseChaos( ...
+    options.hotspotOptions, options.chaosOptions);
 
   display(hotspot);
 
@@ -25,7 +23,7 @@ function explore
   function drawSchedule(schedule, title)
     Pdyn = options.powerScale * power.compute(schedule);
     time = options.samplingInterval * (0:(size(Pdyn, 2) - 1));
-    [ Texp, Tvar, ~, Pexp, ~, ~ ] = hotspot.computeWithLeakage(Pdyn, options.leakage);
+    [ Texp, Tvar, ~, Pexp, ~, ~ ] = hotspot.compute(Pdyn, options.leakage);
 
     Utils.drawTemperature(time, Utils.toCelsius(Texp), Tvar, 'layout', 'joint');
     Plot.title('%s: Temperature profile', title);
