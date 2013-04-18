@@ -5,7 +5,7 @@ processorCount = [ 2 4 8 16 32 ];
 
 for i = 1:length(processorCount)
   floorplan = File.join( ...
-    File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
+    File.trace, '..', 'Assets', sprintf('%03d.flp', processorCount(i)));
 
   process = ProcessVariation('floorplan', floorplan, ...
     'expectation', LeakagePower.Lnom, 'deviation', 0.05 * LeakagePower.Lnom);

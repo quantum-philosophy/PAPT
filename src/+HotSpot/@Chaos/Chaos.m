@@ -62,6 +62,8 @@ classdef Chaos < HotSpot.Analytic
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
+      leak = leakage.evaluate;
+
       E = this.E;
       D = this.D;
       BT = this.BT;
@@ -74,11 +76,11 @@ classdef Chaos < HotSpot.Analytic
       range = 1:processorCount;
       T = zeros(processorCount * stepCount, sampleCount);
 
-      X = D * bsxfun(@plus, Pdyn(:, 1), leakage.evaluate(L, Tamb));
+      X = D * bsxfun(@plus, Pdyn(:, 1), leak(L, Tamb));
       T(range, :) = BT * X + Tamb;
 
       for i = 2:stepCount
-        X = E * X + D * bsxfun(@plus, Pdyn(:, i), leakage.evaluate(L, T(range, :)));
+        X = E * X + D * bsxfun(@plus, Pdyn(:, i), leak(L, T(range, :)));
         range = range + processorCount;
         T(range, :) = BT * X + Tamb;
       end

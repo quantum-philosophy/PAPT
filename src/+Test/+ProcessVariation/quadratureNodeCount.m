@@ -8,7 +8,7 @@ dimension = zeros(length(processorCount), 1);
 
 for i = 1:length(processorCount)
   floorplan = File.join( ...
-    File.trace, '..', 'Assets', sprintf('%02d.flp', processorCount(i)));
+    File.trace, '..', 'Assets', sprintf('%03d.flp', processorCount(i)));
   process = ProcessVariation('floorplan', floorplan);
   dimension(i) = process.dimensionCount;
 end

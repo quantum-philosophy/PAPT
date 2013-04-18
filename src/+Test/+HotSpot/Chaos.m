@@ -4,6 +4,8 @@ function Chaos
 
   options = Test.configure;
 
+  plot(options.schedule);
+
   hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
   display(hotspot);
