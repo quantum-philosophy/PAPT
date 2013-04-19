@@ -13,7 +13,10 @@ classdef MonteCarlo < HotSpot.Numeric
 
       this = this@HotSpot.Numeric(options);
 
-      this.process = ProcessVariation('threshold', '1', options);
+      this.process = ProcessVariation( ...
+        'expectation', LeakagePower.Lnom, ...
+        'deviation', 0.05 * LeakagePower.Lnom, ...
+        'threshold', '1', options);
 
       this.sampleCount = options.get('sampleCount', 1e3);
       this.filename = options.get('filename', []);

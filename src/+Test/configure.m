@@ -11,7 +11,7 @@ function options = configure(varargin)
   tgffConfig = File.join('+Test', 'Assets', ...
     sprintf('%03d_%03d.tgff', processorCount, 20 * processorCount));
 
-  [ platform, application ] = parseTGFF(tgffConfig);
+  [ platform, application ] = Utils.parseTGFF(tgffConfig);
   options.schedule = Schedule.Dense(platform, application);
 
   %

@@ -5,6 +5,7 @@ function Chaos
   options = Test.configure;
 
   plot(options.schedule);
+  Utils.plotFloorplan(options.hotspotOptions.floorplan);
 
   hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
 
