@@ -47,10 +47,10 @@
 %
 % Temperature.
 %
-\newcommand{\T}{\Theta}
-\newcommand{\vTI}{\v{\tilde{X}}}
-\newcommand{\vTO}{{\boldsymbol\Theta}}
-\newcommand{\mTO}{{\boldsymbol\Theta}}
+\newcommand{\T}{Q}
+\newcommand{\vTI}{\v{\tilde{Q}}}
+\newcommand{\vTO}{\v{\T}}
+\newcommand{\mTO}{\m{\T}}
 
 \newcommand{\amb}{\text{amb}}
 
@@ -69,10 +69,10 @@
 %
 % System profiles.
 %
-\renewcommand{\part}{\boldsymbol{\Delta}}
-\newcommand{\prof}[1]{\left[\part, #1\right]}
-\newcommand{\profB}[1]{\lfloor\part, #1\rfloor}
-\newcommand{\profE}[1]{\lceil\part, #1\rceil}
+\newcommand{\part}[1]{\tau \left[ #1 \right]}
+\newcommand{\prof}[1]{\left( #1, \part{#1} \right)}
+\newcommand{\profB}[1]{\prof{#1}}
+\newcommand{\profE}[1]{\prof{#1}}
 
 \makeatletter
 \def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
