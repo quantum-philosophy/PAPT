@@ -7,12 +7,13 @@ function options = configure(varargin)
   % Application
   %
   processorCount = options.getSet('processorCount', 4);
+  taskCount = options.getSet('taskCount', 20 * processorCount);
 
   tgffConfig = File.join('+Test', 'Assets', ...
-    sprintf('%03d_%03d.tgff', processorCount, 20 * processorCount));
+    sprintf('%03d_%03d.tgff', processorCount, taskCount));
 
-  [ platform, application ] = Utils.parseTGFF(tgffConfig);
-  options.schedule = Schedule.Dense(platform, application);
+  [ options.platform, options.application ] = Utils.parseTGFF(tgffConfig);
+  options.schedule = Schedule.Dense(options.platform, options.application);
 
   %
   % Dynamic power

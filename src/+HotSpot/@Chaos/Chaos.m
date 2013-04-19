@@ -34,9 +34,15 @@ classdef Chaos < HotSpot.Analytic
       outputCount = processorCount * stepCount;
 
       Texp = reshape(coefficients(1, :), processorCount, stepCount);
+
+      if nargout < 2, return; end
+
       Tvar = reshape(sum(coefficients(2:end, :).^2 .* ...
         Utils.replicate(chaos.norm(2:end), 1, outputCount), 1), ...
         processorCount, stepCount);
+
+      if nargout < 3, return; end
+
       coefficients = reshape(coefficients, chaos.termCount, ...
         processorCount, stepCount);
     end
@@ -57,8 +63,8 @@ classdef Chaos < HotSpot.Analytic
     end
   end
 
-  methods (Access = 'private')
-    function T = solve(this, Pdyn, leakage, rvs)
+  methods (Access = 'protected')
+    function [ T, P ] = solve(this, Pdyn, leakage, rvs)
       [ processorCount, stepCount ] = size(Pdyn);
       assert(processorCount == this.processorCount);
 
@@ -73,19 +79,29 @@ classdef Chaos < HotSpot.Analytic
       sampleCount = size(rvs, 1);
       L = process.expectation + process.deviation * process.mapping * transpose(rvs);
 
-      range = 1:processorCount;
       T = zeros(processorCount * stepCount, sampleCount);
+      P = zeros(processorCount * stepCount, sampleCount);
 
-      X = D * bsxfun(@plus, Pdyn(:, 1), leak(L, Tamb));
-      T(range, :) = BT * X + Tamb;
+      P_ = bsxfun(@plus, Pdyn(:, 1), leak(L, Tamb));
+      X_ = D * P_;
+      T_ = BT * X_ + Tamb;
+
+      range = 1:processorCount;
+      T(range, :) = T_;
+      P(range, :) = P_;
 
       for i = 2:stepCount
-        X = E * X + D * bsxfun(@plus, Pdyn(:, i), leak(L, T(range, :)));
+        P_ = bsxfun(@plus, Pdyn(:, i), leak(L, T_));
+        X_ = E * X_ + D * P_;
+        T_ = BT * X_ + Tamb;
+
         range = range + processorCount;
-        T(range, :) = BT * X + Tamb;
+        T(range, :) = T_;
+        P(range, :) = P_;
       end
 
       T = transpose(T);
+      P = transpose(P);
     end
   end
 end

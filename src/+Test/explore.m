@@ -1,28 +1,26 @@
 function explore
   clear all;
+  close all;
   setup;
 
-  processorCount = 2;
-  taskCount = 40;
+  options = Test.configure('processorCount', 2);
 
-  options = Test.configure('processorCount', processorCount);
+  processorCount = options.processorCount;
+  taskCount = options.taskCount;
 
-  [ platform, application ] = parseTGFF( ...
-    File.join(File.trace, '..', 'Assets', ...
-      sprintf('%03d_%03d.tgff', processorCount, taskCount)));
+  temperatureChaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
+  powerChaos = HotSpot.PowerChaos(options.hotspotOptions, options.chaosOptions);
 
-  schedule = Schedule.Dense(platform, application);
-
-  hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
-
-  display(hotspot);
+  display(temperatureChaos);
 
   power = DynamicPower(options.samplingInterval);
 
   function drawSchedule(schedule, title)
     Pdyn = options.powerScale * power.compute(schedule);
     time = options.samplingInterval * (0:(size(Pdyn, 2) - 1));
-    [ Texp, Tvar, ~, Pexp, ~, ~ ] = hotspot.compute(Pdyn, options.leakage);
+
+    [ Texp, Tvar ] = temperatureChaos.compute(Pdyn, options.leakage);
+    Pexp = powerChaos.compute(Pdyn, options.leakage);
 
     Utils.drawTemperature(time, Utils.toCelsius(Texp), Tvar, 'layout', 'joint');
     Plot.title('%s: Temperature profile', title);
@@ -32,7 +30,7 @@ function explore
     Plot.label('Time, s', 'Power, W');
   end
 
-  drawSchedule(schedule, 'Initial');
+  drawSchedule(options.schedule, 'Initial');
 
   populationSize = 10;
   mutationRate = 0.01;
@@ -67,11 +65,12 @@ function explore
   end
 
   function fitness = evaluate(chromosome)
-    schedule = Schedule.Dense(platform, application, ...
+    schedule = Schedule.Dense( ...
+      options.platform, options.application, ...
       'mapping', chromosome(1:taskCount), ...
       'priority', chromosome((taskCount + 1):end));
     Pdyn = options.powerScale * power.compute(schedule);
-    [ Texp, ~, ~, Pexp, ~, ~ ] = hotspot.computeWithLeakage(Pdyn, options.leakage);
+    Pexp = powerChaos.compute(Pdyn, options.leakage);
     fitness = sum(Pexp(:)) * options.samplingInterval;
   end
 
@@ -81,7 +80,9 @@ function explore
   gaOptions.CrossoverFraction = 0.8;
   gaOptions.Display = 'diagnose';
   gaOptions.EliteCount = floor(0.05 * populationSize);
-  gaOptions.Generations = 10;
+  gaOptions.Generations = 1e3;
+  gaOptions.StallGenLimit = 100;
+  gaOptions.TolFun = 1e-3;
   gaOptions.MigrationFraction = 0.2;
   gaOptions.MutationFcn = @mutate;
   gaOptions.PopulationSize = populationSize;
@@ -92,7 +93,8 @@ function explore
   best = ga(@evaluate, 2 * taskCount, gaOptions);
   fprintf('Genetic algorithm: %.2f s\n', toc);
 
-  schedule = Schedule.Dense(platform, application, ...
+  schedule = Schedule.Dense( ...
+    options.platform, options.application, ...
     'mapping', best(1:taskCount), ...
     'priority', best((taskCount + 1):end));
 
