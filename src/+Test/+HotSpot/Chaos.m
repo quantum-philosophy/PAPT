@@ -1,5 +1,5 @@
 function Chaos
-  clear all;
+  close all;
   setup;
 
   options = Test.configure;
@@ -12,8 +12,8 @@ function Chaos
   display(hotspot);
 
   tic;
-  [ Texp, Tvar, coefficients ] = ...
-    hotspot.compute(options.powerProfile, options.leakage);
+  [ Texp, Tvar, coefficients ] = hotspot.compute(options.powerProfile, ...
+    'method', 'TransientWithLeakage', 'leakage', options.leakage);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   time = options.samplingInterval * (1:options.stepCount);

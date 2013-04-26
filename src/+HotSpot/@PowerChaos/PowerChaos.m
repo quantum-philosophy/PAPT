@@ -6,8 +6,8 @@ classdef PowerChaos < HotSpot.Chaos
   end
 
   methods (Access = 'protected')
-    function P = solve(this, Pdyn, leakage, rvs)
-      [ ~, P ] = solve@HotSpot.Chaos(this, Pdyn, leakage, rvs);
+    function P = solve(this, varargin);
+      [ ~, P ] = solve@HotSpot.Chaos(this, varargin{:});
     end
   end
 end
