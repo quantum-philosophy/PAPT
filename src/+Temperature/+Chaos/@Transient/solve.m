@@ -1,4 +1,6 @@
-function [ T, P ] = solveTransientWithLeakage(this, Pdyn, options)
+function [ T, output ] = solve(this, Pdyn, rvs, varargin)
+  options = Options(varargin{:});
+
   [ processorCount, stepCount ] = size(Pdyn);
   assert(processorCount == this.processorCount);
 
@@ -6,9 +8,11 @@ function [ T, P ] = solveTransientWithLeakage(this, Pdyn, options)
   D = this.D;
   BT = this.BT;
   Tamb = this.ambientTemperature;
+  leak = this.leakage.evaluate;
+  process = this.process;
 
-  leak = options.leakage.evaluate;
-  L = options.L;
+  L = process.expectation + ...
+    process.deviation * process.mapping * rvs;
 
   sampleCount = size(L, 2);
 
@@ -32,4 +36,6 @@ function [ T, P ] = solveTransientWithLeakage(this, Pdyn, options)
     T(range, :) = T_;
     P(range, :) = P_;
   end
+
+  output.P = P;
 end

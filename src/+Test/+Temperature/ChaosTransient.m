@@ -1,25 +1,25 @@
-function Chaos
+function ChaosTransient
   close all;
   setup;
 
   options = Test.configure;
 
   plot(options.schedule);
-  Utils.plotFloorplan(options.hotspotOptions.floorplan);
+  Utils.plotFloorplan(options.temperatureOptions.floorplan);
 
-  hotspot = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
+  chaos = Temperature.Chaos.Transient( ...
+    options.temperatureOptions, options.chaosOptions);
 
-  display(hotspot);
+  display(chaos);
 
   tic;
-  [ Texp, Tvar, coefficients ] = hotspot.compute(options.powerProfile, ...
-    'method', 'TransientWithLeakage', 'leakage', options.leakage);
+  [ Texp, output ] = chaos.compute(options.powerProfile);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   time = options.samplingInterval * (1:options.stepCount);
 
-  Utils.drawTemperature(time, { Utils.toCelsius(Texp) }, { Tvar });
-  showCoefficients(time, { coefficients });
+  Utils.drawTemperature(time, { Utils.toCelsius(Texp) }, { output.Tvar });
+  showCoefficients(time, { output.coefficients });
 end
 
 function showCoefficients(~, coefficientSet)

@@ -1,4 +1,6 @@
-function [ T, P ] = solveDynamicSteadyStateWithLeakage(this, Pdyn, options)
+function [ T, output ] = solve(this, Pdyn, rvs, varargin)
+  options = Options(varargin{:});
+
   nodeCount = this.nodeCount;
   [ processorCount, stepCount ] = size(Pdyn);
   assert(processorCount == this.processorCount);
@@ -9,12 +11,13 @@ function [ T, P ] = solveDynamicSteadyStateWithLeakage(this, Pdyn, options)
   U = this.U;
   UT = this.UT;
   Lambda = this.L;
-
   Tamb = this.ambientTemperature;
   dt = this.samplingInterval;
+  leak = this.leakage.evaluate;
+  process = this.process;
 
-  leak = options.leakage.evaluate;
-  L = options.L;
+  L = process.expectation + ...
+    process.deviation * process.mapping * rvs;
 
   iterationLimit = options.get('iterationLimit', 10);
   tolerance = options.get('tolerance', 0.5);
@@ -45,6 +48,7 @@ function [ T, P ] = solveDynamicSteadyStateWithLeakage(this, Pdyn, options)
 
   T = zeros(processorCount * stepCount, sampleCount);
   P = zeros(processorCount * stepCount, sampleCount);
+  iterationCount = zeros(1, sampleCount);
 
   %
   % NOTE: 'i' is already occupied!
@@ -66,5 +70,9 @@ function [ T, P ] = solveDynamicSteadyStateWithLeakage(this, Pdyn, options)
 
     T(:, j) = Tcurrent(:);
     P(:, j) = Pcurrent(:);
+    iterationCount(j) = k;
   end
+
+  output.P = P;
+  output.iterationCount = iterationCount;
 end

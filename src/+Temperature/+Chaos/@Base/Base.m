@@ -1,14 +1,14 @@
-classdef Chaos < HotSpot.Analytic
+classdef Base < Temperature.Analytical.Base
   properties (SetAccess = 'protected')
     process
     chaos
   end
 
   methods
-    function this = Chaos(varargin)
+    function this = Base(varargin)
       options = Options(varargin{:});
 
-      this = this@HotSpot.Analytic(options);
+      this = this@Temperature.Analytical.Base(options);
 
       this.process = ProcessVariation( ...
         'expectation', LeakagePower.Lnom, ...
@@ -23,10 +23,11 @@ classdef Chaos < HotSpot.Analytic
         Options(varargin{:}));
     end
 
-    function [ Texp, Tvar, coefficients ] = compute(this, Pdyn, varargin)
+    function [ Texp, output ] = compute(this, Pdyn, varargin)
       chaos = this.chaos;
 
-      coefficients = chaos.expand(@(rvs) this.solve(Pdyn, rvs, varargin{:}));
+      coefficients = chaos.expand(@(rvs) ...
+        transpose(this.solve(Pdyn, transpose(rvs), varargin{:})));
 
       [ processorCount, stepCount ] = size(Pdyn);
 
@@ -36,13 +37,11 @@ classdef Chaos < HotSpot.Analytic
 
       outputCount = processorCount * stepCount;
 
-      Tvar = reshape(sum(coefficients(2:end, :).^2 .* ...
+      output.Tvar = reshape(sum(coefficients(2:end, :).^2 .* ...
         Utils.replicate(chaos.norm(2:end), 1, outputCount), 1), ...
         processorCount, stepCount);
 
-      if nargout < 3, return; end
-
-      coefficients = reshape(coefficients, chaos.termCount, ...
+      output.coefficients = reshape(coefficients, chaos.termCount, ...
         processorCount, stepCount);
     end
 
@@ -56,24 +55,13 @@ classdef Chaos < HotSpot.Analytic
     end
 
     function display(this)
-      display@HotSpot.Analytic(this);
+      display@Temperature.Analytical.Base(this);
       display(this.process);
       display(this.chaos);
     end
   end
 
-  methods (Access = 'protected')
-    function [ T, P ] = solve(this, Pdyn, rvs, varargin)
-      options = Options(varargin{:});
-
-      process = this.process;
-      options.L = process.expectation + ...
-        process.deviation * process.mapping * transpose(rvs);
-
-      [ T, P ] = this.([ 'solve', options.method ])(Pdyn, options);
-
-      T = transpose(T);
-      P = transpose(P);
-    end
+  methods (Abstract)
+    [ T, output ] = solve(this, Pdyn, rvs, varargin)
   end
 end

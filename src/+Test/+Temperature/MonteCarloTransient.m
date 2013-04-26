@@ -1,9 +1,9 @@
-function MonteCarlo
-  clear all;
+function MonteCarloTransient
+  close all;
   setup;
 
-  chaosSampleCount = 1e5;
-  carloSampleCount = 1e4;
+  chaosSampleCount = 1e1;
+  carloSampleCount = 1e1;
 
   options = Test.configure;
 
@@ -15,21 +15,20 @@ function MonteCarlo
   %
   % One polynomial chaos.
   %
-  chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
+  chaos = Temperature.Chaos.Transient( ...
+    options.temperatureOptions, options.chaosOptions);
 
   display(chaos);
 
   %
   % Monte Carlo simulations.
   %
-  mc = HotSpot.MonteCarlo(options.hotspotOptions, ...
-    'sampleCount', carloSampleCount, 'verbose', 'true');
+  mc = Temperature.MonteCarlo.Transient(options.temperatureOptions);
 
   display(mc);
 
   tic;
-  [ Texp1, Tvar1, coefficients ] = chaos.compute( ...
-    options.powerProfile, options.leakage);
+  [ Texp1, output1 ] = chaos.compute(options.powerProfile);
   fprintf('Polynomial chaos: construction time %.2f s.\n', toc);
 
   %
@@ -37,21 +36,21 @@ function MonteCarlo
   %
   if Terminal.question('Compare expectations, variances, and PDFs? ')
     tic;
-    Tdata1 = chaos.sample(coefficients, chaosSampleCount);
+    Tdata1 = chaos.sample(output1.coefficients, chaosSampleCount);
     fprintf('Polynomial chaos: sampling time %.2f s (%d samples).\n', ...
       toc, chaosSampleCount);
 
-    [ Texp2, Tvar2, Tdata2 ] = mc.computeInParallel( ...
-      options.powerProfile, options.leakage);
-
+    [ Texp2, output2 ] = mc.compute(options.powerProfile, ...
+      'sampleCount', carloSampleCount, 'verbose', true);
+    
     labels = { 'PC', 'MC' };
 
     Utils.drawTemperature(time, ...
       { Utils.toCelsius(Texp1), Utils.toCelsius(Texp2) }, ...
-      { Tvar1, Tvar2 }, 'labels', labels);
+      { output1.Tvar, output2.Tvar }, 'labels', labels);
 
-    Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
-    Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
+    Tdata1 = Utils.toCelsius(Tdata1);
+    Tdata2 = Utils.toCelsius(output2.Tdata);
 
     Data.compare(Tdata1, Tdata2, ...
       'method', 'histogram', 'range', 'unbounded', ...
@@ -76,9 +75,9 @@ function MonteCarlo
       RVs(:, i) = rvs;
     end
 
-    Tdata1 = chaos.evaluate(coefficients, RVs);
+    Tdata1 = chaos.evaluate(output1.coefficients, RVs);
 
-    Tdata2 = mc.evaluateInParallel( ...
+    Tdata2 = mc.evaluate( ...
       options.powerProfile, options.leakage, RVs);
 
     Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
