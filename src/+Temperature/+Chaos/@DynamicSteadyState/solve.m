@@ -20,6 +20,7 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
     process.deviation * process.mapping * rvs;
 
   iterationLimit = options.get('iterationLimit', 10);
+  temperatureLimit = options.get('temperatureLimit', Inf);
   tolerance = options.get('tolerance', 0.5);
 
   function T_ = computeOne(P_)
@@ -65,7 +66,20 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
       Pcurrent = Pdyn + leak(l, Tcurrent);
       Tcurrent = computeOne(Pcurrent);
 
-      if max(abs(Tcurrent(:) - Tlast(:))) < tolerance, break; end
+      if max(max(Tcurrent)) > temperatureLimit
+        %
+        % Thermal runaway
+        %
+        k = iterationLimit;
+        break;
+      end
+
+      if max(max(abs(Tcurrent - Tlast))) < tolerance
+        %
+        % Successful convergence
+        %
+        break;
+      end
     end
 
     T(:, j) = Tcurrent(:);

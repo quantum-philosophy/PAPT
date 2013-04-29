@@ -1,7 +1,7 @@
 function plotTraces
   options = Test.configure;
 
-  mc = HotSpot.MonteCarlo(options.hotspotOptions);
+  mc = Temperature.MonteCarlo.Transient(options.temperatureOptions);
 
   processors = [ 1, 2 ];
 
@@ -13,7 +13,7 @@ function plotTraces
   figure;
   for i = 1:length(scale)
     T = Utils.toCelsius(mc.compute( ...
-      options.powerProfile, options.leakage, scale(i) * Lnom));
+      options.dynamicPower, 'L', scale(i) * Lnom));
     for j = processors
       line(t, T(j, :), 'Color', Color.pick(i), 'LineWidth', 1);
     end

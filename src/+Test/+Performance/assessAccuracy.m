@@ -23,13 +23,12 @@ function assessAccuracy
   %
   % Monte Carlo simulation.
   %
-  mc = HotSpot.MonteCarlo(options.hotspotOptions, ...
+  mc = Temperature.MonteCarlo.Transient(options.temperatureOptions);
+
+  [ ~, output ] = mc.compute(options.dynamicPower, ...
     'sampleCount', max(sampleCountSet), 'verbose', true);
 
-  [ ~, ~, mcTDATA ] = mc.computeInParallel( ...
-    options.powerProfile, options.leakage);
-
-  mcTDATA = mcTDATA(randperm(max(sampleCountSet)), :, :);
+  mcTDATA = output.Tdata(randperm(max(sampleCountSet)), :, :);
 
   mcTexp = cell(sampleCount, 1);
   mcTvar = cell(sampleCount, 1);
@@ -56,16 +55,15 @@ function assessAccuracy
 
     fprintf('%5d | ', orderSet(i));
 
-    chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
+    chaos = Temperature.Chaos.Transient(options.temperatureOptions, ...
+      options.chaosOptions);
 
-    [ Texp, Tvar, coefficients ] = chaos.compute( ...
-      options.powerProfile, options.leakage);
-
-    Tdata = chaos.sample(coefficients, chaosSampleCount);
+    [ Texp, output ] = chaos.compute(options.dynamicPower);
+    Tdata = chaos.sample(output.coefficients, chaosSampleCount);
 
     for j = 1:sampleCount
       errorExp(i, j) = Error.computeNRMSE(mcTexp{j}, Texp) * 100;
-      errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, Tvar) * 100;
+      errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, output.Tvar) * 100;
 
       if all([ i, j ] == pick)
         errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...

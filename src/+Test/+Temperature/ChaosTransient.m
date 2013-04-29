@@ -13,7 +13,7 @@ function ChaosTransient
   display(chaos);
 
   tic;
-  [ Texp, output ] = chaos.compute(options.powerProfile);
+  [ Texp, output ] = chaos.compute(options.dynamicProfile);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   time = options.samplingInterval * (1:options.stepCount);

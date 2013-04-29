@@ -21,22 +21,23 @@ function compareSpeed(varargin)
 
     options = experiment.configure(parameter);
 
-    chaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
-    analytic = HotSpot.Analytic(options.hotspotOptions);
-    numeric = HotSpot.Numeric(options.hotspotOptions);
+    chaos = Temperature.Chaos.Transient(options.temperatureOptions, ...
+      options.chaosOptions);
+    analytic = Temperature.Analytical.Transient(options.temperatureOptions);
+    numeric = Temperature.Numerical.Transient(options.temperatureOptions);
 
     for j = 1:repeat(i)
       tic;
-      chaos.compute(options.powerProfile, options.leakage);
+      T = chaos.compute(options.dynamicPower);
       measurements(i, 1) = measurements(i, 1) + toc;
 
       tic;
-      analytic.compute(options.powerProfile, options.leakage);
+      T = analytic.compute(options.dynamicPower);
       measurements(i, 2) = measurements(i, 2) + toc * sampleCount;
 
 
       tic;
-      numeric.compute(options.powerProfile, options.leakage);
+      T = numeric.compute(options.dynamicPower);
       measurements(i, 3) = measurements(i, 3) + toc * sampleCount;
     end
 
