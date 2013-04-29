@@ -1,4 +1,4 @@
-function explore
+function minimizeEnergy
   clear all;
   close all;
   setup;
@@ -8,8 +8,10 @@ function explore
   processorCount = options.processorCount;
   taskCount = options.taskCount;
 
-  temperatureChaos = HotSpot.Chaos(options.hotspotOptions, options.chaosOptions);
-  powerChaos = HotSpot.PowerChaos(options.hotspotOptions, options.chaosOptions);
+  temperatureChaos = Temperature.Chaos.DynamicSteadyState( ...
+    options.temperatureOptions, options.chaosOptions);
+  powerChaos = Temperature.PowerChaos.DynamicSteadyState( ...
+    options.temperatureOptions, options.chaosOptions);
 
   display(temperatureChaos);
 
@@ -19,10 +21,11 @@ function explore
     Pdyn = options.powerScale * power.compute(schedule);
     time = options.samplingInterval * (0:(size(Pdyn, 2) - 1));
 
-    [ Texp, Tvar ] = temperatureChaos.compute(Pdyn, options.leakage);
-    Pexp = powerChaos.compute(Pdyn, options.leakage);
+    [ Texp, output ] = temperatureChaos.compute(Pdyn);
+    Pexp = powerChaos.compute(Pdyn);
 
-    Utils.drawTemperature(time, Utils.toCelsius(Texp), Tvar, 'layout', 'joint');
+    Utils.drawTemperature(time, Utils.toCelsius(Texp), ...
+      output.Tvar, 'layout', 'joint');
     Plot.title('%s: Temperature profile', title);
 
     power.plot(Pexp);
@@ -70,7 +73,7 @@ function explore
       'mapping', chromosome(1:taskCount), ...
       'priority', chromosome((taskCount + 1):end));
     Pdyn = options.powerScale * power.compute(schedule);
-    Pexp = powerChaos.compute(Pdyn, options.leakage);
+    Pexp = powerChaos.compute(Pdyn);
     fitness = sum(Pexp(:)) * options.samplingInterval;
   end
 
