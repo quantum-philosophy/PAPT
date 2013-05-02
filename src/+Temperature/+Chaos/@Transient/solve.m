@@ -1,6 +1,4 @@
 function [ T, output ] = solve(this, Pdyn, rvs, varargin)
-  options = Options(varargin{:});
-
   [ processorCount, stepCount ] = size(Pdyn);
   assert(processorCount == this.processorCount);
 
@@ -8,7 +6,7 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   D = this.D;
   BT = this.BT;
   Tamb = this.ambientTemperature;
-  leak = this.leakage.evaluate;
+  leakage = this.leakage;
   process = this.process;
 
   L = process.expectation + ...
@@ -19,7 +17,7 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   T = zeros(processorCount * stepCount, sampleCount);
   P = zeros(processorCount * stepCount, sampleCount);
 
-  P_ = bsxfun(@plus, Pdyn(:, 1), leak(L, Tamb));
+  P_ = bsxfun(@plus, Pdyn(:, 1), leakage.evaluate(L, Tamb * ones(size(L))));
   X_ = D * P_;
   T_ = BT * X_ + Tamb;
 
@@ -28,7 +26,7 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   P(range, :) = P_;
 
   for i = 2:stepCount
-    P_ = bsxfun(@plus, Pdyn(:, i), leak(L, T_));
+    P_ = bsxfun(@plus, Pdyn(:, i), leakage.evaluate(L, T_));
     X_ = E * X_ + D * P_;
     T_ = BT * X_ + Tamb;
 

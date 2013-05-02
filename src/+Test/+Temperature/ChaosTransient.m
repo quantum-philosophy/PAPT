@@ -6,6 +6,7 @@ function ChaosTransient
 
   plot(options.schedule);
   Utils.plotFloorplan(options.temperatureOptions.floorplan);
+  plot(options.power, options.dynamicPower);
 
   chaos = Temperature.Chaos.Transient( ...
     options.temperatureOptions, options.chaosOptions);
@@ -13,7 +14,7 @@ function ChaosTransient
   display(chaos);
 
   tic;
-  [ Texp, output ] = chaos.compute(options.dynamicProfile);
+  [ Texp, output ] = chaos.compute(options.dynamicPower);
   fprintf('Polynomial chaos: %.2f s\n', toc);
 
   time = options.samplingInterval * (1:options.stepCount);

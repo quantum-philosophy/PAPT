@@ -13,7 +13,7 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   Lambda = this.L;
   Tamb = this.ambientTemperature;
   dt = this.samplingInterval;
-  leak = this.leakage.evaluate;
+  leakage = this.leakage;
   process = this.process;
 
   L = process.expectation + ...
@@ -57,13 +57,13 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   for j = 1:sampleCount
     l = Utils.replicate(L(:, j), 1, stepCount);
 
-    Pcurrent = Pdyn + leak(l, Tamb);
+    Pcurrent = Pdyn + leakage.evaluate(l, Tamb * ones(size(l)));
     Tcurrent = computeOne(Pcurrent);
 
     for k = 2:iterationLimit
       Tlast = Tcurrent;
 
-      Pcurrent = Pdyn + leak(l, Tcurrent);
+      Pcurrent = Pdyn + leakage.evaluate(l, Tcurrent);
       Tcurrent = computeOne(Pcurrent);
 
       if max(max(Tcurrent)) > temperatureLimit
