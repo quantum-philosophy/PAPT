@@ -1,6 +1,10 @@
-function ChaosTransient
+function ChaosTransient(varargin)
   close all;
   setup;
+
+  options = Options(varargin{:});
+
+  iterationCount = options.get('iterationCount', 10);
 
   options = Test.configure;
 
@@ -13,9 +17,12 @@ function ChaosTransient
 
   display(chaos);
 
-  tic;
-  [ Texp, output ] = chaos.compute(options.dynamicPower);
-  fprintf('Polynomial chaos: %.2f s\n', toc);
+  fprintf('Running %d iterations...\n', iterationCount);
+  time = tic;
+  for i = 1:iterationCount
+    [ Texp, output ] = chaos.compute(options.dynamicPower);
+  end
+  fprintf('Average computational time: %.2f s\n', toc(time) / iterationCount);
 
   time = options.samplingInterval * (1:options.stepCount);
 
