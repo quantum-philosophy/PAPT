@@ -1,14 +1,18 @@
- The primary target of uncertainty quantification (UQ) is the characterization of the output of systems that exhibit non-deterministic behavior due to the presence of uncertainties of some kind \cite{xiu2010, eldred2009}.
- A multiprocessor platform is a prominent example of such a system, wherein the variability originates from, \eg, the semiconductor manufacturing process and operating environment.
- In particular, the uncertainty impacts power and, consequently, temperature, which are among the main concerns of multiprocessor system designs.
- As an example, consider a quad-core architecture subjected to uncertainty of the parameters that affect the leakage current.\footnote{The experimental setup is explained in \sref{experimental-results}.}
- Assume first that these parameters have nominal values. We can then simulate the system under a certain workload in order to observe the corresponding temperature.
- The result, labeled as ``Nominal'', is depicted in \fref{motivation-curve} where, for clarity, only two curves, corresponding to two processors, are presented (the two bottom blue lines). It can be seen that the temperature is always below $70^{\circ}$C. Now, let us assume a mild deviation of the parameters from the nominal values and run the simulation once again.
- The result is the ``Mild'' curves in \fref{motivation-curve} (the two middle orange lines); the maximal temperature is already above $80^{\circ}$C.
- Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curves labeled as ``Severe'' in \fref{motivation-curve} (the two top green lines); the maximal temperature is almost $110^{\circ}$C.
- Imagine that the designer, when tuning the solution constrained by a maximal temperature of $80^\circ$C, was guided exclusively by the nominal parameters. In this case, even with mild deviations, the circuits might be burnt.
- The amount of burnt circuits depends on the statistical distribution of deviations.
- Such an uncertainty has to be addressed in order to pursue efficiency and robustness.
- Nevertheless, the majority of the literature regarding power-temperature analysis (PTA) ignores this important aspect, \eg, \cite{rao2009, rai2011, thiele2011, ukhov2012}.
+Process variation constitutes one of the major concerns of multiprocessor system designs \cite{chandrakasan2001, srivastava2010}.
+A crucial implication of process variation is that it renders the key parameters of a technological process, \eg, the effective channel length, gate oxide thickness, and threshold voltage, as random quantities.
+Therefore, the same workload applied to two ``identical'' dies can lead to two different power and, thus, temperature profiles since the dissipation of power and heat essentially depends on the aforementioned stochastic quantities.
+Consequently, process variation leads to performance degradation in the best case and to severe faults or burnt silicon in the worst scenario.
+Under these circumstances, uncertainty quantification \cite{xiu2010, eldred2009} has evolved into an indispensable asset of the multiprocessor system designs that can provide high guaranties on the efficiency and robustness of their products to the end user.
+
+As an example, consider a quad-core architecture subjected to the uncertainty of the parameters that affect the leakage current.\footnote{The experimental setup is described in \sref{experimental-results}.}
+Assume first that these parameters have nominal values. We can then simulate the system under a certain workload and observe the corresponding temperature profile.
+The result, labeled as ``Nominal'', is depicted in \fref{motivation-curve} where, for clarity, only two curves, corresponding to two processors, are presented (the two bottom blue lines). It can be seen that the temperature is always below $70^{\circ}$C. Now, let us assume a mild deviation of the parameters from the nominal values and run the simulation once again.
+The result is the ``Mild'' curves in \fref{motivation-curve} (the two middle orange lines); the maximal temperature is already above $80^{\circ}$C.
+Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curves labeled as ``Severe'' in \fref{motivation-curve} (the two top green lines); the maximal temperature is almost $110^{\circ}$C.
+Imagine that the designer, when tuning the solution constrained by a maximal temperature of $80^\circ$C, was guided exclusively by the nominal parameters. In this case, even with mild deviations, the circuits might be burnt.
+The amount of burnt circuits depends on the probability distribution of these deviations.
+Such an uncertainty has to be addressed in order to pursue efficiency and robustness.
+Nevertheless, the majority of the literature related to power-temperature analysis ignores this important aspect, \eg, \cite{rao2009, rai2011, thiele2011, ukhov2012}.
 
 \input{include/assets/motivation-curve.tex}
+\input{include/assets/motivation-pdf.tex}

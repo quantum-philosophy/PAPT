@@ -1,10 +1,10 @@
 \begin{table}[b]
   \vspace{-0.8em}
   \centering
-  \caption{Scaling with the number of processing elements $\cores$}
+  \caption{Scaling with the number of processing elements $\nprocs$}
   \begin{tabular*}{1\linewidth}{p{20pt}crrr}
     \toprule
-    $\cores$ & $\vars$ & PC, seconds & MC, hours & Speedup, times \\
+    $\nprocs$ & $\nvars$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
     $ 2$ & $2$ & $0.28$ & $30.98$ & $3.99 \times 10^5$ \\
     $ 4$ & $3$ & $0.30$ & $31.04$ & $3.73 \times 10^5$ \\
@@ -15,10 +15,10 @@
   \end{tabular*}
   \tlabel{scaling-cores}
   \vspace{5pt}
-  \caption{Scaling with the number of steps $\steps$}
+  \caption{Scaling with the number of steps $\nsteps$}
   \begin{tabular*}{1\linewidth}{p{46pt}rrr}
     \toprule
-    $\steps$ & PC, seconds & MC, hours & Speedup, times \\
+    $\nsteps$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
     $10^2$ & $  0.07$ & $    3.56$ & $1.93 \times 10^5$ \\
     $10^3$ & $  0.27$ & $   31.11$ & $4.11 \times 10^5$ \\

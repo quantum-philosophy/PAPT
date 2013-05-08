@@ -2,10 +2,10 @@ At \stage{2}\ in \fref{algorithm}, we need to decide on the power model with the
 \begin{equation} \elabel{leakage-current}
   I_\leak(\T, \Leff) = \exp \left( \alpha_0 + \alpha_1 \Leff + \alpha_2 \T + \alpha_3 \Leff \T + \alpha_4 \T^2 \right)
 \end{equation}
-where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\T, \Leff)$ is further scaled to the power level of each of the processing elements, \ie, for $i = 1, \dotsc, \cores$, we have
+where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\T, \Leff)$ is further scaled to the power level of each of the processing elements, \ie, for $i = 1, \dotsc, \nprocs$, we have
 \[
   \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i \: I_{\leak, i}(\T_i(\t, \o), \Leff_i(\o))
 \]
 where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\Leff$, $\gLeff(\o)$, and $\lLeff(r_i, \o)$ as discussed in \sref{overview-application}.
 
-At \stage{3}, the equivalent thermal RC circuits---specifically, the coefficient matrices in \eref{fourier-system}---are constructed by means of HotSpot v5.02 \cite{hotspot}. Thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nodes = 4 \cores + 12$. An example of such a circuit is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.
+At \stage{3}, the equivalent thermal RC circuits---specifically, the coefficient matrices in \eref{fourier-system}---are constructed by means of HotSpot v5.02 \cite{hotspot}. Thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nnodes = 4 \nprocs + 12$. An example of such a circuit is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.

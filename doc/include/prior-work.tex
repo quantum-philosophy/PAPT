@@ -1,20 +1,19 @@
-\input{include/assets/motivation-pdf.tex}
-To overcome the limitations of deterministic PTA, a number of stochastic PTA techniques have been recently proposed.
+To overcome the limitations of deterministic power-temperature analysis (PTA), a number of stochastic PTA techniques have been recently introduced.
 A solely power-targeted but temperature-aware solution is proposed in \cite{chandra2010}, which employs Monte Carlo (MC) simulations.
 A learning-based approach is presented in \cite{juan2011} to estimate the maximal temperature under the steady-state condition and variability of the leakage current.
 Leakage is also considered in \cite{juan2012}, where a statistical model of the steady-state temperature based on Gaussian distributions is derived.
 None of the aforementioned techniques attempts to perform stochastic transient PTA and to compute the evolving-in-time probability distribution of temperature.
 However, such transient curves are of practical importance.
 First of all, certain procedures cannot be undertaken without the knowledge of time-dependent temperature variations, \eg, the reliability optimization based on the thermal-cycling fatigue. Secondly, the constant steady-state temperature assumption, considered, \eg, in \cite{juan2011, juan2012}, can rarely be justified since power profiles are not invariant in reality.
-Moreover, the frequently made assumption that power and/or temperature follow \apriori\ known probability distributions---for instance, Gaussian and log-normal distributions are popular choices, as in \cite{juan2012, srivastava2010}---is not realistic due to (a) the strict nonlinearities between the process parameters, power, and temperature; (b) the nonlinear interdependency of temperature and the leakage power \cite{liu2007}.
+Moreover, the frequently made assumption that power and/or temperature follow \apriori\ known probability distributions---for instance, Gaussian and log-normal distributions are popular choices, as in \cite{srivastava2010, juan2012}---is not realistic due to (a) the strict nonlinearities between the process parameters, power, and temperature; (b) the nonlinear interdependency of temperature and the leakage power \cite{liu2007}.
 To illustrate this, we simulated the previously mentioned example $10^4$ times with respect to the distribution of the parameters taken from literature (discussed in \sref{illustrative-example}), and performed kernel density estimation of probability density functions (\pdfs) of the temperature of the four processors at the middle of the time span shown in \fref{motivation-curve} (at time 0.39~s).
 The results are depicted in \fref{motivation-pdf}; and it can be seen that they are neither Gaussian nor log-normal.
-To conclude, the present stochastic PTA techniques for multiprocessor system design are restricted in use due to one or several of the following traits: based on MC simulations (potentially slow) \cite{chandra2010}, limited to power analysis \cite{chandra2010}, limited to the assumption of the constant steady-state temperature \cite{juan2011, juan2012}, exclusive focus on the maximal temperature \cite{juan2011}, \apriori\ chosen distributions of power and temperature \cite{juan2012, srivastava2010}.
+To conclude, the present stochastic PTA techniques for multiprocessor system design are restricted in use due to one or several of the following traits: based on MC simulations (potentially slow) \cite{chandra2010}, limited to power analysis \cite{chandra2010}, limited to the assumption of the constant steady-state temperature \cite{juan2011, juan2012}, exclusive focus on the maximal temperature \cite{juan2011}, \apriori\ chosen distributions of power and temperature \cite{srivastava2010, juan2012}.
 Consequently, there is a lack of flexible stochastic PTA techniques, which we aim to fulfill.
 
 \input{include/assets/algorithm.tex}
 A straightforward approach to analyze a stochastic system is MC sampling coupled with a deterministic simulator.
-The major problem with MC sampling is the low rate of convergence, \eg, the mean value converges as $\mcsamples^{-\ifrac{1}{2}}$ where $\mcsamples$ is the number of samples \cite{xiu2010, maitre2010}.
+The major problem with MC sampling is the low rate of convergence, \eg, the mean value converges as $\nsamples^{-\ifrac{1}{2}}$ where $\nsamples$ is the number of samples \cite{xiu2010, maitre2010}.
 This means that, in order to get an additional decimal point of accuracy, one has to obtain hundred times more samples.
 Each such sample implies a complete realization of the whole system; therefore, MC-based methods are typically slow and often infeasible since the number of needed simulations can be extremely large \cite{diaz-emparanza2002}.
 
