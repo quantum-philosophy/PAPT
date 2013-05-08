@@ -21,9 +21,9 @@ where $i = 1, \dotsc, \pcterms$. Making use of \eref{orthogonality}, we obtain
 \end{equation}
 In general, the inner product in \eref{pc-coefficients}, defined by \eref{inner-product}, should be evaluated numerically. This task is independent from the rest of the derivations in this section and, therefore, is discussed in \aref{gauss-quadrature}. The total number of the coefficient, $\pcterms$, is given by the following expression, which corresponds to the total-order polynomial space \cite{beck2011}:
 \begin{equation} \elabel{pc-terms}
-  \pcterms = { \pcorder + \vars \choose \vars } = \frac{(\pcorder + \vars)!}{\pcorder! \vars!}.
+  \pcterms = { \pcorder + \nvars \choose \nvars } = \frac{(\pcorder + \nvars)!}{\pcorder! \nvars!}.
 \end{equation}
-The overall procedure is to be perform for $k = 1, \dotsc, \steps$.
+The overall procedure is to be perform for $k = 1, \dotsc, \nsteps$.
 
 Finally, we need to show the derivation of the recurrent expression in \eref{pc-recurrence}, which is used together with \eref{fourier-output} to compute the PC coefficients of temperature. Using the definition in \eref{pc-expansion}, \eref{expanded-recurrence} can be explicitly written as
 \[

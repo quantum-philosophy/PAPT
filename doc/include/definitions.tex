@@ -23,7 +23,7 @@
 \makeatother
 
 %
-% References.
+% References
 %
 \newcommand{\eref}[1]{Eq.~(\ref{equ:#1})}
 \newcommand{\sref}[1]{Sec.~\ref{sec:#1}}
@@ -38,7 +38,7 @@
 \newcommand{\flabel}[1]{\label{fig:#1}}
 
 %
-% Shortcuts.
+% Text shortcuts
 %
 \newcommand{\rv}{RV}
 \newcommand{\rvs}{RVs}
@@ -54,5 +54,214 @@
 \newcommand{\etc}{\emph{etc.}}
 \newcommand{\apriori}{\emph{a priori}}
 
-\input{include/definitions/mathematics.tex}
-\input{include/definitions/system.tex}
+%
+% Misc
+%
+\newcommand{\idot}{\cdot}
+\newcommand{\ifrac}[2]{{{#1}/{#2}}}
+
+%
+% Spaces
+%
+\renewcommand{\L}[1]{\mathcal{L}_{#1}}
+\newcommand{\real}{\mathbb{R}}
+
+%
+% Linear algebra
+%
+\newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
+
+\newcommand{\mI}{\m{I}}
+\newcommand{\mZero}{\m{0}}
+
+\renewcommand{\vec}[1]{\left(#1\right)^T}
+\renewcommand{\v}[1]{\mathbf{#1}}
+
+\newcommand{\vZero}{\v{0}}
+
+%
+% Probability theory
+%
+\newcommand{\outcomes}{\Omega}
+\renewcommand{\o}{\omega}
+\newcommand{\sAlgebra}{\mathcal{F}}
+\newcommand{\pMeasure}{\mathcal{P}}
+
+\newcommand{\normal}{\mathcal{N}}
+
+\newcommand{\vExp}{{\boldsymbol\mu}}
+\newcommand{\mCov}{\m{\Sigma}}
+
+\newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
+\newcommand{\oCov}[1]{\mathbb{C}\text{ov}\left[#1\right]}
+\newcommand{\oCorr}[1]{\mathbb{C}\text{orr}\left[#1\right]}
+
+\newcommand{\fCov}[2]{K_{#1}\left(#2\right)}
+
+\newcommand{\PDF}{\rho}
+
+%
+% Polynomial chaos expansion
+%
+\newcommand{\pcb}{\Phi}
+\newcommand{\pcn}{\eta}
+\newcommand{\pcc}[1]{\hat{#1}}
+\newcommand{\oPC}[3]{\mathcal{C}_{#1}^{#2}\left[#3\right]}
+
+\newcommand{\pccs}{{\boldsymbol\gamma}}
+
+\makeatletter
+  \def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
+  \def\oInnerSingle#1{\left\langle #1 \right\rangle}
+  \def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
+\makeatother
+
+%
+% Karhunen-Loeve expansion
+%
+\newcommand{\domain}{\mathcal{D}}
+\newcommand{\klv}{\lambda}
+\newcommand{\klf}[1]{\hat{#1}}
+
+%
+% Integration with quadratures
+%
+\newcommand{\qdn}[1]{\hat{#1}}
+\newcommand{\qdw}{w}
+\newcommand{\oQuad}[3]{\mathcal{Q}_{#1}^{#2}\left[#3\right]}
+
+%
+% Thermal model:
+%
+%      dT
+%  C * -- + (G - G_amb) * T = P
+%      dt
+%
+
+% Specification
+\newcommand{\system}{\mathcal{S}}
+
+% Capacitance and conductance
+\newcommand{\mC}{\m{C}}
+\newcommand{\mG}{\m{G}}
+
+%
+% Transformed thermal model:
+%
+%  dX
+%  -- = A * X + B * P
+%  dt
+%
+%  Y = B^T * X
+%
+\newcommand{\vX}{\v{X}}
+\newcommand{\mA}{\m{A}}
+\newcommand{\mB}{\m{B}}
+
+% Processor elements/thermal nodes mapping.
+\newcommand{\mM}{\m{\tilde{B}}}
+
+% Recurrence coefficients
+\newcommand{\mCF}{\m{D}}
+\newcommand{\mCS}{\m{E}}
+
+%
+% Time.
+%
+\renewcommand{\t}{t}
+\newcommand{\dt}{\Delta \t}
+\newcommand{\period}{T}
+\newcommand{\sTime}{T}
+
+%
+% Temperature.
+%
+\newcommand{\T}{Q}
+\newcommand{\vTI}{\v{\tilde{Q}}}
+\newcommand{\vTO}{\v{\T}}
+\newcommand{\mTO}{\m{\T}}
+
+\newcommand{\amb}{\text{amb}}
+
+%
+% Power.
+%
+\renewcommand{\P}{P}
+\newcommand{\vP}{\v{P}}
+\newcommand{\mP}{\m{P}}
+
+\newcommand{\dyn}{\text{dyn}}
+\newcommand{\leak}{\text{leak}}
+
+\newcommand{\f}{f}
+
+%
+% System profiles.
+%
+\newcommand{\part}[1]{\tau \left[ #1 \right]}
+\newcommand{\prof}[1]{\left( #1, \part{#1} \right)}
+\newcommand{\profB}[1]{\prof{#1}}
+\newcommand{\profE}[1]{\prof{#1}}
+
+\makeatletter
+\def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
+\def\profPWithArgument#1{\profB{\mP(#1)}}
+\def\profPWithoutArgument{\profB{\mP}}
+
+\def\profT{\@ifnextchar\bgroup{\profTWithArgument}{\profTWithoutArgument}}
+\def\profTWithArgument#1{\profE{\mTO(#1)}}
+\def\profTWithoutArgument{\profE{\mTO}}
+\makeatother
+
+\def\profPdyn{\profB{\mP_\dyn}}
+
+%
+% Uncertain parameters.
+%
+\newcommand{\U}{U}
+\newcommand{\vU}{\v{U}}
+
+%
+% Independent random variables
+%
+\newcommand{\z}{\zeta}
+\newcommand{\Z}{Z}
+\newcommand{\vZ}{\v{Z}}
+\newcommand{\vz}{\boldsymbol{\zeta}}
+
+\makeatletter
+\def\oTransform{\@ifnextchar\bgroup{\oTransformWithArgument}{\oTransformWithoutArgument}}
+\def\oTransformWithArgument#1{\mathcal{T}\left[#1\right]}
+\def\oTransformWithoutArgument{\mathcal{T}}
+\makeatother
+
+\newcommand{\Lth}{\lambda_\text{th}}
+
+%
+% Process variation
+%
+\newcommand{\Leff}{L}
+\newcommand{\nLeff}{L}
+\newcommand{\gLeff}{{\delta L^{(g)}}}
+\newcommand{\lLeff}{\delta L^{(l)}}
+\newcommand{\corrLength}{b}
+
+%
+% Numbers
+%
+\newcommand{\nnodes}{{n_\text{n}}}
+\newcommand{\nprocs}{{n_\text{p}}}
+\newcommand{\nsteps}{{n_\text{t}}}
+
+\newcommand{\nvars}{{n_\text{v}}}
+
+\newcommand{\pcorder}{{n_\text{po}}}
+\newcommand{\pcterms}{{n_\text{pt}}}
+
+\newcommand{\qdlevel}{{n_\text{ql}}}
+\newcommand{\qdorder}{{n_\text{qo}}}
+\newcommand{\qdorderone}{{\tilde{n}_\text{qo}}}
+\newcommand{\qdprecision}{{n_\text{qp}}}
+
+\newcommand{\nsamples}{{n_\text{mc}}}
