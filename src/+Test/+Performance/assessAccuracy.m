@@ -5,15 +5,15 @@ function assessAccuracy
   stepCount = 1e2;
   chaosSampleCount = 1e5;
 
-  comparisonOptions = Options('method', 'histogram', ...
-    'range', 'unbounded', 'function', 'pdf');
+  comparisonOptions = Options('quantity', 'pdf', 'range', 'unbounded', ...
+    'algorithm', 'histogram', 'errorMetric', 'NRMSE');
 
   display(comparisonOptions, 'Comparison options');
 
   orderSet       = [ 1 2 3 4 5 6 7 ];
   sampleCountSet = [ 1e2 1e3 1e4 1e5 ];
 
-  pick = [ 7 1e4 50 ];
+  pick = [ 7 1e5 50 ];
 
   orderCount = length(orderSet);
   sampleCount = length(sampleCountSet);
@@ -62,8 +62,8 @@ function assessAccuracy
     Tdata = chaos.sample(output.coefficients, chaosSampleCount);
 
     for j = 1:sampleCount
-      errorExp(i, j) = Error.computeRMSE(mcTexp{j}, Texp);
-      errorVar(i, j) = Error.computeRMSE(mcTvar{j}, output.Tvar);
+      errorExp(i, j) = Error.computeNRMSE(mcTexp{j}, Texp);
+      errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, output.Tvar);
       errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
         comparisonOptions);
 
@@ -72,19 +72,19 @@ function assessAccuracy
           comparisonOptions, 'draw', true, 'layout', 'separate');
       end
 
-      fprintf('%15.6f', errorPDF(i, j));
+      fprintf('%15.2f', errorPDF(i, j) * 100);
     end
 
     fprintf(' | ');
 
     for j = 1:sampleCount
-      fprintf('%15.6f', errorExp(i, j));
+      fprintf('%15.2f', errorExp(i, j) * 100);
     end
 
     fprintf(' | ');
 
     for j = 1:sampleCount
-      fprintf('%15.6f', errorVar(i, j));
+      fprintf('%15.2f', errorVar(i, j) * 100);
     end
 
     fprintf('\n');
@@ -96,7 +96,7 @@ function printHeader(sampleCountSet)
 
   fprintf('\n');
 
-  names = { 'NRMSE(PDF)', 'NRMSE(Exp)', 'NRMSE(Var)' };
+  names = { 'NRMSE(PDF) * 100', 'NRMSE(Exp) * 100', 'NRMSE(Dev) * 100' };
 
   fprintf('%5s | ', '');
   for i = 1:length(names)

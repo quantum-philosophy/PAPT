@@ -55,7 +55,7 @@ classdef Transient < Temperature.Numerical.Transient
         Texp = mean(Tdata, 3);
         Tvar = var(Tdata, [], 3);
 
-        save(filename, 'Texp', 'Tvar', 'Tdata', 'time', '-v7.3');
+        save(filename, 'Texp', 'Tvar', 'Tdata', 'time', 'rvs', '-v7.3');
       end
 
       if verbose
@@ -68,6 +68,7 @@ classdef Transient < Temperature.Numerical.Transient
       output.Tvar = Tvar;
       output.Tdata = Tdata;
       output.time = time;
+      output.rvs = rvs;
     end
 
     function Tdata = evaluate(this, Pdyn, rvs, varargin)
