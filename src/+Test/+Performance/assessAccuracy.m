@@ -6,14 +6,14 @@ function assessAccuracy
   chaosSampleCount = 1e5;
 
   comparisonOptions = Options('quantity', 'pdf', 'range', 'unbounded', ...
-    'algorithm', 'histogram', 'errorMetric', 'NRMSE');
+    'method', 'smooth', 'errorMetric', 'NRMSE');
 
   display(comparisonOptions, 'Comparison options');
 
   orderSet       = [ 1 2 3 4 5 6 7 ];
   sampleCountSet = [ 1e2 1e3 1e4 1e5 ];
 
-  pick = [ 7 1e5 50 ];
+  pick = [ 4 1e4 50 ];
 
   orderCount = length(orderSet);
   sampleCount = length(sampleCountSet);
