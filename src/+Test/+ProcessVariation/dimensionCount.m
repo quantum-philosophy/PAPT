@@ -1,4 +1,5 @@
 setup;
+close all;
 
 sampleCount = 1e5;
 processorCount = [ 2 4 8 16 32 ];
@@ -8,17 +9,22 @@ for i = 1:length(processorCount)
 
   process = ProcessVariation(options.processOptions);
 
-  fprintf('Processors: %d, random variables: %d\n', ...
+  title = sprintf('Processors: %d, Variables: %d\n', ...
     processorCount(i), process.dimensionCount);
 
-  fprintf('%10s%20s%15s\n', 'Processor', 'Expectation, nm', 'Deviation, nm');
+  plot(options.die);
+  Plot.title(title);
+
+  fprintf(title);
+  fprintf('%10s%20s%15s\n', 'Processor', 'Expectation, nm', 'Deviation, %');
 
   L = process.sample(sampleCount);
   expectation = mean(L, 2) * 1e9;
   deviation = sqrt(var(L, 0, 2)) * 1e9;
 
   for j = 1:processorCount(i)
-    fprintf('%10d%20.2f%15.2f\n', j, expectation(j), deviation(j));
+    fprintf('%10d%20.2f%15.2f\n', j, expectation(j), ...
+      deviation(j) / expectation(j) * 100);
   end
 
   fprintf('\n');

@@ -49,9 +49,9 @@ function options = configure(varargin)
   %
   % Process variation
   %
-  eta = 0;
-  lse = 0.50 * options.die.radius;
-  lou = 0.50 * options.die.radius;
+  eta = 0.00;
+  lse = 1.00 * options.die.radius;
+  lou = 1.00 * options.die.radius;
 
   function K = correlate(s, t)
     %
