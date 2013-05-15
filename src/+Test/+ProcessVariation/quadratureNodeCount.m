@@ -1,6 +1,6 @@
 setup;
 
-quadratureRule = { 'GaussHermite' };
+quadratureRule = { 'GaussHermite', 'GaussHermiteHW' };
 polynomialOrder = [ 1 2 3 4 5 ];
 processorCount  = [ 2 4 8 16 32 ];
 
