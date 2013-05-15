@@ -28,16 +28,16 @@ function compareSpeed(varargin)
 
     for j = 1:repeat(i)
       tic;
-      T = chaos.compute(options.dynamicPower);
+      chaos.compute(options.dynamicPower);
       measurements(i, 1) = measurements(i, 1) + toc;
 
       tic;
-      T = analytic.compute(options.dynamicPower);
+      % analytic.compute(options.dynamicPower);
       measurements(i, 2) = measurements(i, 2) + toc * sampleCount;
 
 
       tic;
-      T = numeric.compute(options.dynamicPower);
+      % numeric.compute(options.dynamicPower);
       measurements(i, 3) = measurements(i, 3) + toc * sampleCount;
     end
 
