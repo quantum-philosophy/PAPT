@@ -21,8 +21,8 @@ function compareSpeed(varargin)
 
     options = experiment.configure(parameter);
 
-    chaos = Temperature.Chaos.Transient(options.temperatureOptions, ...
-      options.chaosOptions);
+    chaos = Temperature.Chaos.Transient( ...
+      options.temperatureOptions, options.processOptions, options.chaosOptions);
     analytic = Temperature.Analytical.Transient(options.temperatureOptions);
     numeric = Temperature.Numerical.Transient(options.temperatureOptions);
 

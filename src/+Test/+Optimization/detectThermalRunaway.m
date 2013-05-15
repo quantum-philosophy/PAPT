@@ -5,7 +5,7 @@ function detectThermalRunaway
   options = Test.configure('processorCount', 2);
 
   chaos = Temperature.Chaos.DynamicSteadyState( ...
-    options.temperatureOptions, options.chaosOptions);
+    options.temperatureOptions, options.processOptions, options.chaosOptions);
   display(chaos);
 
   dimensionCount = chaos.process.dimensionCount;

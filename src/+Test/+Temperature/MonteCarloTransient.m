@@ -16,14 +16,15 @@ function MonteCarloTransient
   % One polynomial chaos.
   %
   chaos = Temperature.Chaos.Transient( ...
-    options.temperatureOptions, options.chaosOptions);
+    options.temperatureOptions, options.processOptions, options.chaosOptions);
 
   display(chaos);
 
   %
   % Monte Carlo simulations.
   %
-  mc = Temperature.MonteCarlo.Transient(options.temperatureOptions);
+  mc = Temperature.MonteCarlo.Transient( ...
+    options.temperatureOptions, options.processOptions);
 
   display(mc);
 

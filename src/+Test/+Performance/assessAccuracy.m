@@ -23,7 +23,8 @@ function assessAccuracy
   %
   % Monte Carlo simulation.
   %
-  mc = Temperature.MonteCarlo.Transient(options.temperatureOptions);
+  mc = Temperature.MonteCarlo.Transient( ...
+    options.temperatureOptions, options.processOptions);
 
   [ ~, output ] = mc.compute(options.dynamicPower, ...
     'sampleCount', max(sampleCountSet), 'verbose', true);
@@ -55,8 +56,8 @@ function assessAccuracy
 
     fprintf('%5d | ', orderSet(i));
 
-    chaos = Temperature.Chaos.Transient(options.temperatureOptions, ...
-      options.chaosOptions);
+    chaos = Temperature.Chaos.Transient( ...
+      options.temperatureOptions, options.processOptions, options.chaosOptions);
 
     [ Texp, output ] = chaos.compute(options.dynamicPower);
     Tdata = chaos.sample(output.coefficients, chaosSampleCount);

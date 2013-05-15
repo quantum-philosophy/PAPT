@@ -8,12 +8,12 @@ function ChaosTransient(varargin)
 
   options = Test.configure;
 
+  plot(options.die);
   plot(options.schedule);
-  Utils.plotFloorplan(options.temperatureOptions.floorplan);
   plot(options.power, options.dynamicPower);
 
   chaos = Temperature.Chaos.Transient( ...
-    options.temperatureOptions, options.chaosOptions);
+    options.temperatureOptions, options.processOptions, options.chaosOptions);
 
   display(chaos);
 

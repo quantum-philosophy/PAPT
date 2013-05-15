@@ -4,7 +4,7 @@ function options = configure(varargin)
   path = File.join(File.trace, 'Assets');
 
   %
-  % Application
+  % Platform and application
   %
   processorCount = options.getSet('processorCount', 4);
   taskCount = options.getSet('taskCount', 20 * processorCount);
@@ -14,6 +14,9 @@ function options = configure(varargin)
 
   [ options.platform, options.application ] = Utils.parseTGFF(tgffConfig);
   options.schedule = Schedule.Dense(options.platform, options.application);
+
+  options.die = Die('floorplan', ...
+    File.join(path, sprintf('%03d.flp', processorCount)));
 
   %
   % Dynamic power
@@ -37,15 +40,50 @@ function options = configure(varargin)
   end
 
   %
+  % Leakage power
+  %
+  options.leakage = LeakagePower.LinearInterpolation( ...
+    'dynamicPower', options.dynamicPower, ...
+    'filename', File.join(path, 'inverter_45nm_L5_T1000_08.leak'));
+
+  %
+  % Process variation
+  %
+  eta = 0;
+  lse = 0.50 * options.die.radius;
+  lou = 0.50 * options.die.radius;
+
+  function K = correlate(s, t)
+    %
+    % Squared exponential kernel
+    %
+    Kse = exp(-sum((s - t).^2, 1) / lse^2);
+
+    %
+    % Ornstein-Uhlenbeck kernel
+    %
+    rs = sqrt(sum(s.^2, 1));
+    rt = sqrt(sum(t.^2, 1));
+    Kou = exp(-abs(rs - rt) / lou);
+
+    K = eta * Kse + (1 - eta) * Kou;
+  end
+
+  options.processOptions = Options( ...
+    'die', options.die, ...
+    'expectation', options.leakage.Lnom, ...
+    'deviation', 0.05 * options.leakage.Lnom, ...
+    'kernel', @correlate, ...
+    'globalPortion', 0.5, ...
+    'threshold', 0.99);
+
+  %
   % Temperature
   %
-  options.temperatureOptions = Options( ...
-    'floorplan', File.join(path, sprintf('%03d.flp', processorCount)), ...
+  options.temperatureOptions = Options('die', options.die, ...
     'config', File.join(path, 'hotspot.config'), ...
     'line', sprintf('sampling_intvl %.4e', options.samplingInterval), ...
-    'leakage', LeakagePower.LinearInterpolation( ...
-      'dynamicPower', options.dynamicPower, ...
-      'filename', File.join(path, 'inverter_45nm_L5_T1000_08.leak')));
+    'leakage', options.leakage);
 
   %
   % Polynomil chaos

@@ -8,11 +8,7 @@ classdef Transient < Temperature.Numerical.Transient
       options = Options(varargin{:});
 
       this = this@Temperature.Numerical.Transient(options);
-
-      this.process = ProcessVariation( ...
-        'expectation', LeakagePower.Base.Lnom, ...
-        'deviation', 0.05 * LeakagePower.Base.Lnom, ...
-        'threshold', 1, options);
+      this.process = ProcessVariation(options, 'threshold', 1);
     end
 
     function [ Texp, output ] = compute(this, Pdyn, varargin)

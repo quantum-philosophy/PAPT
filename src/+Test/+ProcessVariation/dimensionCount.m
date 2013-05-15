@@ -4,11 +4,9 @@ sampleCount = 1e5;
 processorCount = [ 2 4 8 16 32 ];
 
 for i = 1:length(processorCount)
-  floorplan = File.join( ...
-    File.trace, '..', 'Assets', sprintf('%03d.flp', processorCount(i)));
+  options = Test.configure('processorCount', processorCount(i));
 
-  process = ProcessVariation('floorplan', floorplan, ...
-    'expectation', LeakagePower.Lnom, 'deviation', 0.05 * LeakagePower.Lnom);
+  process = ProcessVariation(options.processOptions);
 
   fprintf('Processors: %d, random variables: %d\n', ...
     processorCount(i), process.dimensionCount);

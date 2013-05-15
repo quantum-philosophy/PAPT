@@ -10,10 +10,10 @@ classdef ProcessVariation < handle
     function this = ProcessVariation(varargin)
       options = Options(varargin{:});
 
-      this.expectation = options.get('expectation', 0);
-      this.deviation = options.get('deviation', 1);
-      this.mapping = this.construct(options);
-      this.dimensionCount = size(this.mapping, 2);
+      this.expectation = options.expectation;
+      this.deviation = options.deviation;
+
+      this.construct(options);
     end
 
     function [ u, n, z ] = sample(this, count)
