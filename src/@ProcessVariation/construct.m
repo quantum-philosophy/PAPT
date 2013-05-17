@@ -20,7 +20,7 @@ function construct(this, options)
     [ X(I(:, 2)).'; Y(I(:, 2)).' ]);
   C = Utils.symmetrizePairIndex(C, I);
 
-  mapping = decomposeSVD(C, threshold);
+  mapping = Utils.decomposeCorrelation(C, threshold);
 
   %
   % Take into account the grobal parameter.
@@ -30,13 +30,4 @@ function construct(this, options)
 
   this.mapping = mapping;
   this.dimensionCount = size(mapping, 2);
-end
-
-function mapping = decomposeSVD(C, threshold)
-  [ V, L ] = pcacov(C);
-
-  [ ~, L, I ] = Utils.chooseSignificant(L, threshold);
-  V = V(:, I);
-
-  mapping = V * diag(sqrt(L));
 end
