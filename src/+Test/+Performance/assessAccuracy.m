@@ -65,12 +65,15 @@ function assessAccuracy
     for j = 1:sampleCount
       errorExp(i, j) = Error.computeNRMSE(mcTexp{j}, Texp);
       errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, output.Tvar);
-      errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
-        comparisonOptions);
 
       if orderSet(i) == pick(1) && sampleCountSet(j) == pick(2)
+        errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
+          comparisonOptions, 'draw', true);
         Data.compare(mcTdata{j}(:, :, pick(3)), Tdata(:, :, pick(3)), ...
           comparisonOptions, 'draw', true, 'layout', 'separate');
+      else
+        errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
+          comparisonOptions);
       end
 
       fprintf('%15.2f', errorPDF(i, j) * 100);
