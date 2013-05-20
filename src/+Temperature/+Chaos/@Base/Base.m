@@ -9,7 +9,7 @@ classdef Base < Temperature.Analytical.Base
       options = Options(varargin{:});
 
       this = this@Temperature.Analytical.Base(options);
-      this.process = ProcessVariation(options);
+      this.process = ProcessVariation.Normal(options);
       this.chaos = PolynomialChaos.Hermite( ...
         'inputCount', this.process.dimensionCount, ...
         'order', 4, ...
@@ -21,9 +21,10 @@ classdef Base < Temperature.Analytical.Base
 
     function [ Texp, output ] = compute(this, Pdyn, varargin)
       chaos = this.chaos;
+      process = this.process;
 
-      coefficients = chaos.expand(@(rvs) ...
-        transpose(this.solve(Pdyn, transpose(rvs), varargin{:})));
+      coefficients = chaos.expand(@(rvs) transpose(this.solve( ...
+        Pdyn, transpose(process.evaluate(rvs)), varargin{:})));
 
       [ processorCount, stepCount ] = size(Pdyn);
 
@@ -42,12 +43,11 @@ classdef Base < Temperature.Analytical.Base
     end
 
     function Tdata = sample(this, coefficients, sampleCount)
-      rvs = normrnd(0, 1, sampleCount, this.process.dimensionCount);
-      Tdata = this.evaluate(coefficients, rvs);
+      Tdata = this.chaos.sample(sampleCount, coefficients);
     end
 
     function Tdata = evaluate(this, coefficients, rvs)
-      Tdata = this.chaos.evaluateSet(rvs, coefficients);
+      Tdata = this.chaos.evaluate(rvs, coefficients);
     end
 
     function display(this)

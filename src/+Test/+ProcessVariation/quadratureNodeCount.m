@@ -8,7 +8,7 @@ dimension = zeros(length(processorCount), 1);
 
 for i = 1:length(processorCount)
   options = Test.configure('processorCount', processorCount(i));
-  process = ProcessVariation(options.processOptions);
+  process = ProcessVariation.Normal(options.processOptions);
   dimension(i) = process.dimensionCount;
 end
 

@@ -1,4 +1,4 @@
-function [ T, output ] = solve(this, Pdyn, rvs, varargin)
+function [ T, output ] = solve(this, Pdyn, L, varargin)
   [ processorCount, stepCount ] = size(Pdyn);
   assert(processorCount == this.processorCount);
 
@@ -7,10 +7,6 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   BT = this.BT;
   Tamb = this.ambientTemperature;
   leakage = this.leakage;
-  process = this.process;
-
-  L = process.expectation + ...
-    process.deviation * process.mapping * rvs;
 
   sampleCount = size(L, 2);
 

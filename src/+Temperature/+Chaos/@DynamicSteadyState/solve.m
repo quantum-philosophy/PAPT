@@ -1,4 +1,4 @@
-function [ T, output ] = solve(this, Pdyn, rvs, varargin)
+function [ T, output ] = solve(this, Pdyn, L, varargin)
   options = Options(varargin{:});
 
   nodeCount = this.nodeCount;
@@ -14,10 +14,6 @@ function [ T, output ] = solve(this, Pdyn, rvs, varargin)
   Tamb = this.ambientTemperature;
   dt = this.samplingInterval;
   leakage = this.leakage;
-  process = this.process;
-
-  L = process.expectation + ...
-    process.deviation * process.mapping * rvs;
 
   iterationLimit = options.get('iterationLimit', 10);
   temperatureLimit = options.get('temperatureLimit', Inf);
