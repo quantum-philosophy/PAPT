@@ -2,6 +2,8 @@ classdef Base < handle
   properties (SetAccess = 'private')
     expectation
     deviation
+    variance
+    correlation
     transformation
     dimensionCount
   end
@@ -12,8 +14,8 @@ classdef Base < handle
       this.expectation = options.expectation;
       this.deviation = options.deviation;
 
-      [ variance, correlation ] = this.correlate(options);
-      variables = this.distribute(variance, correlation, options);
+      [ this.variance, this.correlation ] = this.correlate(options);
+      variables = this.distribute(this.variance, this.correlation, options);
 
       this.transformation = ProbabilityTransformation.ReducedNormal( ...
         'variables', variables, 'threshold', options.threshold);
@@ -27,6 +29,12 @@ classdef Base < handle
 
     function data = sample(this, sampleCount)
       data = this.postprocess(this.transformation.sample(sampleCount));
+    end
+
+    function string = toString(this)
+      string = sprintf('%s_%s', class(this), ...
+        DataHash({ this.expectation, this.deviation, ...
+          this.variance, this.correlation }));
     end
 
     function display(this)

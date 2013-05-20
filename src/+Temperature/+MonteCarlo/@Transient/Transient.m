@@ -8,7 +8,7 @@ classdef Transient < Temperature.Numerical.Transient
       options = Options(varargin{:});
 
       this = this@Temperature.Numerical.Transient(options);
-      this.process = ProcessVariation(options, 'threshold', 1);
+      this.process = ProcessVariation.Normal(options, 'threshold', 1);
     end
 
     function [ Texp, output ] = compute(this, Pdyn, varargin)
@@ -20,7 +20,8 @@ classdef Transient < Temperature.Numerical.Transient
       filename = options.get('filename', []);
       if isempty(filename)
         filename = sprintf('MonteCarlo_%s.mat', ...
-        DataHash({ Pdyn, Utils.toString(this.leakage), sampleCount }));
+        DataHash({ Pdyn, Utils.toString(this.leakage), ...
+          Utils.toString(this.process), sampleCount }));
       end
 
       if File.exist(filename)
@@ -35,9 +36,7 @@ classdef Transient < Temperature.Numerical.Transient
 
         [ processorCount, stepCount ] = size(Pdyn);
 
-        process = this.process;
-        rvs = normrnd(0, 1, process.dimensionCount, sampleCount);
-        L = process.expectation + process.deviation * process.mapping * rvs;
+        L = transpose(this.process.sample(sampleCount));
 
         Tdata = zeros(processorCount, stepCount, sampleCount);
 
@@ -51,7 +50,7 @@ classdef Transient < Temperature.Numerical.Transient
         Texp = mean(Tdata, 3);
         Tvar = var(Tdata, [], 3);
 
-        save(filename, 'Texp', 'Tvar', 'Tdata', 'time', 'rvs', '-v7.3');
+        save(filename, 'Texp', 'Tvar', 'Tdata', 'time', '-v7.3');
       end
 
       if verbose
@@ -64,20 +63,19 @@ classdef Transient < Temperature.Numerical.Transient
       output.Tvar = Tvar;
       output.Tdata = Tdata;
       output.time = time;
-      output.rvs = rvs;
     end
 
     function Tdata = evaluate(this, Pdyn, rvs, varargin)
       [ processorCount, stepCount ] = size(Pdyn);
 
-      process = this.process;
-      rvs = process.expectation + process.deviation * process.mapping * rvs.';
-      sampleCount = size(rvs, 2);
+      sampleCount = size(rvs, 1);
+      L = transpose(this.process.evaluate(rvs));
 
       Tdata = zeros(processorCount, stepCount, sampleCount);
 
       for i = 1:sampleCount
-        Tdata(:, :, i) = this.compute(Pdyn, leakage, rvs(:, i));
+        Tdata(:, :, i) = this.computeWithLeakage( ...
+          Pdyn, varargin{:}, 'L', L(:, i));
       end
 
       Tdata = permute(Tdata, [ 3 1 2 ]);

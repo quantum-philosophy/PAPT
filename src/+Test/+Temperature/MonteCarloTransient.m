@@ -2,8 +2,8 @@ function MonteCarloTransient
   close all;
   setup;
 
-  chaosSampleCount = 1e1;
-  carloSampleCount = 1e1;
+  chaosSampleCount = 1e5;
+  carloSampleCount = 1e4;
 
   options = Test.configure;
 
@@ -29,7 +29,7 @@ function MonteCarloTransient
   display(mc);
 
   tic;
-  [ Texp1, output1 ] = chaos.compute(options.dynamicProfile);
+  [ Texp1, output1 ] = chaos.compute(options.dynamicPower);
   fprintf('Polynomial chaos: construction time %.2f s.\n', toc);
 
   %
@@ -41,7 +41,7 @@ function MonteCarloTransient
     fprintf('Polynomial chaos: sampling time %.2f s (%d samples).\n', ...
       toc, chaosSampleCount);
 
-    [ Texp2, output2 ] = mc.compute(options.dynamicProfile, ...
+    [ Texp2, output2 ] = mc.compute(options.dynamicPower, ...
       'sampleCount', carloSampleCount, 'verbose', true);
 
     labels = { 'PC', 'MC' };
@@ -77,9 +77,7 @@ function MonteCarloTransient
     end
 
     Tdata1 = chaos.evaluate(output1.coefficients, RVs);
-
-    Tdata2 = mc.evaluate( ...
-      options.dynamicProfile, options.leakage, RVs);
+    Tdata2 = mc.evaluate(options.dynamicPower, RVs);
 
     Tdata1 = Utils.toCelsius(Tdata1(:, :, k));
     Tdata2 = Utils.toCelsius(Tdata2(:, :, k));
