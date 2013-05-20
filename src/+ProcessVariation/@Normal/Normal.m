@@ -13,7 +13,7 @@ classdef Normal < ProcessVariation.Base
 
       for i = 1:dimensionCount
         distributions{i} = ProbabilityDistribution.Normal( ...
-          'mu', 0, 'sigma', variance(i));
+          'mu', 0, 'sigma', sqrt(variance(i)));
       end
 
       variables = RandomVariables.Heterogeneous( ...
