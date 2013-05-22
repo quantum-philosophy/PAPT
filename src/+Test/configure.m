@@ -49,11 +49,7 @@ function options = configure(varargin)
   %
   % Process variation
   %
-  eta = 0.00;
-  lse = 1.00 * options.die.radius;
-  lou = 1.00 * options.die.radius;
-
-  function K = correlate(s, t)
+  function K = correlate(eta, lse, lou, s, t)
     %
     % Squared exponential kernel
     %
@@ -69,12 +65,16 @@ function options = configure(varargin)
     K = eta * Kse + (1 - eta) * Kou;
   end
 
+  eta = 0.00;
+  lse = 0.50 * max(options.die.width, options.die.height);
+  lou = lse;
+
   options.processModel = 'Normal';
   options.processOptions = Options( ...
     'die', options.die, ...
     'expectation', options.leakage.Lnom, ...
     'deviation', 0.05 * options.leakage.Lnom, ...
-    'kernel', @correlate, ...
+    'kernel', { @correlate, eta, lse, lou }, ...
     'globalPortion', 0.5, ...
     'threshold', 0.99);
 

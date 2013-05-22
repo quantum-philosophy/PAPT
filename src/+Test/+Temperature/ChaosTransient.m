@@ -12,10 +12,7 @@ function ChaosTransient(varargin)
   plot(options.schedule);
   plot(options.power, options.dynamicPower);
 
-  chaos = Temperature.Chaos.Transient( ...
-    options.temperatureOptions, options.processOptions, options.chaosOptions);
-
-  display(chaos);
+  chaos = Temperature.Chaos.Transient(options);
 
   fprintf('Running %d iterations...\n', iterationCount);
   time = tic;

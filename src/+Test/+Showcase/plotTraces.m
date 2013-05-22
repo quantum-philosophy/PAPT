@@ -3,7 +3,7 @@ function plotTraces
 
   options = Test.configure('processorCount', 4, 'powerScale', 1);
 
-  temperature = Temperature.Analytical.Transient(options.temperatureOptions);
+  temperature = Temperature.Analytical.Transient(options);
 
   processors = [ 1 ];
 

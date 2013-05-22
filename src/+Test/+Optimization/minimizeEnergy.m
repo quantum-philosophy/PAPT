@@ -8,10 +8,8 @@ function minimizeEnergy
   processorCount = options.processorCount;
   taskCount = options.taskCount;
 
-  temperatureChaos = Temperature.Chaos.DynamicSteadyState( ...
-    options.temperatureOptions, options.processOptions, options.chaosOptions);
-  powerChaos = Temperature.PowerChaos.DynamicSteadyState( ...
-    options.temperatureOptions, options.processOptions, options.chaosOptions);
+  temperatureChaos = Temperature.Chaos.DynamicSteadyState(options);
+  powerChaos = Temperature.PowerChaos.DynamicSteadyState(options);
 
   display(temperatureChaos);
 

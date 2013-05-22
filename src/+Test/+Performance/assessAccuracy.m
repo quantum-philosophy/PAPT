@@ -19,12 +19,12 @@ function assessAccuracy
   sampleCount = length(sampleCountSet);
 
   options = Test.configure('stepCount', stepCount);
+  display(options);
 
   %
-  % Monte Carlo simulation.
+  % Monte Carlo simulation
   %
-  mc = Temperature.MonteCarlo.Transient( ...
-    options.temperatureOptions, options.processOptions);
+  mc = Temperature.MonteCarlo.Transient(options);
 
   [ ~, output ] = mc.compute(options.dynamicPower, ...
     'sampleCount', max(sampleCountSet), 'verbose', true);
@@ -48,7 +48,7 @@ function assessAccuracy
   printHeader(sampleCountSet);
 
   %
-  % Polynomial chaos expansion.
+  % Polynomial chaos expansion
   %
   for i = 1:orderCount
     options.chaosOptions.order = orderSet(i);
@@ -56,8 +56,7 @@ function assessAccuracy
 
     fprintf('%5d | ', orderSet(i));
 
-    chaos = Temperature.Chaos.Transient( ...
-      options.temperatureOptions, options.processOptions, options.chaosOptions);
+    chaos = Temperature.Chaos.Transient(options);
 
     [ Texp, output ] = chaos.compute(options.dynamicPower);
     Tdata = chaos.sample(output.coefficients, chaosSampleCount);

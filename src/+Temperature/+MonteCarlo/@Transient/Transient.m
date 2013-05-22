@@ -7,9 +7,9 @@ classdef Transient < Temperature.Numerical.Transient
     function this = Transient(varargin)
       options = Options(varargin{:});
 
-      this = this@Temperature.Numerical.Transient(options);
+      this = this@Temperature.Numerical.Transient(options.temperatureOptions);
       this.process = ProcessVariation.(options.processModel)( ...
-        options, 'threshold', 1);
+        options.processOptions, 'threshold', 1);
     end
 
     function [ Texp, output ] = compute(this, Pdyn, varargin)
