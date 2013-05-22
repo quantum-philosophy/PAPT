@@ -7,7 +7,7 @@ processorCount = [ 2 4 8 16 32 ];
 for i = 1:length(processorCount)
   options = Test.configure('processorCount', processorCount(i));
 
-  process = ProcessVariation.Normal(options.processOptions);
+  process = ProcessVariation.(options.processModel)(options.processOptions);
 
   title = sprintf('Processors: %d, Variables: %d\n', ...
     processorCount(i), process.dimensionCount);
