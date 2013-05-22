@@ -1,9 +1,17 @@
-The power dissipation is composed of two major parts: dynamic and leakage. The influence of process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}; on the other hand, the variability of leakage is substantial, in which the subthreshold current contributes the most \cite{juan2011, juan2012}. Hence, we focus on the subthreshold leakage and, more specifically, on the effective channel length, denoted by $\Leff$, since it has the strongest influence on leakage; in particular, it also affects the threshold voltage. Recall that the variations of $\Leff$ are partitioned into global and local parts given in \eref{leakage-partition}. Consequently, the uncertain parameters for an arbitrary number of processing elements $\nprocs$ are
+The power dissipation is composed of two major parts: dynamic and leakage.
+The influence of process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}; on the other hand, the variability of leakage is substantial, in which the subthreshold current contributes the most \cite{juan2011, juan2012}.
+Hence, we focus on the subthreshold leakage and, more specifically, on the effective channel length, denoted by $\Leff$, since it has the strongest influence on leakage; in particular, it also affects the threshold voltage.
+Recall that the variations of $\Leff$ are partitioned into global and local parts given in \eref{leakage-partition}.
+Consequently, the uncertain parameters for an arbitrary number of processing elements $\nprocs$ are
 \[
   \vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\nprocs(\o), \gLeff(\o) }.
 \]
-Global variations are typically assumed to be uncorrelated with respect to the local ones. The latter, however, are known to have high spatial correlations, which, due to particularities of the manufacturing process, often bear radial structures \cite{friedberg2005, cheng2011}. Therefore, without loss of generality, we employ the following radial model of correlations for $\lLeff_i(\o)$ \cite{ghanem1991, ghanta2006}:
+Global variations are typically assumed to be uncorrelated with respect to the local ones.
+The latter, however, are known to have high spatial correlations, which, due to particularities of the manufacturing process, often bear radial structures \cite{friedberg2005, cheng2011}.
+Therefore, without loss of generality, we employ the following radial model of correlations for $\lLeff_i(\o)$, as in \cite{ghanta2006} (see also \cite{ghanem1991}):
 \begin{equation} \elabel{covariance-function}
   \oCorr{\lLeff_i(\o), \lLeff_j(\o)} = e^{-|r_i - r_j|/\corrLength}
 \end{equation}
-where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length. For convenience, the resulting correlation matrix is extended by one dimension to pack $\gLeff(\o)$ and $\lLeff_i(\o)$ together. In this case, the matrix obtains one additional non-zero element on the diagonal. Taking into account the variances of the \rvs, the covariance matrix denoted by $\mCov_\vU$ is formed.
+where $r_i$ is the distance between the $i$th processing element and the center of the die, and $\corrLength$ is the correlation length.
+For convenience, the resulting correlation matrix is extended by one dimension to pack $\gLeff(\o)$ and $\lLeff_i(\o)$ together.
+In this case, the matrix obtains one additional non-zero element on the diagonal. Taking into account the variances of the \rvs, the covariance matrix denoted by $\mCov_\vU$ is formed.

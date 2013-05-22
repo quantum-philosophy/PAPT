@@ -2,9 +2,9 @@ Process variation constitutes one of the major concerns of multiprocessor system
 A crucial implication of process variation is that it renders the key parameters of a technological process, \eg, the effective channel length, gate oxide thickness, and threshold voltage, as random quantities.
 Therefore, the same workload applied to two ``identical'' dies can lead to two different power and, thus, temperature profiles since the dissipation of power and heat essentially depends on the aforementioned stochastic quantities.
 Consequently, process variation leads to performance degradation in the best case and to severe faults or burnt silicon in the worst scenario.
-Under these circumstances, uncertainty quantification \cite{xiu2010, eldred2009} has evolved into an indispensable asset of the multiprocessor system designs that can provide high guaranties on the efficiency and robustness of their products to the end user.
+Under these circumstances, uncertainty quantification \cite{xiu2010, maitre2010} has evolved into an indispensable asset of the multiprocessor system designs that can provide high guaranties on the efficiency and robustness of their products to the end user.
 
-As an example, consider a quad-core architecture subjected to the uncertainty of the parameters that affect the leakage current.\footnote{The experimental setup is described in \sref{experimental-results}.}
+As an example, consider a quad-core architecture subjected to the uncertainty of the parameters that affect the leakage current; the experimental setup will be detailed in \sref{experimental-results}.
 Assume first that these parameters have nominal values. We can then simulate the system under a certain workload and observe the corresponding temperature profile.
 The result, labeled as ``Nominal'', is depicted in \fref{motivation-curve} where, for clarity, only two curves, corresponding to two processors, are presented (the two bottom blue lines). It can be seen that the temperature is always below $70^{\circ}$C. Now, let us assume a mild deviation of the parameters from the nominal values and run the simulation once again.
 The result is the ``Mild'' curves in \fref{motivation-curve} (the two middle orange lines); the maximal temperature is already above $80^{\circ}$C.
