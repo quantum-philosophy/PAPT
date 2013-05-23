@@ -1,3 +1,19 @@
+\input{include/assets/algorithm.tex}
+The main idea of our framework is to construct a surrogate model for the joint power and thermal models of the multiprocessor system using the machinery of polynomial chaos (PC) expansions.
+Given such a surrogate model, quantities as cumulative distributions functions (\cdfs) and \pdfs\ can be easily estimated. Moreover, the representations which we compute, provide analytical formulae for probabilistic moments, \ie, the expected value, variance, \etc\ are readily available.
+
+The major stages of our technique are depicted in \fref{algorithm} and are outlined below, which is followed by in-depth discussions regarding each of the stages in \sref{uncertain-parameters}--\sref{post-processing}.
+
+\stage{1}{Uncertain Parameters (\sref{uncertain-parameters}).} The PC expansions operate on mutually independent random variables. The uncertain parameters $\vU(\o)$ might not satisfy this requirement and, therefore, should be preprocessed; we shall denote the corresponding independent set of random variables by $\vZ(\o)$.
+
+\stage{2}{Power Model (\sref{power-model}).} The user specifies the power model of the system via a ``black-box'' functional $\f$, which outputs the total power $\vP(\t, \o)$ for a particular temperature $\vTO(\t, \o)$ and an outcome of the parameters $\vU(\o)$.
+
+\stage{3}{Thermal Model (\sref{thermal-model}).} With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, a mathematical model of the thermal system is constructed. The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding temperature profile.
+
+\stage{4}{Surrogate Model (\sref{polynomial-chaos}).} The surrogate model is attained by traversing the desired time span and gradually constructing polynomial expansions, in terms of the processed uncertain parameters $\vZ(\o)$ from \stage{1}, for the stochastic power and temperature profiles. The output is essentially a substitute for the model produced at \stage{3}\ with respect to the power model determined at \stage{2}.
+
+\stage{5}{Post-processing (\sref{post-processing}).} The computed PC expansions are analyzed in order to obtain the desired characteristics of the system, \eg, \cdfs, \pdfs, moments.
+
 In the following subsections, the proposed framework is presented. We pursue generality such that the user can easily adjust the technique to a particular application, characterized by specific uncertain parameters.
 
 \subsection{Uncertain Parameters} \slabel{uncertain-parameters}
@@ -12,5 +28,5 @@ In the following subsections, the proposed framework is presented. We pursue gen
 \subsection{Surrogate Model} \slabel{polynomial-chaos}
 \input{include/proposed-framework/polynomial-chaos.tex}
 
-\subsection{Post-processing} \slabel{output-processing}
-\input{include/proposed-framework/output-processing.tex}
+\subsection{Post-processing} \slabel{post-processing}
+\input{include/proposed-framework/post-processing.tex}

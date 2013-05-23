@@ -1,5 +1,12 @@
-As discussed in \sref{problem-formulation}, the user of our UQ framework is supposed to decide on the power model for the multiprocessor system under consideration. Such a model can be generally expressed as the following $\nprocs$-dimensional vector where $\nprocs$ is the number of processing elements in the system:
+As mentioned in \sref{problem-formulation}, the user of the framework is supposed to decide on the power model for the multiprocessor system under consideration.
+Such a model can be generally expressed as the following $\nprocs$-dimensional functional $\f$ where $\nprocs$ is the number of processing elements in the system:
 \begin{equation} \elabel{power-model}
-  \vP(\t, \o) = \f(\vTO(\t, \o), \vU(\o)).
+  \vP(\t, \o) = \f(\vTO(\t, \o), \vU(\o))
 \end{equation}
-The user can choose any $\f$. It can be a closed-form formula, a piece of code, or an output of a system/power simulator that takes in, for some fixed $\t$ and $\o$, the stochastic temperature $\vTO(\t, \o)$ and uncertain parameters $\vU(\o)$ and outputs the corresponding total power $\vP(\t, \o)$. Note that the operation performed by $\f$ is purely deterministic. The only assumption we make about $\f$ is that the function is smooth in $\vZ(\o)$ and has finite variance, which is applicable to most physical systems \cite{xiu2010}. In can be seen that the definition of $\f$ is flexible enough to account for such effects as the interdependency between leakage and temperature \cite{srivastava2010, liu2007}, which is further discussed in \sref{ie-power-model}. Note that, in \eref{power-model}, we do not write explicitly the dependency of $\vP$ and $\vTO$ on $\vU(\omega)$ and use $\omega$ instead; also, since $\vU(\o) = \oTransform{\vZ(\o)}$, in what follows, we use $\vZ(\o)$ instead of $\vU(\o)$, which implies no loss of generality.
+where $\vP(\t, \o) \in \real^\nprocs$ is a vector of the power dissipation at time $\t$ and a given outcome of the probability space $\o \in \outcomes$.
+Note that, for brevity, we do not write explicitly the dependency of $\vP$ and $\vTO$ on $\vU(\omega)$ and use $\omega$ instead.
+Also, since $\vU(\o) = \oTransform{\vZ(\o)}$, we shall use $\vZ(\o)$ instead of $\vU(\o)$, which implies no loss of generality.
+The user can choose any $\f$: it can be a closed-form formula, a piece of code, or the output of a power simulator that takes in, for some fixed $\o \in \outcomes$, the temperature vector $\vTO(\t, \o)$ and uncertain parameters $\vU(\o)$ and computes the corresponding total power $\vP(\t, \o)$.
+The only assumption we make about $\f$ is that the function is smooth in $\vZ(\o)$ and has finite variance, which is applicable to most physical systems \cite{xiu2010}.
+In can be seen that the definition of $\f$ is flexible enough to account for such effects as the interdependency between leakage and temperature \cite{srivastava2010, liu2007}, which is further discussed in \sref{ie-power-model}.
+It should be noted that the operation performed by $\f$ is purely deterministic.

@@ -1,8 +1,11 @@
 The power dissipation is composed of two major parts: dynamic and leakage.
-The influence of process variation on the dynamic power is known to be negligibly small \cite{juan2011, juan2012, srivastava2010}; on the other hand, the variability of leakage is substantial, in which the subthreshold current contributes the most \cite{juan2011, juan2012}.
+The influence of process variation on the dynamic power is known to be negligibly small \cite{srivastava2010, juan2011, juan2012}; on the other hand, the variability of leakage is substantial, in which the subthreshold current contributes the most \cite{juan2011, juan2012}.
 Hence, we focus on the subthreshold leakage and, more specifically, on the effective channel length, denoted by $\Leff$, since it has the strongest influence on leakage; in particular, it also affects the threshold voltage.
-Recall that the variations of $\Leff$ are partitioned into global and local parts given in \eref{leakage-partition}.
-Consequently, the uncertain parameters for an arbitrary number of processing elements $\nprocs$ are
+Due to process variation, the channel length is a \rv, which we denote by $\Leff(\o)$. The variations of $\Leff(\o)$ are split into global (inter-die) $\gLeff(\o)$ and local (intra-die) $\lLeff(\o)$ parts. Assume $\gLeff(\o)$ is shared among the two processors whereas each processor has its own local \rv\ $\lLeff_i(\o)$. Therefore, the channel length of the $i$th processor is
+\begin{equation} \elabel{leakage-partition}
+  \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
+\end{equation}
+where $\nLeff$ is the nominal value. Consequently, the uncertain parameters for an arbitrary number of processing elements $\nprocs$ are
 \[
   \vU(\o) = \vec{\lLeff_1(\o), \dotsc, \lLeff_\nprocs(\o), \gLeff(\o) }.
 \]

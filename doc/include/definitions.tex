@@ -159,7 +159,7 @@
 \newcommand{\mA}{\m{A}}
 \newcommand{\mB}{\m{B}}
 
-% Processor elements/thermal nodes mapping.
+% Processor elements/thermal nodes mapping
 \newcommand{\mM}{\m{\tilde{B}}}
 
 % Recurrence coefficients
@@ -167,7 +167,7 @@
 \newcommand{\mCS}{\m{E}}
 
 %
-% Time.
+% Time
 %
 \renewcommand{\t}{t}
 \newcommand{\dt}{\Delta \t}
@@ -175,7 +175,7 @@
 \newcommand{\sTime}{T}
 
 %
-% Temperature.
+% Temperature
 %
 \newcommand{\T}{Q}
 \newcommand{\vTI}{\v{\tilde{Q}}}
@@ -185,7 +185,7 @@
 \newcommand{\amb}{\text{amb}}
 
 %
-% Power.
+% Power
 %
 \renewcommand{\P}{P}
 \newcommand{\vP}{\v{P}}
@@ -194,30 +194,28 @@
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
 
-\newcommand{\f}{f}
+\newcommand{\f}{f} % {{f_{\text{\scalebox{.6}{$\blacksquare$}}}}}
 
 %
-% System profiles.
+% System profiles
 %
-\newcommand{\part}[1]{\tau \left[ #1 \right]}
-\newcommand{\prof}[1]{\left( #1, \part{#1} \right)}
-\newcommand{\profB}[1]{\prof{#1}}
-\newcommand{\profE}[1]{\prof{#1}}
+\newcommand{\profile}[1]{( #1, \partition{#1} )}
+\newcommand{\partition}[1]{\tau[#1]}
 
 \makeatletter
-\def\profP{\@ifnextchar\bgroup{\profPWithArgument}{\profPWithoutArgument}}
-\def\profPWithArgument#1{\profB{\mP(#1)}}
-\def\profPWithoutArgument{\profB{\mP}}
+\def\profileP{\@ifnextchar\bgroup{\profilePWithArgument}{\profilePWithoutArgument}}
+\def\profilePWithArgument#1{\profile{\mP(#1)}}
+\def\profilePWithoutArgument{\profile{\mP}}
 
-\def\profT{\@ifnextchar\bgroup{\profTWithArgument}{\profTWithoutArgument}}
-\def\profTWithArgument#1{\profE{\mTO(#1)}}
-\def\profTWithoutArgument{\profE{\mTO}}
+\newcommand{\profilePdyn}{(\mP_\dyn, \partition{\mP})}
+
+\def\profileT{\@ifnextchar\bgroup{\profileTWithArgument}{\profileTWithoutArgument}}
+\def\profileTWithArgument#1{\profile{\mTO(#1)}}
+\def\profileTWithoutArgument{\profile{\mTO}}
 \makeatother
 
-\def\profPdyn{\profB{\mP_\dyn}}
-
 %
-% Uncertain parameters.
+% Uncertain parameters
 %
 \newcommand{\U}{U}
 \newcommand{\vU}{\v{U}}

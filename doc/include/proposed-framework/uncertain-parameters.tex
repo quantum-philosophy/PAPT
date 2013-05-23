@@ -1,3 +1,12 @@
-Independence of the uncertain parameters is a prerequisite of PC. In general, however, $\vU(\o)$ can be correlated and, therefore, should be preprocessed in order to fulfill the condition. To this end, an adequate probability transformation should be undertaken. Denote such a transformation by $\vU(\o) = \oTransform{\vZ(\o)}$, which relates the correlated uncertain parameters $\vU(\o)$ with $\nvars$ independent \rvs\ $\vZ(\o)$. Without loss of generality, $\vZ(\o)$ are assumed to be centered and normalized, \ie, $\oExp{\vZ(\o)} = \mZero$ and $\oCov{\vZ(\o)} = \mI$.
+Independence of the uncertain parameters is a prerequisite of PC.
+In general, however, $\vU(\o)$ can be correlated and, therefore, should be preprocessed in order to fulfill the requirement.
+To this end, an adequate probability transformation should be undertaken \cite{eldred2009}.
+Denote such a transformation by $\vU(\o) = \oTransform{\vZ(\o)}$, which relates the correlated uncertain parameters $\vU(\o)$ with $\nvars$ independent random variables $\vZ(\o)$.
+Without loss of generality, $\vZ(\o)$ are assumed to be centered and normalized, \ie, $\oExp{\vZ(\o)} = \mZero$ and $\oCov{\vZ(\o)} = \mI$.
 
-Correlated \rvs\ that form a Gaussian vector can be transformed to independent ones via a linear mapping based on a factorization procedure of the covariance matrix of $\vU(\o)$; the technique is known as the finite-dimensional Karhunen-Lo\`{e}ve (KL) expansion and will be illustrated in \sref{ie-uncertain-parameters}. In the general case, the most prominent solutions are the Rosenblatt and Nataf transformations \cite{eldred2009}. Rosenblatt's approach is suitable when the joint probability distribution function of the uncertain parameters $\vU(\o)$ is known; however, such information is rarely available. The marginal distributions and correlation matrix of $\vU(\o)$ are more likely to be given, which are sufficient to perform the Nataf transformation.
+Correlated random variables that form a Gaussian vector can be transformed into independent ones via a linear mapping based on a factorization procedure of the covariance matrix or covariance function of $\vU(\o)$; the procedure is known as the Karhunen-Lo\`{e}ve decomposition.
+In the general case, the most prominent solutions are the Rosenblatt \cite{rosenblatt1952} and Nataf transformations \cite{li2008}.
+Rosenblatt's approach is suitable when the joint probability distribution function of the uncertain parameters $\vU(\o)$ is given; however, such information is rarely available.
+The marginal probability distributions and correlation matrix of $\vU(\o)$ are more likely to be given, which are sufficient to perform the Nataf transformation.
+The Nataf method is composed of two steps: first, $\vU(\o)$ are morphed into correlated Gaussian variables, then the correlations of the obtained Gaussian variables are removed using the KL decomposition.
+We shall illustrate this technique in \sref{ie-uncertain-parameters}.
