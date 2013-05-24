@@ -9,7 +9,7 @@ where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\lea
 \[
   \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i \: I_{\leak, i}(\T_i(\t, \o), \Leff_i(\o))
 \]
-where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\Leff$, $\gLeff(\o)$, and $\lLeff(r_i, \o)$ as discussed in \sref{ie-problem-formulation}.
+where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\Leff$, $\gLeff(\o)$, and $\lLeff(r_i, \o)$ as discussed earlier.
 
 We move on to \stage{3}\ where the thermal model of the system is to be acquired. The thermal specification $\system$ of the considered platform is assumed to be given (the floorplan of the die, the configuration of the thermal package, \etc).
 We use HotSpot v5.02 \cite{hotspot} to construct the equivalent thermal RC circuits of the system; specifically, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ in \eref{fourier-system} (see also \fref{algorithm}).

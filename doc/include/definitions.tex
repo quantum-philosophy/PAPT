@@ -79,6 +79,9 @@
 
 \newcommand{\vZero}{\v{0}}
 
+\newcommand{\abs}[1]{| #1 |}
+\newcommand{\norm}[1]{\| #1 \|}
+
 %
 % Probability theory
 %
@@ -87,19 +90,26 @@
 \newcommand{\sAlgebra}{\mathcal{F}}
 \newcommand{\pMeasure}{\mathcal{P}}
 
-\newcommand{\normal}{\mathcal{N}}
+\newcommand{\normal}{\text{Gaussian}}
+\newcommand{\dBeta}{\text{Beta}}
 
 \newcommand{\vExp}{{\boldsymbol\mu}}
 \newcommand{\mCov}{\m{\Sigma}}
+\newcommand{\mCorr}{\m{\Sigma}}
 
 \newcommand{\oExp}[1]{\mathbb{E}\left[#1\right]}
 \newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left[#1\right]}
 \newcommand{\oCov}[1]{\mathbb{C}\text{ov}\left[#1\right]}
 \newcommand{\oCorr}[1]{\mathbb{C}\text{orr}\left[#1\right]}
 
-\newcommand{\fCov}[2]{K_{#1}\left(#2\right)}
+\newcommand{\kernel}{k}
+
+\newcommand{\SE}{\text{SE}}
+\newcommand{\OU}{\text{OU}}
 
 \newcommand{\PDF}{\rho}
+
+\newcommand{\oNataf}[1]{\mathbb{N}\text{ataf}\left[#1\right]}
 
 %
 % Polynomial chaos expansion
@@ -194,7 +204,7 @@
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
 
-\newcommand{\f}{f} % {{f_{\text{\scalebox{.6}{$\blacksquare$}}}}}
+\newcommand{\f}{f}
 
 %
 % System profiles
@@ -244,6 +254,8 @@
 \newcommand{\gLeff}{{\delta L^{(g)}}}
 \newcommand{\lLeff}{\delta L^{(l)}}
 \newcommand{\corrLength}{b}
+
+\renewcommand{\r}{r}
 
 %
 % Numbers
