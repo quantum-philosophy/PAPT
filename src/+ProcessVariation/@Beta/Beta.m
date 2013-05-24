@@ -6,7 +6,7 @@ classdef Beta < ProcessVariation.Base
   end
 
   methods (Access = 'protected')
-    function variables = distribute(this, variance, correlation, options)
+    function transformation = transform(this, variance, correlation, options)
       dimensionCount = length(variance);
 
       distributions = cell(dimensionCount, 1);
@@ -32,6 +32,13 @@ classdef Beta < ProcessVariation.Base
 
       variables = RandomVariables.Heterogeneous( ...
         'distributions', distributions, 'correlation', correlation);
+
+      distribution = ProbabilityDistribution.Beta( ...
+        'alpha', 2, 'beta', 2, 'a', -1, 'b', 1);
+
+      transformation = ProbabilityTransformation.Custom( ...
+        'variables', variables, 'threshold', options.threshold, ...
+        'distribution', distribution);
     end
   end
 end

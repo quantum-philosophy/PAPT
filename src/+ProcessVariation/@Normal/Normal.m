@@ -6,7 +6,7 @@ classdef Normal < ProcessVariation.Base
   end
 
   methods (Access = 'protected')
-    function variables = distribute(this, variance, correlation, options)
+    function transformation = transform(this, variance, correlation, options)
       dimensionCount = length(variance);
 
       distributions = cell(dimensionCount, 1);
@@ -18,6 +18,9 @@ classdef Normal < ProcessVariation.Base
 
       variables = RandomVariables.Heterogeneous( ...
         'distributions', distributions, 'correlation', correlation);
+
+      transformation = ProbabilityTransformation.Normal( ...
+        'variables', variables, 'threshold', options.threshold);
     end
   end
 end

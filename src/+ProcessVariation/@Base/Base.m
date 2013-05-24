@@ -15,10 +15,7 @@ classdef Base < handle
       this.deviation = options.deviation;
 
       [ this.variance, this.correlation ] = this.correlate(options);
-      variables = this.distribute(this.variance, this.correlation, options);
-
-      this.transformation = ProbabilityTransformation.ReducedNormal( ...
-        'variables', variables, 'threshold', options.threshold);
+      this.transformation = this.transform(this.variance, this.correlation, options);
 
       this.dimensionCount = this.transformation.dimensionCount;
     end
@@ -47,7 +44,7 @@ classdef Base < handle
   end
 
   methods (Abstract, Access = 'protected')
-    variables = distribute(this, variance, correlation, options)
+    transformation = transform(this, variance, correlation, options)
   end
 
   methods (Access = 'private')
