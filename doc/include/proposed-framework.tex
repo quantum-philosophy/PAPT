@@ -6,7 +6,7 @@ The major stages of our technique are depicted in \fref{algorithm} and are outli
 
 \stage{1}{Uncertain Parameters (\sref{uncertain-parameters}).} The PC expansions operate on mutually independent random variables. The uncertain parameters $\vU(\o)$ might not satisfy this requirement and, therefore, should be preprocessed; we shall denote the corresponding independent set of random variables by $\vZ(\o)$.
 
-\stage{2}{Power Model (\sref{power-model}).} The user specifies the power model of the system via a ``black-box'' functional $\f$, which outputs the total power $\vP(\t, \o)$ for a particular temperature $\vTO(\t, \o)$ and an outcome of the parameters $\vU(\o)$.
+\stage{2}{Power Model (\sref{power-model}).} The user specifies the power model of the system \via\ a ``black-box'' functional $\f$, which outputs the total power $\vP(\t, \o)$ for a particular temperature $\vTO(\t, \o)$ and an outcome of the parameters $\vU(\o)$.
 
 \stage{3}{Thermal Model (\sref{thermal-model}).} With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, a mathematical model of the thermal system is constructed. The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding temperature profile.
 

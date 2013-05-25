@@ -19,4 +19,3 @@ where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation
   & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \: \mB \in \real^{\nnodes \times \nprocs}.
 \end{align*}
 The procedure is to be repeated for all time intervals $\{ \dt_k \}_{k=1}^\nsteps$ starting from the initial temperature, which, without loss of generality, is assumed to be equal to the ambient temperature. It is worth being noted that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique proposed in \cite{ukhov2012}.  Finally, introducing the dependency on $\o \in \outcomes$, we obtain the recurrence in \eref{recurrence}.
-\input{include/assets/circuit.tex}

@@ -10,7 +10,7 @@ Let us look at the second step closer as it is important for our next discussion
 Since the covariance matrix of $\vZ'(\o)$ (as any other covariance matrix), denoted by $\mCov_{\vZ'}$, is necessarily a real, symmetric matrix, it admits the eigenvalue decomposition \cite{press2007}: $\mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
 Consequently, $\vZ'(\o)$ can be factorized using the linear mapping $\vZ'(\o) = \m{V} \: \m{\Lambda}^{1/2} \: \vZ''(\o)$.
 
-The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in the appendix, \aref{polynomial-chaos}.
+The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in \aref{polynomial-chaos}.
 Therefore, one should consider a possibility of model order reduction before constructing PC expansions (call \sref{uncertain-parameters}).
 One way to reveal redundant entries of $\vZ''(\o)$ is to analyze the eigenvalues $\lambda_i$ found in $\m{\Lambda}$ given above.
 Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.

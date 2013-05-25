@@ -13,7 +13,7 @@ An illustration of this technique is given in \fref{beta-normal} where we fitted
 It can be seen that the curves are nearly indistinguishable, but the beta one has a strictly bounded support $[-4, 4]$, which potentially leads to more realistic models.
 
 \input{include/assets/beta-normal.tex}
-The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, $\gLeff(\o)$ can be treaded as a composition of independent inter-lot, inter-wafer, and inter-die variations; likewise, $\lLeff(\o)$ can treaded as a composition of independent (purely random) and dependent (spatially correlated) local variations.}
+The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, $\gLeff(\o)$ can be treated as a composition of independent inter-lot, inter-wafer, and inter-die variations; likewise, $\lLeff(\o)$ can treated as a composition of independent (purely random) and dependent (spatially correlated) local variations.}
 $\gLeff(\o)$ is assumed to be shared among all the $\nvars$ processing elements whereas each processing element has its own local parameter $\lLeff_i(\o)$.
 Therefore, the effective channel length $\Leff_i(\o)$ of the $i$th processing element on the die is modeled as follows:
 \begin{equation} \elabel{leakage-partition}

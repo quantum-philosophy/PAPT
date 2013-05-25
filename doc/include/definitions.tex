@@ -27,7 +27,7 @@
 %
 \newcommand{\eref}[1]{Eq.~(\ref{equ:#1})}
 \newcommand{\sref}[1]{Sec.~\ref{sec:#1}}
-\newcommand{\aref}[1]{Sec.~\ref{app:#1}}
+\newcommand{\aref}[1]{App.~\ref{app:#1}}
 \newcommand{\tref}[1]{Tab.~\ref{tab:#1}}
 \newcommand{\fref}[1]{Fig.~\ref{fig:#1}}
 
@@ -53,6 +53,8 @@
 \newcommand{\eg}{\emph{e.g.}}
 \newcommand{\etc}{\emph{etc.}}
 \newcommand{\apriori}{\emph{a priori}}
+\newcommand{\versus}{\emph{vs.}}
+\newcommand{\via}{\emph{via}}
 
 %
 % Misc
@@ -121,9 +123,9 @@
 \newcommand{\pccs}{{\boldsymbol\gamma}}
 
 \makeatletter
-  \def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
-  \def\oInnerSingle#1{\left\langle #1 \right\rangle}
-  \def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
+\def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
+\def\oInnerSingle#1{\left\langle #1 \right\rangle}
+\def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
 \makeatother
 
 %
@@ -202,8 +204,17 @@
 
 \newcommand{\dyn}{\text{dyn}}
 \newcommand{\leak}{\text{leak}}
+\newcommand{\stat}{\text{stat}}
 
 \newcommand{\f}{f}
+
+\makeatletter
+\def\oPower{\@ifnextchar\bgroup{\oPowerPlus}{\oPowerZero}}
+\def\oPowerPlus#1{\@ifnextchar\bgroup{\oPowerTwo{#1}}{\oPowerOne{#1}}}
+\def\oPowerTwo#1#2{\Pi_{#1}\left[#2\right]}
+\def\oPowerOne#1{\Pi\left[#1\right]}
+\def\oPowerZero{\Pi}
+\makeatother
 
 %
 % System profiles

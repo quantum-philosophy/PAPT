@@ -2,7 +2,7 @@ The goal is to transform the ``problematic'' term in \eref{recurrence}, \ie, the
 Our solution is the construction of a surrogate model for the power model in \eref{power-model}, which we further propagate through \eref{recurrence} to obtain an approximation for temperature.
 To this end, we employ polynomial chaos (PC) expansions \cite{xiu2010}, which decompose stochastic quantities into infinite series of orthogonal polynomials of random variables.
 Such series are especially attractive from the post-processing perspective as they are nothing more than polynomials; hence, PC expansions are easy to interpret and evaluate.
-An introduction to orthogonal polynomials is given in the appendix, \aref{orthogonal-polynomials}.
+An introduction to orthogonal polynomials is given in \aref{orthogonal-polynomials}.
 
 \input{include/assets/hermite.tex}
 The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, which is typically picked from the Askey scheme of orthogonal polynomials \cite{xiu2010}.
@@ -18,7 +18,7 @@ Having an appropriate basis chosen, we apply the PC procedure to power in \eref{
 \begin{equation} \elabel{pc-expansion}
   \oPC{\nvars}{\pcorder}{\vP_k(\o)} := \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \; \pcb_i(\vZ(\o))
 \end{equation}
-where $\{ \pcb_i(\vz) \}_{i = 1}^{\pcterms}$, $\vz \in \real^\nvars$, is the truncated basis with $\pcterms$ polynomial terms of $\nvars$ variables, and $\pcc{\vP}_{ki} \in \real^\nprocs$ are the coefficients of the expansion. The latter are computed using spectral projections as it is explained in the appendix, \aref{spectral-projection}.
+where $\{ \pcb_i(\vz) \}_{i = 1}^{\pcterms}$, $\vz \in \real^\nvars$, is the truncated basis with $\pcterms$ polynomial terms of $\nvars$ variables, and $\pcc{\vP}_{ki} \in \real^\nprocs$ are the coefficients of the expansion. The latter are computed using spectral projections as it is explained in \aref{spectral-projection}.
 $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\nvars$-variate polynomials involved in the expansion, which directly translates into $\pcterms$; hence, $\pcorder$ also determines the resulting accuracy of the expansion.
 
 It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\o)$ retains the same polynomial structure as $\vP_k(\o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as follows, for $k = 1, \dotsc, \nsteps$:
