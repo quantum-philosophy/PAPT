@@ -1,12 +1,21 @@
 The total dissipation of power is composed of two major parts: dynamic and static.
 The influence of process variation on the dynamic power is known to be negligibly small \cite{srivastava2010, juan2011, juan2012}; on the other hand, the variability of the static power is substantial, in which the subthreshold leakage current contributes the most \cite{juan2011, juan2012}.
-Hence, we shall focus on the subthreshold leakage and, more specifically, on the effective channel length, denoted by $\Leff$, since it has the strongest influence on leakage \cite{chandrakasan2001}.
-In particular, $\Leff$ also affects other leakage-magnifying parameters such as the threshold voltage \cite{juan2011}.
+Hence, we shall focus on the subthreshold leakage and, more specifically, on the effective channel length, denoted by $\Leff(\o)$, since it has the strongest influence on leakage and is severely deteriorated by process variation \cite{chandrakasan2001}.
+In particular, $\Leff(\o)$ also affects other leakage-magnifying parameters such as the threshold voltage \cite{juan2011}.
 
-In order to signify the fact that the effective channel length is a random variable, we denote it by $\Leff(\o)$.
-The variations of $\Leff(\o)$ are split into global (inter-die) $\gLeff(\o)$ and local (intra-die) $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, independent (purely random) local variations can be considered as a part of the correlated local variations.}
+It is well-known that the dispersion, due to process variation, of the effective channel length around the nominal value resembles a bell shape similar to the one inherent to Gaussian distributions.
+Therefore, such variations are often conveniently modeled using Gaussian random variables \cite{srivastava2010, juan2011, juan2012, chandra2010, shen2009, bhardwaj2006, ghanta2006}.
+In this work, due to both the underlying physics and demonstration purposes, we would like to make a step further.
+Specifically, we shall bake right into the model the fact that the effective channel length, occupying the space between the drain and source of a nanoscopic transistor, cannot be, say, one meter or take a negative value as Gaussian distributions allow it to do.
+To this end, we propose modeling physically-bounded parameters using the four-parametric family of beta distributions: $\dBeta(\alpha, \beta, a, b)$ where $\alpha$ and $\beta$ are the shape parameters, and $a$ and $b$ are the left and right bounds of the support, respectively.
+$\alpha$ and $\beta$ can be chosen in such a way that the typically observed bell shape of the distribution is preserved.
+An illustration of this technique is given in \fref{beta-normal} where we fitted a beta distribution to the standard Gaussian distribution.
+It can be seen that the curves are nearly indistinguishable, but the beta one has a strictly bounded support $[-4, 4]$, which potentially leads to more realistic models.
+
+\input{include/assets/beta-normal.tex}
+The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, $\gLeff(\o)$ can be treaded as a composition of independent inter-lot, inter-wafer, and inter-die variations; likewise, $\lLeff(\o)$ can treaded as a composition of independent (purely random) and dependent (spatially correlated) local variations.}
 $\gLeff(\o)$ is assumed to be shared among all the $\nvars$ processing elements whereas each processing element has its own local parameter $\lLeff_i(\o)$.
-Therefore, the channel length of the $i$th processing element is
+Therefore, the effective channel length $\Leff_i(\o)$ of the $i$th processing element on the die is modeled as follows:
 \begin{equation} \elabel{leakage-partition}
   \Leff_i(\o) = \nLeff + \gLeff(\o) + \lLeff_i(\o)
 \end{equation}
@@ -33,15 +42,6 @@ The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the extend of thes
 Using \eref{correlation-function}, we compute the corresponding correlation matrix for the local random variables $\lLeff_i(\o)$.
 For convenience, the resulting correlation matrix is extended by one dimension to pack $\gLeff(\o)$ and $\lLeff_i(\o)$ together.
 In this case, the matrix obtains one additional non-zero element on the diagonal.
-Taking into account the variances of all the variable, the final covariance matrix of the whole random vector $\vU(\o)$ (see \eref{uncertain-parameters}) is formed, which we denote by $\mCorr_\vU$.
+Taking into account the variances of all the variable, the final covariance matrix of the whole random vector $\vU(\o)$ (see \eref{uncertain-parameters}) is formed, which we denote by $\mCov_\vU$.
 
-\input{include/assets/beta-normal.tex}
-It is well-known that the dispersion, due to process variation, of the effective channel length around the nominal value resembles a bell shape similar to the one inherent to Gaussian distributions.
-Therefore, such variations are often conveniently modeled using Gaussian random variables \cite{srivastava2010, juan2011, juan2012, chandra2010, shen2009, bhardwaj2006, ghanta2006}.
-In this work, due to both the underlying physics and demonstration purposes, we would like to make a step further and bake right into the model the fact that the effective channel length cannot be negative or, say, one meter from the drain and the source of a nanoscopic transistor (Gaussian distributions have unbounded supports).
-To this end, we propose modeling physically-bounded quantities using the four-parametric family of beta distributions: $\dBeta(\alpha, \beta, a, b)$ where $\alpha$ and $\beta$ are the shape parameters, and $a$ and $b$ are the left and right bounds of the support, respectively.
-$\alpha$ and $\beta$ can be chosen in such a way that the commonly used bell shape of the distribution is preserved.
-An illustration of this technique is given in \fref{beta-normal} where we fitted a beta distribution to the standard Gaussian distribution.
-It can be seen that the curves are nearly indistinguishable, but the beta one has a strictly bounded support $[-4, 4]$, which leads to more realistic models.
-
-To conclude, the givens to our analysis are the marginal distributions of the parameters $\vU(\o)$, which are beta distributions, and the corresponding covariance matrix $\mCorr_\vU$.
+To conclude, the givens to our analysis are the marginal distributions of the parameters $\vU(\o)$, which are beta distributions, and the corresponding covariance matrix $\mCov_\vU$.

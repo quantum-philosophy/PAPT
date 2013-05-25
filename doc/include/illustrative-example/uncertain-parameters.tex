@@ -4,21 +4,23 @@ Here, we describe the algorithm in brief and refer the interested reader to \cit
 
 The Nataf method is typically presented in two steps.
 First, $\vU(\o) \in \real^{\nprocs + 1}$ are morphed into correlated Gaussian variables, denoted by $\vZ'(\o) \in \real^{\nprocs + 1}$, using the knowledge of the covariance matrix and marginal distributions of $\vU(\o)$.
-Second, the correlations of the obtained Gaussian variables are removed using the discrete version of the KL decomposition (\ie, PCA).
+Second, the correlations of the obtained Gaussian variables are removed using the discrete version of the KL decomposition (see \sref{uncertain-parameters}).
 The result is a vector of independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$.
-Let us look at the second step closer as it is important for our next discussions.
+Let us look at the second step closer as it is important for our next discussion.
 Since the covariance matrix of $\vZ'(\o)$ (as any other covariance matrix), denoted by $\mCov_{\vZ'}$, is necessarily a real, symmetric matrix, it admits the eigenvalue decomposition \cite{press2007}: $\mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
 Consequently, $\vZ'(\o)$ can be factorized using the linear mapping $\vZ'(\o) = \m{V} \: \m{\Lambda}^{1/2} \: \vZ''(\o)$.
 
 The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in the appendix, \aref{polynomial-chaos}.
-Therefore, one should consider a possibility of model order reduction before constructing PC expansions.
-The intuition is that, due to the existing correlations between random variables, some of them can be harmlessly replaced by linear combinations of the rest.
-One way to reveal these redundancies is to analyze the eigenvalues $\lambda_i$ found in $\m{\Lambda}$ given above.
+Therefore, one should consider a possibility of model order reduction before constructing PC expansions (call \sref{uncertain-parameters}).
+One way to reveal redundant entries of $\vZ''(\o)$ is to analyze the eigenvalues $\lambda_i$ found in $\m{\Lambda}$ given above.
 Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.
 Gradually summing up the arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a subset of them, which has the cumulative sum greater than a certain threshold $\Lth$.
 When $\Lth$ is sufficiently high (close to one), the rest of the eigenvalues and their eigenvectors can be dropped as being insignificant, reducing the number of stochastic dimensions, which, after the performed reduction, we shall denote by $\nvars$.
-We also denote the whole operation, \ie, the Nataf transformation with model order reduction inside, by $\vU(\o) = \oNataf{\vZ'''}$, $\vZ''' \in \real^\nvars$.
+We also denote the whole operation, \ie, the Nataf transformation with model order reduction inside, by $\vU(\o) = \oNataf{\vZ'''(\o)}$, $\vZ'''(\o) \in \real^\nvars$.
 
-At this point, we have $\nvars$ independent Gaussian variables $\vZ''(\o)$; however, we wish to work with independent beta-distributed variables instead.
+At this point, we have $\nvars$ independent Gaussian variables $\vZ'''(\o)$; however, we wish to work with independent beta-distributed variables instead, which will be our final independent parameters denoted by $\vZ(\o)$.
 Therefore, we undertake one additional transformation on top.
-This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of the desired beta distribution followed by an application of the inverse CDF of $\vZ''(\o)$.
+This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\CDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\CDF_{\vZ'''}$. The overall probability transformation $\oTransform$ from $\vU(\o)$ to $\vZ(\o)$ is then
+\[
+  \vU(\o) = \oTransform{\vZ(\o)} = \oNataf{\CDF^{-1}_{\vZ'''}(\CDF_{\vZ}(\vZ(\o)))}.
+\]
