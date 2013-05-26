@@ -1,26 +1,20 @@
 At \stage{1}, $\vU(\o)$ should be preprocessed in order to extract a set of mutually independent random variables, $\vZ(\o)$.
 Following the guidance given in \sref{uncertain-parameters}, the most suitable transformation for the ongoing scenario is the Nataf transformation.
-Here, we describe the algorithm in brief and refer the interested reader to \cite{li2008} for additional details.
-
-The Nataf method is typically presented in two steps.
+Here, we describe the algorithm in brief and refer the interested reader to \cite{li2008} for additional details. The transformation is typically presented in two steps.
 First, $\vU(\o) \in \real^{\nprocs + 1}$ are morphed into correlated Gaussian variables, denoted by $\vZ'(\o) \in \real^{\nprocs + 1}$, using the knowledge of the covariance matrix and marginal distributions of $\vU(\o)$.
-Second, the correlations of the obtained Gaussian variables are removed using the discrete version of the KL decomposition (see \sref{uncertain-parameters}).
-The result is a vector of independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$.
-Let us look at the second step closer as it is important for our next discussion.
-Since the covariance matrix of $\vZ'(\o)$ (as any other covariance matrix), denoted by $\mCov_{\vZ'}$, is necessarily a real, symmetric matrix, it admits the eigenvalue decomposition \cite{press2007}: $\mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
-Consequently, $\vZ'(\o)$ can be factorized using the linear mapping $\vZ'(\o) = \m{V} \: \m{\Lambda}^{1/2} \: \vZ''(\o)$.
+Second, the obtained correlated Gaussian variables are mapped into independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$, using one of several available techniques such as the Cholesky decomposition \cite{press2007} utilized in \cite{li2008}.
 
 The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in \aref{polynomial-chaos}.
-Therefore, one should consider a possibility of model order reduction before constructing PC expansions (call \sref{uncertain-parameters}).
-One way to reveal redundant entries of $\vZ''(\o)$ is to analyze the eigenvalues $\lambda_i$ found in $\m{\Lambda}$ given above.
-Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.
-Gradually summing up the arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a subset of them, which has the cumulative sum greater than a certain threshold $\Lth$.
-When $\Lth$ is sufficiently high (close to one), the rest of the eigenvalues and their eigenvectors can be dropped as being insignificant, reducing the number of stochastic dimensions, which, after the performed reduction, we shall denote by $\nvars$.
-We also denote the whole operation, \ie, the Nataf transformation with model order reduction inside, by $\vU(\o) = \oNataf{\vZ'''(\o)}$, $\vZ'''(\o) \in \real^\nvars$.
+Therefore, one should consider a possibility of model order reduction before constructing PC expansions.
+To this end, we perform the second step of the Nataf transformation by virtue of the discrete Karhunen-Lo\`{e}ve (KL) decomposition \cite{ghanem1991} as the reduction comes naturally in this way.
+A description of this procedure can be found in \aref{karhunen-loeve}.
+Let us denote the shrunk independent variables by $\vZ'''(\o)$ and their number by $\nvars$.
+We also denote the whole operation, \ie, the reduction-aware Nataf transformation by $\vU(\o) = \oInvNataf{\vZ'''(\o)}$, $\vZ'''(\o) \in \real^\nvars$ where the superscript signifies the fact that we are interested in expressing $\vU(\o)$ through $\vZ'''(\o)$ and, therefore, we need to perform all the operations in the reversed order.
 
 At this point, we have $\nvars$ independent Gaussian variables $\vZ'''(\o)$; however, we wish to work with independent beta-distributed variables instead, which will be our final independent parameters denoted by $\vZ(\o)$.
 Therefore, we undertake one additional transformation on top.
-This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\CDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\CDF_{\vZ'''}$. The overall probability transformation $\oTransform$ from $\vU(\o)$ to $\vZ(\o)$ is then
+This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\CDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\CDF_{\vZ'''}$.
+The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU(\o)$ to $\vZ(\o)$ is then
 \[
-  \vU(\o) = \oTransform{\vZ(\o)} = \oNataf{\CDF^{-1}_{\vZ'''}(\CDF_{\vZ}(\vZ(\o)))}.
+  \vU(\o) = \oTransform{\vZ(\o)} = \oInvNataf{\CDF^{-1}_{\vZ'''}(\CDF_{\vZ}(\vZ(\o)))}.
 \]
