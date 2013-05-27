@@ -1,9 +1,9 @@
 Given a thermal specification $\system$ (see \sref{problem-formulation}), an equivalent thermal RC circuit with $\nnodes$ thermal nodes is constructed \cite{kreith2000}.
 The structure of the circuit depends on the intended level of granularity and, therefore, impacts the resulting accuracy.
 For clarity of presentation, we assume that each processing element is mapped onto one corresponding node, and the thermal package is represented as a set of additional nodes.
-An example of such a circuit for a dual-core architecture is depicted in \fref{circuit} in the appendix. The appendix, \aref{thermal-model}, also contains a derivation of the equations below.
+An example of such a circuit for a dual-core architecture can be found in \fref{circuit} as a part of \sref{illustrative-example}.
 
-The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations:
+The thermal behavior of the circuit is modeled with the following system of differential-algebraic equations (see \aref{thermal-model} for a derivation):
 \begin{subnumcases}{\elabel{fourier-system}}
   \frac{d\vX(\t, \o)}{d\t} = \mA \: \vX(\t, \o) + \mB \: \vP(\t, \o) \elabel{fourier-de} \\
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}

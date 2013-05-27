@@ -1,18 +1,6 @@
 At \stage{2}\ in \fref{algorithm}, we need to decide on the power model with the identified uncertain parameters as an input.
-To this end, \eref{power-model} is decomposed into the sum of dynamic and leakage components denoted by $\f_\dyn(\vU(\o))$ and $\f_\leak(\vTO(\t, \o), \vU(\o))$, respectively.
-As motivated in the previous subsection, we let $\f_\dyn(\vU(\o)) = \vP_\dyn(\t)$.
-The development of the leakage part, $\f_\leak$, is based on a set of SPICE simulations of reference electrical circuits, wherein the Predictive Technology Model \cite{ptm} is employed. The data from the simulations are fed to the curve fitting toolbox provided by MATLAB \cite{matlab}, and the following exponential model of the leakage current is acquired:
-\begin{equation} \elabel{leakage-current}
-  I_\leak(\T, \Leff) = \exp \left( \alpha_0 + \alpha_1 \Leff + \alpha_2 \T + \alpha_3 \Leff \T + \alpha_4 \T^2 \right)
-\end{equation}
-where $\alpha_i$ are fitting coefficients. The reference leakage current $I_\leak(\T, \Leff)$ is further scaled to the power level of each of the processing elements, \ie, for $i = 1, \dotsc, \nprocs$, we have
-\[
-  \f_{\leak, i}(\T_i(\t, \o), \o) = \beta_i \: I_{\leak, i}(\T_i(\t, \o), \Leff_i(\o))
-\]
-where $\beta_i$ are scaling coefficients, and $\Leff_i(\o)$ is the sum of $\Leff$, $\gLeff(\o)$, and $\lLeff(r_i, \o)$ as discussed in \sref{ie-problem-formulation}.
-
-We move on to \stage{3}\ where the thermal model of the system is to be acquired. The thermal specification $\system$ of the considered platform is assumed to be given (the floorplan of the die, the configuration of the thermal package, \etc).
-We use HotSpot v5.02 \cite{hotspot} to construct the equivalent thermal RC circuits of the system; specifically, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ in \eref{fourier-system} (see also \fref{algorithm}).
-In this case, thermal packages are modeled with three layers, and the relation between the number of processing elements and the number of thermal nodes is given by $\nnodes = 4 \nprocs + 12$.
-An example of such a circuit for a dual-core platform is depicted in \fref{circuit}, and additional details are given in \aref{thermal-model}.
-Consequently, a mathematical model of heat transfer within the platform is acquired.
+To this end, \eref{power-model} is decomposed into the sum of dynamic and static components denoted by $\oPower{\dyn}{\vU(\o)}$ and $\oPower{\stat}{\vTO(\t, \o), \vU(\o)}$, respectively.
+As motivated in the previous subsection, we let $\oPower{\dyn}{\vU(\o)} = \vP_\dyn(\t)$ (does not depend on $\vU(\o)$).
+Without loss of generality, the development of the static part is based on SPICE simulations of a reference electrical circuit composed of BSIM4 devices (v4.7.0) \cite{bsim} configured according to the 45-nm PTM (high-performance) \cite{ptm}.
+The simulations are performed for a fine-grained two-dimensional grid, the effective channel length \versus\ temperature, and the result is further tabulated.
+The linear interpolation facilities of MATLAB (vR2013a) \cite{matlab} are then used whenever we need to evaluate the leakage current for a particular point within the range of the grid, which is set to be sufficiently wide.

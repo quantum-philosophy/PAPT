@@ -1,16 +1,19 @@
 So far we have not made any assumptions regarding the cause of variability of the source term, \ie, the power term, in the thermal system given by \eref{fourier-system}.
-In this section, a particular application of the proposed framework.
-Specifically, we shall perform stochastic PTA of a multiprocessor platform wherein the uncertainty originates from the leakage power via the variability of the effective channel length due to process variation.
-The effective channel length has one of the strongest effects on the leakage current and, consequently, on power and temperature \cite{juan2011, juan2012}; at the same time, this crucial parameter is severely deteriorated by process variation \cite{chandrakasan2001, srivastava2010}.
+In this section, we consider a particular application of the proposed framework.
 
-\subsection{Problem Formulation} \slabel{ie-problem-formulation}
 \input{include/illustrative-example/problem-formulation.tex}
 
 \subsection{Uncertain Parameters} \slabel{ie-uncertain-parameters}
 \input{include/illustrative-example/uncertain-parameters.tex}
 
-\subsection{Power and Thermal Models} \slabel{ie-power-model} \slabel{ie-thermal-model}
+\subsection{Power Model} \slabel{ie-power-model}
 \input{include/illustrative-example/power-model.tex}
+
+\subsection{Thermal Models} \slabel{ie-thermal-model}
+\input{include/illustrative-example/thermal-model.tex}
 
 \subsection{Surrogate Model} \slabel{ie-polynomial-chaos}
 \input{include/illustrative-example/polynomial-chaos.tex}
+
+\subsection{Post-processing} \slabel{ie-post-processing}
+\input{include/illustrative-example/post-processing.tex}

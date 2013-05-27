@@ -1,0 +1,20 @@
+In this section, the discrete version of the Karhunen-Lo\`{e}ve decomposition \cite{ghanem1991} is described, which can also be recognized as the eigenvalue decomposition, singular value decomposition, principal component analysis, \etc\ We shall use the notation introduced in \sref{ie-uncertain-parameters}.
+
+Let $\mCov_{\vZ'}$ be the covariance matrix of the centered random vector $\vZ'(\o)$ (which is the result of the first step of the Nataf transformation discussed in \sref{ie-uncertain-parameters}).
+  Since any covariance matrix is necessarily real and symmetric, $\mCov_{\vZ'}$ admits the eigenvalue decomposition \cite{press2007} as follows:
+\[
+  \mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T
+\]
+where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
+$\vZ'(\o)$ can then be represented as
+\[
+  \vZ'(\o) = \m{V} \m{\Lambda}^\frac{1}{2} \vZ''(\o)
+\]
+where the vector $\vZ''(\o)$ is centered, normalized, and uncorrelated, which is also independent as $\vZ'(\o)$ is Gaussian.
+
+The decomposition above provides means for model order reduction.
+The intuition is that, due to the correlations possessed by $\vZ'(\o) \in \real^{\nprocs + 1}$, it can be recovered from a small subset $\vZ'''(\o) \in \real^\nvars$ of $\vZ''(\o) \in \real^{\nprocs + 1}$, $\nvars \ll \nprocs + 1$.
+Such redundancies can be revealed by analyzing the eigenvalues $\lambda_i$ stored in $\m{\Lambda}$.
+Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.
+Gradually summing up the arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a subset of them, which has the cumulative sum greater than a certain threshold.
+When this threshold is sufficiently high (close to one), the rest of the eigenvalues and their eigenvectors can be dropped as being insignificant, reducing the number of stochastic dimensions.
