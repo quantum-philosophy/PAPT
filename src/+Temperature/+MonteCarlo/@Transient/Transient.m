@@ -41,12 +41,12 @@ classdef Transient < Temperature.Numerical.Transient
 
         Tdata = zeros(processorCount, stepCount, sampleCount);
 
-        tic;
-        for i = 1:sampleCount
+        time = tic;
+        parfor i = 1:sampleCount
           Tdata(:, :, i) = this.computeWithLeakage( ...
             Pdyn, varargin{:}, 'L', L(:, i));
         end
-        time = toc;
+        time = toc(time);
 
         Texp = mean(Tdata, 3);
         Tvar = var(Tdata, [], 3);
@@ -74,7 +74,7 @@ classdef Transient < Temperature.Numerical.Transient
 
       Tdata = zeros(processorCount, stepCount, sampleCount);
 
-      for i = 1:sampleCount
+      parfor i = 1:sampleCount
         Tdata(:, :, i) = this.computeWithLeakage( ...
           Pdyn, varargin{:}, 'L', L(:, i));
       end
