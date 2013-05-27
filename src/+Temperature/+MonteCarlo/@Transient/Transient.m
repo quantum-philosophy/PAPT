@@ -16,7 +16,10 @@ classdef Transient < Temperature.Numerical.Transient
       options = Options(varargin{:});
       verbose = options.get('verbose', false);
 
+      [ processorCount, stepCount ] = size(Pdyn);
       sampleCount = options.get('sampleCount', 1e3);
+
+      L = transpose(this.process.sample(sampleCount));
 
       filename = options.get('filename', []);
       if isempty(filename)
@@ -34,10 +37,6 @@ classdef Transient < Temperature.Numerical.Transient
         if verbose
           fprintf('Monte Carlo: running %d simulations...\n', sampleCount);
         end
-
-        [ processorCount, stepCount ] = size(Pdyn);
-
-        L = transpose(this.process.sample(sampleCount));
 
         Tdata = zeros(processorCount, stepCount, sampleCount);
 
