@@ -9,7 +9,7 @@ The former stays the same for all inner products; therefore, an integration rule
 Consequently, there exist different families of quadrature rules tailored for different weight functions.
 Define such a quadrature-based approximation of \eref{inner-product} as follows:
 \[
-  \oInner{f(\vz)}{g(\vz)} \approx \oQuad{\nvars}{\qdlevel}{f(\vz) \: g(\vz)} := \sum_{i = 1}^{\qdorder} f(\qdn{\vz}_i) \: g(\qdn{\vz}_i) \: \qdw_i
+  \oInner{h(\vz)}{g(\vz)} \approx \oQuad{\nvars}{\qdlevel}{h(\vz) \: g(\vz)} := \sum_{i = 1}^{\qdorder} h(\qdn{\vz}_i) \: g(\qdn{\vz}_i) \: \qdw_i
 \]
 where $\qdn{\vz}_i \in \real^\nvars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively, $\qdorder$ is their number, and $\qdlevel$ is the accuracy level of the quadrature rule, which is $\nvars$-variate.
 Note that, once the rule to use is identified, $\qdn{\vz}_i$ and $\qdw_i$ are fixed, \ie, there are no any additional computational efforts.
@@ -30,6 +30,6 @@ In low dimensions, the construction can be easily based on the direct tensor pro
 However, in high dimensions, the situation changes dramatically as the number of points produced by this approach can easily explode.
 For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorder = 4$, then in ten dimensions, \ie, $\nvars = 10$, the number of nodes becomes $\qdorder^\nvars = 4^{10} = 1,048,576$, which is not affordable.
 Moreover, it can be shown that most of the points obtained in such a way do not contribute to the asymptotic accuracy and, therefore, are a waste of the computational time.
-To tackle this difficulty, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, heiss2008, burkardt2013}.
+To tackle this difficulty, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.
 For instance, in the example given earlier, the number of nodes computed by the algorithm would be only $1,581$.
