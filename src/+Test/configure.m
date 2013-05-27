@@ -65,11 +65,11 @@ function options = configure(varargin)
     K = eta * Kse + (1 - eta) * Kou;
   end
 
-  eta = 0.00;
+  eta = 0.50;
   lse = 0.50 * max(options.die.width, options.die.height);
   lou = lse;
 
-  options.processModel = 'Normal';
+  options.processModel = 'Beta';
   options.processOptions = Options( ...
     'die', options.die, ...
     'expectation', options.leakage.Lnom, ...
