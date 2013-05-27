@@ -9,12 +9,16 @@ Therefore, one should consider a possibility of model order reduction before con
 To this end, we perform the second step of the Nataf transformation by virtue of the discrete Karhunen-Lo\`{e}ve (KL) decomposition \cite{ghanem1991} as the reduction comes naturally in this way.
 A description of this procedure can be found in \aref{karhunen-loeve}.
 Let us denote the shrunk independent variables by $\vZ'''(\o)$ and their number by $\nvars$.
-We also denote the whole operation, \ie, the reduction-aware Nataf transformation by $\vU(\o) = \oInvNataf{\vZ'''(\o)}$, $\vZ'''(\o) \in \real^\nvars$ where the superscript signifies the fact that we are interested in expressing $\vU(\o)$ through $\vZ'''(\o)$ and, therefore, we need to perform all the operations in the reversed order.
+We also denote the whole operation, \ie, the reduction-aware Nataf transformation by
+\[
+  \vU(\o) = \oInvNataf{\vZ'''(\o)}
+\]
+where $\vZ'''(\o) \in \real^\nvars$, and the superscript signifies the fact that we are interested in expressing $\vU(\o)$ \via\ $\vZ'''(\o)$ and, hence, we need to perform all the operations in the reversed order.
 
 At this point, we have $\nvars$ independent Gaussian variables $\vZ'''(\o)$; however, we wish to work with independent beta-distributed variables instead, which will be our final independent parameters denoted by $\vZ(\o)$.
 Therefore, we undertake one additional transformation on top.
-This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\CDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\CDF_{\vZ'''}$.
+This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\fCDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\fCDF_{\vZ'''}$.
 The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU(\o)$ to $\vZ(\o)$ is then
 \[
-  \vU(\o) = \oTransform{\vZ(\o)} = \oInvNataf{\CDF^{-1}_{\vZ'''}(\CDF_{\vZ}(\vZ(\o)))}.
+  \vU(\o) = \oTransform{\vZ(\o)} = \oInvNataf{\fCDF^{-1}_{\vZ'''}(\fCDF_{\vZ}(\vZ(\o)))}.
 \]

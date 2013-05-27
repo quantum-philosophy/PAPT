@@ -7,9 +7,9 @@ A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
   \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
 \end{equation}
 where $\oInner{\idot}{\idot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ is a normalization constant.
-The inner product with a weight function $\PDF(\vz)$ is defined as the following multidimensional integral:
+The inner product with a weight function $\fPDF(\vz)$ is defined as the following multidimensional integral:
 \begin{equation} \elabel{inner-product}
-  \oInner{h(\vz)}{g(\vz)} = \int h(\vz) g(\vz) \PDF(\vz) d\vz.
+  \oInner{h(\vz)}{g(\vz)} := \int h(\vz) g(\vz) \fPDF(\vz) d\vz.
 \end{equation}
 In the stochastic context, the parameters $\vz$ correspond to random variables, denoted by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
 Some of the standard distributions and the corresponding polynomial bases are given in \tref{askey} \cite{eldred2008}; these polynomials can be found in the Askey scheme \cite{xiu2010} of hypergeometric orthogonal polynomials.

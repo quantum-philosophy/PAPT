@@ -23,7 +23,7 @@ The latter are computed using spectral projections as it is described later in t
 $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\nvars$-variate polynomials involved in the expansion; hence, $\pcorder$ also determines the resulting accuracy of the expansion.
 The total number of the coefficient, $\pcterms$, is given by the following expression, which corresponds to the total-order polynomial space \cite{eldred2008, beck2011}:
 \begin{equation} \elabel{pc-terms}
-  \pcterms = { \pcorder + \nvars \choose \nvars } = \frac{(\pcorder + \nvars)!}{\pcorder! \nvars!}.
+  \pcterms = { \pcorder + \nvars \choose \nvars } = \frac{(\pcorder + \nvars)!}{\pcorder! \; \nvars!}.
 \end{equation}
 
 It can be seen in \eref{recurrence} that, due to the linearity of the operations involved in the recurrence, $\vX_k(\o)$ retains the same polynomial structure as $\vP_k(\o)$. Therefore, using \eref{pc-expansion}, \eref{recurrence} is rewritten as follows, for $k = 1, \dotsc, \nsteps$:

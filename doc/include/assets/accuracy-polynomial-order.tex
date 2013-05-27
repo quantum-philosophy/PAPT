@@ -1,0 +1,31 @@
+\begin{table*}
+  \vspace{-0.5em}
+  \centering
+  \caption{Error measurements for various Monte Carlo samples \textnormal{$\nsamples$} and polynomial orders \textnormal{$\pcorder$}}
+  \vspace{-0.5em}
+  \begin{tabular}{=c-r-r-r-r-r-r-r-r-r-r-r-r}
+    \toprule
+    {} & \colExp & \colExp & \colExp & \colExp & \colVar & \colVar & \colVar & \colVar & \colPDF & \colPDF & \colPDF & \colPDF \\
+    $\pcorder$ & \colMC{2} & \colMC{3} & \colMC{4} & \colMC{5} & \colMC{2} & \colMC{3} & \colMC{4} & \colMC{5} & \colMC{2} & \colMC{3} & \colMC{4} & \colMC{5} \\
+    \cmidrule(r{5pt}){1-1}
+    \cmidrule(r{5pt}){2-5}
+    \cmidrule(r{5pt}){6-9}
+    \cmidrule{10-13}
+    \morecmidrules
+    \cmidrule(r{5pt}){1-1}
+    \cmidrule(r{5pt}){2-5}
+    \cmidrule(r{5pt}){6-9}
+    \cmidrule{10-13}
+    1 & 10.88 & 11.48 & 8.85 & 8.83 & 1.70 & 0.92 & 0.51 & 0.48 & 88.19 & 55.73 & 55.57 & 53.08 \\
+    2 & 10.15 & 10.11 & 6.26 & 6.04 & 1.36 & 0.58 & 0.20 & 0.18 & 67.66 & 23.30 & 23.05 & 19.64 \\
+    3 &  5.49 &  5.04 & 2.95 & 2.73 & 1.26 & 0.49 & 0.15 & 0.14 & 61.16 & 13.06 & 12.78 &  9.08 \\
+    \rowstyle{\bfseries}
+    4 &  3.84 &  2.02 & 1.50 & 1.51 & 1.23 & 0.45 & 0.14 & 0.14 & 58.49 &  8.85 &  8.57 &  4.78 \\
+    5 &  3.83 &  2.27 & 1.03 & 0.84 & 1.21 & 0.44 & 0.14 & 0.14 & 57.31 &  7.00 &  6.71 &  2.92 \\
+    6 &  3.08 &  1.94 & 0.93 & 0.66 & 1.21 & 0.44 & 0.14 & 0.14 & 56.75 &  6.12 &  5.83 &  2.08 \\
+    7 &  2.78 &  1.39 & 0.72 & 0.62 & 1.20 & 0.43 & 0.14 & 0.14 & 56.41 &  5.60 &  5.31 &  1.62 \\
+    \bottomrule
+  \end{tabular}
+  \tlabel{accuracy-polynomial-order}
+  \vspace{-0.5em}
+\end{table*}

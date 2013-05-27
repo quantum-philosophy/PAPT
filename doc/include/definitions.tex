@@ -45,7 +45,7 @@
 \newcommand{\eg}{\emph{e.g.}}
 \newcommand{\etc}{\emph{etc.}}
 \newcommand{\apriori}{\emph{a priori}}
-\newcommand{\versus}{\emph{vs.}}
+\newcommand{\versus}{vs.}
 \newcommand{\via}{via}
 
 \makeatletter
@@ -61,6 +61,21 @@
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newcolumntype{=}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{-}{>{\currentrowstyle}}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+  #1\ignorespaces
+}
+
+\newcommand{\eExp}{\epsilon_\mathbb{E}}
+\newcommand{\eVar}{\epsilon_{\mathbb{V}\text{ar}}}
+\newcommand{\ePDF}{\epsilon_\fPDF}
+
+\newcommand{\colExp}{$\eExp, \%$}
+\newcommand{\colVar}{$\eVar, \%$}
+\newcommand{\colPDF}{$\ePDF, \%$}
+\newcommand{\colMC}[1]{$\scriptstyle \nsamples = 10^#1$}
 
 %
 % Misc
@@ -111,8 +126,8 @@
 \newcommand{\SE}{\text{SE}}
 \newcommand{\OU}{\text{OU}}
 
-\newcommand{\PDF}{f}
-\newcommand{\CDF}{F}
+\newcommand{\fPDF}{f}
+\newcommand{\fCDF}{F}
 
 \newcommand{\oNataf}[1]{\mathcal{N}\left[#1\right]}
 \newcommand{\oInvNataf}[1]{\mathcal{N}^{-1}\left[#1\right]}
