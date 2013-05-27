@@ -66,10 +66,11 @@ function assessAccuracy
       errorVar(i, j) = Error.computeNRMSE(mcTvar{j}, output.Tvar);
 
       if orderSet(i) == pick(1) && sampleCountSet(j) == pick(2)
-        errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
-          comparisonOptions, 'draw', true);
-        Data.compare(mcTdata{j}(:, :, pick(3)), Tdata(:, :, pick(3)), ...
-          comparisonOptions, 'draw', true, 'layout', 'separate');
+        errorPDF(i, j) = Data.compare(Utils.toCelsius(mcTdata{j}), ...
+          Utils.toCelsius(Tdata), comparisonOptions, 'draw', true);
+        Data.compare(Utils.toCelsius(mcTdata{j}(:, :, pick(3))), ...
+          Utils.toCelsius(Tdata(:, :, pick(3))), ...
+          comparisonOptions, 'draw', true, 'layout', 'one');
       else
         errorPDF(i, j) = Data.compare(mcTdata{j}, Tdata, ...
           comparisonOptions);
@@ -99,7 +100,7 @@ function printHeader(sampleCountSet)
 
   fprintf('\n');
 
-  names = { 'NRMSE(PDF) * 100', 'NRMSE(Exp) * 100', 'NRMSE(Dev) * 100' };
+  names = { 'NRMSE(PDF) * 100', 'NRMSE(Exp) * 100', 'NRMSE(Var) * 100' };
 
   fprintf('%5s | ', '');
   for i = 1:length(names)
