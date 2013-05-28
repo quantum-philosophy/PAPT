@@ -1,39 +1,45 @@
-function plotDensity
+function plotDensity(filename)
   setup;
 
-  load('MC.mat');
-  DATA = Utils.toCelsius(Tdata2);
+  alpha = 0.05;
+  mctol = 1e-3;
+  shrunkStepCount = 25;
+  maximalSampleCount = 1e4;
 
-  [ sampleCount, processorCount, stepCount ] = size(DATA);
+  load(filename);
+  DATA = Tdata;
 
-  shrunkStepCount = stepCount;
+  [ processorCount, stepCount, sampleCount ] = size(DATA);
 
-  startStep = 1 + stepCount / 2 - shrunkStepCount / 2;
+  sampleCount = min(sampleCount, maximalSampleCount);
+  DATA = Utils.toCelsius(DATA(:, :, 1:sampleCount));
+
+  startStep = 1 + stepCount / 2 - floor(shrunkStepCount / 2);
   stepCount = shrunkStepCount;
+  endStep = startStep + stepCount - 1;
+  DATA = DATA(:, startStep:endStep, :);
+
+  fprintf('Sample count: %d\n', sampleCount);
+  fprintf('Step range:   [ %d, %d ]\n', startStep, endStep);
 
   k = floor(stepCount / 2);
 
-  DATA = DATA(:, :, startStep:(startStep + stepCount - 1));
-
   figure;
 
-  x = (startStep:(startStep + stepCount - 1))' * 1e-3;
+  x = (startStep:endStep)' * 1e-3;
 
-  E = squeeze(mean(DATA, 1));
-  V = squeeze(var(DATA, [], 1));
-
-  index = 1:4;
+  E = mean(DATA, 3);
+  V = var(DATA, [], 3);
 
   labels = {};
 
-  for i = index
-    I = find(index == i);
+  for i = 1:processorCount
     line(x, E(i, :), ...
-      'Color', Color.pick(I), 'LineWidth', 1.5);
+      'Color', Color.pick(i), 'LineWidth', 1.5);
     line(x, E(i, :) + sqrt(V(i, :)), ...
-      'Color', Color.pick(I), 'LineStyle', '--');
-    labels{end + 1} = sprintf('PE %d: expectation', I);
-    labels{end + 1} = sprintf('PE %d: deviation', I);
+      'Color', Color.pick(i), 'LineStyle', '--');
+    labels{end + 1} = sprintf('PE %d: expectation', i);
+    labels{end + 1} = sprintf('PE %d: deviation', i);
   end
 
   Plot.label('Time, s', 'Temperature, C');
@@ -43,31 +49,30 @@ function plotDensity
 
   figure;
 
-  pointCount = sampleCount / 10;
-
   passed1 = 0;
   passed2 = 0;
 
   labels = {};
 
-  for i = 1:stepCount
-    for j = index
-      I = find(index == j);
-
-      data = DATA(:, j, i);
+  fprintf('%5s %16s %5s %16s\n', 'H1', 'p1', 'H2', 'p2');
+  for i = 1:0
+    for j = 1:0
+      data = squeeze(DATA(j, i, :));
 
       if i == k
-        [ pdf, x ] = ksdensity(data, 'npoints', pointCount);
-        line(x, pdf, 'Color', Color.pick(I), 'LineWidth', 1);
-        labels{end + 1} = sprintf('PE %d', I);
+        [ pdf, x ] = ksdensity(data, 'npoints', sampleCount);
+        line(x, pdf, 'Color', Color.pick(j), 'LineWidth', 1);
+        labels{end + 1} = sprintf('PE %d', j);
       end
 
-      continue;
+      % continue;
 
       [ tdata, lambda ] = boxcox(data);
 
-      H1 = jbtest(data, 0.001);
-      H2 = jbtest(tdata, 0.001);
+      [ H1, p1 ] = jbtest(data, alpha, mctol);
+      [ H2, p2 ] = jbtest(tdata, alpha, mctol);
+
+      fprintf('%5d %16.12f %5d %16.12f\n', H1, p1, H2, p2);
 
       if H1 == 0, passed1 = passed1 + 1; end
       if H2 == 0, passed2 = passed2 + 1; end
@@ -82,20 +87,14 @@ function plotDensity
   fprintf('Tests passed for the transformed data: %d / %d.\n', ...
     passed2, stepCount * processorCount);
 
-  figure;
+  data = squeeze(DATA(1, k, :));
+  tdata = log(data);
 
-  data = DATA(:, index(1), k);
+  figure;
+  subplot(1, 2, 1);
   normplot(data);
 
-  figure;
-
-  [ tdata, lambda ] = boxcox(data);
-
-  m = mean(tdata);
-  s = std(tdata);
-
-  tdata = (tdata - m) / s;
-
+  subplot(1, 2, 2);
   normplot(tdata);
 
   figure;
