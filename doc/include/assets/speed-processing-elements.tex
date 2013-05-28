@@ -3,16 +3,31 @@
   \centering
   \caption{Scaling with respect to the number of processing elements \textnormal{$\nprocs$}}
   \vspace{-0.5em}
-  \begin{tabular*}{1\linewidth}{L{20pt}L{15pt}R{50pt}R{50pt}R{60pt}}
+  \begin{tabular*}{1\linewidth}{cL{10pt}L{10pt}R{45pt}R{45pt}R{60pt}}
     \toprule
-    $\nprocs$ & $\nvars$ & PC, seconds & MC, hours & Speedup, times \\
+    & $\nprocs$ & $\nvars$ & PC, seconds & MC, hours & Speedup, times \\
     \midrule
     \midrule
-     2 & 2 & 0.28 & 30.98 & $3.99 \times 10^5$ \\
-     4 & 3 & 0.30 & 31.04 & $3.73 \times 10^5$ \\
-     8 & 4 & 0.59 & 31.06 & $1.88 \times 10^5$ \\
-    16 & 5 & 1.37 & 38.97 & $1.03 \times 10^5$ \\
-    32 & 6 & 6.78 & 40.27 & $2.14 \times 10^4$ \\
+    \multirow{5}{*}{\begin{sideways}$\eta = 0.0$\end{sideways}}%
+    &  2 & 2 &  0.16 & 38.77 & $8.76 \times 10^5$ \\
+    &  4 & 2 &  0.16 & 39.03 & $8.70 \times 10^5$ \\
+    &  8 & 3 &  0.27 & 39.22 & $5.29 \times 10^5$ \\
+    & 16 & 4 &  0.83 & 40.79 & $1.77 \times 10^5$ \\
+    & 32 & 7 & 11.02 & 43.25 & $1.41 \times 10^4$ \\
+    \midrule
+    \multirow{5}{*}{\begin{sideways}$\eta = 0.5$\end{sideways}}%
+    &  2 &  3 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    &  4 &  5 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    &  8 &  6 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    & 16 & 10 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    & 32 & 12 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    \midrule
+    \multirow{5}{*}{\begin{sideways}$\eta = 1.0$\end{sideways}}%
+    &  2 &  3 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    &  4 &  5 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    &  8 &  7 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    & 16 & 11 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
+    & 32 &  8 & 00.00 & 00.00 & $0.00 \times 10^0$ \\
     \bottomrule
   \end{tabular*}
   \tlabel{speed-processing-elements}

@@ -5,6 +5,7 @@ Such series are especially attractive from the post-processing perspective as th
 Refer to \aref{polynomial-chaos} for an introduction to orthogonal polynomials, which we shall extensively use in what follows.
 
 \input{include/assets/hermite.tex}
+\subsubsection{Choice of a Polynomial Basis}
 The first step towards a PC expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, which is typically picked from the Askey scheme of orthogonal polynomials \cite{xiu2010}.
 The step is crucial as the rate of convergence of PC expansions closely depends on it.
 Although there are no strict rules that guarantee the optimal choice \cite{maitre2010, knio2006}, there are best practices which say that one should be guided by the probability distributions of the (independent) random variables that drive the stochastic system at hand (see \aref{polynomial-chaos}).
@@ -14,6 +15,7 @@ For instance, when a random variable follows a beta distribution, the Jacobi bas
 In order to give a better intuition of what such a basis may look like, \fref{hermite} shows the first six polynomials $\{ \pcb_i(\z) \}_{i = 1}^6$, $\z \in \real$, of the Hermite basis in the one-dimensional scenario.
 Since $\vZ(\o)$ is an $\nvars$-dimensional random variables, several (possibly different) one-variate bases are to be combined together to produce a single $\nvars$-variate polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, $\vz \in \real^\nvars$ (see \cite{xiu2010, maitre2010}).
 
+\subsubsection{Recurrence of Polynomial Expansions}
 Having an appropriate basis chosen, we apply the PC procedure to power in \eref{recurrence} and truncate the resulting infinite series in order to make it feasible for practical implementations. Such an expansion is formally defined as
 \begin{equation} \elabel{pc-expansion}
   \oPC{\nvars}{\pcorder}{\vP_k(\o)} := \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \; \pcb_i(\vZ(\o))
@@ -42,6 +44,7 @@ Multiplying the above equation by each polynomial from the basis and making use 
 \end{equation}
 where $k = 1, \dotsc, \nsteps$ and $i = 1, \dotsc, \pcterms$. Finally, \eref{fourier-output} and \eref{pc-recurrence} are combined together to compute the coefficients of the PC expansion of the temperature vector $\vTO_k(\o)$.
 
+\subsubsection{Calculation of Expansion Coefficients}
 The general formula of a truncated PC expansion applied to the power term in \eref{recurrence} is given in \eref{pc-expansion}.
 Let us now find the coefficients of the expansion in \eref{pc-expansion}, $\pcc{\vP}_{ki}$, which will be propagated to temperature (\eref{pc-recurrence} and \eref{fourier-output}).
 To this end, a spectral projection of the stochastic quantity being expanded, \ie, $\vP_k(\o)$, is to be performed onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$, where $\pcterms$ is the number of polynomials in the truncated basis.
@@ -57,6 +60,7 @@ In general, the inner product in \eref{pc-coefficients}, defined by \eref{inner-
 This task is independent from the development in this section and, therefore, is discussed separately in \aref{gauss-quadrature}.
 It is worth being mentioned that, since $\vP(\o)$ depends on temperature (see \sref{power-model}), at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the current PC expansion of temperature, \ie, $\vTO_{k - 1}(\o)$.
 
+\subsubsection{Computational Challenges}
 From the development above, it is important to note that the theory of PC expansions suffers from the so-called curse of dimensionality.
 \eref{pc-coefficients} together with \eref{pc-terms} reveal this problem: when the number of stochastic dimensions increases, the number of polynomial terms as well as the complexity of the corresponding coefficients exhibit a growth, which is exponential without special treatments.
 The problem does not have a general solution and is one of the central topics of many ongoing studies.

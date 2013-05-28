@@ -1,3 +1,4 @@
+\input{include/assets/integration-grids.tex}
 As mentioned in \sref{ie-polynomial-chaos} and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which, in general, should be calculated numerically.
 In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding set of prescribed weights.
 Such pairs of nodes and weights are called quadrature rules \cite{press2007}.
@@ -25,7 +26,6 @@ where $\{ \pcn_i \}_{i = 1}^{\pcterms}$ are computed exactly, either by directly
 It is important to note that $\qdlevel$ should be chosen in such a way that the rule is exact for polynomials of total order at least $2 \pcorder$, \ie, twice the order of the PC expansion, which can be seen in \eref{pc-coefficients} \cite{eldred2008}.
 Therefore, $\qdlevel \geq \pcorder + 1$ as the quadrature is Gaussian.
 
-\input{include/assets/integration-grids.tex}
 There is one more and, arguably, the most crucial aspect of numerical integration that we ought to discuss: the algorithm used to construct multidimensional quadratures.
 In low dimensions, the construction can be easily based on the direct tensor product of one-dimensional rules.
 However, in high dimensions, the situation changes dramatically as the number of points produced by this approach can easily explode.
