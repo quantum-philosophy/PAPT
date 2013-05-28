@@ -34,5 +34,6 @@ Moreover, it can be shown that most of the points obtained in such a way do not 
 To tackle this difficulty, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.
 For instance, in the example given earlier, the number of nodes computed by the algorithm would be only $1,581$.
-Yet another example of the computational savings delivered by the Smolyak algorithm is given in \fref{integration-grids} \cite{eldred2008} where, in two dimensions, a full-tensor product grid is plotted side by side with a sparse grid of the same integration accuracy.\footnote{This example uses a Clenshaw-Curtis quadrature rule, which is an important alternative to Gaussian quadratures; see \cite{eldred2008} for further details.}
+Another example is given in \fref{integration-grids} \cite{eldred2008} where, in two dimensions, a full-tensor product grid is plotted side by side with a sparse grid of the same integration power.\footnote{This example uses a Clenshaw-Curtis quadrature rule, which is an important alternative to Gaussian quadratures; see \cite{eldred2008} for further details.}
 Each dot in the figure is an evaluation of the function being integrated.
+It can be seen that the Smolyak algorithm allows for considerable savings of the computational time.

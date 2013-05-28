@@ -27,9 +27,10 @@ It can be seen that the curves tightly follow each other.
 \input{include/assets/experimental-results-pdf.tex}
 
 \subsection{Accuracy \versus\ Spatial Correlations}
-Let us now investigate the accuracy properties of the proposed framework for different correlation patterns (recall \sref{illustrative-example}).
-Specifically, we shall shift the balance between the two correlation kernels shown in \eref{correlation-function}, \ie, the squared exponential $\fCorr_\SE$ and Ornstein-Uhlenbeck $\fCorr_\OU$ kernels.
-The contributions of the kernels is controlled by $\eta$, which was set to its default value of $0.5$ in the experiment in \sref{er-polynomial-order}.
+Let us have a look at the accuracy of the proposed framework with respect to different correlation patterns between the local random variables $\lLeff_i(\o)$ (recall \sref{illustrative-example}).
+Specifically, we shall change the balance between the two correlation kernels shown in \eref{correlation-function}, \ie, the squared exponential $\fCorr_\SE$ and Ornstein-Uhlenbeck $\fCorr_\OU$ kernels.
+The contributions of the kernels is controlled by $\eta$, which was set to its default value of $0.5$ in the experiment in \sref{er-polynomial-order} favoring no kernel.
+Now we set it to the extreme values zero and one, which gives the full power either to $\fCorr_\SE$, when $\eta = 1$, or to $\fCorr_\OU$, when $\eta = 0$.
 
 Guided by the above observations, we fix the polynomial order $\pcorder$ to four for the rest of the experiments and conclude that the error of our technique is bounded by less than $0.2\%$ for expectation and less than $2\%$ for variance and \pdf.
 In addition, based \tref{accuracy-polynomial-order} together with theoretical estimates of the accuracy of MC sampling \cite{diaz-emparanza2002} and the experience from the literature \cite{xiu2010, maitre2010, shen2009, eldred2008}, we let the MC approach with the number of samples $\nsamples$ equal to $10^4$ be the etalon for the evaluation of the proposed framework.

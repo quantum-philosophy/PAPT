@@ -4,12 +4,12 @@ Therefore, the same workload applied to two ``identical'' dies can lead to two d
 Consequently, process variation leads to performance degradation in the best case and to severe faults or burnt silicon in the worst scenario.
 Under these circumstances, uncertainty quantification \cite{xiu2010, maitre2010} has evolved into an indispensable asset of the multiprocessor system designs that can provide high guaranties on the efficiency and robustness of their products to the end user.
 
-\input{include/assets/motivation-curve.tex}
+\input{include/assets/motivation-temperature.tex}
 As an example, consider a quad-core architecture subjected to the uncertainty of the parameters that affect the leakage current; the experimental setup will be detailed in \sref{illustrative-example} and \sref{experimental-results}.
 Assume first that these parameters have nominal values. We can then simulate the system under a certain workload and observe the corresponding temperature profile.
-The result, labeled as ``Nominal'', is depicted in \fref{motivation-curve} where, for clarity, only two curves, corresponding to two processors, are presented (the two bottom blue lines). It can be seen that the temperature is always below $70^{\circ}$C.
-Now let us assume a mild deviation of the parameters from the nominal values and run the simulation once again. The result is the ``Mild'' curves in \fref{motivation-curve} (the two middle orange lines); the maximal temperature is already above $80^{\circ}$C.
-Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curves labeled as ``Severe'' in \fref{motivation-curve} (the two top green lines); the maximal temperature is almost $110^{\circ}$C.
+The result, labeled as ``Nominal'', is depicted in \fref{motivation-temperature} where, for clarity, only two curves, corresponding to two processors, are presented (the two bottom blue lines). It can be seen that the temperature is always below $70^{\circ}$C.
+Now let us assume a mild deviation of the parameters from the nominal values and run the simulation once again. The result is the ``Mild'' curves in \fref{motivation-temperature} (the two middle orange lines); the maximal temperature is already above $80^{\circ}$C.
+Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curves labeled as ``Severe'' in \fref{motivation-temperature} (the two top green lines); the maximal temperature is almost $110^{\circ}$C.
 Imagine that the designer, when tuning the solution constrained by a maximal temperature of $80^\circ$C, was guided exclusively by the nominal parameters. In this case, even with mild deviations, the circuits might be burnt.
 The amount of burnt circuits depends on the probability distribution of these deviations.
 Such an uncertainty has to be addressed in order to pursue efficiency and robustness.
