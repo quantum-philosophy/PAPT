@@ -1,9 +1,10 @@
 function plotDensity(filename)
   setup;
+  close all;
 
   alpha = 0.05;
   mctol = 1e-3;
-  shrunkStepCount = 25;
+  shrunkStepCount = 10;
   maximalSampleCount = 1e4;
 
   load(filename);
@@ -54,9 +55,10 @@ function plotDensity(filename)
 
   labels = {};
 
-  fprintf('%5s %16s %5s %16s\n', 'H1', 'p1', 'H2', 'p2');
-  for i = 1:0
-    for j = 1:0
+  fprintf('%5s %10s %10s %10s %5s %10s %10s %10s\n', ...
+    'H1', 'p1', 'jbstat', 'critval', 'H2', 'p2', 'jbstat', 'critval');
+  for i = 1:stepCount
+    for j = 1:processorCount
       data = squeeze(DATA(j, i, :));
 
       if i == k
@@ -67,12 +69,13 @@ function plotDensity(filename)
 
       % continue;
 
-      [ tdata, lambda ] = boxcox(data);
+      tdata = boxcox(data);
 
-      [ H1, p1 ] = jbtest(data, alpha, mctol);
-      [ H2, p2 ] = jbtest(tdata, alpha, mctol);
+      [ H1, p1, jbstat1, critval1 ] = jbtest(data, alpha, mctol);
+      [ H2, p2, jbstat2, critval2 ] = jbtest(tdata, alpha, mctol);
 
-      fprintf('%5d %16.12f %5d %16.12f\n', H1, p1, H2, p2);
+      fprintf('%5d %10.2e %10.2e %10.2e %5d %10.2e %10.2e %10.2e\n', ...
+        H1, p1, jbstat1, critval1, H2, p2, jbstat2, critval2);
 
       if H1 == 0, passed1 = passed1 + 1; end
       if H2 == 0, passed2 = passed2 + 1; end
@@ -87,18 +90,31 @@ function plotDensity(filename)
   fprintf('Tests passed for the transformed data: %d / %d.\n', ...
     passed2, stepCount * processorCount);
 
-  data = squeeze(DATA(1, k, :));
-  tdata = log(data);
+  for i = 1:processorCount
+    figure;
 
-  figure;
-  subplot(1, 2, 1);
-  normplot(data);
+    data = squeeze(DATA(i, k, :));
+    subplot(1, 3, 1);
+    normplot(data);
+    Plot.title('Original');
+    Plot.label('Temperature', 'Probability');
 
-  subplot(1, 2, 2);
-  normplot(tdata);
+    tdata = log(data);
+    subplot(1, 3, 2);
+    normplot(tdata);
+    Plot.title('Log');
+    Plot.label('ln(Temperature)', 'Probability');
 
-  figure;
-  hist(tdata, 100);
+    tdata = boxcox(data);
+    subplot(1, 3, 3);
+    normplot(tdata);
+    Plot.title('Box-Cox');
+    Plot.label('BoxCox(Temperature)', 'Probability');
+
+    figure;
+    hist(tdata, 100);
+    Plot.title('Box-Cox');
+  end
 end
 
 function [ xp, lambda, c, Lmax ] = boxcox(x, lambda)
