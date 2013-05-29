@@ -4,10 +4,10 @@ All the experiments are conducted on a GNU/Linux machine with Intel Core i7 2.66
 Now we shall describe the default configuration of our experimental setup, which, in the following subsections, will be adjusted according to the purpose of each particular experiment.
 We consider a 45-nanometer technological process.
 The effective channel length is assumed to deviate by $5\%$ from the nominal value of 45~nm where the global and local variations are equally weighted \cite{juan2011, juan2012}.
-Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the die, and the weighting coefficient $\eta$ to $0.5$.
+Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the die.
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to $0.99$ preserving $99\%$ of the variance of the data.
 Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.
-The floorplans of the platforms are constructed in such a way that the processing elements form regular grids, as it is the case with, \eg, Alpha 21264 studied in \cite{juan2011}.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which is used to construct the thermal RC circuits, are available online at \cite{sources}.}
+The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which is used to construct the thermal RC circuits, are available online at \cite{sources}.}
 Time steps of power and temperature traces are set to one millisecond (see \sref{problem-formulation}).
 To assess the performance of our framework, we employ a Monte Carlo (MC) sampling technique.
 For each sample, \ie, for each outcome of the uncertain parameters, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} implemented in MATLAB \cite{matlab}.
