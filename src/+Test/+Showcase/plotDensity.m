@@ -11,19 +11,23 @@ function plotDensity(filename)
   DATA = Tdata;
 
   [ processorCount, stepCount, sampleCount ] = size(DATA);
+  fprintf('Processor count: %d\n', processorCount);
+  fprintf('Step count:      %d (%.2f s)\n', stepCount, stepCount * 1e-3);
+  fprintf('Sample count:    %d\n', sampleCount);
 
   sampleCount = min(sampleCount, maximalSampleCount);
   DATA = Utils.toCelsius(DATA(:, :, 1:sampleCount));
 
-  startStep = 1 + stepCount / 2 - floor(shrunkStepCount / 2);
+  startStep = floor(1 + stepCount / 2 - shrunkStepCount / 2);
   stepCount = shrunkStepCount;
   endStep = startStep + stepCount - 1;
   DATA = DATA(:, startStep:endStep, :);
 
-  fprintf('Sample count: %d\n', sampleCount);
-  fprintf('Step range:   [ %d, %d ]\n', startStep, endStep);
-
   k = floor(stepCount / 2);
+
+  fprintf('Considered sample count: %d\n', sampleCount);
+  fprintf('Considered step range:   [ %d, %d ]\n', startStep, endStep);
+  fprintf('Considered time moment:  %.2f s\n', (startStep + k) * 1e-3);
 
   figure;
 

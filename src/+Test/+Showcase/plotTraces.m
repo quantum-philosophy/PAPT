@@ -2,14 +2,15 @@ function plotTraces
   setup;
 
   options = Test.configure('processorCount', 4, 'powerScale', 1);
+  display(options);
 
   temperature = Temperature.Analytical.Transient( ...
     options.temperatureOptions);
 
-  processors = 1:4;
+  processors = [ 4 ];
 
   Lnom = LeakagePower.Base.Lnom;
-  scale = [ 1, 0.95, 0.90 ];
+  scale = [ 1.1, 0.95, 0.90 ];
 
   t = (0:(options.stepCount - 1)) * options.samplingInterval;
 
