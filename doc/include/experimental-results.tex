@@ -46,6 +46,8 @@ This observation suggests that the previously mentioned errors of the PC approac
 For example, the results delivered by the fourth-order PC expansions are expected to be more accurate than the reported bound for $\eVar$ of 6\%.
 
 Finally, we would like comment on the effect of the considered correlation patterns.
+Although the number of the independent random variables $\vZ(\o)$ changes when $\eta$ is varied, which we shall see in the next section, the error metrics $\eExp$ and $\ePDF$ do not seem to favor any of the combinations of the correlation kernels.
+However, according to $\eVar$, the case with $\eta = 1$, which corresponds to the squared exponential kernel, stands out to be the least error-prone.
 
 \subsection{Computational Speed}
 \input{include/assets/speed.tex}
@@ -66,6 +68,7 @@ However, even in high dimensions, the proposed framework significantly outperfor
 
 Finally, we investigate the scaling properties of the proposed framework with respect to the duration of the considered time spans, which is directly proportional to the number of steps $\nsteps$ in the power and temperature profiles.
 The results for a quad-core architecture are given in \tref{speed-time-spans}.
-
-Due to the long execution time demonstrated by the MC approach, its computational times for high values of $\nsteps$ are extrapolated based on a smaller number of samples, \ie, $\nsamples \ll 10^4$.
-It can be seen that both methods scale linearly with $\nsteps$. However, the proposed framework shows a vastly superior performance.
+Due to the long execution times demonstrated by the MC approach, its statistics for high values of $\nsteps$ are extrapolated based on a smaller number of samples, \ie, $\nsamples \ll 10^4$.
+As it was noted before with respect to \tref{speed-processing-elements}, we observe a prominent dependency of the PC-based technique on the dimensionality of $\vZ(\o)$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
+It can be seen in \tref{speed-time-spans} that the computational times of both methods grow linearly with $\nsteps$, which is expected.
+However, the proposed framework shows a vastly superior performance being five orders of magnitude faster than MC sampling.
