@@ -20,7 +20,7 @@ function drawTemperature(time, expectationSet, varianceSet, varargin)
 
   switch layout
   case 'separate'
-  case 'joint'
+  case 'one'
     figure;
     Plot.title('Temperature');
     Plot.label('Time, s', 'Temperature, C');
@@ -38,7 +38,7 @@ function drawTemperature(time, expectationSet, varianceSet, varargin)
       Plot.label('Time, s', 'Temperature, C');
       Plot.limit(time);
       legend = {};
-    case 'joint'
+    case 'one'
     end
 
     color = Color.pick(i);
@@ -67,13 +67,13 @@ function drawTemperature(time, expectationSet, varianceSet, varargin)
     switch layout
     case 'separate'
       Plot.legend(legend{:});
-    case 'joint'
+    case 'one'
     end
   end
 
   switch layout
   case 'separate'
-  case 'joint'
+  case 'one'
     Plot.legend(legend{:});
   end
 end
