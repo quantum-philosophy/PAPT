@@ -15,10 +15,11 @@ We also denote the whole operation, \ie, the reduction-aware Nataf transformatio
 \]
 where $\vZ'''(\o) \in \real^\nvars$, and the superscript signifies the fact that we are interested in expressing $\vU(\o)$ \via\ $\vZ'''(\o)$ and, hence, we need to perform all the operations in the reversed order.
 
-At this point, we have $\nvars$ independent Gaussian variables $\vZ'''(\o)$; however, we wish to work with independent beta-distributed variables instead, which will be our final independent parameters denoted by $\vZ(\o)$.
-Therefore, we undertake one additional transformation on top.
+At this point, we have $\nvars$ independent Gaussian random variables $\vZ'''(\o)$, which already suffices the independence prerequisite of PC expansions (see \sref{uncertain-parameters}).
+However, as motivated earlier, we prefer to work with independent beta-distributed random variables instead since the PC expansions constructed in terms of such variables will have bounded supports, which potentially can deliver more realistic models.
+Therefore, we undertake one additional transformation on top resulting in our final independent parameters denoted by $\vZ(\o)$ throughout the paper.
 This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\fCDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\fCDF_{\vZ'''}$.
-The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU(\o)$ to $\vZ(\o)$ is then
+The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU(\o)$ to $\vZ(\o)$ is
 \[
   \vU(\o) = \oTransform{\vZ(\o)} = \oInvNataf{\fCDF^{-1}_{\vZ'''}(\fCDF_{\vZ}(\vZ(\o)))}.
 \]
