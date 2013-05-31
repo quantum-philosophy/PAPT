@@ -79,12 +79,6 @@
 \newcommand{\colMC}[1]{$\scriptstyle \nsamples = 10^#1$}
 
 %
-% Misc
-%
-\newcommand{\idot}{\cdot}
-\newcommand{\ifrac}[2]{{{#1}/{#2}}}
-
-%
 % Spaces
 %
 \renewcommand{\L}[1]{\mathcal{L}_{#1}}
@@ -112,7 +106,7 @@
 \newcommand{\outcomes}{\Omega}
 \renewcommand{\o}{\omega}
 \newcommand{\sAlgebra}{\mathcal{F}}
-\newcommand{\pMeasure}{\mathcal{P}}
+\newcommand{\pMeasure}{\mathbb{P}}
 
 \newcommand{\dBeta}{\text{Beta}}
 
@@ -261,7 +255,7 @@
 \def\profilePWithArgument#1{\profile{\mP(#1)}}
 \def\profilePWithoutArgument{\profile{\mP}}
 
-\newcommand{\profilePdyn}{(\mP_\dyn, \partition{\mP})}
+\newcommand{\profilePdyn}{(\mP_\dyn, \partition{\mP_\dyn})}
 
 \def\profileT{\@ifnextchar\bgroup{\profileTWithArgument}{\profileTWithoutArgument}}
 \def\profileTWithArgument#1{\profile{\mTO(#1)}}

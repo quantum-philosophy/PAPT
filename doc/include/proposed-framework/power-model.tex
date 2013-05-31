@@ -3,10 +3,10 @@ Such a model can be generally expressed as the following $\nprocs$-dimensional f
 \begin{equation} \elabel{power-model}
   \vP(\t, \o) = \oPower{\vTO(\t, \o), \vU(\o)}
 \end{equation}
-where $\vP(\t, \o) \in \real^\nprocs$ is a vector of the power dissipation at time $\t$ and a given outcome of the probability space $\o \in \outcomes$.
-Note that, for brevity, we do not write explicitly the dependency of $\vP$ and $\vTO$ on $\vU(\omega)$ and use $\omega$ instead.
+where $\vP(\t, \o) \in \real^\nprocs$ and $\vTO(\t, \o) \in \real^\nprocs$ are vectors of power and temperature, respectively, at time $\t$ and a given outcome of the probability space $\o \in \outcomes$.
+Note that, for brevity, we do not repeat the dependency on $\vU(\omega)$ and use $\omega$ instead.
 Also, since $\vU(\o) = \oTransform{\vZ(\o)}$, we shall use $\vZ(\o)$ instead of $\vU(\o)$, which implies no loss of generality.
 The user can choose any $\oPower$: it can be a closed-form formula, a piece of code, or the output of a power simulator that takes in, for some fixed $\o \in \outcomes$, the temperature vector $\vTO(\t, \o)$ and uncertain parameters $\vU(\o)$ and computes the corresponding total power $\vP(\t, \o)$.
-The only assumption we make about $\oPower$ is that the function is smooth in $\vZ(\o)$ and has finite variance, which is applicable to most physical systems \cite{xiu2010}.
-In can be seen that the definition of $\oPower$ is flexible enough to account for such effects as the interdependency between leakage and temperature \cite{srivastava2010, liu2007}, which is further discussed in \sref{ie-power-model}.
-It should be noted that the operation performed by $\oPower$ is purely deterministic.
+The only assumption we make about $\oPower$ is that the function is smooth in $\vZ(\o)$ and has a finite variance, which is applicable to most physical systems \cite{xiu2010}.
+Note also that the operation performed by $\oPower$ is purely deterministic.
+In can be seen that the definition of $\oPower$ is flexible enough to account for such effects as the interdependency between leakage and temperature \cite{srivastava2010, liu2007}, which is discussed in \sref{ie-power-model}.
