@@ -239,8 +239,8 @@
 \makeatletter
 \def\oPower{\@ifnextchar\bgroup{\oPowerPlus}{\oPowerZero}}
 \def\oPowerPlus#1{\@ifnextchar\bgroup{\oPowerTwo{#1}}{\oPowerOne{#1}}}
-\def\oPowerTwo#1#2{\Pi_{#1}\left[#2\right]}
-\def\oPowerOne#1{\Pi\left[#1\right]}
+\def\oPowerTwo#1#2{\Pi_{#1}\left(#2\right)}
+\def\oPowerOne#1{\Pi\left(#1\right)}
 \def\oPowerZero{\Pi}
 \makeatother
 

@@ -1,6 +1,6 @@
 At \stage{4}, the uncertain parameters, power model, and thermal model developed in the previous sections are to be fused together under the desired workload, $\profilePdyn$, to produce the corresponding stochastic power $\profileP{\o}$ and temperature $\profileT{\o}$ profiles.
 The construction of PC expansions, in the current scenario, is based on the Jacobi polynomial basis (see \tref{askey} in the appendix) as it is preferable in situations involving beta-distributed parameters \cite{xiu2010}.
-To give an example, for a dual-core platform (\ie, $\nprocs = 2$) with two stochastic dimensions (\ie, $\nvars = 2$), the second-order PC expansion (\ie, $\pcorder = 2$) of temperature at the $k$th moment of time has the following expression:
+To give an example, for a dual-core platform (\ie, $\nprocs = 2$) with two stochastic dimensions (\ie, $\nvars = 2$), the second-order PC expansion (\ie, $\pcorder = 2$) of temperature at the $k$th moment of time has the following form:
 \begin{align}
   & \oPC{2}{2}{\vTO_k(\o)} = \pcc{\vTO}_{k1} \pcb_1(\vZ(\o)) + \pcc{\vTO}_{k2} \pcb_2(\vZ(\o)) + \pcc{\vTO}_{k3} \pcb_3(\vZ(\o)) \nonumber \\
   & {} \; \; + \pcc{\vTO}_{k4} \pcb_4(\vZ(\o)) + \pcc{\vTO}_{k5} \pcb_5(\vZ(\o)) + \pcc{\vTO}_{k6} \pcb_6(\vZ(\o)) \elabel{pc-example}
@@ -17,9 +17,9 @@ Once the basis has been chosen, we need to compute the corresponding coefficient
 As shown in \aref{polynomial-chaos}, the computation of $\pcc{\vP}_i$ involves multidimensional integration with respect to the \pdf\ of $\vZ(\o)$.
 In numerical analysis, this task is typically accomplished by virtue of a quadrature rule \cite{press2007}, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
 These points along with the corresponding weights are generally precomputed and tabulated; for this purpose, we use the library of MATLAB codes available at \cite{burkardt2013}.
-A natural choice of a quadrature rule when a beta distribution is concerned is the Gauss-Jacobi quadrature.
+A natural choice of a quadrature rule when beta distributions are concerned is the Gauss-Jacobi quadrature.
 Additional details are given in \aref{gauss-quadrature}.
 
 To summarize, we have completed four out of five stages of the proposed framework depicted in \fref{algorithm}.
-The result is a light surrogate of the model in \eref{fourier-system}.
+The result is a light surrogate for the model in \eref{fourier-system}.
 At each moment of time, the surrogate is composed of two $\nprocs$-valued polynomials, one for power and one for temperature, that are defined in terms of $\nvars$ mutually independent random variables; an example of such a polynomial is given in \eref{pc-example}.

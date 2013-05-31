@@ -1,7 +1,7 @@
 As mentioned in \sref{problem-formulation}, the user of the framework is supposed to decide on the power model for the multiprocessor system under consideration.
 Such a model can be generally expressed as the following $\nprocs$-dimensional functional $\oPower$ where $\nprocs$ is the number of processing elements in the system:
 \begin{equation} \elabel{power-model}
-  \vP(\t, \o) = \oPower{\vTO(\t, \o), \vU(\o)}
+  \vP(\t, \o) = \oPower{\t, \vTO(\t, \o), \vU(\o)}
 \end{equation}
 where $\vP(\t, \o) \in \real^\nprocs$ and $\vTO(\t, \o) \in \real^\nprocs$ are vectors of power and temperature, respectively, at time $\t$ and a given outcome of the probability space $\o \in \outcomes$.
 Note that, for brevity, we do not repeat the dependency on $\vU(\omega)$ and use $\omega$ instead.

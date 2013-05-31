@@ -1,6 +1,7 @@
 At \stage{2}\ in \fref{algorithm}, we need to decide on the power model with the identified uncertain parameters as an input.
-To this end, \eref{power-model} is decomposed into the sum of dynamic and static components denoted by $\oPower{\dyn}{\vU(\o)}$ and $\oPower{\stat}{\vTO(\t, \o), \vU(\o)}$, respectively.
-As motivated in the previous subsection, we let $\oPower{\dyn}{\vU(\o)} = \vP_\dyn(\t)$ (does not depend on $\vU(\o)$).
+To this end, \eref{power-model} is decomposed into the sum of dynamic and static components denoted by $\oPower{\dyn}{\t, \vU(\o)}$ and $\oPower{\stat}{\vTO(\t, \o), \vU(\o)}$, respectively.
+As motivated in the previous subsection, we let $\oPower{\dyn}{\t, \vU(\o)} = \vP_\dyn(\t)$ (does not depend on $\vU(\o)$).
+We assume that the desired workload of the system is given a dynamic power profile denoted by $\profilePdyn$.
 Without loss of generality, the development of the static part is based on SPICE simulations of a reference electrical circuit composed of BSIM4 devices (v4.7.0) \cite{bsim} configured according to the 45-nm PTM (high-performance) \cite{ptm}.
-The simulations are performed for a fine-grained two-dimensional grid, the effective channel length \versus\ temperature, and the result is further tabulated.
-The linear interpolation facilities of MATLAB (vR2013a) \cite{matlab} are then used whenever we need to evaluate the leakage current for a particular point within the range of the grid, which is set to be sufficiently wide.
+The simulations are performed for a fine-grained two-dimensional grid, the effective channel length \versus\ temperature, and the results are tabulated.
+The linear interpolation facilities of MATLAB (vR2013a) \cite{matlab} are then used whenever we need to evaluate the leakage power for a particular point within the range of the grid, which is chosen to be sufficiently wide.

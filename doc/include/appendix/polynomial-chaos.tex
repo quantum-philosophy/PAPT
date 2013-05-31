@@ -1,9 +1,7 @@
-In this section, we discuss certain properties of the PC expansions that form the core of the proposed approach and are extensively utilized at \stage{4}\ described in \sref{polynomial-chaos}.
+In this section, we discuss the orthogonality property \cite{xiu2010, maitre2010} of PC expansions, which is extensively utilized at \stage{4}\  depicted in \fref{algorithm} and described in \sref{polynomial-chaos}.
 
-Due to the inherent complexity, real-world uncertainty quantification problems are typically viewed as approximation problems, wherein one first constructs light representations of the initial models and then studies the constructed surrogates as they are computationally more efficient.
-PC expansions \cite{xiu2010} are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
-In this section, we provide some of the basic properties \cite{xiu2010, maitre2010} of this class of polynomials necessary for the PC expansions of power and temperature derived in \sref{polynomial-chaos}.
-
+Due to the inherent complexity, real-world uncertainty quantification problems are typically viewed as approximation problems wherein one first constructs light representations of the initial models and then studies the constructed surrogates as they are computationally more efficient.
+Polynomial chaos (PC) expansions \cite{xiu2010}, forming the core of our framework, are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
 A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
 \begin{equation} \elabel{orthogonality}
   \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
@@ -13,9 +11,10 @@ The inner product with a weight function $\fPDF(\vz)$ is defined as the followin
 \begin{equation} \elabel{inner-product}
   \oInner{h(\vz)}{g(\vz)} := \int h(\vz) g(\vz) \fPDF(\vz) d\vz.
 \end{equation}
-In the stochastic context, the parameters $\vz$ correspond to random variables, denoted by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
-Some of the standard distributions and the corresponding polynomial bases are given in \tref{askey} \cite{eldred2008}; these polynomials can be found in the Askey scheme \cite{xiu2010} of hypergeometric orthogonal polynomials.
+In the stochastic context, the parameters $\vz$ correspond to random variables, which we denote by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
+Some of the standard distributions and the corresponding polynomial bases are given in \tref{askey} \cite{eldred2008} and can be found in the Askey scheme \cite{xiu2010} of hypergeometric orthogonal polynomials.
 It can be seen that the weight functions are equal the \pdfs\ of the corresponding probability distributions up to constant multipliers.
 Therefore, the inner product coincides with the covariance operator.
 Consequently, the presence of orthogonality is equivalent to the absence of correlations.
-Note that, although we focus on continuous random variables, the PC approach and, thus, our framework work equally well for discrete probability distributions; see, \eg, \cite{xiu2010, maitre2010}.
+
+It is worth being mentioned that, although this paper focuses on continuous random variables, the PC approach and, thus, our framework work equally well for discrete probability distributions; see, \eg, \cite{xiu2010, maitre2010}.
