@@ -4,7 +4,7 @@ We use the widespread model based on Fourier's heat equation \cite{kreith2000}, 
   \mC \: \frac{d\vTI(\t)}{d\t} + \mG \: \vTI(\t) = \mM \: \vP(\t) \elabel{fourier-original} \\
   \vTO(\t) = \mM^T \vTI(\t) + \vTO_\amb
 \end{subnumcases}
-where the number of differential equations is equal to the number of thermal nodes denoted by $\nnodes$; $\mC \in \real^{\nnodes \times \nnodes}$ and $\mG \in \real^{\nnodes \times \nnodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nnodes$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\nprocs$ and $\mM \in \real^{\nnodes \times \nprocs}$ are the input vector of power and its mapping matrix to the thermal nodes; $\vTO \in \real^\nprocs$ is the temperature vector of the processing elements, and $\vTO_\amb \in \real^\nprocs$ is the vector of the ambient temperature.
+where the number of differential equations is equal to the number of thermal nodes denoted by $\nnodes$; $\mC \in \real^{\nnodes \times \nnodes}$ and $\mG \in \real^{\nnodes \times \nnodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nnodes$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\nprocs$ and $\mM \in \real^{\nnodes \times \nprocs}$ are the input vector of power and its mapping matrix to the thermal nodes; $\vTO \in \real^\nprocs$ is the temperature vector of the processing elements; and $\vTO_\amb \in \real^\nprocs$ is the vector of the ambient temperature.
 For convenience, we perform an auxiliary transformation of the system in \eref{fourier-system-original} using \cite{ukhov2012}
 \[
   \vX = \mC^\frac{1}{2} \vTI, \hspace{1em} \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \hspace{1em} \text{and} \hspace{1em} \mB = \mC^{-\frac{1}{2}} \mM
@@ -14,7 +14,7 @@ In general, the differential part in \eref{fourier-system} (and in \eref{fourier
 Therefore, there is no closed-form solution to the system.
 
 The time intervals of the power profile (see \sref{problem-formulation}) are assumed to be short enough such that the total power can be approximated as constant within one interval.
-In this case, \eref{fourier-de} is a system of linear differential equations that can be solved analytically.
+In this case, \eref{fourier-de} (and \eref{fourier-original}) is a system of linear differential equations that can be solved analytically.
 The solution is \cite{ukhov2012}
 \begin{equation} \elabel{ode-solution}
   \vX(\t) = \mCF(\t) \: \vX(0) + \mCS(\t) \: \vP(0)

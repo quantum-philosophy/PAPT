@@ -2,17 +2,17 @@
 In this section, we report the results of the proposed framework for different configurations of the illustrative example in \sref{illustrative-example}.
 All the experiments are conducted on a GNU/Linux machine with Intel Core i7 2.66~GHz and 8~GB of RAM.
 
-Now we shall describe the default configuration of our experimental setup, which, in the following subsections, will be adjusted according to the purpose of each particular experiment.
+Now we shall elaborate on the default configuration of our experimental setup, which, in the following subsections, will be adjusted according to the purpose of each particular experiment.
 We consider a 45-nanometer technological process.
 The effective channel length is assumed to deviate by 5\% from the nominal value of 45~nm where the global and local variations are equally weighted \cite{juan2011, juan2012}.
-Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the die.
+Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the square die.
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
 Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
-Time steps of power and temperature traces are set to one millisecond (see \sref{problem-formulation}).
+Time steps of power and temperature traces are set to 1 ms (see \sref{problem-formulation}).
 To assess the performance of our framework, we employ a Monte Carlo (MC) sampling technique.
 For each sample, \ie, for each outcome of the uncertain parameters, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.
-The power model used inside MC sampling is the same as for our technique except the fact that no model order reduction is performed in order to maximize the accuracy of the MC-based approach.
+The power model used inside MC sampling is the same as for our technique except the fact that no model order reduction is performed in order to preserve the full accuracy of the MC-based approach.
 
 \subsection{Approximation Accuracy} \slabel{er-accuracy}
 The first set of experiments is aimed to identify the accuracy of our framework with respect to MC simulations.
@@ -22,7 +22,7 @@ In these experiments, we shall vary the order $\pcorder$ of the PC expansions co
 The considered values for $\pcorder$ and $\nsamples$ are the sets $\{ n \}_{n = 1}^7$ and $\{ 10^n \}_{n = 1}^5$, respectively.
 In addition to these two dimensions, let us inspect the accuracy of the proposed framework with respect to different correlation patterns between the local random variables $\lLeff_i(\o)$ (recall \sref{illustrative-example}).
 Specifically, apart from $\pcorder$ and $\nsamples$, we shall also change the balance between the two correlation kernels shown in \eref{correlation-function}, \ie, the squared exponential $\fCorr_\SE$ and Ornstein-Uhlenbeck $\fCorr_\OU$ kernels.
-The contributions of the kernels is controlled by the weight parameter $\eta$, which will be set to one of values from the set $\{ 0, 0.5, 1 \}$.
+The contributions of the kernels is controlled by the weight parameter $\eta$, which will be set to one of the values from the set $\{ 0, 0.5, 1 \}$.
 The three cases correspond to the total dominance of $\fCorr_\OU$, perfect balance between $\fCorr_\SE$ and $\fCorr_\OU$, and total dominance of $\fCorr_\SE$, respectively.
 
 \input{include/assets/experimental-results-pdf.tex}
@@ -35,19 +35,19 @@ Let us focus on the PC-based technique.
 It can be seen that the deviation of expectation of our approach is small even for $\pcorder = 1$; more precisely, it is bounded by 1\% (see $\eExp$ for $\pcorder \geq 1$ and $\nsamples \geq 10^3$).
 The \nrmse\ of variance, $\eVar$, starts from about 90\% for the first-order PC expansions and drops significantly to less than 6\% for the fourth order (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
 The results of the third error metric, $\ePDF$, is of particular importance since it allows us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed errors of the proposed framework are bounded by 2\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
-\fref{experimental-results-pdf} gives an example of the \pdfs\ obtained using our framework with $\pcorder = 4$ (the dashed lines) along with those estimated by the MC approach with $\nsamples = 10^4$ (the solid lines).
+\fref{experimental-results-pdf} gives an example of the \pdf\ obtained using our framework with $\pcorder = 4$ (the dashed lines) along with those estimated by the MC approach with $\nsamples = 10^4$ (the solid lines).
 It can be seen that the empirical \pdfs\ tightly match each other.
 
-Now we shall take a closer look at the convergence of the MC-based technique. To this end, let us concentrate on the rows of \tref{accuracy} that correspond to the PC expansions of high orders.
+Now we shall take a closer look at the convergence of the MC-based technique. With this in mind, let us concentrate on the rows of \tref{accuracy} that correspond to the PC expansions of high orders.
 It can be seen that the MC approach with $\nsamples = 10^2$ has a significantly high error rate, namely, it is above 50\% for variance and above 8\% for \pdfs\ (see $\eVar$ and $\ePDF$ for $\pcorder \geq 3$ and $\nsamples = 10^2$).
 The results of MC sampling with $\nsamples = 10^3$ are reasonably more accurate; however, the error of variance is still rather high (see $\eVar$ for $\pcorder = 7$ and $\nsamples = 10^3$).
 It should also be noted that, for a fixed $\pcorder \geq 3$, $\eVar$ exhibits a firm decrease even for the transition from $\nsamples = 10^4$ to $\nsamples = 10^5$ (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples \geq 10^4$).
 This observation suggests that the previously mentioned errors of the PC approach are overestimated since the maximal number of MC samples, $\nsamples = 10^5$, is not sufficient to reach the accuracy of our framework.
-For example, the results delivered by the fourth-order PC expansions are expected to be more accurate than the reported bound for $\eVar$ of 6\%.
+In particular, the results delivered by the fourth-order PC expansions are expected to be more accurate than the reported bound for $\eVar$ of 6\%.
 
 Finally, we would like comment on the effect of the considered correlation patterns.
-Although the number of the independent random variables $\vZ(\o)$ changes when $\eta$ is varied, which we shall see in the next section, the error metrics $\eExp$ and $\ePDF$ do not seem to favor any of the combinations of the correlation kernels.
-However, according to $\eVar$, the case with $\eta = 1$, which corresponds to the squared exponential kernel, stands out to be the least error-prone.
+Although the number of the independent random variables $\vZ(\o)$ changes when $\eta$ is varied, which we shall see in the forthcoming section, the error metrics $\eExp$ and $\ePDF$ do not seem to favor any of the combinations of the correlation kernels.
+However, according to $\eVar$, the case with $\eta = 1$, which corresponds to the squared exponential kernel, stands out to be the least error prone.
 
 \subsection{Computational Speed}
 \input{include/assets/speed.tex}
@@ -56,10 +56,9 @@ Guided by the observations discussed in \sref{er-accuracy}, for the rest of the 
 
 First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU(\o) \in \real^{\nprocs + 1}$ (recall \sref{illustrative-example}).
 The considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$.
-As in \sref{er-accuracy}, we shall report the results obtained for various values of the correlation weight $\eta$, which impacts the number of the independent random variables $\vZ(\o) \in \real^\nvars$ preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve} (applicable only to the PC approach).
+As in \sref{er-accuracy}, we shall report the results obtained for various assignments of the correlation weight $\eta$, which impacts the number of the independent random variables $\vZ(\o) \in \real^\nvars$ preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve} (applicable only to the PC approach).
 In these experiments, the number of time steps $\nsteps$ is set to $10^3$.
 The results are given in \tref{speed-processing-elements} along with the number of $\vZ(\o)$, $\nvars$.
-
 It can be seen that the correlation patters inherent to the fabrication process \cite{cheng2011} open a great possibility for model order reduction: $\nvars$ is observed to be at most 12 (the maximal number without reduction is 33).
 One can also observe how this number changes with respect to $\eta$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) tends to require the fewest number of variables to retain 99\% of the variance of the data while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) is the most demanding in terms of complexity.\footnote{The results given in \tref{accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for the three variants of $\eta$ in \tref{accuracy}, respectively.}
 Another observation, found in \tref{speed-processing-elements}, is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per one MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
@@ -69,6 +68,6 @@ However, even in high dimensions, the proposed framework significantly outperfor
 Finally, we investigate the scaling properties of the proposed framework with respect to the duration of the considered time spans, which is directly proportional to the number of steps $\nsteps$ in the power and temperature profiles.
 The results for a quad-core architecture are given in \tref{speed-time-spans}.
 Due to the long execution times demonstrated by the MC approach, its statistics for high values of $\nsteps$ are extrapolated based on a smaller number of samples, \ie, $\nsamples \ll 10^4$.
-As it was noted before with respect to \tref{speed-processing-elements}, we observe a prominent dependency of the PC-based technique on the dimensionality of $\vZ(\o)$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
+As it was noted before regarding the results in \tref{speed-processing-elements}, we observe the dependency of the PC expansions on the dimensionality of $\vZ(\o)$, $\nvars$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
 It can be seen in \tref{speed-time-spans} that the computational times of both methods grow linearly with $\nsteps$, which is expected.
 However, the proposed framework shows a vastly superior performance being five orders of magnitude faster than MC sampling.

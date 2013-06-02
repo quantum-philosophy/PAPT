@@ -1,7 +1,6 @@
-In this section, we discuss the orthogonality property \cite{xiu2010, maitre2010} of PC expansions, which is extensively utilized at \stage{4}\  depicted in \fref{algorithm} and described in \sref{polynomial-chaos}.
-
-Due to the inherent complexity, real-world uncertainty quantification problems are typically viewed as approximation problems wherein one first constructs light representations of the initial models and then studies the constructed surrogates as they are computationally more efficient.
-Polynomial chaos (PC) expansions \cite{xiu2010}, forming the core of our framework, are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
+Here we elaborate on the orthogonality property \cite{xiu2010, maitre2010} of PC expansions, which is extensively utilized at \stage{4}\ in \sref{polynomial-chaos}.
+Due to the inherent complexity, uncertainty quantification problems are typically viewed as approximation problems wherein one first constructs light representations of the initial models and then studies the constructed surrogates.
+PC expansions \cite{xiu2010}, forming the core of our framework, are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
 A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
 \begin{equation} \elabel{orthogonality}
   \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
@@ -13,7 +12,7 @@ The inner product with a weight function $\fPDF(\vz)$ is defined as the followin
 \end{equation}
 In the stochastic context, the parameters $\vz$ correspond to random variables, which we denote by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
 Some of the standard distributions and the corresponding polynomial bases are given in \tref{askey} \cite{eldred2008} and can be found in the Askey scheme \cite{xiu2010} of hypergeometric orthogonal polynomials.
-It can be seen that the weight functions are equal the \pdfs\ of the corresponding probability distributions up to constant multipliers.
+It can be seen that the weight functions are equal to the \pdfs\ of the corresponding probability distributions up to constant multipliers.
 Therefore, the inner product coincides with the covariance operator.
 Consequently, the presence of orthogonality is equivalent to the absence of correlations.
 

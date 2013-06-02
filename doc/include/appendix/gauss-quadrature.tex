@@ -1,5 +1,5 @@
 \input{include/assets/integration-grids.tex}
-As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which at \stage{4}\ should be calculated numerically.
+As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which should be calculated numerically at \stage{4}.
 In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding set of prescribed weights.
 Such pairs of nodes and weights are called quadrature rules \cite{press2007}.
 A one-dimensional quadrature rule is characterized by its precision $\qdprecision$, which is defined as the maximal total order \cite{heiss2008} of polynomials that the rule integrates exactly.
@@ -13,7 +13,7 @@ Define such a quadrature-based approximation of the inner product in \eref{inner
   \oInner{h(\vz)}{g(\vz)} \approx \oQuad{\nvars}{\qdlevel}{h(\vz) \: g(\vz)} := \sum_{i = 1}^{\qdorder} h(\qdn{\vz}_i) \: g(\qdn{\vz}_i) \: \qdw_i
 \]
 where $\qdn{\vz}_i \in \real^\nvars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively; $\qdorder$ is their number; and $\qdlevel$ is the accuracy level of the quadrature rule, which is said to be $\nvars$-variate.
-Note that, once the rule to use is identified, $\qdn{\vz}_i$ and $\qdw_i$ are fixed, \ie, there are no any additional computational effort.
+Note that, once the rule to use is identified, $\qdn{\vz}_i$ and $\qdw_i$ are fixed, \ie, there is no any additional computational effort.
 In our experiments in \sref{experimental-results}, we use the library of quadrature rules available at \cite{burkardt2013}.
 
 Since in the illustrative example in \sref{illustrative-example} we need to compute inner products with respect to beta measures, the Gauss-Jacobi quadrature rule is of particular interest.
@@ -30,10 +30,10 @@ There is one more and, arguably, the most crucial aspect of numerical integratio
 In low dimensions, the construction can be easily based on the direct tensor product of one-dimensional rules.
 However, in high dimensions, the situation changes dramatically as the number of points produced by this approach can easily explode.
 For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorder = 4$, then in 10 dimensions, \ie, $\nvars = 10$, the number of nodes becomes $\qdorder^\nvars = 4^{10} = 1,048,576$, which is not affordable.
-Moreover, it can be shown that most of the points obtained in such a way do not contribute to the asymptotic accuracy and, therefore, are a waste of the computational time.
-To tackle this difficulty, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
+Moreover, it can be shown that most of the points obtained in such a way do not contribute to the asymptotic accuracy and, therefore, are a waste of time.
+In order to effectively alleviate this problem, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.
 For instance, in the example given earlier, the number of nodes computed by the algorithm would be only $1,581$.
-Another example is given in \fref{integration-grids} \cite{eldred2008} where, in two dimensions, a full-tensor product grid is plotted side by side with a sparse grid of the same integration power.\footnote{This example uses a Clenshaw-Curtis quadrature rule, which is an important alternative to Gaussian quadratures; see \cite{eldred2008} for further details.}
+In order to give a better appreciation of Smolyak's technique, \fref{integration-grids} displays an example \cite{eldred2008} where a full-tensor product grid is plotted side by side with a sparse grid of the same integration power.\footnote{This example uses a Clenshaw-Curtis quadrature rule, which is an important alternative to Gaussian quadratures; see \cite{eldred2008} for further details.}
 Each dot in the figure is an evaluation of the function being integrated.
-It can be seen that the Smolyak algorithm allows for considerable savings of the computational time.
+It can be seen that the Smolyak algorithm allows for drastic savings of the computational time.
