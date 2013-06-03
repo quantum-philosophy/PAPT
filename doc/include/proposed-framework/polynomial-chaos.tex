@@ -2,7 +2,7 @@ The goal now is to transform the ``problematic'' term in \eref{recurrence}, \ie,
 Our solution is the construction of a surrogate model for the power model in \eref{power-model}, which we further propagate through \eref{recurrence} to obtain an approximation for temperature.
 To this end, we employ polynomial chaos (PC) expansions \cite{xiu2010}, which decompose stochastic quantities into infinite series of orthogonal polynomials of random variables.
 Such series are especially attractive from the post-processing perspective as they are nothing more than polynomials; hence, PC expansions are easy to interpret and easy to evaluate.
-An introduction to orthogonal polynomials, which we shall extensively use in the derivation below, is given in \aref{polynomial-chaos}.
+An introduction to orthogonal polynomials, which we shall rely on in the derivation below, is given in \aref{polynomial-chaos}.
 
 \input{include/assets/hermite.tex}
 \subsubsection{Polynomial basis}
@@ -16,13 +16,13 @@ In order to give a better intuition of what such a basis may look like, \fref{he
 In multiple dimensions, which is the case with the $\nvars$-dimensional random variable $\vZ(\o)$, several (possibly different) univariate bases are to be combined together to produce a single $\nvars$-variate polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, $\vz \in \real^\nvars$ (see \cite{xiu2010, maitre2010}).
 
 \subsubsection{Recurrence of polynomial expansions}
-Having an appropriate basis chosen, we apply the PC expansion formalism to the power term in \eref{recurrence} and truncate the resulting infinite series in order to make it feasible for practical implementations.
+Having chosen an appropriate basis, we apply the PC expansion formalism to the power term in \eref{recurrence} and truncate the resulting infinite series in order to make it feasible for practical implementations.
 Such an expansion is defined as
 \begin{equation} \elabel{pc-expansion}
   \oPC{\nvars}{\pcorder}{\vP_k(\o)} := \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \; \pcb_i(\vZ(\o))
 \end{equation}
 where $\{ \pcb_i(\vz) \}_{i = 1}^{\pcterms}$, $\vz \in \real^\nvars$, is the truncated basis with $\pcterms$ polynomial terms of $\nvars$ variables, and $\pcc{\vP}_{ki} \in \real^\nprocs$ are the coefficients of the expansion.
-The latter are computed using spectral projections as it is described in \sref{pc-coefficients}.
+The latter can be computed using spectral projections as it is described in \sref{pc-coefficients}.
 $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\nvars$-variate polynomials involved in the expansion; hence, $\pcorder$ also determines the resulting accuracy.
 The total number of the PC coefficients, $\pcterms$, is given by the following expression, which corresponds to the total-order polynomial space \cite{eldred2008, beck2011}:
 \begin{equation} \elabel{pc-terms}

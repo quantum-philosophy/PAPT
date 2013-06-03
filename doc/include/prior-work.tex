@@ -1,10 +1,10 @@
 Since the appearance of the first digital computers in 1940s, Monte Carlo (MC) sampling remains one of the most well-known and widely used methods for the analysis of stochastic systems.
-The reason for this popularity lies in the ease of implementation, in the independence of the stochastic dimensionality of the considered problems, and in the fact that the quantities estimated using MC simulations asymptotically approach the true values (the central limit theorem \cite{durrett2010}).
-The crucial problem with MC sampling, however, is the low rate of convergence, \eg, the mean value converges as $\nsamples^{-1/2}$ where $\nsamples$ is the number of samples \cite{xiu2010, maitre2010}.
+The reason for this popularity lies in the ease of implementation, in the independence of the stochastic dimensionality of the considered problems, and in the fact that the quantities estimated using MC simulations asymptotically approach the true values (the laws of large numbers \cite{durrett2010}).
+The crucial problem with MC sampling, however, is the low rate of convergence: the error decreases at the order of $\nsamples^{-1/2}$ where $\nsamples$ is the number of samples \cite{xiu2010, maitre2010}.
 This means that, in order to get an additional decimal point of accuracy, one has to obtain hundred times more samples.
-Each such sample implies a complete realization of the whole system, which makes MC-based methods slow and often infeasible since the number of needed simulations can be extremely large \cite{diaz-emparanza2002}.
+Each such sample implies a complete realization of the whole system, which renders MC-based methods slow and often infeasible since the number of needed simulations can be extremely large \cite{diaz-emparanza2002}.
 
-In order to overcome the limitations of deterministic power-temperature analysis (PTA) and, at the same time, to completely eliminate or, at least, to mitigate the costs associated with MC sampling, a number of alternative stochastic PTA techniques have been recently introduced.
+In order to overcome the limitations of deterministic power-temperature analysis (PTA) and, at the same time, to completely eliminate or, at least, mitigate the costs associated with MC sampling, a number of alternative stochastic PTA techniques have been recently introduced.
 Due to the fact that the leakage component of the power dissipation is influenced by process variation the most \cite{chandrakasan2001, srivastava2010, juan2011, juan2012}, the techniques discussed below primarily focus on the variability of leakage.
 
 A solely power-targeted but temperature-aware solution is proposed in \cite{chandra2010} wherein the driving force of the analysis is MC simulations with partially precomputed data.

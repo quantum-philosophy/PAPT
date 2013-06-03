@@ -1,5 +1,5 @@
-The main idea of our framework is to construct a surrogate model for the joint power and thermal models of the multiprocessor system using the machinery of polynomial chaos (PC) expansions.
-Given this surrogate model, such quantities as cumulative distributions functions (\cdfs) and probability density functions (\pdfs) can be easily estimated. Moreover, the representations, which we compute, provide analytical formulae for probabilistic moments, \ie, the expected value, variance, \etc\ are readily available.
+The main idea of our framework is to construct a surrogate model for the joint power and thermal models of the multiprocessor system using the theory of polynomial chaos (PC) expansions.
+Having constructed this surrogate model, such quantities as cumulative distributions functions (\cdfs) and probability density functions (\pdfs) can be easily estimated. Moreover, the representations, which we compute, provide analytical formulae for probabilistic moments, \ie, the expected value, variance, \etc\ are readily available.
 
 The major stages of our technique are depicted in \fref{algorithm}.
 
@@ -10,7 +10,7 @@ The PC approach operates on mutually independent random variables. The uncertain
 The user specifies the power model of the system \via\ a ``black-box'' functional $\oPower$, which computes the total power $\vP(\t, \o)$ for a particular temperature $\vTO(\t, \o)$ and an outcome of the parameters $\vU(\o)$.
 
 \stage{3}{Thermal Model (\sref{thermal-model}).}
-With respect to the thermal specification $\system$ defined in \sref{problem-formulation}, a mathematical formulation of the thermal system is attained.
+With respect to the thermal specification $\system$ (defined in \sref{problem-formulation}), a mathematical formulation of the thermal system is attained.
 The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding temperature profile.
 
 \stage{4}{Surrogate Model (\sref{polynomial-chaos}).}
