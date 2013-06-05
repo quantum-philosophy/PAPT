@@ -1,5 +1,5 @@
 At \stage{4}, the uncertain parameters, power model, and thermal model developed in the previous sections are to be fused together under the desired workload, $\profilePdyn$, to produce the corresponding stochastic power $\profileP{\o}$ and temperature $\profileT{\o}$ profiles.
-The construction of PC expansions, in the current scenario, is based on the Jacobi polynomial basis (see \tref{askey} in the appendix) as it is preferable in situations involving beta-distributed parameters \cite{xiu2010}.
+The construction of PC expansions, in the current scenario, is based on the Jacobi polynomial basis as it is preferable in situations involving beta-distributed parameters \cite{xiu2010} (observe this correspondence in \tref{askey}).
 To give an example, for a dual-core platform (\ie, $\nprocs = 2$) with two stochastic dimensions (\ie, $\nvars = 2$), the second-order PC expansion (\ie, $\pcorder = 2$) of temperature at the $k$th moment of time has the following form:
 \begin{align}
   & \oPC{2}{2}{\vTO_k(\o)} = \pcc{\vTO}_{k1} \pcb_1(\vZ(\o)) + \pcc{\vTO}_{k2} \pcb_2(\vZ(\o)) + \pcc{\vTO}_{k3} \pcb_3(\vZ(\o)) \nonumber \\

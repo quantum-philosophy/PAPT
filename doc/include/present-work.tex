@@ -1,7 +1,9 @@
 Our work makes the following main contribution.
-We develop a probabilistic framework for the analysis of the transient power and temperature profiles of multiprocessor systems subject to the uncertainty due to process variation.
-The proposed technique is flexible in modeling diverse probability distributions, specified by the user, of the uncertain parameters, such as the effective channel length and gate oxide thickness, and there are no assumptions on the distributions of the resulting power and temperature traces, as these distributions are unlikely to be known \apriori.
-Furthermore, our technique is capable of capturing arbitrary joint effects of the uncertain parameters on the system since the parameters are injected into the framework as a ``black box'', which is also defined by the user.
-Our approach is founded on the basis of PC expansions, noted in \sref{prior-work}, which constitute an attractive alternative to MC sampling as they possess much faster convergence properties and provide succinct and intuitive, for the subsequent analysis, representations of system responses to stochastic inputs.
-In addition, we illustrate the framework considering one of the most important parameters affected by process variation: the effective channel length, which we model using beta distributions, opposed to the commonly found Gaussian model (demonstrated in \sref{introduction} and \sref{prior-work}).
-It should be noted, however, that our approach is not bounded by any particular source of variability.
+We develop a probabilistic framework for the analysis of the transient power and temperature profiles of electronic systems subject to the uncertainty due to process variation.
+The proposed technique is flexible in modeling diverse probability distributions, specified by the user, of the uncertain parameters, such as the effective channel length and gate oxide thickness.
+Moreover, there are no assumptions on the distributions of the resulting power and temperature traces, as these distributions are unlikely to be known \apriori.
+The proposed technique is capable of capturing arbitrary joint effects of the uncertain parameters on the system since the impact of these parameters is introduced into the framework as a ``black box'', which is also defined by the user.
+Our approach is founded on the basis of polynomial chaos (PC) expansions, which constitute an attractive alternative to Monte Carlo (MC) sampling.
+This is due to the fact that PC expansions possess much faster convergence properties and provide succinct and intuitive representations of system responses to stochastic inputs.
+In addition, we illustrate the framework considering one of the most important parameters affected by process variation: the effective channel length.
+Noted, however, that our approach is not bounded to any particular source of variability and, apart from the effective channel length, can be applied to other process-related parameters, \eg, the gate oxide thickness.

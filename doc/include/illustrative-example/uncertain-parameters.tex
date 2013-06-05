@@ -5,7 +5,7 @@ First, $\vU(\o) \in \real^{\nprocs + 1}$ are morphed into correlated Gaussian va
 Second, the obtained correlated Gaussian variables are mapped into independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$, using one of several available techniques such as the Cholesky decomposition \cite{press2007} utilized in \cite{li2008}.
 
 The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in \sref{computational-challenges}.
-Therefore, one should consider a possibility of model order reduction before constructing PC expansions.
+Therefore, one should consider a possibility for model order reduction before constructing PC expansions.
 To this end, we perform the second step of the Nataf transformation by virtue of the discrete Karhunen-Lo\`{e}ve (KL) decomposition \cite{ghanem1991} as the reduction comes naturally in this way.
 A description of this procedure can be found in \aref{karhunen-loeve}.
 Let us denote the trimmed independent variables by $\vZ'''(\o)$ and their number by $\nvars$.

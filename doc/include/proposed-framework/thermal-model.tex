@@ -1,7 +1,7 @@
 Given the thermal specification $\system$ of the system at hand (see \sref{problem-formulation}), an equivalent thermal RC circuit with $\nnodes$ thermal nodes is constructed \cite{kreith2000}.
 The structure of the circuit depends on the intended level of granularity and, therefore, impacts the resulting accuracy.
 For clarity of presentation, we assume that each processing element is mapped onto one corresponding node, and the thermal package is represented as a set of additional nodes.
-An example of such a circuit for a dual-core architecture can be found in \fref{circuit} as a part of \sref{illustrative-example}.
+An example of such a circuit for a dual-core architecture can be found in \fref{circuit}.
 
 The thermal behavior of the constructed circuit is modeled with the following system of differential-algebraic equations (see \aref{thermal-model} for a derivation):
 \begin{subnumcases}{\elabel{fourier-system}}
@@ -12,7 +12,7 @@ where $\vP(\t, \o)$ and $\vTO(\t, \o)$ are the input power and output temperatur
 In general, \eref{fourier-de} does not have a closed-form solution due to the power term, which is an arbitrary function.
 
 Recall that the power and temperature profiles we work with are discrete-time representations of the power consumption and heat dissipation, respectively, which contain $\nsteps$ samples, or steps, covering a certain time span (see \sref{problem-formulation}).
-As detailed in \aref{thermal-model}, we let the total power be constant between neighbor power steps and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \nsteps$,
+As detailed in \aref{thermal-model}, we let the total power be constant between neighboring power steps and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \nsteps$,
 \begin{equation} \elabel{recurrence}
   \vX_k(\o) = \mCF_k \: \vX_{k - 1}(\o) + \mCS_k \: \vP_k(\o)
 \end{equation}

@@ -1,10 +1,10 @@
-Process variation constitutes one of the major concerns of multiprocessor system designs \cite{chandrakasan2001, srivastava2010}.
+\input{include/assets/motivation-temperature.tex}
+Process variation constitutes one of the major concerns of electronic system designs \cite{chandrakasan2001, srivastava2010}.
 A crucial implication of process variation is that it renders the key parameters of a technological process, \eg, the effective channel length, gate oxide thickness, and threshold voltage, as random quantities.
 Therefore, the same workload applied to two ``identical'' dies can lead to two different power and, thus, temperature profiles since the dissipation of power and heat essentially depends on the aforementioned stochastic parameters.
 Consequently, process variation leads to performance degradation in the best case and to severe faults or burnt silicon in the worst scenario.
-Under these circumstances, uncertainty quantification \cite{xiu2010, maitre2010} has evolved into an indispensable asset of the multiprocessor system designs that provide high guaranties on the efficiency and robustness of their products to the end users.
+Under these circumstances, uncertainty quantification \cite{xiu2010, maitre2010} has evolved into an indispensable asset of electronic system design workflows providing them with guaranties on the efficiency and robustness of products.
 
-\input{include/assets/motivation-temperature.tex}
 In order to illustrate the above concern, consider a quad-core architecture exposed to the uncertainty of the parameters that affect the leakage current.
 Assume first that these parameters have nominal values.
 We can then simulate the system under a certain workload and observe the corresponding temperature profile.\footnote{The experimental setup will be detailed in \sref{illustrative-example} and \sref{experimental-results}.}
