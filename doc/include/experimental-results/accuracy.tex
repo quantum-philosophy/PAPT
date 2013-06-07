@@ -1,25 +1,26 @@
 The first set of experiments is aimed to identify the accuracy of our framework with respect to MC simulations.
 At this point, it is important to note that the true distributions of temperature are unknown, and both the PC and MC approaches introduce errors.
-These errors decrease as the order of PC expansions, $\pcorder$, and the number of MC samples, $\nsamples$, respectively increase.
-Therefore, instead of postulating that the MC technique with a certain number of samples is the ``universal truth'' that we should inviolately try to achieve, we shall vary both $\pcorder$ and $\nsamples$ and monitor the corresponding difference between the results produced by the two competitors.
+These errors decrease as the order of PC expansions, $\pcorder$, and the number of MC samples, $\nsamples$, respectively, increase.
+Therefore, instead of postulating that the MC technique with a certain number of samples is the ``universal truth'' that we should achieve, we shall vary both $\pcorder$ and $\nsamples$ and monitor the corresponding difference between the results produced by the two alternatives.
 
 In order to make the comparison even more comprehensive, let us also inspect the effect of the correlation patterns between the local random variables $\lLeff_i(\o)$ (recall \sref{illustrative-example}).
-Specifically, apart from $\pcorder$ and $\nsamples$, we shall change the balance between the two correlation kernels shown in \eref{correlation-function}, \ie, the squared exponential $\fCorr_\SE$ and Ornstein-Uhlenbeck $\fCorr_\OU$ kernels, which is controlled by the weight parameter $\eta$.
-In reality, of course, the parameters of the correlation function in \eref{correlation-function} can differ from those considered here.
-Consequently, prior to any analysis, they should be determined based on the knowledge of the correlation structures typical for the fabrication process utilized (see, \eg, \cite{ghanta2006, friedberg2005}).
+Specifically, apart from $\pcorder$ and $\nsamples$, we shall change the balance between the two correlation kernels shown in \eref{correlation-function}, \ie, the squared exponential $\fCorr_\SE$ and Ornstein-Uhlenbeck $\fCorr_\OU$ kernels, which is controlled by the weight parameter $\eta \in [0, 1]$.
+In reality, of course, this parameter can take any value between zero and one.
+Consequently, prior to any analysis, it should be determined based on the knowledge of the correlation structures typical for the fabrication process utilized.
 
 The PC and MC methods are compared by means of three error metrics.
 The first two are the normalized root mean square errors (\nrmses) of the expectation and variance of the computed temperature profiles.\footnote{In the context of \nrmses, we treat the MC results as the observed data and the PC results as the corresponding model predictions.}
 The third metric is the mean of the \nrmses\ of the empirical \pdfs\ of temperature constructed at each time step for each processing element.
 The metrics are denoted by $\eExp$, $\eVar$, and $\ePDF$, respectively.
 $\eExp$ and $\eVar$ are chosen due to the ease of interpretation, and they are based on the analytical formulae in \eref{pc-moments}.
-$\ePDF$ is chosen as it reflects the quality of the distributions estimated by our framework, and it is computed by sampling the constructed PC expansions, which have negligible overheads (see \sref{post-processing}).
+$\ePDF$ is chosen as it reflects the quality of the distributions estimated by our framework, and it is computed by sampling the constructed PC expansions.
+In contrast with the MC approach, this sampling has a negligible overhead as we discussed in \sref{post-processing}.
 
 The considered values for $\pcorder$, $\nsamples$, and $\eta$ are the sets $\{ n \}_{n = 1}^7$, $\{ 10^n \}_{n = 1}^5$, and $\{ 0, 0.5, 1 \}$, respectively.
 The three cases of $\eta$ correspond to the total dominance of $\fCorr_\OU$ ($\eta = 0$), perfect balance between $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$), and total dominance of $\fCorr_\SE$ ($\eta = 1$).
 A comparison for a quad-core architecture with a dynamic power profile of $\nsteps = 10^2$ steps is given in \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, which correspond to $\eta = 0$, $\eta = 0.5$, and $\eta = 1$, respectively.
-Each table contains three subtables: one for $\eExp$ (the left most), one for $\eVar$ (in the middle), and one for $\ePDF$ (the right most), which is nine subtables in total.
-Since the true values are unknown (recall the beginning of this subsection), the columns of the tables that correspond to high values of $\nsamples$ can be used to assess the accuracy of the constructed PC expansions; likewise, the rows that correspond to high values of $\pcorder$ can be used to judge about the sufficiency of the MC samples.
+Each table contains three subtables: one for $\eExp$ (the left most), one for $\eVar$ (in the middle), and one for $\ePDF$ (the right most), which gives nine subtables in total.
+The columns of the tables that correspond to high values of $\nsamples$ can be used to assess the accuracy of the constructed PC expansions; likewise, the rows that correspond to high values of $\pcorder$ can be used to judge about the sufficiency of the number of MC samples.
 One can immediately note that, in all the subtables, all the error metrics tend to decrease from the top left corners (low values of $\pcorder$ and $\nsamples$) to the bottom right corners (high values of $\pcorder$ and $\nsamples$), which suggests that the PC and MC methods converge.
 
 For clarity of the discussions below, we shall primarily focus on one of the tables, namely, on \tref{accuracy-eta-0-5} (highlighted with square brackets) as the case with $\eta = 0.5$ turned out to be the most challenging (see \sref{er-speed}).
@@ -29,21 +30,29 @@ The drawn conclusions will be generalized to the other two tables later on.
 \input{include/assets/experimental-results-pdf.tex}
 First, we concentrate on the proposed technique and, thus, pay particular attention the columns of \tref{accuracy-eta-0-5} corresponding to high values of $\nsamples$.
 It can be seen that the error of the expected value, $\eExp$, is small even for $\pcorder = 1$; more precisely, it is bounded by 0.6\% (see $\eExp$ for $\pcorder \geq 1$ and $\nsamples \geq 10^4$).
-The error of the second central moment, $\eVar$, starts from about 67\% for the first-order PC expansions and drops significantly to less than 6\% for the fourth order (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
-The results of the third error metric, $\ePDF$, allow us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed difference in \tref{accuracy-eta-0-5} is bounded by 2\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
-In order to give a better appreciation of the proximity of the two methods, \fref{experimental-results-pdf} displays an example of the \pdfs\ obtained using our framework with $\pcorder = 4$ (the dashed lines) along with those estimated by the MC approach with $\nsamples = 10^4$ (the solid lines).
-It can be seen that the empirical \pdfs\ tightly match each other.
-Note that this example captures one particular moment of time, and such curves are readily available for all the other steps of the considered time span (here we show the middle).
+
+The error of the second central moment, $\eVar$, starts from 66.7\% for the first-order PC expansions and drops significantly to 5.71\% and below for the fourth order and higher (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
+It should be noted, however, that, for a fixed $\pcorder \geq 4$, $\eVar$ exhibits a considerable decrease even when $\nsamples$ transitions from $10^4$ to $10^5$.
+The rate of this decrease suggests that $\nsamples = 10^4$ is not sufficient to reach the same accuracy as the one delivered by our framework, and $\nsamples = 10^5$ might not be either.
+Therefore, the reported error of 5.71\% for variance is likely to be overestimated.
+
+The results of the third error metric, $\ePDF$, allow us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed difference in \tref{accuracy-eta-0-5} is bounded by 1.83\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
+To give a better appreciation of the proximity of the two methods, \fref{experimental-results-pdf} displays, at time 50~ms, the \pdfs\ computed using our framework with $\pcorder = 4$ (the dashed lines) along with those calculated by the MC approach with $\nsamples = 10^4$ (the solid lines).
+It can be seen that the \pdfs\ tightly match each other.
+Note that this example captures one particular time moment, and such curves are readily available for all the other steps of the considered time span.
 
 Now we take a closer look at the convergence of the MC-based technique.
 With this in mind, we focus on the rows of \tref{accuracy-eta-0-5} that correspond to PC expansions of high orders.
-Similar to the previous observations, even for low requirements, the error of the expected values estimated by MC sampling is relatively small, namely, around 1\% (see $\eExp$ for $\pcorder \geq 4$ and $\nsamples = 10^2$).
-Meanwhile, the case with $\nsamples = 10^2$ has a high error rate in terms of $\eVar$ and $\ePDF$: it is above 38\% for variance and almost 3.5\% for \pdfs\ (see $\eVar$ and $\ePDF$ for $\pcorder \geq 3$ and $\nsamples = 10^2$).
+Similar to the previous observations, even for low requirements, the error of the expected values estimated by MC sampling is relatively small, namely, bounded by 1.19\% (see $\eExp$ for $\pcorder \geq 4$ and $\nsamples = 10^2$).
+Meanwhile, the case with $\nsamples = 10^2$ has a high error rate in terms of $\eVar$ and $\ePDF$: it is above 38\% for variance and almost 3.5\% for \pdfs\ (see $\eVar$ and $\ePDF$ for $\pcorder = 7$ and $\nsamples = 10^2$).
 The results with $\nsamples = 10^3$ are reasonably more accurate; however, this trend is compromised by \tref{accuracy-eta-1}: $10^3$ samples leave an error of more than 7\% for variance (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^3$).
 
-Another important observation regarding MC sampling is that, for a fixed $\pcorder \geq 4$, $\eVar$ exhibits a considerable decrease in \tref{accuracy-eta-0-5} even when $\nsamples$ transitions from $10^4$ to $10^5$.
-The rate of this decrease suggests that $\nsamples = 10^4$ is not sufficient to reach the same accuracy as the one delivered by our framework, and $\nsamples = 10^5$ might not be either.
-
-Lastly, we would like mention that the aforementioned conclusions, based on \tref{accuracy-eta-0-5} ($\eta = 0.5$), are directly applicable to \tref{accuracy-eta-0} ($\eta = 0$) and \tref{accuracy-eta-1} ($\eta = 1$).
+The aforementioned conclusions, based on \tref{accuracy-eta-0-5} ($\eta = 0.5$), are directly applicable to \tref{accuracy-eta-0} ($\eta = 0$) and \tref{accuracy-eta-1} ($\eta = 1$).
 The only difference is that the average error rates are lower when either of the two correlation kernels dominates.
-In particular, according to $\eVar$, the case with $\eta = 1$, which corresponds to the squared exponential kernel, stands out to be the least error prone.
+In particular, according to $\eVar$, the case with $\eta = 1$, which corresponds to $\fCorr_\SE$, stands out to be the least error prone.
+
+Guided by the observations in this subsection, we conclude that the proposed framework delivers accurate results starting from $\pcorder = 4$.
+The estimates of the MC approach, on the other hand, can be considered as sufficiently reliable starting from $\nsamples = 10^4$.
+However, the last conclusion is in favor of the MC technique since, as mentioned earlier, there is strong evidence that $10^4$ samples are still not enough.
+This also conforms to the theoretical estimates of the accuracy of MC sampling given in \cite{diaz-emparanza2002} and to the experience from the literature \cite{maitre2010, shen2009, eldred2008}.
+Consequently, for the experiments of the computational speed given next, we fix $\pcorder$ to four and $\nsamples$ to $10^4$.

@@ -17,6 +17,14 @@
 \let\l@ENGLISH\l@english
 \makeatother
 
+%
+% Fonts
+%
+\newcommand*{\TitleFont}{%
+  \fontsize{22}{26}%
+  \selectfont%
+}
+
 \renewcommand*{\bibfont}{\small}
 
 %
@@ -50,6 +58,7 @@
 \newcommand{\apriori}{\emph{a priori}}
 \newcommand{\versus}{vs.}
 \newcommand{\via}{via}
+\newcommand{\etal}{\emph{et al.}}
 
 \makeatletter
 \def\stage#1{\@ifnextchar\bgroup{\stageDouble{#1}}{\stageSingle{#1}}}

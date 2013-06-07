@@ -1,14 +1,12 @@
-In this section, we shall focus on the computational speed of the proposed framework.
-Guided by the observations discussed in \sref{er-accuracy}, for the rest of the experiments, we fix the order of PC expansions $\pcorder$ to four and the number of MC samples $\nsamples$ to $10^4$, which also conforms to the theoretical estimates of the accuracy of MC sampling given in \cite{diaz-emparanza2002} and to the experience from the literature \cite{xiu2010, maitre2010, shen2009, eldred2008}.
-
+In this section, we focus on the computational speed of our framework.
 First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU(\o) \in \real^{\nprocs + 1}$ (recall \sref{illustrative-example}).
-The considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$.
-As in \sref{er-accuracy}, we shall report the results obtained for various assignments of the correlation weight $\eta$, which impacts the number of the independent random variables $\vZ(\o) \in \real^\nvars$ preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
-In these experiments, the number of time steps $\nsteps$ is set to $10^3$.
-The results are given in \tref{speed-processing-elements} along with the dimensionality of $\vZ(\o)$, $\nvars$.
+As before, we shall report the results obtained for various correlation weights $\eta$, which impacts the number of the independent variables $\vZ(\o) \in \real^\nvars$, preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
+
+The results along with the dimensionality of $\vZ(\o)$, $\nvars$, are given in \tref{speed-processing-elements} where the considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$, and the number of time steps $\nsteps$ is set to $10^3$.
 It can be seen that the correlation patters inherent to the fabrication process \cite{cheng2011} open a great possibility for model order reduction: $\nvars$ is observed to be at most 12 while the maximal number without reduction is 33 (one global variable and 32 local ones corresponding to the case with 32 processing elements).
 One can also observe how this number changes with respect to $\eta$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
 It means that, in the latter case, more variables should be preserved in order to retain 99\% of the variance of the data; hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity (see \sref{computational-challenges}).
+
 Another observation, found in \tref{speed-processing-elements}, is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per one MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
 On the other hand, the rows with $\nvars > 10$ hint at the curse of dimensionality possessed by PC expansions, which was discussed in \sref{computational-challenges}.
 However, even in high dimensions, the proposed framework significantly outperforms MC sampling. For instance, in order to analyze a power profile with $10^3$ steps of a system with 32 cores, the MC approach requires more than 40 hours whereas the proposed framework takes less than two minutes (the case with $\eta = 0.5$).
