@@ -3,7 +3,7 @@ The probability space that we shall reside in is defined as a triple $(\outcomes
 Loosely speaking, an $n$-dimensional random variable is then a mapping $\v{X}: \o \in \outcomes \mapsto \v{X}(\o) \in \real^n$.
 In what follows, the probability space $(\outcomes, \sAlgebra, \pMeasure)$ is always implied.
 
-Consider a heterogeneous multiprocessor system that consists of $\nprocs$ processing elements and is equipped with a thermal package.
+Consider a heterogeneous electronic system that consists of $\nprocs$ processing elements and is equipped with a thermal package.
 The processing elements are the active components of the system, \ie, those that dissipate power, identified at the intended level of granularity (processors, ALUs, caches, registers, \etc).
 Let $\system$ be a thermal specification of the system defined as a collection of temperature-related information: (a) the floorplans of the active layers of the chip; (b) the geometry of the thermal package; and (c) the thermal parameters of the materials that the chip and package are made of.
 
@@ -14,6 +14,6 @@ The system is assumed to depend on a set of uncertain parameters, denoted by a r
 In what follows, we shall make a distinction between deterministic and stochastic profiles.
 In the latter case, the power and temperature profiles are denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively.
 
-The goal of this work is to develop a probabilistic framework for power-temperature analysis (PTA) of multiprocessor systems where the actual power dissipation and temperature are stochastic due to their dependency on the set of uncertain parameters $\vU(\o)$.
+The goal of this work is to develop a probabilistic framework for power-temperature analysis (PTA) of electronic systems where the actual power dissipation and temperature are stochastic due to their dependency on the set of uncertain parameters $\vU(\o)$.
 The user is required to: (a) provide a thermal specification of the platform $\system$; (b) have prior knowledge (or belief) on the probability distribution of the uncertain parameters (\sref{uncertain-parameters}); and (c) specify a power model, in which $\vU(\o)$ is an input (\sref{power-model}).
 The framework should provide the user with the tools to analyze the system under an arbitrary given workload and obtain the corresponding stochastic power $\profileP{\o}$ and temperature $\profileT{\o}$ profiles with a desired level of accuracy and at low costs.
