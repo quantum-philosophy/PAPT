@@ -51,8 +51,8 @@ The aforementioned conclusions, based on \tref{accuracy-eta-0-5} ($\eta = 0.5$),
 The only difference is that the average error rates are lower when either of the two correlation kernels dominates.
 In particular, according to $\eVar$, the case with $\eta = 1$, which corresponds to $\fCorr_\SE$, stands out to be the least error prone.
 
-Guided by the observations in this subsection, we conclude that the proposed framework delivers accurate results starting from $\pcorder = 4$.
-The estimates of the MC approach, on the other hand, can be considered as sufficiently reliable starting from $\nsamples = 10^4$.
-However, the last conclusion is in favor of the MC technique since, as mentioned earlier, there is strong evidence that $10^4$ samples are still not enough.
-This also conforms to the theoretical estimates of the accuracy of MC sampling given in \cite{diaz-emparanza2002} and to the experience from the literature \cite{maitre2010, shen2009, eldred2008}.
-Consequently, for the experiments of the computational speed given next, we fix $\pcorder$ to four and $\nsamples$ to $10^4$.
+Guided by the observations in this subsection, we conclude that our framework delivers accurate results starting from $\pcorder = 4$.
+Hence, we fix $\pcorder$ to four for the assessment of the computational speed given in \sref{er-speed}.
+The MC estimates, on the other hand, can be considered as sufficiently reliable starting from $\nsamples = 10^4$.
+This conclusion, however, is in favor of the MC technique since, as we noted earlier, there is strong evidence that $10^4$ samples are still not enough, which also conforms to the theoretical estimates of the accuracy of MC sampling \cite{diaz-emparanza2002} and to the experience from the literature \cite{maitre2010, shen2009, eldred2008}.
+Nevertheless, in what follows, we fix $\nsamples$ to $10^4$.
