@@ -10,7 +10,7 @@ In the model order reduction technique (see \sref{ie-uncertain-parameters}), the
 Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
 Time steps of power and temperature traces are set to 1 ms (see \sref{problem-formulation}).
-To assess the performance of our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
+As a comparison to our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
 For each sample, \ie, for each outcome of the uncertain parameters, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.
 
 \subsection{Approximation Accuracy} \slabel{er-accuracy}

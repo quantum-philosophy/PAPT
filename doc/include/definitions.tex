@@ -89,30 +89,6 @@
 \newcommand{\colPDF}{$\ePDF, \%$}
 \newcommand{\colMC}[1]{$\scriptstyle \nsamples = 10^#1$}
 
-\usepackage{tikz}
-\usetikzlibrary{arrows}
-\usepackage[framemethod=tikz,xcolor=true]{mdframed}
-
-\mdfdefinestyle{FocusStyle}{%
-  innertopmargin=0ex,%
-  innerbottommargin=0ex,%
-  topline=false,%
-  bottomline=false,%
-  leftline=false,%
-  rightline=false,%
-  backgroundcolor=none,%
-  tikzsetting={draw=black, line width=3pt, |-|},%
-}%
-\newcommand{\Focus}[1]{%
-  \begin{mdframed}[style=FocusStyle, leftmargin=-3ex, leftline=true]%
-  \begin{mdframed}[style=FocusStyle, rightmargin=-2.5ex, rightline=true]%
-    \vspace{8pt}
-    {#1}%
-    \vspace{8pt}
-  \end{mdframed}%
-  \end{mdframed}%
-}%
-
 %
 % Spaces
 %

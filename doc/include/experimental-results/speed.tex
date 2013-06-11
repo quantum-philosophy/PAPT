@@ -7,7 +7,7 @@ It can be seen that the correlation patters inherent to the fabrication process 
 One can also observe how this number changes with respect to $\eta$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
 It means that, in the latter case, more variables should be preserved in order to retain 99\% of the variance of the data; hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity (see \sref{computational-challenges}).
 
-Another observation, found in \tref{speed-processing-elements}, is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per one MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
+Another observation, found in \tref{speed-processing-elements}, is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
 On the other hand, the rows with $\nvars > 10$ hint at the curse of dimensionality possessed by PC expansions, which was discussed in \sref{computational-challenges}.
 However, even in high dimensions, the proposed framework significantly outperforms MC sampling. For instance, in order to analyze a power profile with $10^3$ steps of a system with 32 cores, the MC approach requires more than 40 hours whereas the proposed framework takes less than two minutes (the case with $\eta = 0.5$).
 
@@ -16,4 +16,4 @@ The results for a quad-core architecture are given in \tref{speed-time-spans}.
 Due to the long execution times demonstrated by the MC approach, its statistics for high values of $\nsteps$ are extrapolated based on a smaller number of samples, \ie, $\nsamples \ll 10^4$.
 As it was noted before regarding the results in \tref{speed-processing-elements}, we observe the dependency of the PC expansions on the dimensionality of $\vZ(\o)$, $\nvars$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
 It can be seen in \tref{speed-time-spans} that the computational times of both methods grow linearly with $\nsteps$, which is expected.
-However, the proposed framework shows a vastly superior performance being five orders of magnitude faster than MC sampling.
+However, the proposed framework shows a vastly superior performance being up to five orders of magnitude faster than MC sampling.

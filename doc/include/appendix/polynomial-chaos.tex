@@ -1,6 +1,7 @@
 Here we elaborate on the orthogonality property \cite{xiu2010, maitre2010} of PC expansions, which is extensively utilized at \stage{4}\ in \sref{polynomial-chaos}.
-Due to the inherent complexity, uncertainty quantification problems are typically viewed as approximation problems wherein one first constructs light representations of the initial models and then studies the constructed surrogates.
-PC expansions \cite{xiu2010}, forming the core of our framework, are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
+Due to the inherent complexity, uncertainty quantification problems are typically viewed as approximation problems.
+More precisely, one usually constructs computationally efficient surrogates of the initial models and then studies these light representations instead.
+PC expansions \cite{xiu2010} are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
 A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
 \begin{equation} \elabel{orthogonality}
   \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
