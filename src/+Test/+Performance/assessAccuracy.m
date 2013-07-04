@@ -51,15 +51,15 @@ function assessAccuracy
   % Polynomial chaos expansion
   %
   for i = 1:orderCount
-    options.chaosOptions.order = orderSet(i);
-    options.chaosOptions.quadratureOptions.polynomialOrder = orderSet(i);
+    options.surrogateOptions.order = orderSet(i);
+    options.surrogateOptions.quadratureOptions.polynomialOrder = orderSet(i);
 
     fprintf('%5d | ', orderSet(i));
 
     chaos = Temperature.Chaos.Transient(options);
 
     [ Texp, output ] = chaos.compute(options.dynamicPower);
-    Tdata = chaos.sample(output.coefficients, chaosSampleCount);
+    Tdata = chaos.sample(output, chaosSampleCount);
 
     for j = 1:sampleCount
       errorExp(i, j) = Error.computeNRMSE(mcTexp{j}, Texp);
