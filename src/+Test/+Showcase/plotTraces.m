@@ -1,27 +1,24 @@
 function plotTraces
   setup;
 
-  options = Test.configure('processorCount', 4, 'powerScale', 1);
+  options = Test.configure('processorCount', 4);
   display(options);
 
-  temperature = Temperature.Analytical.Transient( ...
-    options.temperatureOptions);
+  temperature = Temperature.Analytical.Transient(options);
 
-  processors = [ 4 ];
+  processors = 1:options.processorCount;
 
-  Lnom = LeakagePower.Base.Lnom;
+  Vnom = LeakagePower.Base.Vnom;
   scale = [ 1.1, 0.95, 0.90 ];
 
-  t = (0:(options.stepCount - 1)) * options.samplingInterval;
-
-  figure;
+  Plot.figure(1000, 400);
   for i = 1:length(scale)
-    T = Utils.toCelsius(temperature.compute( ...
-      options.dynamicPower, 'L', scale(i) * Lnom));
+    T = Utils.toCelsius(temperature.compute(options.dynamicPower, ...
+      'V', scale(i) * Vnom * ones(options.processorCount, 1)));
     for j = processors
-      line(t, T(j, :), 'Color', Color.pick(i), 'LineWidth', 1);
+      line(options.timeLine, T(j, :), 'Color', Color.pick(i), 'LineWidth', 1);
     end
   end
   Plot.label('Time, s', 'Temperature, C');
-  Plot.limit(t);
+  Plot.limit(options.timeLine);
 end
