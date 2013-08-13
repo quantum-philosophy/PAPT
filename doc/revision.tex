@@ -1,0 +1,59 @@
+\documentclass{article}
+\input{include/definitions.tex}
+
+\usepackage{anysize}
+\usepackage[a4paper, top=29mm, bottom=30mm, left=30mm, right=30mm]{geometry}
+
+\usepackage{mdframed,color}
+
+\definecolor{line}{rgb}{0.1,0.1,0.1}
+\definecolor{background}{rgb}{0.95,0.95,1}
+
+\mdfdefinestyle{reviewer}{%
+  leftmargin=0cm,%
+  rightmargin=0cm,%
+  innerleftmargin=1em,%
+  innerrightmargin=1em,%
+  linecolor=line,%
+  backgroundcolor=background%
+}
+
+\newenvironment{reviewer}{%
+  \begin{mdframed}[style=reviewer]%
+}{%
+  \end{mdframed}%
+  \vspace{1.0em}%
+}
+\newenvironment{authors}{%
+}{%
+  \vspace{1.0em}%
+}
+
+\newcommand{\perse}{\emph{per se}}
+
+\begin{document}
+  \pagenumbering{gobble}
+
+  \title{The Reviewers' Comments and the Authors' Response}
+
+  \author{}
+  \date{}
+
+  \maketitle
+
+  \section*{Reviewer 1}
+  \input{include/revision/reviewer1.tex}
+
+  \section*{Reviewer 2}
+  \input{include/revision/reviewer2.tex}
+
+  \section*{Reviewer 3}
+  \input{include/revision/reviewer3.tex}
+
+  \section*{Reviewer 4}
+  \input{include/revision/reviewer4.tex}
+
+  \section*{Reviewer 5}
+  \input{include/revision/reviewer5.tex}
+
+\end{document}

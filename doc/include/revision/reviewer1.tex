@@ -1,0 +1,40 @@
+\begin{reviewer}
+This paper proposed a novel approach to model transient power-temperature behavior considering process variation. This is a missing piece in statistical power/temperature analysis due to many reasons and technical difficulties. I think the proposed solution may still have some limitations and assumptions, but it has big contribution to the area, and one step closer to practical usage. Experiments are sufficient to validate the proposed framework. The paper is well written and organized as well.
+\end{reviewer}
+\begin{authors}
+Thank you for the kind words.
+\end{authors}
+
+\begin{reviewer}
+This is an interesting topic, so some of my comments are more like discussions:
+
+1) Power consumption has two components: dynamic power and leakage power. Process variation mainly affects leakage power. I think that’s why the authors focus on the model for statistical leakage power. However, temperature and total power (dynamic and leakage) are highly correlated. Since this paper is focus on modeling transient power-temperature behavior, the accuracy of total power model is important. Dynamic power is related to the run-time operations. In Sec. VII, the dynamic power profiles are obtained by simulations of randomly generated via TGFF, applications defined by DAGs of tasks. Usually the simulation has a size limit, it will be nice to provide some details about how large scale of the chip can be.
+\end{reviewer}
+\begin{authors}
+Our framework is not constrained by any particular range of standard deviations of the variability of the effective channel length due to process variation.
+The value of 5\% is an example, which was taken from the literature cited in the experimental results, Sec. VII ([11] and [12]).
+\end{authors}
+
+\begin{reviewer}
+2) Question about the thermal model: The authors mentioned the following in Sec. IV-C: “Given the thermal specification S of the system at hand (see Sec. IV), …” I’m interested in the modeling of thermal specification as well. But it seems that the authors are referring to the wrong Section (or should provide more details about sub-session?). In Sec. III, the authors mentioned that this framework works for electronic systems with temperature profiles. Is that chip level? Architecture level? If it’s chip level, the cooling system is not settled yet, so it’s hard to have a final temperature profile; If it’s architecture level, there might be multiple chips involved with different statistical power behaviors, I’m curious about how the proposed method works in this situation.
+\end{reviewer}
+\begin{authors}
+The temperature modeling considered in the paper is on the system level, not on the circuit level.
+We use the block model of HotSpot v5.02 wherein each processing element is assigned one power-dissipating block of the thermal model (see Sec. V-C).
+The number of processing elements in our examples is from two to 32, which translates into 20 to 140 thermal nodes (the relation is $4 \times n + 12$ as described in Sec. VI-C).
+\end{authors}
+
+\begin{reviewer}
+3) On Fig 1, it will be nice to use different line shapes as well. When the paper is printed black/white, it’s hard to tell the color difference.
+\end{reviewer}
+\begin{authors}
+The thermal model itself (namely, the construction of an equivalent RC thermal circuit) is a well-established and widely used model implemented in the temperature simulator HotSpot.
+Numerous justifications of the model can be found in the corresponding literature by the authors of HotSpot.
+The accuracy of the analytical solution described in App. A has also been assessed not only by us [8], but also by other groups of researchers such as L. Thiele et al. [7].
+The leakage power modeling is based on SPICE simulations, which is also a rather commonly encountered approach.
+However, it is true that we do not have a comparison with any other variation-aware technique.
+The reason for this is the following.
+Although our approach covers both power and temperature, the main focus of our work is still on temperature; power is a byproduct if you will.
+The most relevant, from our perspective, temperature-related works and their limitations are discussed in the paper, Sec. II.
+Since we address the transient scenario while others address either the maximal or steady-state temperature, a one-to-one comparison is not straightforward.
+\end{authors}

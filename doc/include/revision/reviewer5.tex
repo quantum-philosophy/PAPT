@@ -1,0 +1,128 @@
+\begin{reviewer}
+The paper presented statistical thermal analysis for VLSI systems using the orthogonal polynomial  (or polynomial chaos, PC) based approaches. The idea is quite straight forward as the PCs was applied to represent the transient temperatures based on the PC representations of the power inputs for given thermal models. Some standard techniques such as KL and PCA for random variable reductions and orthonormalization was also used.
+
+However, this paper has several major issues.
+
+First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors. The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
+\end{reviewer}
+\begin{authors}
+We understand and respect the reviewer’s concern.
+However, we do believe that the contribution of our work is sound, and the received reviews have shown that we are not alone in this regard.
+Let us now explain our contribution in more detail and kindly ask to consider our answer to the next comment as a part of the answer to the current one.
+First of all, both PC and PCA/KL are tools, and tools are \emph{designed/supposed} to be used to solve certain problems.
+Therefore, the fact that the aforementioned techniques ``[\ldots] have been applied to many analysis and modeling problems in the CAD areas [\ldots]'' does not affect in any way the contribution of the present work.
+As a matter of fact, PC expansions were developed in the first place to tackle stochastic differential equations, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem et al.) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu et al.).
+Tools are there to help us, not to lie on a shelf.
+Second, the reviewer claims that temperature analysis is not fundamentally different from power grid analysis, and he or she justifies this claim by saying that both phenomena are modeled via systems of first-order ordinary differential equations (ODEs), which look especially alike in their state-space forms (see Eq. (2)).
+To begin with, myriads of dynamic systems are modeled using differential equations.
+In numerical analysis, the solution process of such a model typically consists for a proper discretization of the state space, eventually leading to a system of ODEs, which, if possible, is then rewritten in the state-space form for convenience.
+Therefore, following the logic of the comment, most of the physical processes are merely clones of each other, and, once one of them has been studied, the rest are out of any interest.
+Of course, it is an exaggeration, but it makes our point.
+Every process has its own particularities/nuances/features/traits, and heat dissipation is not an exception.
+To conclude, the premises of the reviewer’s argument about the lack of novelty do not have a solid ground.
+The manuscript presents a novel probabilistic framework for the transient temperature analysis under process variation and does make a considerable contribution to the research community.
+We believe our argumentation is sufficient at this point; however, we would like to continue this discussion and emphasize some concrete differences from the prior work on power grid analysis [18].
+One does not need to go too far to note that the way we treat the thermal system in App. A and the way we construct PC expansions in Sec. V-D drastically diverge from the solution process described in [18].
+Further, our PC expansions are constructed using so-called non-intrusive projections, which provide a great flexibility in modeling various effects of the uncertain parameters (recall the discussion on ``black boxes''); in contrast, [18] employs the Galerkin method.
+Turning to smaller details, the considered compositional correlation function is rather unique and has received positive feedback from the reviewers.
+Next, we have not encountered in the literature the beta model for physically bounded quantities that we use in the illustrative example.
+To summarize, all the discussions above advocate that our research makes a prominent contribution.
+We sincerely hope that the manuscript will give birth to other temperature-related studies where, thanks to the accuracy and computational speed of the proposed framework, the presence of uncertainty will be seamlessly taken into account at little effort.
+\end{authors}
+
+\begin{reviewer}
+Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations.  Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
+\end{reviewer}
+\begin{authors}
+The fact that ``many existing works mainly focus on the power or power grids [\ldots]'' does not say anything about the importance of temperature.
+In addition, if everybody was looking into the same direction, there would be no progress.
+Regarding constraining power in order to squeeze temperature into safe ranges, we would like to respond with the words of another reviewer; they served a different purpose but are suitable in this context as well.
+Such strategies ``[\ldots] can end up putting up a big enough guard band to design the system considering severe conditions.
+Thus, they end up being quite conservative and over-designing their system.''
+In other words, the more we know about the things we care about and the more immediate/direct this knowledge is, the more efficient and effective control we have over those important things.
+Coming closer to the subject matter, it is temperature that causes damage, not power \perse.
+Therefore, if we are to repress temperature, it is wiser to study this very temperature instead of power.
+With all our respect to the reviewer, the claim that temperature is less important seem to us to be rather questionable.
+Next, we agree with the reviewer that temperature is load dependent, which is equally well applies to power, and is influenced by environment.
+However, we prefer to follow Caesar’s rule ``divide and conquer'': the focal point of this particular work is process variation, and we departure from a given workload, as stated in the problem formulation.
+\end{authors}
+
+\begin{reviewer}
+In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
+\end{reviewer}
+\begin{authors}
+We pursued clarity of presentation and, therefore, focused one parameter in our illustrative example.
+The choice of the effective channel length was a no-brainer as many studies show that it exhibits the largest deviation due to process variation and, therefore, constitutes the major concern.
+We agree with the reviewer that different correlation patterns make the model order reduction procedure work differently, and it is important to understand.
+For this particular reason, we presented the experimental results for various values of the $\eta$ parameter.
+The goal was to illustrate and explain, not to give a broad overview of all possible correlation patterns.
+It is worth mentioning that the number of considered parameters or the type of assumed correlations do not constrain the proposed framework; however, it is true that they affect the resulting complexity and lead to the curse of dimensionality as we emphasize in the paper.
+\end{authors}
+
+\begin{reviewer}
+The claim that the proposed method can be applied to arbitrary distributions are not correct. As the author mentioned, that the resulting temperature or even the power distributions are not known a priori. As a result, we do not know which orthogonal polynomials we should use. This actually is the major limitations of the PC based method.
+\end{reviewer}
+\begin{authors}
+First of all, we would like to note that the formulation used in the manuscript is ``diverse probability laws'' (see the abstract), not ``arbitrary''.
+However, the theory of PC expansion can indeed be applied to arbitrary distributions as we shall justify shortly.
+Second, if the output distribution was known, there would be no need in any approximation.
+So, the assumptions is that one never knowns the output distribution.
+Therefore, whenever it comes to the construction of a PC expansion, one is typically guided by other factors. One such factor is the distributions of the independent random variables that parametrize the uncertainty quantification problem under consideration.
+Then, many standard distributions directly correspond to certain families of orthogonal polynomials, as shown in Tab. I.
+When the reviewer claims that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials.
+It is true; however, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
+Please refer to ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu et al. wherein the generalized PC was first developed (namely, Sec. 6 titled ``Representation of Arbitrary Random Inputs'').
+In addition, one does not have to perform this re-parametrization and can construct custom orthogonal polynomials instead.
+Please refer to ``Modeling Arbitrary Uncertainties Using Gram-Schmidt Polynomial Chaos'' by J. Witteveen et al. We agree with the reviewer in the sense that the \emph{optimal} polynomial basis is indeed can be unknown; nevertheless, PC expansions still hold.
+\end{authors}
+
+\begin{reviewer}
+The paper did not address one important problems in thermal analysis: how the leakage and temperature interplay and its impacts on the statistical thermal analysis?
+\end{reviewer}
+\begin{authors}
+We apologize, but this comment is not entirely clear for us.
+Our leakage model is temperature aware, and, therefore, the interdependence between leakage and temperature is taken into consideration.
+\end{authors}
+
+\begin{reviewer}
+The paper has many math notations. It will be nice to have table of all the math notations at the beginning of  the paper.
+\end{reviewer}
+\begin{authors}
+Yes, we agree with the reviewer.
+We considered the possibility of including such a table in the paper.
+However, we decided to invest this paper space in thorough explanations and to remind the reader the notation on the fly when it is needed.
+\end{authors}
+
+\begin{reviewer}
+In the experimental section:
+
+The number of MC samples (10\^{}4) seems too big. For many practical problems, MC method with a few hundreds or thousands of samples will be good enough to get a good distributions. Many pesudo MC methods actually have much faster convergent rate with much less number of samples actually.
+\end{reviewer}
+\begin{authors}
+As explained in the paper, one factor, which we were guided by, is the experience from other studies.
+For example, [14] employes $5 \times 10^4$ MC samples for comparison purposes.
+Another factor is the theoretical estimates given in [10].
+For example (taken from an earlier publication of the author of [10]), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
+However, the main reason of making $10^4$ MC samples be the etalon is our own experience and observations from the presented tables.
+Regarding quasi-MC methods, we agree with the reviewer that they indeed can be faster than pure MC methods: the convergence rates are $O_1 = O(\log(\nsamples)^\nvars / \nsamples)$ and $O_2 = O(1 / \sqrt{\nsamples})$ for the former and latter, respectively.
+However, it was not the direction we wanted to put our efforts into: our major focus is at PC expansions, not at MC simulations.
+We think it would not make much of a difference on the results reported in Tab. V and Tab. VI.
+In addition, quasi-MC methods have their own problems.
+For example, $O_1$ is smaller than $O_2$ only when $\nvars$ is small and $\nsamples$ is large.
+In particular, already with $\nvars = 4$, the curve corresponding to $O_1$ is higher than the one of $O_2$ for $\nsamples$ from around 50 to $3 \times 10^6$.
+In the experimental results, $\nvars$ goes up to 12.
+\end{authors}
+
+\begin{reviewer}
+The table V and table VI look  bit weird.  It seems strange that the PC method just takes a few seconds, while MC method will takes hours. The speedups in the two tables  are even bigger than number of MC samples (10\^{}4) in many cases. This means that one PC-based computing take less than one MC sample run, which is impossible.  More explanations are needed.
+\end{reviewer}
+\begin{authors}
+In order to draw adequate conclusions about the accuracy of our framework, the MC-based approach is supposed to be as accurate as possible, meaning that it should solve everything directly without any further simplifications or assumptions.
+Therefore, as described at the beginning of Sec. VII, MC sampling solves the original system of differential equations directly using traditional numerical techniques.
+In contrast, our framework employs the approximation described in App. A, which we also elaborate on in our previous publication listed in the references [8].
+Consequently, the reported speedup of the proposed framework is due to two major factors: PC expansions \perse\ and the approximation of the thermal model.
+And these two things are inseparable: our derivation process is tightly interconnected with the recurrence given in App. A.
+Moreover, we have spent a great deal of time trying to construct a highly efficient algorithm for PC expansions.
+From our experience, a straightforward implementation, blindly following the formulae commonly found in the literature, can end up being dramatically slow.
+We are planning to present our solution process algorithmically as a part of our future publication.
+\end{authors}

@@ -1,0 +1,102 @@
+\begin{reviewer}
+This work developed a useful probabilistic framework to estimate the transient power and temperature variations of electronic system designs. The description is clear, and the organization is well. A few of comments and suggestions are listed as follows.
+
+1).The computational complexity of the proposed framework should be analyzed. The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
+\end{reviewer}
+\begin{authors}
+The reviewer is absolutely right: the time complexity should be analyze, and this analysis is available.
+We do not present it in this paper as we obey the following rule: if something cannot be explained clearly within the given space limit, it is better to exclude it completely.
+As this question is indeed important, we decided to give an algorithmic explanation of all the steps of a PC expansion as a part of our on-going research.
+Then, the time complexity will become apparent and easy to explain. Let us give a flavor of what this complexity is.
+Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
+The construction of a PC expansion of a stochastic temperature profile is one multiplication of an $\pcterms \times \qdorder$ matrix with an $\qdorder \times (\nprocs \nsteps)$ matrix, which is $O(\pcterms \times \qdorder \times \nprocs \times \nsteps)$.
+The first matrix is fixed and tabulated, so there are no additional costs.
+The second matrix is obtained by solving the thermal system for $\qdorder$ quadrature points.
+Using the approach described in App. A, the time complexity of one solve is $O(\nsteps \times \nnodes^2)$ and, thus, $O(\qdorder \times \nsteps \times \nnodes^2)$ for all quadrature points.
+The overall complexity is then $O(\pcterms \times \qdorder \times \nprocs \times \nsteps + \qdorder \times \nsteps \times \nnodes^2)$, which can be detailed even further by expanding $\pcterms$ and $\qdorder$.
+Let us now turn to the absence of a comparison for power.
+We decided to sacrifice this part and spend our efforts and the limited paper space mostly on temperature due to the following reasons.
+First, despite the fact that the framework addresses both power and temperature, our main target was always temperature since power \perse\ had already been addressed by other researchers.
+Therefore, it would not make much contribution if we tried to elaborate on power.
+Instead, we decided to focus on what would be novel and would make a difference, that is, on temperature.
+Second, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
+Therefore, the quantification of power is expected to be easier than the quantification of temperature, and any accuracy problems with respect to power are expected to eventually propagate to temperature.
+Consequently, the assessment of temperature allows us to draw reasonable conclusions with respect to power.
+The reviewer is right that we do not say anything regarding power in the experimental results, which we should have done.
+In the last version of the manuscript, the above reasoning is included.
+\end{authors}
+
+\begin{reviewer}
+2).In section VI.D, the authors mentioned that “these points along with the corresponding weights are generally precomputed and tabulated;…”. Could the authors clearly explain it?
+\end{reviewer}
+\begin{authors}
+The only two things that characterize a quadrature rule are its family and accuracy level.
+There is no dependency on anything else.
+Once the need family of rules and accuracy level have been decided, the rule stays the same regardless of what we would like to integrate.
+Consequently, all the major families of rules (\eg, Gauss-Lagendre, Gauss-Jacobi, Gauss-Laguerre, and Gauss-Hermite) have their rules precomputed and stored in tables for wide ranges of accuracy levels.
+One can compute such tables him or herself or just use one of the many libraries available online.
+In our work, we rely on the library by J. Burkardt from Florida State University; the corresponding reference is included in the manuscript.
+\end{authors}
+
+\begin{reviewer}
+3).Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
+\end{reviewer}
+\begin{authors}
+Due to the resource demand of MC sampling, we could not go far beyond $10^5$ samples and consider it to be a sufficiently large number.
+As we write in the paper, this range is reasonable according to the experience from other studies and the formulae given in [10].
+For example (taken from an earlier publication of the author of [10]), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
+However, the main reason of making $10^4$ MC samples be the etalon for the comparison in Sec. VII is our own experience and observations from the presented tables.
+Even though $\eVar$ exhibits a prominent decrease for $10^5$ samples, as we discuss below in response to the fifth question of the reviewer, the other two metrics show that $10^4$ samples are enough. Besides, we tried to avoid any bias towards the proposed technique, which could happen if we required the MC-based approach to have $10^5$ samples.
+\end{authors}
+
+\begin{reviewer}
+4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations. Table V shows that as \\eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
+\end{reviewer}
+\begin{authors}
+There are three cases where $\ePDF$ increases for $10^5$: 1.50/1.51, 1.59/1.62, and 1.13/1.24.
+Our explanation is the following.
+As described in the paper, PC expansions provide analytical formulae for the expected values and variances while PDFs can be estimated by sampling these expansions.
+Thus, $\ePDF$ differs from $\eExp$ and $\eVar$ by the fact that it is entirely based on sampling.
+Hence, the observed marginal differences can be ascribed to the ``two-sided randomness'' of the third error metric, $\ePDF$.
+One can also note that there are two more instantiations of this concern for $\eVar$: 66.13/66.70 and 1.56/5.03.
+In this case, the results were obtained for a first- and second-order PC expansions, respectively, which are too low to be trustworthy.
+Nevertheless, in our opinion, the tables do their main job very well: they clearly capture the overall trend and allow one to draw sound conclusions.
+Now, let us turn to Tab. V.
+The decrease of $\nvars$ from eight to 11 for 16 and 32 processing elements, respectively, also drew our attention, and we deeply investigated this issue.
+These figures are a result of the model order reduction procedure described in App. B.
+One component that influences the number of the preserved random variables, $\nvars$, is the placement of the processing element on the die.
+As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements.
+For example, 16 dies is a 4-by-4 grid, a perfect square, while 32 dies is a 8-by-4 grid, a rectangle.
+Taking into consideration the assumed correlation function and its radial component, one can note that the first floorplan is more favorable for reduction as more processing elements are located at the same distance from the center of the die.
+All the floorplans used in our experiments are available online.
+\end{authors}
+
+\begin{reviewer}
+5).Why the reported error of 5.71\% for variance is likely to be overestimated? Even though the MC simulation with 10\^{}5 is not reliable (good enough), it does not mean that the report error of the developed framework is overestimated.
+\end{reviewer}
+\begin{authors}
+Yes, the reviewer is right that there is no direct implication here, and the word ``likely''  serves exactly the purpose of emphasizing a degree of our uncertainty.
+However, we do believe that the sentence has its own right to be a part of our discussion in the experimental results for the following reason.
+To draw an adequate conclusion about the accuracy of our framework, the MC-based approach has no simplifications inside: there is no model order reduction, and the original system of differential equations is being solved directly using traditional numerical techniques.
+The quantities estimated by MC sampling converge to the true values almost surely.
+Thus, we have strong reasons to believe MC sampling with large numbers of samples.
+In Tab. III, we observe a drop of the error for variance from 5.71\% to 1.47\% for $10^4$ and $10^5$ samples, respectively.
+First, we note that the estimate with $10^5$ samples is \emph{likely} to be closer to the truth than the one with $10^4$ samples.
+Second, the rather large gap between the two values suggests that it is \emph{likely} that the next error change would not be negligible if we could draw, say, $10^6$ samples.
+Consequently, it allows us to speculate that the reported error for variance according to our etalon, that is, to $10^4$ MC samples, is \emph{likely} to be overestimated, that is, the actual error is \emph{likely} to be smaller than the reported one of 5.71\%.
+\end{authors}
+
+\begin{reviewer}
+6).Could the authors explain how to decide the mapping matrix \textbackslash{}tilde\{B\} and why in Appendix A?
+\end{reviewer}
+\begin{authors}
+Yes, we have done this.
+\end{authors}
+
+\begin{reviewer}
+7).The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used. A typo: ``A description of the latter can also found in the supplementary materials, App. B'' (lines 26\~{}28, page 5).
+\end{reviewer}
+\begin{authors}
+We apologize for this inconvenience, but, as the reviewer said, we were trying to do our best to make the paper transparent to as broad an audience as possible.
+The typo found by the reviewer has been fixed.
+\end{authors}
