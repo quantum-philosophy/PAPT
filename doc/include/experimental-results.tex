@@ -7,7 +7,7 @@ We consider a 45-nanometer technological process.
 The effective channel length is assumed to deviate by 5\% from the nominal value of 45~nm where the global and local variations are equally weighted \cite{juan2011, juan2012}.
 Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the square die.
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
-Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.
+Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.\footnote{\updated{In practice, dynamic power profile are typically obtained using adequate full-system/cycle-accurate simulators capable of modeling power.}}
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
 Time steps of power and temperature traces are set to 1 ms (see \sref{problem-formulation}).
 As a comparison to our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
