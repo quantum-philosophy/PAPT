@@ -6,8 +6,14 @@ This paper is well written overall. My major concerns are in the experimental re
 1) The authors used 45nm technology node. But the variation is only 5\%. Is this too low ? Of course variations depend on fab. Different companies may provide different number. But isnt this should be around 30\% to 50\% on average.
 \end{reviewer}
 \begin{authors}
-Our framework is not constrained by any particular range of standard deviations of the variability of the effective channel length due to process variation.
-The value of 5\% is an example, which was taken from the literature cited in the experimental results, Sec. VII ([11] and [12]).
+Our framework is not constrained by any particular value of the standard deviation, denoted by $\sigma$, of the divergence of the effective channel length from the nominal value, denoted by $\mu$.
+The scenario $\mu = 45~\text{nm}$ and $\sigma$ is 5\% of $\mu$ is only an example, which was taken from the literature [D.-C. Juan \etal, 2011, 2012].
+To give another example, [R. Shen \etal, 2009] also considers a 45-nm technological process wherein $\sigma$ is equal to 4\% of $\mu$.
+In [S. Chandra \etal, 2010], the authors consider a 90-nm process and use $\sigma$ equal to $10\%$ of $\mu$.
+The high percentages mentioned by the reviewer typically appear in the context where the portion of a particular type of variability is compared to the total variation.
+Please refer to, \eg, [A. Chandrakasan, 2000], Fig.~6.1 on page 98, wherein ``the percentage of the total variation accounted for by within-die variation [\ldots] is plotted'', and the maximal percentage indeed goes up to 50\%.
+
+\done{The formulation regarding the variability of the channel length has been updated in Sec.~VII, which also brought attention of Reviewer 3 in the fifth comment.}
 \end{authors}
 
 \begin{reviewer}
@@ -16,22 +22,33 @@ As far as i known, most papers referenced do have fairly big size examples and c
 But without large size of examples, the scaling up numbers in the tables in this paper are more or less like speculations.
 \end{reviewer}
 \begin{authors}
-The temperature modeling considered in the paper is on the system level, not on the circuit level.
-We use the block model of HotSpot v5.02 wherein each processing element is assigned one power-dissipating block of the thermal model (see Sec. V-C).
-The number of processing elements in our examples is from two to 32, which translates into 20 to 140 thermal nodes (the relation is $4 \times n + 12$ as described in Sec. VI-C).
+The power/temperature modeling considered in the paper is at the system level, not at the circuit level.
+As described in Sec.~VI-B, the leakage model used in the illustrative example is based on SPICE simulations of a reference electrical circuit.
+The circuit that we use is a series of CMOS invertors, kindly provided to us by the people acknowledged at the end of the main part of the manuscript.
+Regarding the thermal modeling, we exemplify our framework using the block model of HotSpot v5.02 with a one-to-one mapping between the processing elements and thermal nodes (mentioned in Sec.~V-C).
+In this case, the considered setups with 2--32 processing elements translate into 20--140 thermal nodes (the relation is $\nnodes = 4 \times \nprocs + 12$ given in Sec. VI-C).
+Therefore, the performed calculations are doable for MATLAB running on a personal laptop.
+It is worth noting that the one-to-one mapping is used merely for the clarity of the discussions in the paper, and this mapping can be arbitrary, depending on the desired level of accuracy.
+
+\done{The system-level scope of the paper has been emphasized in Sec.~IV, which also addressed the second comment of Reviewer 1.}
+
+\done{The reference electrical circuit has been described in Sec.~VI-B.}
 \end{authors}
 
 \begin{reviewer}
 3) If thermal and power are the key concerns of this paper, it probably makes sense to compare this work with existing papers (i.e. [5][17][18]).
 \end{reviewer}
 \begin{authors}
-The thermal model itself (namely, the construction of an equivalent RC thermal circuit) is a well-established and widely used model implemented in the temperature simulator HotSpot.
-Numerous justifications of the model can be found in the corresponding literature by the authors of HotSpot.
-The accuracy of the analytical solution described in App. A has also been assessed not only by us [8], but also by other groups of researchers such as L. Thiele et al. [7].
-The leakage power modeling is based on SPICE simulations, which is also a rather commonly encountered approach.
-However, it is true that we do not have a comparison with any other variation-aware technique.
-The reason for this is the following.
+The reviewer mentioned two types of papers: deterministic ([R. Rao \etal, 2009]) and stochastic ([S. Bhardwaj \etal, 2006] and [P. Ghanta \etal, 2006]).
+Let us first motivate the absence of a comparison with deterministic techniques.
+Our work is dedicated to probabilistic analysis; therefore, such a comparison is outside of the scope of the manuscript.
+However, we would like to note that the thermal model \perse\ (\ie, the construction of equivalent RC thermal circuits) is well established and has numerous justifications in the corresponding literature.
+The accuracy of the solution process described in App.~A has also been assessed not only by us, [I. Ukhov \etal, 2012], but also by other groups of researchers such as [L. Thiele \etal, 2011].
+Finally, the leakage modeling using SPICE simulations is also a frequently encountered approach; see, \eg, [D.-C. Juan \etal, 2011, 2012].
+Let us now turn to the absence of a comparison with variation-aware techniques.
 Although our approach covers both power and temperature, the main focus of our work is still on temperature; power is a byproduct if you will.
-The most relevant, from our perspective, temperature-related works and their limitations are discussed in the paper, Sec. II.
-Since we address the transient scenario while others address either the maximal or steady-state temperature, a one-to-one comparison is not straightforward.
+The most relevant, from our perspective, temperature-related works and their limitations are discussed in the paper, Sec.~II.
+Since we address the transient scenario while others either address the maximal or work under the steady-state assumption, a one-to-one comparison is not possible.
+
+\done{The absence of comparisons with prior techniques has been explained in Sec.~VII.}
 \end{authors}
