@@ -1,14 +1,21 @@
 \begin{reviewer}
 Summary:
 
-The paper presents an approach to analyze the power and temperature of a system under process variations. The approach is based on modeling the power and temperature at any point in time using a polynomial chaos expansion (PCE). The paper is organized well and covers the relevant details of the methods used such as details of the PCE, Smolyak Quadrature etc. in the appendix while not moving away from the main focus of the paper. Still, the paper could be further strengthened by clearing up a few things as described below.
+The paper presents an approach to analyze the power and temperature of a system under process variations. The approach is based on modeling the power and temperature at any point in time using a polynomial chaos expansion (PCE). The paper is organized well and covers the relevant details of the methods used such as details of the PCE, Smolyak Quadrature etc. in the appendix while not moving away from the main focus of the paper.
+\end{reviewer}
+\begin{authors}
+Thank you.
+\end{authors}
+
+\begin{reviewer}
+Still, the paper could be further strengthened by clearing up a few things as described below.
 
 1. The authors try to motivate the subject of variational analysis by mentioning that the design at nominal parameters does not guarantee that it will work under severe conditions. This is, however, quite well known and for these reasons no one designs at nominal corners and end up putting up a big enough guard band to design the system considering severe conditions. Thus, they end up being quite conservative and over-designing their system. This is where the variational analysis comes into picture to alleviate the problem of over-designing by allowing the design a better estimate of how the severe conditions impact the performance/power/temperature of the system.
 \end{reviewer}
 \begin{authors}
-It is a very good point.
-We are not able to fit everything into the current manuscript, but we will take it into consideration in the future.
-Moreover, it helps us already now to respond to one of the comments of another reviewer.
+It is a very good point, which is now included in the paper. With your permission, we shall also use it to respond to the second comment of Reviewer 5.
+
+\done{The motivation behind this work discussed in Sec.~I has been extended.}
 \end{authors}
 
 \begin{reviewer}
@@ -22,29 +29,52 @@ Thank you.
 3. Section VI-A:  Some discussion on how the Nataf transformation compares with Independent component analysis which works even on non-Gaussian random variables. Some discussion on when Nataf transformation is valid or when does its accuracy suffers and what are the properties of the distributions that can be well transformed using this transformation will be useful to the reader.
 \end{reviewer}
 \begin{authors}
-Yes, this information can certainly be helpful for the reader.
 Since probability transformations were not the focal point of the paper, we tried to avoid too involved discussions and to give the reader a big picture instead.
-As any other method, the Nataf transformation does have some limitations.
-It is worth noting right away that this method requires only the knowledge of a covariance matrix and a set of marginal probability distributions, which are already not sufficient to fully specify a joint probability distribution.
-In other words, it is yet another approximation that allows one to tackle real-world problems wherein the joint distribution is nearly never available, and this approximation was found to perform very well.
+As any other method, the Nataf transformation is not universal and works best only under certain assumptions.
+More precisely, the strict formulation requires the copula of the distribution to be elliptical.
+Since one nearly never knowns the true joint distribution in practice, it is understood that the transformation is an approximation.
+It can also be seen from the fact the knowledge of a covariance matrix and a set of marginal probability distributions, which Nataf requires, is already not sufficient to fully specify a joint probability distribution.
+Nevertheless, the transformation allows one to tackle real-world problems without the need of the joint distribution, and it was found to perform very well.
+
+\done{The elliptical-copula condition of the Nataf transformations has been included in Sec.~V-A}.
+
+\done{It has been clarified that the two transformations mentioned in Sec.~V-A are only two possible alternatives for the extraction of independent parameters.}
+
+\done{Independent component analysis has also been mentioned in Sec.~V-A.}
 \end{authors}
 
 \begin{reviewer}
-4. Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion. It will be good if the authors can compare and contrast with the exponential modeling as described in:
+4. Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion.
+\end{reviewer}
+\begin{authors}
+The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would make sense to consider some ad hoc solutions, like the exponentiation of PC expansions.
+However, in this case, we would need to find such an ad hoc solution for every parameter, we wish to account for, individually.
+As a matter of fact, the subthreshold leakage current is not a strictly exponential function of a function of the effective channel length since, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent as well.
+Our approach is very flexible in this regard since the uncertainty is injected into the proposed framework as a ``black box.''
+Thus, the proposed framework can be applied in various situations in a straightforward manner.
+Moreover, as we have already mentioned, our primary target is temperature, and such ad hoc solutions as the exponentiation of PC expansions would hinder the achievement of this target.
+More precisely, as it is summarized at the end of Sec.~V-B, our recurrent expression in Eq.~7 is linear in terms the base polynomials, and this linearity property is highly beneficial from the computational perspective.
+The property would be lost if we had one PC expansion next to an exponent of another PC expansion, for example.
+Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
 
-S. Bhardwaj et.al. "A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations".
+\done{The above discussion has been appended to Sec.~V-B.}
+\end{authors}
+
+\begin{reviewer}
+It will be good if the authors can compare and contrast with the exponential modeling as described in:
+
+S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations''.
 \end{reviewer}
 \begin{authors}
 Thank you for the reference.
-We have included it in the paper.
-Such a comparison is certainly possible; however, we were guided by different incentives, which we would like to explain now.
-Even though the proposed framework covers both power and temperature, we started this work aiming to the quantification of temperature, not power as it had already been addressed by other researchers.
-A PC expansion for power is a byproduct on the way to the corresponding PC expansion for temperature.
-Therefore, we do not put much stress on power in the experimental results; it would make little contribution.
-You are right that, if we were to focus solely on the variability of the effective channel length, it would make sense to consider some ad-hoc solutions, like the exponentiation of a PC expansion.
-However, in this case, it would be more problematic to reach temperature in the end.
-Moreover, we would need to find such an ad-hoc solution for every parameter we wish to account for individually, which is not the case with the current formulation as the uncertainty is injected into our framework as a ``black box''.
-Thus, our approach can be applied in various situations in a straightforward manner.
+The following response to this comment is the power-related part of the answer to the third comment of Reviewer 2.
+Although our approach covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power as it had already been addressed by other researchers.
+In other words, the main focus of our work is on temperature, and power is a byproduct on the way to temperature if you will.
+Therefore, we do not put much stress on power in the experimental results.
+
+\done{The absence of a comparisons for power has been explained in Sec.~VII.}
+
+\done{[S. Bhardwaj, 2008] has been reviewed and cited.}
 \end{authors}
 
 \begin{reviewer}
@@ -53,8 +83,11 @@ Experimental Results:
 5. It is somewhat unclear how much variation in the parameters was assumed. The authors mention that the channel length was assumed to deviate by 5\%. So, does it mean that the standard deviation was 5\% or 3-sigma was 5\%. If it is the latter (3-sigma = 5\%), then the variation assumption in gate length is somewhat small. We need to see how the accuracy of the approach at some higher degrees of variation. So, some comparison with 10-15\% 3-sigma variation will be important.
 \end{reviewer}
 \begin{authors}
-We apologize for the confusion. By ``assumed to deviate by 5\%'', we meant ``assumed to have a standard deviation of 5\%''. So, 5\% is $\sigma$, not $3 \sigma$.
-We have fixed this formulation in the paper.
+We apologize for the confusion.
+By ``assumed to deviate by 5\%,'' we meant ``assumed to have a standard deviation of 5\% of the nominal value.''
+So, 5\% is about $\sigma$, not $3 \sigma$.
+
+\done{The formulation regarding the variability of the effective channel length has been updated in Sec.~VII, which also brought attention of Reviewer 2 in the first comment.}
 \end{authors}
 
 \begin{reviewer}
@@ -73,6 +106,5 @@ The choice of the effective channel length was a no-brainer as many studies show
 7. For practical purposes, it would be nice to see how the convergence rates and the computational speeds change with additional sources of variations such as the threshold voltage. Some commentary on this will help readers better understand the applicability of this approach.
 \end{reviewer}
 \begin{authors}
-Yes, it is among our plans for the future research.
-Speaking about the threshold voltage, as it is mentioned in the manuscript, it has an exponential dependency on the effective channel length (see [12]), and, by considering the variability of the latter, we implicitly take into consideration the variability of the former as well; although, there might be other, less severe, sources of uncertainty of the threshold voltage.
+Speaking about the threshold voltage, as it is also mentioned in the manuscript, it has an exponential dependency on the effective channel length (see [12]), and, by considering the variability of the latter, we implicitly take into consideration the variability of the former as well; although, there might be other, less severe, sources of uncertainty of the threshold voltage.
 \end{authors}

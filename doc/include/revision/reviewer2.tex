@@ -1,7 +1,14 @@
 \begin{reviewer}
 Using polynomial chaos (PC) approach to capture process variation caused performance issues in VLSI design was first pointed out and developed by authors from [5][17][18]. And it really works well ! Most theoretical part of this paper followed similar derivations as these previous papers. However, comparing with Monte Carlo based approaches, PC may end up doing  lengthy  coefficients solving procedure. No surprise that the authors need additional surrogate modeling and multi-processors to deal with the speedup.
 
-This paper is well written overall. My major concerns are in the experimental results part.
+This paper is well written overall.
+\end{reviewer}
+\begin{authors}
+Thank you.
+\end{authors}
+
+\begin{reviewer}
+My major concerns are in the experimental results part.
 
 1) The authors used 45nm technology node. But the variation is only 5\%. Is this too low ? Of course variations depend on fab. Different companies may provide different number. But isnt this should be around 30\% to 50\% on average.
 \end{reviewer}
@@ -11,9 +18,9 @@ The scenario $\mu = 45~\text{nm}$ and $\sigma$ is 5\% of $\mu$ is only an exampl
 To give another example, [R. Shen \etal, 2009] also considers a 45-nm technological process wherein $\sigma$ is equal to 4\% of $\mu$.
 In [S. Chandra \etal, 2010], the authors consider a 90-nm process and use $\sigma$ equal to $10\%$ of $\mu$.
 The high percentages mentioned by the reviewer typically appear in the context where the portion of a particular type of variability is compared to the total variation.
-Please refer to, \eg, [A. Chandrakasan, 2000], Fig.~6.1 on page 98, wherein ``the percentage of the total variation accounted for by within-die variation [\ldots] is plotted'', and the maximal percentage indeed goes up to 50\%.
+Please refer to, \eg, [A. Chandrakasan, 2000], Fig.~6.1 on page 98, wherein ``the percentage of the total variation accounted for by within-die variation [\ldots] is plotted,'' and the maximal percentage indeed goes up to 50\%.
 
-\done{The formulation regarding the variability of the channel length has been updated in Sec.~VII, which also brought attention of Reviewer 3 in the fifth comment.}
+\done{The formulation regarding the variability of the effective channel length has been updated in Sec.~VII, which also brought attention of Reviewer 3 in the fifth comment.}
 \end{authors}
 
 \begin{reviewer}
@@ -45,8 +52,11 @@ Our work is dedicated to probabilistic analysis; therefore, such a comparison is
 However, we would like to note that the thermal model \perse\ (\ie, the construction of equivalent RC thermal circuits) is well established and has numerous justifications in the corresponding literature.
 The accuracy of the solution process described in App.~A has also been assessed not only by us, [I. Ukhov \etal, 2012], but also by other groups of researchers such as [L. Thiele \etal, 2011].
 Finally, the leakage modeling using SPICE simulations is also a frequently encountered approach; see, \eg, [D.-C. Juan \etal, 2011, 2012].
+
 Let us now turn to the absence of a comparison with variation-aware techniques.
-Although our approach covers both power and temperature, the main focus of our work is still on temperature; power is a byproduct if you will.
+Although our approach covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power as it had already been addressed by other researchers.
+In other words, the main focus of our work is on temperature, and power is a byproduct on the way to temperature if you will.
+Therefore, we do not put much stress on power in the experimental results.
 The most relevant, from our perspective, temperature-related works and their limitations are discussed in the paper, Sec.~II.
 Since we address the transient scenario while others either address the maximal or work under the steady-state assumption, a one-to-one comparison is not possible.
 

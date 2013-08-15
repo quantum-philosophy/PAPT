@@ -18,6 +18,7 @@ Apart from a DAG, TGFF generates a set of tables that specify the execution time
 Then the simulation that we perform consists of a scheduling procedure of the DAG, which determines when and where each task should be executed (we employ a list scheduler for this purpose).
 Once this has been decided, the corresponding dynamic power profile is constructed based on the tables provided by TGFF.
 The output files of TGFF used in our experiments are available online.
+
 In practice, of course, dynamic power profiles should be properly captured using adequate simulators capable of modeling the power dissipation.
 In particular, the following interrelated tools are very frequently used for this purpose: SimpleScalar, PTscalar, gem5, McPAT, and Wattch.
 As Reviewer~2 pointed out in the second comment, contemporary software packages can address ``[\ldots] fairly big size examples and circuits.''
@@ -28,7 +29,7 @@ As Reviewer~2 pointed out in the second comment, contemporary software packages 
 \end{authors}
 
 \begin{reviewer}
-2) Question about the thermal model: The authors mentioned the following in Sec. IV-C: “Given the thermal specification S of the system at hand (see Sec. IV), …” I’m interested in the modeling of thermal specification as well. But it seems that the authors are referring to the wrong Section (or should provide more details about sub-session?).
+2) Question about the thermal model: The authors mentioned the following in Sec. IV-C: ``Given the thermal specification S of the system at hand (see Sec. IV), \ldots'' I’m interested in the modeling of thermal specification as well. But it seems that the authors are referring to the wrong Section (or should provide more details about sub-session?).
 \end{reviewer}
 \begin{authors}
 The specification $\system$ is a shortcut for us to refer to all the information needed for the construction of an equivalent thermal RC circuit of the system.
@@ -44,7 +45,7 @@ $\system$ then reflects the configuration of HotSpot, which includes more than 6
 \end{authors}
 
 \begin{reviewer}
-In Sec. III, the authors mentioned that this framework works for electronic systems with temperature profiles. Is that chip level? Architecture level? If it’s chip level, the cooling system is not settled yet, so it’s hard to have a final temperature profile; [\ldots]
+In Sec. III, the authors mentioned that this framework works for electronic systems with temperature profiles. Is that chip level? Architecture level? If it’s chip level, the cooling system is not settled yet, so it’s hard to have a final temperature profile;
 \end{reviewer}
 \begin{authors}
 The thermal modeling considered in this paper is at the system level.
@@ -57,7 +58,7 @@ Please refer to Fig.~6 for an illustration, in which the top three dashed boxes 
 \end{authors}
 
 \begin{reviewer}
-[\ldots] If it’s architecture level, there might be multiple chips involved with different statistical power behaviors, I’m curious about how the proposed method works in this situation.
+If it’s architecture level, there might be multiple chips involved with different statistical power behaviors, I’m curious about how the proposed method works in this situation.
 \end{reviewer}
 \begin{authors}
 The source of uncertainty considered in this work is process variation.
@@ -76,5 +77,5 @@ However, since this behavior is unknown at the design stage, the power/temperatu
 
 \done{Fig.~1 have been adapted for printing in grayscale.}
 
-\done{The same issue has been addressed with respect to Fig.~4, Fig.~5, Fig.~7, Fig.~8, and Fig. 9.}
+\done{The same issue has been addressed regarding Fig.~4, Fig.~5, Fig.~7, Fig.~8, and Fig. 9.}
 \end{authors}
