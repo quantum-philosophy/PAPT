@@ -47,17 +47,23 @@ It is worth noting that the one-to-one mapping is used merely for the clarity of
 \end{reviewer}
 \begin{authors}
 The reviewer mentioned two types of papers: deterministic ([R. Rao \etal, 2009]) and stochastic ([S. Bhardwaj \etal, 2006] and [P. Ghanta \etal, 2006]).
-Let us first motivate the absence of a comparison with deterministic techniques.
-Our work is dedicated to probabilistic analysis; therefore, such a comparison is outside of the scope of the manuscript.
-However, we would like to note that the thermal model \perse\ (\ie, the construction of equivalent RC thermal circuits) is well established and has numerous justifications in the corresponding literature.
+The absence of a comparison with deterministic techniques is motivated by the fact that our work is dedicated to probabilistic analysis; therefore, such a comparison is outside of the scope of the manuscript.
+However, we would like to note that our thermal model \perse\ (\ie, the construction of equivalent RC thermal circuits) is well established and has numerous justifications in the corresponding literature.
 The accuracy of the solution process described in App.~A has also been assessed not only by us, [I. Ukhov \etal, 2012], but also by other groups of researchers such as [L. Thiele \etal, 2011].
+In relation to [R. Rao \etal, 2009], the temperature analysis in that paper is drastically different from the one considered here: it is static steady state while we address the transient scenario.
+The drawbacks of the static steady-state assumption are illustrated and discussed in detail in [I. Ukhov \etal, 2012] wherein a reference to [R. Rao \etal, 2009] is also present.
+Moreover, [R. Rao \etal, 2009] makes four additional assumptions (see Sec.~III-A in that paper) and severely mangles the original thermal model taken from HotSpot; none of this assumptions is present in our work.
+Therefore, by definition, our thermal model is more exact.
 Finally, the leakage modeling using SPICE simulations is also a frequently encountered approach; see, \eg, [D.-C. Juan \etal, 2011, 2012].
 
-Let us now turn to the absence of a comparison with variation-aware techniques.
-Although our approach covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power as it had already been addressed by other researchers.
-In other words, the main focus of our work is on temperature, and power is a byproduct on the way to temperature if you will.
-Therefore, we do not put much stress on power in the experimental results.
-The most relevant, from our perspective, temperature-related works and their limitations are discussed in the paper, Sec.~II.
+Let us now turn to the absence of a comparison with stochastic techniques.
+As mentioned in Sec.~II, [S. Bhardwaj \etal, 2006] and [P. Ghanta \etal, 2006] perform stochastic power analysis without taking into account the important interdependence between leakage and temperature.
+Hence, a direct comparison with our temperature-aware solution cannot be drawn.
+In addition, while [P. Ghanta \etal, 2006] does employs PC expansions, [S. Bhardwaj \etal, 2006] is based solely on the KL decomposition, which further hinders a direct comparison with our approach.
+Finally, despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power alone as it had already been addressed by other researchers.
+In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature if you will.
+Therefore, the experimental results are primarily dedicated to stochastic temperature analysis, which makes the main contribution of our research.
+Now, regarding potential comparisons with temperature-targeted techniques, the most relevant, from our perspective, works and their limitations are discussed in Sec.~II.
 Since we address the transient scenario while others either address the maximal or work under the steady-state assumption, a one-to-one comparison is not possible.
 
 \done{The absence of comparisons with prior techniques has been explained in Sec.~VII.}
