@@ -44,33 +44,32 @@ It should also be noted right away that the inputs to the Nataf transformations,
 \end{authors}
 
 \begin{reviewer}
-4. Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion.
-\end{reviewer}
-\begin{authors}
-The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would make sense to consider some ad hoc solutions, like the exponentiation of PC expansions.
-However, in this case, we would need to find such an ad hoc solution for every parameter, we wish to account for, individually.
-As a matter of fact, the subthreshold leakage current is not a strictly exponential function even of a function of the effective channel length since, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent as well.
-Our approach is very flexible in this regard since the uncertainty is injected into the proposed framework as a ``black box.''
-Thus, the proposed framework can be applied in various situations in a straightforward manner.
-Moreover, as we have already mentioned, our primary target is temperature, and such ad hoc solutions as the exponentiation of PC expansions would hinder the achievement of this target.
-More precisely, as it is summarized at the end of Sec.~V-B, our recurrent expression in Eq.~6 is linear in terms of the base polynomials, and this linearity property is highly beneficial from the computational perspective, leading to the recurrence in Eq.~7.
-The property would be lost if we had one PC expansion next to an exponent of another PC expansion, for example.
-Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
-
-\done{The above discussion has been appended to Sec.~V-B.}
-\end{authors}
-
-\begin{reviewer}
-It will be good if the authors can compare and contrast with the exponential modeling as described in:
+4. Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion. It will be good if the authors can compare and contrast with the exponential modeling as described in:
 
 S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations''.
 \end{reviewer}
 \begin{authors}
-Taking into consideration the above discussion, such a comparison (\ie, the exponentiation of PC expansions for power) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
+The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would make sense to consider some ad hoc solutions, like the exponentiation of PC expansions.
+However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, he or she wishes to account for, individually.
+It can also be seen right in [S. Bhardwaj \etal, 2008], mentioned by the reviewer, that even the effective channel length does not naturally fit into the exponential model.
+The reason is that, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent in the expression for the subthreshold leakage current.
+To tackle the difficulty, [S. Bhardwaj \etal, 2008] pulls this inconvenient term inside the exponent using the usual exp/log transformation, as shown in App.~A in that paper.
+Regardless of where the effective channel length ends up in the formula, the essence of the physical process behind stays unchanged.
+The proposed approach eliminates the need in such manipulations.
+It is very flexible in this regard and can be applied in various situations in a straightforward manner.
+
+Moreover, as we have already mentioned, our primary target is temperature, and such ad hoc solutions as the exponentiation of PC expansions would hinder the achievement of this target.
+More precisely, as it is summarized at the end of Sec.~V-B, the matrix recurrence in Eq.~6 is linear in terms of the base polynomials, and this linearity property is highly beneficial from the computational perspective, leading to the matrix recurrence in Eq.~7.
+The property would be lost if we had one PC expansion next to an exponent of another PC expansion, for example.
+Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
+
+To summarize, taking into consideration the above discussion, such a comparison (\ie, the exponentiation of PC expansions for power) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
+
+\done{The above discussion has been appended to Sec.~V-B.}
 
 \done{The absence of a comparisons for power has been explained in Sec.~VII.}
 
-\done{[S. Bhardwaj, 2008] has been reviewed and cited.}
+\done{[S. Bhardwaj \etal, 2008] has been reviewed and cited.}
 \end{authors}
 
 \begin{reviewer}
@@ -119,7 +118,9 @@ Assume now that $L$ and $W$ are correlated.
 In this case, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
 Therefore, the information provided by Tab.~V allows the reader to draw conclusions about the scaling of the proposed framework when additional parameters are taken into consideration.
 
-Speaking about the threshold voltage, as also mentioned in the manuscript, it is a function of the effective channel length [D.-C. Juan \etal, 2012], and, by considering the variability of the latter, we implicitly take into consideration the variability of the former as well; although, there might be other, less severe, sources of uncertainty of the threshold voltage.
+The threshold voltage mentioned by the reviewer is an exponential function of the effective channel length according to the BSIM4 model, which is also noted in the manuscript.
+The sensitivity of the threshold voltage to the effective channel length is one of the strongest [R. Shen \etal, 2009].
+Consequently, by considering the variability of the latter, we implicitly take into consideration one of the largest portions of the variability of the former.
 
 \done{The above discussion regarding additional parameters in connection with Tab.~V has been included in Sec.~VII.}
 \end{authors}

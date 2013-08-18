@@ -11,12 +11,13 @@ A solely power-targeted but temperature-aware solution is proposed in \cite{chan
 A learning-based approach is presented in \cite{juan2011} to estimate the maximal temperature under the steady-state condition.
 Temperature-related issues originating from process variation are also considered in \cite{juan2012} where a statistical model of the steady-state temperature based on Gaussian distributions is derived.
 In \cite{shen2009}, the theory of polynomial chaos (PC) expansions \cite{xiu2010, maitre2010, ghanem1991, eldred2008} together with principal component analysis (PCA) are employed to estimate the full-chip leakage power.
-A generalization of PCA known as the Karhunen-Lo\`{e}ve (KL) decomposition (refer to the same literature as for PC expansions) is used in \cite{bhardwaj2006} for the leakage calculation.
-An analysis of the voltage response of power grids is carried out in \cite{ghanta2006} where the PC and KL methods are jointly utilized.
+\updated{A generalization of PCA known as the Karhunen-Lo\`{e}ve (KL) decomposition (refer to the same literature as for PC expansions) is utilized in \cite{bhardwaj2006} for leakage calculations.
+In \cite{bhardwaj2008}, the total leakage is quantified using the PC and KL methods together.
+The same combination of tools is employed in \cite{ghanta2006} to analyze the voltage response of power grids.}
 
 \input{include/assets/normal-plots.tex}
-The last three of the aforementioned techniques, \ie, \cite{shen2009, bhardwaj2006, ghanta2006}, are temperature-unaware solutions to power modeling under process variation.
-The rest are temperature-related approaches, but none of them attempts to perform stochastic transient PTA and to compute the evolving-in-time probability distribution of temperature.
+\updated{The last four of the aforementioned techniques, \ie, \cite{shen2009, bhardwaj2006, bhardwaj2008, ghanta2006}, perform only power analysis under process variation and ignore the interdependence between leakage and temperature.
+The rest are temperature-related approaches, but none of them attempts to tackle stochastic transient PTA and to compute the evolving-in-time probability distribution of temperature.}
 However, such transient curves are of practical importance.
 First of all, certain procedures cannot be undertaken without the knowledge of the time-dependent temperature variations, \eg, reliability optimization based on the thermal-cycling fatigue \cite{ukhov2012}.
 Secondly, the constant steady-state temperature assumption, considered, \eg, in \cite{juan2011, juan2012}, can rarely be justified since power profiles are not invariant in reality.

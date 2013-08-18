@@ -1,6 +1,7 @@
 At \stage{1}, $\vU(\o)$ should be preprocessed in order to extract a set of mutually independent random variables, $\vZ(\o)$.
 Following the guidance given in \sref{uncertain-parameters}, the most suitable transformation for the ongoing scenario is the Nataf transformation.
-Here we describe the algorithm in brief and refer the interested reader to \cite{li2008} for additional details. The transformation is typically presented in two steps.
+Here we describe the algorithm in brief and refer the interested reader to \cite{li2008} for additional details.
+The transformation is typically presented in two steps.
 First, $\vU(\o) \in \real^{\nprocs + 1}$ are morphed into correlated Gaussian variables, denoted by $\vZ'(\o) \in \real^{\nprocs + 1}$, using the knowledge of the marginal distributions and covariance matrix of $\vU(\o)$.
 Second, the obtained correlated Gaussian variables are mapped into independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$, using one of several available techniques such as the Cholesky decomposition \cite{press2007} utilized in \cite{li2008}.
 
