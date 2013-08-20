@@ -15,7 +15,6 @@ In \cite{shen2009}, the theory of polynomial chaos (PC) expansions \cite{xiu2010
 In \cite{bhardwaj2008}, the total leakage is quantified using the PC and KL methods together.
 The same combination of tools is employed in \cite{ghanta2006} to analyze the voltage response of power grids.}
 
-\input{include/assets/normal-plots.tex}
 \updated{The last four of the aforementioned techniques, \ie, \cite{shen2009, bhardwaj2006, bhardwaj2008, ghanta2006}, perform only power analysis under process variation and ignore the interdependence between leakage and temperature.
 The rest are temperature-related approaches, but none of them attempts to tackle stochastic transient PTA and to compute the evolving-in-time probability distribution of temperature.}
 However, such transient curves are of practical importance.
@@ -26,9 +25,7 @@ However, this assumption often fails in practice (also noted in \cite{juan2012} 
 To illustrate this, we simulated the example given in \sref{introduction} $10^4$ times assuming the widespread Gaussian model for the variability of the effective channel length; the rest of the experimental setup was configured as it will be described in \sref{illustrative-example} and \sref{experimental-results}.
 Then we applied the Jarque-Bera test of normality to the collected data (temperature) directly as well as after processing them with the log transformation.
 The null hypothesis that the data are from an unspecified Gaussian distribution was firmly rejected in both cases at the significance level of 5\%.
-\fref{normal-plots} gives an example of the normal probability plots inherent to the observed data before (on the left) and after (on the right) the log transformation.
-It can be seen that the samples, marked with orange crosses, significantly diverge from the straight blue line that represents a pure Gaussian scenario.
-Consequently, the observed distributions of temperature are neither Gaussian nor log-normal, which can also be seen in \fref{experimental-results-pdf} described in the experimental results, \sref{experimental-results}.
+\updated{Consequently, the two distributions are neither Gaussian nor log-normal, which can also be seen in \fref{experimental-results-pdf} described in the experimental results, \sref{experimental-results}.}
 
 To conclude, the published stochastic PTA techniques for electronic system design are restricted in use due to one or several of the following traits: based on MC simulations (potentially slow) \cite{chandra2010}, limited to power analysis \cite{chandra2010, shen2009, bhardwaj2006, ghanta2006}, limited to the assumption of the constant steady-state temperature \cite{juan2011, juan2012}, exclusive focus on the maximal temperature \cite{juan2011}, \apriori\ chosen distributions of power and temperature \cite{srivastava2010, juan2012, bhardwaj2006}.
 Thus, there is a lack of flexible stochastic PTA techniques, which we aim to fill in.

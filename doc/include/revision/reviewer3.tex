@@ -49,18 +49,21 @@ It should also be noted right away that the inputs to the Nataf transformations,
 S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations''.
 \end{reviewer}
 \begin{authors}
-The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would make sense to consider some ad hoc solutions, like the exponentiation of PC expansions.
-However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, he or she wishes to account for, individually.
+The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would be worth considering some ad hoc solutions, like the exponentiation of PC expansions.
+However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, which is relevant to his or her uncertainty quantification problem, individually.
 It can also be seen right in [S. Bhardwaj \etal, 2008], mentioned by the reviewer, that even the effective channel length does not naturally fit into the exponential model.
 The reason is that, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent in the expression for the subthreshold leakage current.
-To tackle the difficulty, [S. Bhardwaj \etal, 2008] pulls this inconvenient term inside the exponent using the usual exp/log transformation, as shown in App.~A in that paper.
+To tackle the difficulty, [S. Bhardwaj \etal, 2008] pulls this ``inconvenient'' term inside the exponent using the usual exp/ln transformation, as shown in App.~A in that paper.
 Regardless of where the effective channel length ends up in the formula, the essence of the physical process behind stays unchanged.
 The proposed approach eliminates the need in such manipulations.
 It is very flexible in this regard and can be applied in various situations in a straightforward manner.
 
 Moreover, as we have already mentioned, our primary target is temperature, and such ad hoc solutions as the exponentiation of PC expansions would hinder the achievement of this target.
-More precisely, as it is summarized at the end of Sec.~V-B, the matrix recurrence in Eq.~6 is linear in terms of the base polynomials, and this linearity property is highly beneficial from the computational perspective, leading to the matrix recurrence in Eq.~7.
+More precisely, as it is summarized at the end of Sec.~V-B, the recurrent expression in Eq.~6 is linear in terms of the base polynomials, and this linearity property is highly beneficial from the computational perspective, leading to the recurrence in Eq.~7.
 The property would be lost if we had one PC expansion next to an exponent of another PC expansion, for example.
+At this point, one should not forget two facts inherent to the modeled physical phenomenon, \ie, heat transfer within electronic systems.
+First, the aforementioned recurrent expressions operate with vectors and matrices, which basically means that the temperature of one thermal node affects the temperatures of all other nodes.
+Second, since the leakage power and temperature are tightly interrelated, at each step of the iterative process, the expansion of power is based on the previous expansion of temperature, and this dependency is strictly nonlinear (it is also emphasized at the end of Sec.~V-D3).
 Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
 
 To summarize, taking into consideration the above discussion, such a comparison (\ie, the exponentiation of PC expansions for power) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
@@ -94,32 +97,43 @@ However, we kindly ask the reviewer to consider our response to the third part o
 
 It is true that the more uncertain parameters are taken into account, the more independent variables will eventually be needed for the construction of a sufficiently accurate PC expansion.
 And this, of course, will intensify the curse of dimensionality.
-The concern is described in one of the main sections of the manuscript, namely, in Sec.~V-D-4 where we also summarize how we alleviate this issue by using model order reduction and efficient techniques of numerical integration.
+The concern is described in one of the main sections of the manuscript, namely, in Sec.~V-D4 where we also summarize how we alleviate this issue by using model order reduction and efficient techniques of numerical integration.
 
-\done{The curse of dimensionality has been further elaborated on in Sec.~V-D-4 wherein the time complexity of our approach has been analyzed, as suggested by Reviewer 4 in the first comment.}
+\done{The curse of dimensionality has been further elaborated on in Sec.~V-D4 wherein the time complexity of our approach has been analyzed, as suggested by Reviewer 4 in the first comment.}
 \end{authors}
 
 \begin{reviewer}
 7. For practical purposes, it would be nice to see how the convergence rates and the computational speeds change with additional sources of variations such as the threshold voltage. Some commentary on this will help readers better understand the applicability of this approach.
 \end{reviewer}
 \begin{authors}
+First, we would like to note the following.
 As the reviewer correctly pointed out earlier, the curse of dimensionality constitutes a concern, which is arguably the major one when it comes to PC expansions.
+Please consider our answer to the first comment of Reviewer 4 regarding the time complexity.
 Therefore, the applicability of the proposed framework mainly depends on how this curse of dimensionality manifests itself in the problem at hand.
-This manifestation, in its turn, depends primarily on the number of independent parameters $\nvars$ left after the preprocessing stage described in Sec.~V-A.
-In other words, the foremost quantity, from our perspective, that should be discussed in the experimental results is $\nvars$.
-The ``$\nvars$'' column of Tab.~V serves this exact purpose: it demonstrates how the proposed framework scales in terms of the number of independent parameters.
+This manifestation, in its turn, depends primarily on the number $\nvars$ of independent parameters $\vZ(\o)$ left after the preprocessing stage described in Sec.~V-A; this fact is explained in Sec.~V-D4, ``Computational challenges.''
 
-To elaborate further, assume that, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
-First, let $L$ and $W$ be independent.
-If $W$ has no spacial variations, $\nvars$ will be increased by one.
-Otherwise, the increment of $\nvars$ depends on the correlation pattern inherent to $W$.
-For example, if the patter is the same as for $L$ then $\nvars$ will be doubled.
-Assume now that $L$ and $W$ are correlated.
-In this case, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
-Therefore, the information provided by Tab.~V allows the reader to draw conclusions about the scaling of the proposed framework when additional parameters are taken into consideration.
+The conclusions, regarding the performance our framework, based on the considered sources of variations $\vU(\o)$ can be misleading as we shall illustrate now.
+Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
+Then, the first question to ask is whether $L$ and $W$ are independent.
+Assume first they are.
+The second question to ask is whether $W$ has local variations.
+If it does not, $\nvars$ will be increased by one, relative to the case wherein only $L$ is considered.
+If it does, the third question to ask is: What is the correlation patter inherent to $W$?
+For instance, if the patter is the same as for $L$, $\nvars$ will be doubled in the end.
+In general, the answer depends on how strong/weak the assumed spatial correlations of $W$ are.
+Coming back to the very first question we asked, suppose $L$ and $W$ are now correlated.
+In this case, the follow-up questions are the same as before; however, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
+As we can see, it is not straightforward to relate the considered uncertain parameters $\vU(\o)$ with the resulting independent random variables $\vZ(\o)$ and, thus, with the complexity of the further analysis.
 
-The threshold voltage mentioned by the reviewer is an exponential function of the effective channel length according to the BSIM4 model, which is also noted in the manuscript.
-The sensitivity of the threshold voltage to the effective channel length is one of the strongest [R. Shen \etal, 2009].
+To summarize, we believe that the foremost quantity to pay attention to is $\nvars$.
+The ``$\nvars$'' column of Tab.~V serves this exact purpose: it demonstrates how the computational speed of the proposed framework scales with respect to the number of independent parameters.
+The fact that there is another variable in Tab.~V, namely, the number of processing elements, $\nprocs$, does not affect the corresponding conclusions since, as mentioned above, the complexity is dictated by the stochastic dimensionality of the problem.
+Regarding accuracy, we observed that fourth-order PC expansions (used to obtain the results in Tab.~V) were sufficiently accurate for the purpose of temperature analysis considered in this paper.
+Note also that this order is higher than the one used for power in the PC-related literature discussed in Sec.~II: typically, it is the second order (see, \eg, [S. Bhardwaj \etal, 2008] and [Shen \etal, 2009]).
+Therefore, following a similar reasoning as in the previous paragraph, the information provided by Tab.~V allows the reader to draw conclusions about the performance of the proposed framework when additional parameters are considered.
+
+Speaking about the threshold voltage mentioned by the reviewer, it is a function of the effective channel length according to the BSIM4 model, which is also noted in the manuscript.
+The dependency of the threshold voltage to the effective channel length is one of the strongest [R. Shen \etal, 2009] [D.-C. Juan \etal, 2011, 2012].
 Consequently, by considering the variability of the latter, we implicitly take into consideration one of the largest portions of the variability of the former.
 
 \done{The above discussion regarding additional parameters in connection with Tab.~V has been included in Sec.~VII.}

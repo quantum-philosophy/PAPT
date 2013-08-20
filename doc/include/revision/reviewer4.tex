@@ -1,41 +1,108 @@
 \begin{reviewer}
-This work developed a useful probabilistic framework to estimate the transient power and temperature variations of electronic system designs. The description is clear, and the organization is well. A few of comments and suggestions are listed as follows.
-
-1).The computational complexity of the proposed framework should be analyzed. The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
+This work developed a useful probabilistic framework to estimate the transient power and temperature variations of electronic system designs. The description is clear, and the organization is well.
 \end{reviewer}
 \begin{authors}
-The reviewer is absolutely right: the time complexity should be analyze, and this analysis is available.
-We do not present it in this paper as we obey the following rule: if something cannot be explained clearly within the given space limit, it is better to exclude it completely.
-As this question is indeed important, we decided to give an algorithmic explanation of all the steps of a PC expansion as a part of our on-going research.
-Then, the time complexity will become apparent and easy to explain. Let us give a flavor of what this complexity is.
+Thank you.
+\end{authors}
+
+\begin{reviewer}
+A few of comments and suggestions are listed as follows.
+
+1).The computational complexity of the proposed framework should be analyzed.
+\end{reviewer}
+\begin{authors}
+The analysis of the time complexity of the framework is available.
+It was not include it in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
+A clear explanation requires an in-depth discussion on the algorithmic structure of the proposed framework since the particularities of our implementation are important for the performance of the proposed approach.
+In particular, a thorough attention is needed to the parts of the algorithm that stay unchanged when the input changes.
+These parts can and should be precomputed and stored such that their future use implies no additional computational costs (this is partially related to the second comment of this reviewer regarding Sec.~VI-D).
+Such an in-depth explanation was planned to be given as a part of another work.
+Taking the received feedback into account, we have reconsidered our decision and have included in the manuscript a concise version of the analysis of the time complexity given in what follows.
+
+All the statements below regarding certain aspects of PC expansions should be understood only in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
-The construction of a PC expansion of a stochastic temperature profile is one multiplication of an $\pcterms \times \qdorder$ matrix with an $\qdorder \times (\nprocs \nsteps)$ matrix, which is $O(\pcterms \times \qdorder \times \nprocs \times \nsteps)$.
-The first matrix is fixed and tabulated, so there are no additional costs.
-The second matrix is obtained by solving the thermal system for $\qdorder$ quadrature points.
-Using the approach described in App. A, the time complexity of one solve is $O(\nsteps \times \nnodes^2)$ and, thus, $O(\qdorder \times \nsteps \times \nnodes^2)$ for all quadrature points.
-The overall complexity is then $O(\pcterms \times \qdorder \times \nprocs \times \nsteps + \qdorder \times \nsteps \times \nnodes^2)$, which can be detailed even further by expanding $\pcterms$ and $\qdorder$.
-Let us now turn to the absence of a comparison for power.
-We decided to sacrifice this part and spend our efforts and the limited paper space mostly on temperature due to the following reasons.
-First, despite the fact that the framework addresses both power and temperature, our main target was always temperature since power \perse\ had already been addressed by other researchers.
-Therefore, it would not make much contribution if we tried to elaborate on power.
-Instead, we decided to focus on what would be novel and would make a difference, that is, on temperature.
-Second, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
+The construction of PC expansions is based on so-called non-intrusive spectral projections [M. Eldred \etal, 2008] using quadrature rules.
+The needed quadrature rule is determined solely by the intended PC expansion.
+The structure of the intended PC expansion (\ie, everything except for the coefficients) is determined solely by the desired accuracy, \ie, $\pcorder$, and the parametrization of the problem in terms of independent variables, \ie, $\vZ(\o)$.
+Therefore, any two problems that share $\vZ(\o)$ and $\pcorder$ have identical structures of PC expansions and identical quadrature rules.
+To give an extreme example, suppose a dual-core platform has three uncertain parameters $\vU'(\o)$, and a 32-core platform has 33 uncertain parameters $\vU''(\o)$.
+Then, if the model order reduction procedure leaves two beta variables $\vZ(\o)$ in both cases, the two problems are identical from the perspective of, say, the fourth-order PC, regardless of the input dynamic power profile.
+Consequently, the preliminary work for a fix combination of $\vZ(\o)$ and $\pcorder$ should be done only once.
+In particular, this means that, for a given architecture and a given accuracy level, an unlimited number of dynamic power profiles can be analyzed at no additional costs.
+This is especially advantageous for various optimization procedures, as we note in Sec.~VII.
+
+Going further in detail, for each problem, we compute and store two matrices.
+The first one is an $\pcterms \times \qdorder$ matrix, referred to as the projection matrix, which is used to compute the coefficient of a PC expansion by one matrix multiplication.
+The second one is an $\pcterms \times \qdorder$ matrix, referred to as the evaluation matrix, which is used to evaluate a PC expansion at the quadrature nodes by one matrix multiplication.
+Having said all above, we can now calculate the time complexity of the PC expansions computed inside the proposed framework.
+As usual, the costs associated with other preliminary computations (the construction of equivalent thermal RC circuits, \etc), which are constant for a particular problem/platform, are not included.
+
+The iterative procedure in Eq.~7 traverses $\nsteps$ time steps.
+Each step yields an $\nnodes \times \pcterms$ matrix that contains the coefficients of a PC expansion for temperature.
+This matrix is the sum of two matrices corresponding to the two terms in Eq.~7.
+The first matrix is based on the result from the previous iteration and is obtained by one multiplication of an $\nnodes \times \nnodes$ matrix with an $\nnodes \times \pcterms$ matrix.
+The second matrix is computed by one multiplication of an $\nnodes \times \nprocs$ matrix with an $\nprocs \times \pcterms$ matrix, representing the coefficients of the current PC expansion for power.
+So, the complexity of one step up to this point is $O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$ (in the experimental results, $\nnodes = 4 \times \nprocs + 12$).
+The calculation of the current PC expansion for power is composed of two stages: evaluation and projection.
+At the first stages, the current (\ie, from the previous step) PC expansion for temperature is evaluated at the quadrature nodes.
+As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $O(\nprocs \, \pcterms \, \qdorder)$.
+Then, the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix, are plugged in into the power model.
+The result is an $\nprocs \times \qdorder$ matrix of power.
+Denote the complexity of the computations associated with the power model by $O(\Pi(\nprocs, \qdorder))$.
+At the projection stage, the coefficients of the current PC expansion for power are calculated by one multiplication of the output of the power model, \ie, an $\nprocs \times \qdorder$ matrix, with the projection matrix; so, this operations is $O(\nprocs \, \qdorder \, \pcterms)$, which is the same as the complexity of the evaluation stage.
+The time complexity of one time step is then
+\[
+  O(\nprocs^2 \, \pcterms + \nprocs \, \qdorder \, \pcterms + \Pi(\nprocs, \qdorder)).
+\]
+The first term can be dropped as $\nprocs$ is typically much smaller than $\qdorder$.
+Taking into consideration all the time steps, we have
+\[
+  O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \Pi(\nprocs, \qdorder)).
+\]
+The expression can be detailed even further by expanding $\pcterms$ and $\qdorder$.
+For total-order polynomial spaces, the exact formula for $\pcterms$ is given in Eq.~5.
+The limiting behavior of $\pcterms$ with respect to $\nvars$ is $O(\nvars^\pcorder / \pcorder!)$.
+For sparse grids, $\qdorder$ does not have such a closed-form formula and depends on the family of the quadrature rule utilized.
+The limiting behavior of $\qdorder$ with respect to $\nvars$, however, has been extensively studied.
+For example, for Gaussian quadratures, $\log(\qdorder)$ is $O(\log(\nvars))$, which means that the dependency of $\qdorder$ on $\nvars$ is polynomial [F. Heiss \etal, 2008].
+In contrast, for full-tensor-product grids, this dependency is exponential.
+
+\done{The time complexity has been analyzed in Sec.~V-D4.}
+\end{authors}
+
+\begin{reviewer}
+The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
+\end{reviewer}
+\begin{authors}
+The following discussion is partially included in our answer to the third comment of Reviewer 2.
+
+Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
+In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature if you will.
+Therefore, the experimental results are primarily dedicated to temperature analysis, which makes the main contribution of our research.
+
+Furthermore, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
 Therefore, the quantification of power is expected to be easier than the quantification of temperature, and any accuracy problems with respect to power are expected to eventually propagate to temperature.
 Consequently, the assessment of temperature allows us to draw reasonable conclusions with respect to power.
-The reviewer is right that we do not say anything regarding power in the experimental results, which we should have done.
-In the last version of the manuscript, the above reasoning is included.
+
+\done{The absence of comparisons for power has been motivated in Sec.~VII.}
+
+\done{The power/temperature relation with respect to accuracy has been given in Sec.~VII.}
 \end{authors}
 
 \begin{reviewer}
 2).In section VI.D, the authors mentioned that ``these points along with the corresponding weights are generally precomputed and tabulated;\ldots''. Could the authors clearly explain it?
 \end{reviewer}
 \begin{authors}
-The only two things that characterize a quadrature rule are its family and accuracy level.
+The answer to the first comment partially covers the answer to this one.
+
+A multidimensional quadrature rule, based on a particular construction mechanism such as the Smolyak algorithm, is characterized by its family, accuracy level, and dimensionality.
 There is no dependency on anything else.
-Once the need family of rules and accuracy level have been decided, the rule stays the same regardless of what we would like to integrate.
-Consequently, all the major families of rules (\eg, Gauss-Lagendre, Gauss-Jacobi, Gauss-Laguerre, and Gauss-Hermite) have their rules precomputed and stored in tables for wide ranges of accuracy levels.
-One can compute such tables him or herself or just use one of the many libraries available online.
+Once the rule has been chosen, it stays the same regardless of what we would like to integrate.
+Consequently, it is a common practice to have the needed rules precomputed and stored in tables for the future use.
+One can compute such tables him or herself or use one of the many libraries available online.
 In our work, we rely on the library by J. Burkardt from Florida State University; the corresponding reference is included in the manuscript.
+
+\done{The explanations in Sec.~VI-D and App.~D have been improved.}
 \end{authors}
 
 \begin{reviewer}

@@ -1,4 +1,3 @@
-\input{include/assets/integration-grids.tex}
 As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which should be calculated numerically at \stage{4}.
 In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding set of prescribed weights.
 Such pairs of nodes and weights are called quadrature rules \cite{press2007}.
@@ -13,12 +12,14 @@ Define such a quadrature-based approximation of the inner product in \eref{inner
   \oInner{h(\vz)}{g(\vz)} \approx \oQuad{\nvars}{\qdlevel}{h(\vz) \: g(\vz)} := \sum_{i = 1}^{\qdorder} h(\qdn{\vz}_i) \: g(\qdn{\vz}_i) \: \qdw_i
 \]
 where $\qdn{\vz}_i \in \real^\nvars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively; $\qdorder$ is their number; and $\qdlevel$ is the accuracy level of the quadrature rule, which is said to be $\nvars$-variate.
-Note that, once the rule to use is identified, $\qdn{\vz}_i$ and $\qdw_i$ are fixed, \ie, there is no any additional computational effort.
+\updated{It is important to note that $\qdn{\vz}_i$ and $\qdw_i$ do not change when the quantity being integrated changes.
+Thus, once the rule to use has been identified, it can be utilized to compute the inner products of arbitrary $h$ and $f$ at no additional computational effort.}
 In our experiments in \sref{experimental-results}, we use the library of quadrature rules available at \cite{burkardt2013}.
 
 Since in the example in \sref{illustrative-example} we need to compute inner products with respect to beta measures, the Gauss-Jacobi quadrature rule is of particular interest.
-The rule belongs to a broad class of rules known as Gaussian quadratures, which implies that its order $\qdorder$ and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorder - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
-Consequently, we rewrite \eref{pc-coefficients} as follows:
+\updated{The rule belongs to a broad class of rules known as Gaussian quadratures.
+For a one-dimensional Gaussian quadrature, the number of nodes $\qdorder$, also referred to as the order, and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorder - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
+Hence, we rewrite \eref{pc-coefficients} as follows:}
 \[
   \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oQuad{\nvars}{\qdlevel}{\vP_k(\o) \pcb_i(\vZ(\o))}
 \]
@@ -34,6 +35,4 @@ Moreover, it can be shown that most of the points obtained in such a way do not 
 In order to effectively alleviate this problem, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.
 For instance, in the example given earlier, the number of nodes computed by the algorithm would be only $1,581$.
-In order to give a better appreciation of Smolyak's technique, \fref{integration-grids} displays an example \cite{eldred2008} where a full-tensor product grid is plotted side by side with a sparse grid of the same integration power.\footnote{This example uses a Clenshaw-Curtis quadrature rule, which is an important alternative to Gaussian quadratures; see \cite{eldred2008} for further details.}
-Each dot in the figure is an evaluation of the function being integrated.
 It can be seen that the Smolyak algorithm allows for drastic savings of the computational time.

@@ -11,8 +11,10 @@ Dynamic power profiles involved in the experiments are based on simulations of r
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
 Time steps of power and temperature traces are set to 1~ms (see \sref{problem-formulation}).
 As a comparison to our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
-For each sample, \ie, for each outcome of the uncertain parameters, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.
-\updated{Since the temperature part of PTA analysis is the main contribution of this work, we shall focus on the on the assessment of temperature profiles.
+\updated{For each sample, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.}
+
+\updated{Since the temperature part of PTA analysis is the main contribution of this work, we shall focus on the assessment of temperature profiles.
+Note, however, that the results for temperature allows one to draw reasonable conclusion with respect to power since power is an intermediate step towards temperature, and any accuracy problems with respect to power are expected to eventually propagate to temperature.
 Note also that, since the two temperature-driven studies \cite{juan2011, juan2012} work under the steady-state assumption, and \cite{juan2011}, in addition, is limited to the maximal temperature (see \sref{prior-work}), a one-to-one comparison with the proposed framework is not possible.}
 
 \subsection{Approximation Accuracy} \slabel{er-accuracy}
