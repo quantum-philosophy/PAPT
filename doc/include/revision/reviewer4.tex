@@ -188,13 +188,42 @@ The sentence can indeed be confusing.
 6).Could the authors explain how to decide the mapping matrix \textbackslash{}tilde\{B\} and why in Appendix A?
 \end{reviewer}
 \begin{authors}
-Yes, we have done this.
+Recall that $\mM$ is an $\nnodes \times \nprocs$ matrix.
+The purpose of this matrix is to relate $\nprocs$ processing elements with $\nnodes$ thermal nodes.
+It can be thought of as a way to distribution the power dissipation of the processing elements across the thermal nodes.
+If $\v{P} \in \real^\nprocs$ is a power vector with respect to the processing element then $\v{P}' = \mM \, \v{P} \in \real^\nnodes$ is a power vector with respect to the thermal nodes.
+
+The structure of $\mM$ depends on the way the equivalent thermal circuit is constructed.
+For example, in the experimental results, the circuits follow the relation $\nnodes = 4 \, \nprocs + 12$, given in Sec.~VI-C, such that one processing element is mapped onto one thermal node; hence, $3 \, \nprocs + 12$ nodes are due to the thermal package, which does not dissipate power.
+In this case, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity, which are located on the main diagonal of $\mM$ as shown below:
+\[
+  \mM = \left(
+    \begin{array}{ccccc}
+      1 & 0 & 0 & \cdots & 0 \\
+      0 & 1 & 0 & \cdots & 0 \\
+      0 & 0 & 1 & \cdots & 0 \\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & 0 & \cdots & 1 \\
+      0 & 0 & 0 & \cdots & 0 \\
+      \vdots & \vdots & \vdots & \ddots & \vdots \\
+      0 & 0 & 0 & \cdots & 0
+    \end{array}
+  \right).
+\]
+Then, the transpose of this matrix allows us to perform the reverse operation.
+Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to the thermal then $\v{Q} = \mM^T \, \v{Q}' \in \real^\nprocs$ is a temperature vector with respect to the processing elements.
+
+\done{The structure of $\mM$ has been clarified in App.~A.}
 \end{authors}
 
 \begin{reviewer}
 7).The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used. A typo: ``A description of the latter can also found in the supplementary materials, App. B'' (lines 26\~{}28, page 5).
 \end{reviewer}
 \begin{authors}
-We apologize for this inconvenience, but, as the reviewer said, we were trying to do our best to make the paper transparent to as broad an audience as possible.
-The typo found by the reviewer has been fixed.
+We apologize for this inconvenience.
+We were trying to do our best to make the paper transparent to as broad an audience as possible.
+
+\done{The number of parentheses has been reduced.}
+
+\done{The typo found by the reviewer has been fixed in Sec.~V-A.}
 \end{authors}

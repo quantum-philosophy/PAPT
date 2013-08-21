@@ -37,7 +37,7 @@ The power/temperature modeling considered in the paper is at the system level, n
 As described in Sec.~VI-B, the leakage model used in the illustrative example is based on SPICE simulations of a reference electrical circuit.
 The circuit that we use is a series of CMOS invertors, kindly provided to us by the people acknowledged at the end of the main part of the manuscript.
 Regarding the thermal modeling, we exemplify our framework using the block model of HotSpot v5.02 with a one-to-one mapping between the processing elements and thermal nodes (mentioned in Sec.~V-C).
-In this case, the considered setups with 2--32 processing elements translate into 20--140 thermal nodes (the relation is $\nnodes = 4 \times \nprocs + 12$ given in Sec. VI-C).
+In this case, the considered setups with 2--32 processing elements translate into 20--140 thermal nodes (the relation is $\nnodes = 4 \, \nprocs + 12$ given in Sec. VI-C).
 Therefore, the performed calculations are doable for MATLAB running on a personal laptop.
 It is worth noting that the one-to-one mapping is used merely for the clarity of the discussions in the paper, and this mapping can be arbitrary, depending on the desired level of accuracy.
 

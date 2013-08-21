@@ -8,9 +8,11 @@ Under these circumstances, uncertainty quantification \cite{xiu2010, maitre2010}
 To illustrate the above concern, consider a quad-core architecture exposed to the uncertainty of the parameters that affect the leakage current.
 Assume first that these parameters have all nominal values.
 We can then simulate the system under a certain workload and observe the corresponding temperature profile.\footnote{The experimental setup will be detailed in \sref{illustrative-example} and \sref{experimental-results}.}
-The result, labeled as ``Nominal'', is depicted in \fref{motivation-temperature} where, for clarity, only one curve, corresponding to one processor, is presented (the bottom blue line). It can be seen that the temperature is always below $90^{\circ}$C.
-Now let us assume a mild deviation of the parameters from the nominal values and run the simulation once again. The result is the ``Mild'' curve in \fref{motivation-temperature} (the middle orange line); the maximal temperature is approaching $100^{\circ}$C.
-Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curve labeled as ``Severe'' in \fref{motivation-temperature} (the top green line); the maximal temperature is almost $110^{\circ}$C.
+\updated{The result, labeled as ``Nominal'', is depicted in \fref{motivation-temperature} where, for clarity, only one curve, corresponding to one processor, is presented.}
+It can be seen that the temperature is always below $90^{\circ}$C.
+Now let us assume a mild deviation of the parameters from the nominal values and run the simulation once again.
+\updated{The result is the ``Mild'' curve in \fref{motivation-temperature}; the maximal temperature is approaching $100^{\circ}$C.
+Finally, we repeat the experiment considering a severe deviation of the parameters and observe the curve labeled as ``Severe'' in \fref{motivation-temperature}; the maximal temperature is almost $110^{\circ}$C.}
 Imagine that the designer, when tuning the solution constrained by a maximal temperature of $90^\circ$C, was guided exclusively by the nominal parameters.
 \updated{In this case, even with mild deviations, the circuits might be burnt.
 Another path that the designer could take is to design the system for severe conditions.
