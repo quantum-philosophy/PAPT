@@ -59,14 +59,26 @@ where $\oInner{\cdot}{\cdot}$ stands for the inner product (see \aref{polynomial
   \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oInner{\vP_k(\o)}{\pcb_i(\vZ(\o))}.
 \end{equation}
 In general, the inner product in \eref{pc-coefficients}, given in \eref{inner-product} in \aref{polynomial-chaos}, should be evaluated numerically.
-This task is independent from the development in this section and, therefore, is discussed separately in \aref{gauss-quadrature}.
-It is worth being mentioned that, since $\vP(\o)$ depends on temperature (see \sref{power-model}), at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC expansion of the temperature vector $\vTO_{k - 1}(\o)$.
+\updated{This task is typically accomplished by virtue of a quadrature rule \cite{press2007}, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
+These points along with the corresponding weights are generally precomputed and tabulated since they do not depend the quantity being integrated (see \aref{gauss-quadrature}).
+The only thing, which is essential for the development in this section, is the number of such points denoted by $\qdorder$.
+The rest of the integration procedure is discussed separately in \aref{gauss-quadrature}.
+However, it is worth noting here that, since $\vP(\o)$ depends on temperature (see \sref{power-model}), at each step of the iterative process in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC expansion of the temperature vector $\vTO_{k - 1}(\o)$.}
 
 \subsubsection{Computational challenges} \slabel{computational-challenges}
-From the development above, it is important to note that the theory of PC expansions suffers from the so-called curse of dimensionality \cite{xiu2010, maitre2010, eldred2008}.
-\eref{pc-terms} together with \eref{pc-coefficients} reveal this problem: when the number of stochastic dimensions increases, the number of polynomial terms as well as the complexity of the corresponding coefficients exhibit a growth, which is exponential without special treatments.
+$ $\updated{The construction process of the stochastic power and temperature profiles, implemented inside our prototype of the proposed framework, is estimated to have the following time complexity:}
+\[
+  \updated{\O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \oPower{\nprocs})}
+\]
+\updated{where $\oPower{\nprocs}$ denotes the complexity of the computations associated with the power model in \eref{power-model}.
+The expression can be detailed further by expanding $\pcterms$ and $\qdorder$.
+The exact formula for $\pcterms$ is given in \eref{pc-terms}, and the limiting behavior of $\pcterms$ with respect to $\nvars$ is $\O(\nvars^\pcorder / \pcorder!)$.
+For brute-force quadrature rules, $\log(\qdorder)$ is $\O(\nvars)$, meaning that the dependency of $\qdorder$ on $\nvars$ is exponential.
+It can be seen that the theory of PC expansions suffers from the so-called curse of dimensionality \cite{xiu2010, maitre2010, eldred2008}.
+More precisely, when $\nvars$ increases, the number of polynomial terms as well as the complexity of the corresponding coefficients exhibit a growth, which is exponential without special treatments.}
 The problem does not have a general solution and is one of the central topics of many ongoing studies.
 In this paper, we mitigate this issue by: (a) keeping the number of stochastic dimensions low using the KL decomposition as we shall see in \sref{ie-uncertain-parameters} and (b) utilizing efficient integration techniques as discussed in \aref{gauss-quadrature}.
+\updated{In particular, for sparse integration grids based on Gaussian quadratures, $\log(\qdorder)$ is $\O(\log(\nvars))$, meaning that the dependency of $\qdorder$ on $\nvars$ is only polynomial \cite{heiss2008}.}
 
 To summarize, let us recall the stochastic recurrence in \eref{recurrence} where, in the presence of correlations, an arbitrary functional $\vP_k(\omega)$ of the uncertain parameters $\vU(\o)$ and random temperature $\vTO_k(\o)$ (see \sref{power-model}) needs to be evaluated and combined with another random vector, $\vX_k(\omega)$.
 Now the recurrence in \eref{recurrence} has been replaced with a purely deterministic recurrence in \eref{pc-recurrence} that involves only linear operations.

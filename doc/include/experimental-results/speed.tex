@@ -1,11 +1,16 @@
-In this section, we focus on the computational speed of our framework.
+\updated{In this section, we focus on the speed of the proposed framework.
+In order to increase the clarity of the comparisons below, we use the same order of PC expansions and the same number of MC samples in each case, taking these two variables out of the picture.
+Namely, based on the conclusion from the previous subsection, $\pcorder$ is set to four, and $\nsamples$ is set to $10^4$; the latter also conforms to the experience from the literature \cite{shen2009, bhardwaj2008, ghanta2006} and to the theoretical results given in \cite{diaz-emparanza2002}.}
+
 First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU(\o) \in \real^{\nprocs + 1}$ (recall \sref{illustrative-example}).
 As before, we shall report the results obtained for various correlation weights $\eta$, which impacts the number of the independent variables $\vZ(\o) \in \real^\nvars$, preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
-
 The results, including the dimensionality $\nvars$ of $\vZ(\o)$, are given in \tref{speed-processing-elements} where the considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$, and the number of time steps $\nsteps$ is set to $10^3$.
 It can be seen that the correlation patters inherent to the fabrication process \cite{cheng2011} open a great possibility for model order reduction: $\nvars$ is observed to be at most 12 while the maximal number without reduction is 33 (one global variable and 32 local ones corresponding to the case with 32 processing elements).
-One can also observe how this number changes with respect to $\eta$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
-It means that, in the latter case, more variables should be preserved in order to retain 99\% of the variance of the data; hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity (see \sref{computational-challenges}).
+\updated{This reduction also depends on the floorplans, which is illustrated by the decrease of $\nvars$ when $\nprocs$ increases from 16 to 32 for $\eta = 1$.
+To elaborate, one floorplan is a four-by-four gird, a perfect square, while the other an eight-by-four grid, a rectangle.
+Since both are fitted into square dies, the former occupies the whole area of the die while the latter only a half; the rest is ascribed to the particularities of $\fCorr_\SE$.
+Let us also summarize the overall effect of $\eta$ on $\nvars$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.}\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
+\updated{It means that, in the latter case, more variables should be preserved in order to retain 99\% of the variance; hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity (see \sref{computational-challenges}).}
 
 \updated{\tref{speed-processing-elements} also allows one to draw conclusions about the applicability of the proposed framework to problems with multiple uncertain parameters.}
 

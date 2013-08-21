@@ -21,14 +21,14 @@ Taking the received feedback into account, we have reconsidered our decision and
 
 All the statements below regarding certain aspects of PC expansions should be understood only in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
-The construction of PC expansions is based on so-called non-intrusive spectral projections [M. Eldred \etal, 2008] using quadrature rules.
+The construction of PC expansions is based on so-called non-intrusive spectral projections [Eldred, 2008] using quadrature rules.
 The needed quadrature rule is determined solely by the intended PC expansion.
 The structure of the intended PC expansion (\ie, everything except for the coefficients) is determined solely by the desired accuracy, \ie, $\pcorder$, and the parametrization of the problem in terms of independent variables, \ie, $\vZ(\o)$.
 Therefore, any two problems that share $\vZ(\o)$ and $\pcorder$ have identical structures of PC expansions and identical quadrature rules.
 To give an extreme example, suppose a dual-core platform has three uncertain parameters $\vU'(\o)$, and a 32-core platform has 33 uncertain parameters $\vU''(\o)$.
 Then, if the model order reduction procedure leaves two beta variables $\vZ(\o)$ in both cases, the two problems are identical from the perspective of, say, the fourth-order PC, regardless of the input dynamic power profile.
 Consequently, the preliminary work for a fix combination of $\vZ(\o)$ and $\pcorder$ should be done only once.
-In particular, this means that, for a given architecture and a given accuracy level, an unlimited number of dynamic power profiles can be analyzed at no additional costs.
+In particular, this means that, for a given electronic system and a given accuracy level, an unlimited number of dynamic power profiles can be analyzed at no additional costs.
 This is especially advantageous for various optimization procedures, as we note in Sec.~VII.
 
 Going further in detail, for each problem, we compute and store two matrices.
@@ -42,32 +42,32 @@ Each step yields an $\nnodes \times \pcterms$ matrix that contains the coefficie
 This matrix is the sum of two matrices corresponding to the two terms in Eq.~7.
 The first matrix is based on the result from the previous iteration and is obtained by one multiplication of an $\nnodes \times \nnodes$ matrix with an $\nnodes \times \pcterms$ matrix.
 The second matrix is computed by one multiplication of an $\nnodes \times \nprocs$ matrix with an $\nprocs \times \pcterms$ matrix, representing the coefficients of the current PC expansion for power.
-So, the complexity of one step up to this point is $O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$ (in the experimental results, $\nnodes = 4 \times \nprocs + 12$).
+So, the complexity of one step up to this point is $\O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$ (in the experimental results, $\nnodes = 4 \times \nprocs + 12$).
 The calculation of the current PC expansion for power is composed of two stages: evaluation and projection.
 At the first stages, the current (\ie, from the previous step) PC expansion for temperature is evaluated at the quadrature nodes.
-As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $O(\nprocs \, \pcterms \, \qdorder)$.
-Then, the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix, are plugged in into the power model.
-The result is an $\nprocs \times \qdorder$ matrix of power.
-Denote the complexity of the computations associated with the power model by $O(\Pi(\nprocs, \qdorder))$.
-At the projection stage, the coefficients of the current PC expansion for power are calculated by one multiplication of the output of the power model, \ie, an $\nprocs \times \qdorder$ matrix, with the projection matrix; so, this operations is $O(\nprocs \, \qdorder \, \pcterms)$, which is the same as the complexity of the evaluation stage.
+As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $\O(\nprocs \, \pcterms \, \qdorder)$.
+Then, the power model is utilized to obtain an $\nprocs \times \qdorder$ matrix of power based on the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix.
+This operation can be viewed column-wise.
+Denote the complexity of the computations associated with the power model for one pair of columns by $\O(\oPower{\nprocs})$; hence, for $\qdorder$ columns, it is $\O(\qdorder \, \oPower{\nprocs})$.
+At the projection stage, the coefficients of the current PC expansion for power are calculated by one multiplication of the output of the power model, \ie, an $\nprocs \times \qdorder$ matrix, with the projection matrix; so, this operations is $\O(\nprocs \, \qdorder \, \pcterms)$, which is the same as the complexity of the evaluation stage.
 The time complexity of one time step is then
 \[
-  O(\nprocs^2 \, \pcterms + \nprocs \, \qdorder \, \pcterms + \Pi(\nprocs, \qdorder)).
+  \O(\nprocs^2 \, \pcterms + \nprocs \, \qdorder \, \pcterms + \qdorder \, \oPower{\nprocs}).
 \]
 The first term can be dropped as $\nprocs$ is typically much smaller than $\qdorder$.
 Taking into consideration all the time steps, we have
 \[
-  O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \Pi(\nprocs, \qdorder)).
+  \O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \oPower{\nprocs}).
 \]
 The expression can be detailed even further by expanding $\pcterms$ and $\qdorder$.
 For total-order polynomial spaces, the exact formula for $\pcterms$ is given in Eq.~5.
-The limiting behavior of $\pcterms$ with respect to $\nvars$ is $O(\nvars^\pcorder / \pcorder!)$.
+The limiting behavior of $\pcterms$ with respect to $\nvars$ is $\O(\nvars^\pcorder / \pcorder!)$.
 For sparse grids, $\qdorder$ does not have such a closed-form formula and depends on the family of the quadrature rule utilized.
 The limiting behavior of $\qdorder$ with respect to $\nvars$, however, has been extensively studied.
-For example, for Gaussian quadratures, $\log(\qdorder)$ is $O(\log(\nvars))$, which means that the dependency of $\qdorder$ on $\nvars$ is polynomial [F. Heiss \etal, 2008].
+For example, for Gaussian quadratures, $\log(\qdorder)$ is $\O(\log(\nvars))$, which means that the dependency of $\qdorder$ on $\nvars$ is polynomial [Heiss, 2008].
 In contrast, for full-tensor-product grids, this dependency is exponential.
 
-\done{The time complexity has been analyzed in Sec.~V-D4.}
+\done{The time complexity has been included in Sec.~V-D4.}
 \end{authors}
 
 \begin{reviewer}
@@ -82,7 +82,7 @@ Therefore, the experimental results are primarily dedicated to temperature analy
 
 Furthermore, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
 Therefore, the quantification of power is expected to be easier than the quantification of temperature, and any accuracy problems with respect to power are expected to eventually propagate to temperature.
-Consequently, the assessment of temperature allows us to draw reasonable conclusions with respect to power.
+Hence, the assessment of temperature allows us to implicitly draw reasonable conclusions with respect to power.
 
 \done{The absence of comparisons for power has been motivated in Sec.~VII.}
 
@@ -99,28 +99,46 @@ A multidimensional quadrature rule, based on a particular construction mechanism
 There is no dependency on anything else.
 Once the rule has been chosen, it stays the same regardless of what we would like to integrate.
 Consequently, it is a common practice to have the needed rules precomputed and stored in tables for the future use.
-One can compute such tables him or herself or use one of the many libraries available online.
-In our work, we rely on the library by J. Burkardt from Florida State University; the corresponding reference is included in the manuscript.
+One can compute such tables or use one of the many libraries available online.
+In our work, we rely on the library by J. Burkardt from Florida State University [Burkardt].
 
-\done{The explanations in Sec.~VI-D and App.~D have been improved.}
+\done{The explanation in Sec.~VI-D has been improved and moved to Sec.~V-D3.}
+
+\done{The explanation in App.~D has been also clarified.}
 \end{authors}
 
 \begin{reviewer}
 3).Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
 \end{reviewer}
 \begin{authors}
-Due to the resource demand of MC sampling, we could not go far beyond $10^5$ samples and consider it to be a sufficiently large number.
-As we write in the paper, this range is reasonable according to the experience from other studies and the formulae given in [10].
-[S. Chandra \etal, 2010] uses $10^4$.
-[L. Cheng \etal, 2011] uses $10^5$.
-For example (taken from an earlier publication of the author of [10]), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
-However, the main reason of making $10^4$ MC samples be the etalon for the comparison in Sec. VII is our own experience and observations from the presented tables.
-Even though $\eVar$ exhibits a prominent decrease for $10^5$ samples, as we discuss below in response to the fifth question of the reviewer, the other two metrics show that $10^4$ samples are enough.
-Besides, we tried to avoid any bias towards the proposed technique, which could happen if we required the MC-based approach to have $10^5$ samples.
+Let us please explain our motivation behind the assessment strategy that we utilize in Sec.~VII-B to evaluate the proposed framework in terms of the computational speed.
+
+First of all, we would like to recall this strategy.
+Sec.~VII-A is a calibration stage wherein the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B is determined.
+We perform this calibration for one setup, namely, for a platform with $\nprocs = 4$ and a dynamic power profile with $\nsteps = 10^2$, and use the result for the rest of the considered setups, namely, for platforms with $\nprocs \in \{ 2, 8, 16, 32 \}$ and dynamic power profiles with $\nsteps = 10^3$.
+
+The above strategy was chosen for two major reasons.
+First, our intention was to give a clear comparison of the computational speed of the proposed framework.
+The clarity of a comparison increases as the number of variables involved in the comparison decreases.
+Ideally, only one parameter should change at a time in order to truly appreciate its influence.
+Therefore, we tried to illustrate the speedup of the proposed framework keeping as few parameters as possible.
+To this end, we perform a thorough inspection of the accuracy results obtained for a range of configuration, including various correlation patterns, and fix the number of MC simulations, $\nsamples$, to $10^4$.
+This choice is motivated in Sec.~VII-A and explain in more detail in our answer to the corresponding comment of Reviewer 5; we kindly ask the current reviewer to consider that answer as well.
+
+The second reason is more practical.
+Algorithms typically have an initialization phase, which stays constant from one input to another.
+The computational time associated with this phase is usually negligible; however, if the input is too small, this time can dominate, resulting in unrepresentative measurements of the total computational time.
+Hence, it is important to have sufficiently large examples in order to reduce the influence the initialization phase.
+For this reason, the assessment in Sec.~VII-B is given for dynamic power profiles with $\nsteps = 10^3$.
+In Tab.~VI, it can be seen that already for a quad-core platform and a dynamic power profile of $10^3$ steps, the MC-based approach takes almost two days.
+Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.
+At this point, one should also take into account the fact that $\nsamples = 10^4$ is a lower bound, at least for $\nprocs = 4$, as we reason below in our answer to the fifth question of the reviewer.
+
+\done{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}
 \end{authors}
 
 \begin{reviewer}
-4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations. Table V shows that as \\eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
+4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations.
 \end{reviewer}
 \begin{authors}
 There are three cases where $\ePDF$ increases for $10^5$: 1.50/1.51, 1.59/1.62, and 1.13/1.24.
@@ -131,29 +149,39 @@ Hence, the observed marginal differences can be ascribed to the ``two-sided rand
 One can also note that there are two more instantiations of this concern for $\eVar$: 66.13/66.70 and 1.56/5.03.
 In this case, the results were obtained for a first- and second-order PC expansions, respectively, which are too low to be trustworthy.
 Nevertheless, in our opinion, the tables do their main job very well: they clearly capture the overall trend and allow one to draw sound conclusions.
-Now, let us turn to Tab. V.
-The decrease of $\nvars$ from eight to 11 for 16 and 32 processing elements, respectively, also drew our attention, and we deeply investigated this issue.
-These figures are a result of the model order reduction procedure described in App. B.
+
+\done{The aforementioned outliers have been noted and explained in Sec.~VII-A.}
+\end{authors}
+
+\begin{reviewer}
+Table V shows that as \textbackslash{}eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
+\end{reviewer}
+\begin{authors}
+This decrease also drew our attention, and we deeply investigated this issue before submitting the manuscript.
+These figures are a result of the model order reduction procedure described in App.~B.
 One component that influences the number of the preserved random variables, $\nvars$, is the placement of the processing element on the die.
-As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements.
-For example, 16 dies is a 4-by-4 grid, a perfect square, while 32 dies is a 8-by-4 grid, a rectangle.
-Taking into consideration the assumed correlation function and its radial component, one can note that the first floorplan is more favorable for reduction as more processing elements are located at the same distance from the center of the die.
-All the floorplans used in our experiments are available online.
+As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements placed in square dies.
+For example, 16 cores are a four-by-four grid, a perfect square, while 32 cores are an eight-by-four grid, a rectangle.
+The length-scale parameters of the correlation kernels are half the size (width or height) of the die.
+Consequently, one can note that the first floorplan is less favorable for reduction as the processing elements can be place to cover the while die (a square inside another square) while the processing elements in the second case can not cover the whole die and are concentrated along the middle line (a rectangle inside a square).
+The rest is due to the features of the correlation kernel.
+As mentioned in the paper, all the floorplans used in our experiments are available online.
+
+\done{The decrease of $\nvars$ has been noted and explained in Sec.~VII-B.}
 \end{authors}
 
 \begin{reviewer}
 5).Why the reported error of 5.71\% for variance is likely to be overestimated? Even though the MC simulation with 10\^{}5 is not reliable (good enough), it does not mean that the report error of the developed framework is overestimated.
 \end{reviewer}
 \begin{authors}
-Yes, the reviewer is right that there is no direct implication here, and the word ``likely''  serves exactly the purpose of emphasizing a degree of our uncertainty.
-However, we do believe that the sentence has its own right to be a part of our discussion in the experimental results for the following reason.
-To draw an adequate conclusion about the accuracy of our framework, the MC-based approach has no simplifications inside: there is no model order reduction, and the original system of differential equations is being solved directly using traditional numerical techniques.
-The quantities estimated by MC sampling converge to the true values almost surely.
-Thus, we have strong reasons to believe MC sampling with large numbers of samples.
-In Tab. III, we observe a drop of the error for variance from 5.71\% to 1.47\% for $10^4$ and $10^5$ samples, respectively.
-First, we note that the estimate with $10^5$ samples is \emph{likely} to be closer to the truth than the one with $10^4$ samples.
-Second, the rather large gap between the two values suggests that it is \emph{likely} that the next error change would not be negligible if we could draw, say, $10^6$ samples.
-Consequently, it allows us to speculate that the reported error for variance according to our etalon, that is, to $10^4$ MC samples, is \emph{likely} to be overestimated, that is, the actual error is \emph{likely} to be smaller than the reported one of 5.71\%.
+Let us please explain our reasoning.
+In Tab.~III, we observe a drop of the error for variance from 9.80\% to 5.71\% for $10^4$ and $10^5$ samples, respectively.
+The large gap of 4.09\% between the two values suggests that it is \emph{likely} that the next error change would \emph{not} be negligible if we could draw $10^6$ samples, for example.
+Consequently, the reported error for variance is \emph{likely} to be overestimated, that is, the actual error is \emph{likely} to be smaller than the reported one of 5.71\%.
+However, it is true that there is no direct implication here, and we tried to emphasize a degree of our uncertainty using the word ``likely.''
+The sentence can indeed be confusing.
+
+\done{The sentence has been removed from Sec.~VII.}
 \end{authors}
 
 \begin{reviewer}

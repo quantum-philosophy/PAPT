@@ -14,10 +14,8 @@ The expansion for power has the same structure but different coefficients.
 Such a series might be shorter or longer depending on the accuracy requirements defined by $\pcorder$.
 
 Once the basis has been chosen, we need to compute the corresponding coefficients, specifically, $\pcc{\vP}_{ki}$ in \eref{pc-expansion}, which will yield $\pcc{\vTO}_{ki}$.
-As shown in \aref{polynomial-chaos}, the computation of $\pcc{\vP}_i$ involves multidimensional integration with respect to the \pdf\ of $\vZ(\o)$.
-In numerical analysis, this task is typically accomplished by virtue of a quadrature rule \cite{press2007}, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
-\updated{These points along with the corresponding weights are generally precomputed and tabulated since they do not depend the function to integrate (see \aref{gauss-quadrature}); for this purpose, we use the library of MATLAB codes available at \cite{burkardt2013}.}
-A natural choice of a quadrature rule when beta distributions are concerned is the Gauss-Jacobi quadrature.
+\updated{As shown in \aref{polynomial-chaos}, the computation of $\pcc{\vP}_i$ involves multidimensional integration with respect to the \pdf\ of $\vZ(\o)$, which should be done numerically using a quadrature rule (recall \sref{pc-coefficients}).
+When beta distributions are concerned, a natural choice of such a rule is the Gauss-Jacobi quadrature.}
 Additional details are given in \aref{gauss-quadrature}.
 
 To summarize, we have completed four out of five stages of the proposed framework depicted in \fref{algorithm}.

@@ -51,9 +51,9 @@ S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and lea
 \begin{authors}
 The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would be worth considering some ad hoc solutions, like the exponentiation of PC expansions.
 However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, which is relevant to his or her uncertainty quantification problem, individually.
-It can also be seen right in [S. Bhardwaj \etal, 2008], mentioned by the reviewer, that even the effective channel length does not naturally fit into the exponential model.
+It can also be seen right in [Bhardwaj, 2008], mentioned by the reviewer, that even the effective channel length does not naturally fit into the exponential model.
 The reason is that, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent in the expression for the subthreshold leakage current.
-To tackle the difficulty, [S. Bhardwaj \etal, 2008] pulls this ``inconvenient'' term inside the exponent using the usual exp/ln transformation, as shown in App.~A in that paper.
+To tackle the difficulty, [Bhardwaj, 2008] pulls this ``inconvenient'' term inside the exponent using the usual exp/log transformation, as shown in App.~A in that paper.
 Regardless of where the effective channel length ends up in the formula, the essence of the physical process behind stays unchanged.
 The proposed approach eliminates the need in such manipulations.
 It is very flexible in this regard and can be applied in various situations in a straightforward manner.
@@ -72,7 +72,7 @@ To summarize, taking into consideration the above discussion, such a comparison 
 
 \done{The absence of a comparisons for power has been explained in Sec.~VII.}
 
-\done{[S. Bhardwaj \etal, 2008] has been reviewed and cited.}
+\done{[Bhardwaj, 2008] has been reviewed and cited.}
 \end{authors}
 
 \begin{reviewer}
@@ -129,11 +129,11 @@ To summarize, we believe that the foremost quantity to pay attention to is $\nva
 The ``$\nvars$'' column of Tab.~V serves this exact purpose: it demonstrates how the computational speed of the proposed framework scales with respect to the number of independent parameters.
 The fact that there is another variable in Tab.~V, namely, the number of processing elements, $\nprocs$, does not affect the corresponding conclusions since, as mentioned above, the complexity is dictated by the stochastic dimensionality of the problem.
 Regarding accuracy, we observed that fourth-order PC expansions (used to obtain the results in Tab.~V) were sufficiently accurate for the purpose of temperature analysis considered in this paper.
-Note also that this order is higher than the one used for power in the PC-related literature discussed in Sec.~II: typically, it is the second order (see, \eg, [S. Bhardwaj \etal, 2008] and [Shen \etal, 2009]).
+Note also that this order is higher than the one used for power in the PC-related literature discussed in Sec.~II: typically, it is the second order (see, \eg, [Bhardwaj, 2008] and [Shen, 2009]).
 Therefore, following a similar reasoning as in the previous paragraph, the information provided by Tab.~V allows the reader to draw conclusions about the performance of the proposed framework when additional parameters are considered.
 
 Speaking about the threshold voltage mentioned by the reviewer, it is a function of the effective channel length according to the BSIM4 model, which is also noted in the manuscript.
-The dependency of the threshold voltage to the effective channel length is one of the strongest [R. Shen \etal, 2009] [D.-C. Juan \etal, 2011, 2012].
+The dependency of the threshold voltage to the effective channel length is one of the strongest [Shen, 2009] [Juan, 2011, 2012].
 Consequently, by considering the variability of the latter, we implicitly take into consideration one of the largest portions of the variability of the former.
 
 \done{The above discussion regarding additional parameters in connection with Tab.~V has been included in Sec.~VII.}
