@@ -35,7 +35,7 @@ where $\r_i \in \real^2$ is the spatial location of the center of the $i$th proc
   & \fCorr_\SE(\r_i, \r_j) = \exp\left(-\frac{\norm{\r_i - \r_j}^2}{\ell_\SE^2}\right) \text{ and} \\
   & \fCorr_\OU(\r_i, \r_j) = \exp\left(- \frac{\abs{\,\norm{\r_i} - \norm{\r_j}\,}}{\ell_\OU} \right),
 \end{align*}
-which are known as the squared exponential and Ornstein-Uhlenbeck kernels, respectively.
+which are known as the squared-exponential and Ornstein-Uhlenbeck kernels, respectively.
 In the above equations, $\eta \in [0, 1]$ is a weight coefficient balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm{\cdot}$ stands for the Euclidean distance.
 \updated{The choice of the correlation function in \eref{correlation-function} is guided by the observations of the correlations induced by the fabrication process \cite{chandrakasan2001, friedberg2005, cheng2011}: $\fCorr_\SE$ imposes similarities between the spatial locations that are close to each other, and $\fCorr_\OU$ imposes similarities between the locations that are at the same distance from the center of the die (see also \cite{ghanem1991, bhardwaj2008, ghanta2006}).}
 The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these similarities, \ie, the range wherein the influence of one point on another is significant.

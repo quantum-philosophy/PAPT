@@ -6,7 +6,7 @@ We use the widespread model based on Fourier's heat equation \cite{skadron2004},
 \end{subnumcases}
 where the number of differential equations is equal to the number of thermal nodes denoted by $\nnodes$; $\mC \in \real^{\nnodes \times \nnodes}$ and $\mG \in \real^{\nnodes \times \nnodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nnodes$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\nprocs$ and $\mM \in \real^{\nnodes \times \nprocs}$ are the input vector of power and its mapping matrix to the thermal nodes; $\vTO \in \real^\nprocs$ is the temperature vector of the processing elements; and $\vTO_\amb \in \real^\nprocs$ is the vector of the ambient temperature.
 \updated{$\mM$ distributes power of the processing elements across the thermal nodes.
-Under the assumption that one processing element is mapped onto one thermal node, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity, which are located on the main diagonal.}
+Assuming that one processing element is mapped onto one thermal node, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity, which are located on the main diagonal.}
 For convenience, we perform an auxiliary transformation of the system in \eref{fourier-system-original} using \cite{ukhov2012}
 \[
   \vX = \mC^\frac{1}{2} \vTI, \hspace{1em} \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \hspace{1em} \text{and} \hspace{1em} \mB = \mC^{-\frac{1}{2}} \mM

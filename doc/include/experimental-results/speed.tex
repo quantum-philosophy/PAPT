@@ -8,12 +8,15 @@ The results, including the dimensionality $\nvars$ of $\vZ(\o)$, are given in \t
 It can be seen that the correlation patters inherent to the fabrication process \cite{cheng2011} open a great possibility for model order reduction: $\nvars$ is observed to be at most 12 while the maximal number without reduction is 33 (one global variable and 32 local ones corresponding to the case with 32 processing elements).
 \updated{This reduction also depends on the floorplans, which is illustrated by the decrease of $\nvars$ when $\nprocs$ increases from 16 to 32 for $\eta = 1$.
 To elaborate, one floorplan is a four-by-four gird, a perfect square, while the other an eight-by-four grid, a rectangle.
-Since both are fitted into square dies, the former occupies the whole area of the die while the latter only a half; the rest is ascribed to the particularities of $\fCorr_\SE$.
-Let us also summarize the overall effect of $\eta$ on $\nvars$: on average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.}\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
+Since both are fitted into square dies, the former is spread across the whole die whereas the latter is concentrated along the middle line; the rest is ascribed to the particularities of $\fCorr_\SE$.
+On average, the $\fCorr_\OU$ kernel ($\eta = 0$) requires the fewest number of variables while the mixture of $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$) requires the most.}\footnote{The results in \sref{er-accuracy} correspond to the case with $\nprocs = 4$; therefore, $\nvars$ is two, five, and five for \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, respectively.}
 \updated{It means that, in the latter case, more variables should be preserved in order to retain 99\% of the variance.
-  Hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity; see \sref{computational-challenges}.}
+Hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity; see \sref{computational-challenges}.}
 
-\updated{\tref{speed-processing-elements} also allows one to draw conclusions about the applicability of the proposed framework to problems with multiple uncertain parameters.}
+\updated{It is important to note the following.
+First, since the curse of dimensionality constitutes arguably the major concern of the theory of PC expansions, the applicability of the proposed framework primarily depends on how this curse manifests itself in the problem at hand, \ie, on the dimensionality of $\vZ(\o)$, $\nvars$.
+Second, since $\vZ(\o)$ is a result of the preprocessing stage depending on many factors, the relation between $\vU(\o)$ and $\vZ(\o)$ is not straightforward, which is illustrated in the previous paragraph.
+Thus, the dimensionality of $\vU(\o)$ can be misleading when reasoning about the applicability of our technique, and $\nvars$ shown \tref{speed-processing-elements} is well suited for this purpose.}
 
 Another observation from \tref{speed-processing-elements} is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
 On the other hand, the rows with $\nvars > 10$ hint at the curse of dimensionality characteristic to PC expansions (see \sref{computational-challenges}).

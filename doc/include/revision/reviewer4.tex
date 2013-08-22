@@ -147,8 +147,8 @@ As described in the paper, PC expansions provide analytical formulae for the exp
 Thus, $\ePDF$ differs from $\eExp$ and $\eVar$ by the fact that it is entirely based on sampling.
 Hence, the observed marginal differences can be ascribed to the ``two-sided randomness'' of the third error metric, $\ePDF$.
 One can also note that there are two more instantiations of this concern for $\eVar$: 66.13/66.70 and 1.56/5.03.
-In this case, the results were obtained for a first- and second-order PC expansions, respectively, which are too low to be trustworthy.
-Nevertheless, in our opinion, the tables do their main job very well: they clearly capture the overall trend and allow one to draw sound conclusions.
+In this case, the results were obtained for a first- and second-order PC expansion, respectively, which are too low to be trustworthy.
+Nevertheless, in our opinion, the tables do their main job well: they capture the overall trend and allow one to draw sound conclusions.
 
 \done{The aforementioned outliers have been noted and explained in Sec.~VII-A.}
 \end{authors}
@@ -157,14 +157,13 @@ Nevertheless, in our opinion, the tables do their main job very well: they clear
 Table V shows that as \textbackslash{}eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
 \end{reviewer}
 \begin{authors}
-This decrease also drew our attention, and we deeply investigated this issue before submitting the manuscript.
-These figures are a result of the model order reduction procedure described in App.~B.
-One component that influences the number of the preserved random variables, $\nvars$, is the placement of the processing element on the die.
-As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements placed in square dies.
-For example, 16 cores are a four-by-four grid, a perfect square, while 32 cores are an eight-by-four grid, a rectangle.
-The length-scale parameters of the correlation kernels are half the size (width or height) of the die.
-Consequently, one can note that the first floorplan is less favorable for reduction as the processing elements can be place to cover the while die (a square inside another square) while the processing elements in the second case can not cover the whole die and are concentrated along the middle line (a rectangle inside a square).
-The rest is due to the features of the correlation kernel.
+This decrease also drew our attention, and we thoroughly investigated this issue before submitting the manuscript.
+The number of independent random variables $\nvars$ is a result of the model order reduction procedure described in App.~B.
+One component that influences this procedure is the placement of the processing elements on the die.
+As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements, which are placed inside square dies, and the length-scale parameters of the correlation kernels are half the size (width or height) of the die.
+For example, 16 cores form a four-by-four grid, a perfect square, whereas 32 cores form an eight-by-four grid, a rectangle.
+Therefore, the processing elements in the first case cover the whole area of the die (a square inside another square) while the processing elements in the second case are concentrated along the middle line covering only half the area of the die (a rectangle inside a square).
+As a result, the processing elements are closer to each other in the second floorplan, making it more favorable for model order reduction with respect to the squared-exponential kernel $\fCorr_\SE$ prioritized by $\eta = 1$.
 As mentioned in the paper, all the floorplans used in our experiments are available online.
 
 \done{The decrease of $\nvars$ has been noted and explained in Sec.~VII-B.}
