@@ -9,7 +9,8 @@ The thermal behavior of the constructed circuit is modeled with the following sy
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
 where $\vP(\t, \o)$ and $\vTO(\t, \o)$ are the input power and output temperature vectors of the processing elements, respectively, and $\vX \in \real^\nnodes$ is the vector of the internal state of the system.
-In general, \eref{fourier-de} does not have a closed-form solution due to the power term, which is an arbitrary function.
+\updated{Note that, as shown in \eref{power-model}, $\vP(\t, \o)$ is an arbitrary function of $\vTO(\t, \o)$.
+Therefore, in general, the system in \eref{fourier-de} is nonlinear and does not have a closed-form solution.}
 
 Recall that the power and temperature profiles we work with are discrete-time representations of the power consumption and heat dissipation, respectively, which contain $\nsteps$ samples, or steps, covering a certain time span (see \sref{problem-formulation}).
 As detailed in \aref{thermal-model}, we let the total power be constant between neighboring power steps and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \nsteps$,

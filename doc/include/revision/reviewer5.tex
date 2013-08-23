@@ -2,13 +2,26 @@
 The paper presented statistical thermal analysis for VLSI systems using the orthogonal polynomial  (or polynomial chaos, PC) based approaches. The idea is quite straight forward as the PCs was applied to represent the transient temperatures based on the PC representations of the power inputs for given thermal models. Some standard techniques such as KL and PCA for random variable reductions and orthonormalization was also used.
 
 However, this paper has several major issues.
-
-First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors. The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
 \end{reviewer}
 \begin{authors}
-Thank you four your critique.
+Thank you for your critique. Please find our response below.
+\end{authors}
+
+\begin{reviewer}
+First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors.
+\end{reviewer}
+\begin{authors}
+Both PC and PCA/KL are tools, and tools are supposed to be used to solve certain problems.
+For example, PC expansions, as we know them now-a-days, were pioneered to address stochastic differential equations in the first place, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem \etal) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal).
+Since then, these tools have been applied to a wide range of uncertainty quantification problems in scientific computing.
+Therefore, the fact that the aforementioned techniques are a part of our framework does not affect our contribution.
+\end{authors}
+
+\begin{reviewer}
+The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
+\end{reviewer}
+\begin{authors}
 We understand the reviewer's concern; however, we do believe that the contribution of our work is sound, and we would like to explain it now in more detail.
-We also kindly ask the reviewer to consider our answer to the next comment as a part of the answer to the current one.
 
 First and the foremost,
 \begin{enumerate}
@@ -18,8 +31,8 @@ The two temperature-driven works and their drawbacks are discussed in Sec.~II.
 More precisely, [Juan, 2012] considers only steady-state temperature analysis, which is considerably simpler than transient, and, moreover, is heavily based on Gaussian distributions.
 [Juan, 2011] also works only under the steady-state condition and, moreover, addresses only the maximal temperature.
 
-At this point, we would like to respond to the reviewer's claim that the temperature analysis in our work is no fundamentally different from power-grid analysis studied in [Ghanta, 2006].
-In the revised version of the manuscript, we have also included a new reference wherein the response of interconnect networks is analyzed, namely, [Vrudhula, 2006].
+Let us now directly respond to the reviewer's claim that the temperature analysis in our work is no fundamentally different from power-grid analysis studied in [Ghanta, 2006].
+In the revised version of the manuscript, we have included another paper wherein the response of interconnect networks is also analyzed, namely, [Vrudhula, 2006].
 Therefore, we shall discuss both.
 
 Our first argument is general; however, in our opinion, it is conceptually the most important one.
@@ -36,7 +49,7 @@ In numerical analysis, the solution process usually consists of a proper discret
 Hence, it is natural that different problems share similar models.
 The essence of the phenomena behind these models stays unchanged, which brings us to our first argument: heat transfer requires a separate treatment.
 
-Our third and the last argument goes into the details of our particular problem and further differentiates us from [Vrudhula, 2006] and [Ghanta, 2006] by enumerating differences till the end of this answer to the first comment of the reviewer.
+Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our manuscript, which further differentiates us from [Vrudhula, 2006] and [Ghanta, 2006].
 \begin{enumerate}
   \setcounter{enumi}{1}
   \item The perform stochastic temperature analysis takes into consideration \emph{the interdependence between leakage and temperature}.
@@ -45,9 +58,10 @@ This aspect means that the input vector of power in Eq.~(2) is a nonlinear funct
 Hence, the system of ODEs considered in our work is \emph{nonlinear}.
 Meanwhile, the systems of ODEs in [Vrudhula, 2006] and [Ghanta, 2006] are linear.
 The presence of a feedback loop makes the problem more challenging and requires a different solution strategy.
+It can be seen in Sec.~VI and App.~A that our solution process drastically differs from the solution processes described in [Vrudhula, 2006] and [Ghanta, 2006].
 
 It is worth emphasizing that our stochastic power analysis \perse\ is temperature aware, which is implied by the leakage-awareness of our stochastic temperature analysis.
-In contrast, as noted in Sec.~II, all the prior works concerned with process variation at the device level and based on spectral methods for uncertainty quantification, \ie, [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (another new citation included in the manuscript), and [Shen, 2009], ignore the leakage-temperature interdependence.
+In contrast, all other prior works concerned with process variation at the device level and based on spectral methods for uncertainty quantification, \ie, [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (another new citation included in the manuscript), and [Shen, 2009], ignore the leakage-temperature interdependence.
 This interdependence, however, is of a tremendous importance, which is well known and requires no introduction; see, \eg, [Liu, 2007] and [Srivastava, 2010].
 
 Let us return back to [Vrudhula, 2006] and [Ghanta, 2006] and continue contrasting them with the proposed framework.
@@ -56,71 +70,61 @@ They rely on specific expressions, describing how the uncertain parameters influ
 As noted by the authors of [Vrudhula, 2006], their analysis of interconnects is not limited to any particular formula modeling the influence of the internal independent variables, which is true.
 However, a potential extension is not straightforward; the same applies to [Ghanta, 2006].
 The reason for this is the use of so-called intrusive Galerkin projections for the computation of the coefficient of PC expansions.
-This means that the user of [Vrudhula, 2006] and [Ghanta, 2006] has to adapt the proposed methodologies to every problem individually.
+This means that the user of [Vrudhula, 2006] and [Ghanta, 2006] has to adapt their solutions to every problem individually.
 In contrast,
 \begin{enumerate}
   \setcounter{enumi}{2}
   \item The proposed framework is \emph{flexible and can be readily applied to arbitrary parameters}.
 \end{enumerate}
 As mentioned in Sec.~III and further elaborated on in Sec.~V-B, our approach keeps the uncertain parameters inside a ``black box,'' which can be replaced with another box at no afford.
-Consequently, the user of our technique does not have to come up with various expressions describing the joint effects of the uncertain parameters, which, moreover, should be followed by a fitting procedure to the data from, \eg, SPICE simulations in order to determine all the coefficients of the chosen expression.
+This type of projections is called non-intrusive [Eldred, 2008].
+The user of our technique, of course, should provide such a box; however, he/she has much more freedom to do so.
+
+In particular, the user does not have to come up with any expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures (\eg, to the data from SPICE simulations) in order to determine the coefficients of the chosen expressions.
 From our experience, it is considerably difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the uncertain parameters.
 In this regards, our preliminary research shown that the fits with polynomial of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors; it was also noted in [Shen, 2009].
-Therefore, as mentioned in Sec.~VI-B, we simply utilize linear interpolation without any polynomial-based fitting, which the proposed framework readily allows us to do.
+As mentioned in Sec.~VI-B, in our experiments, we simply utilize linear interpolation without any polynomial-based fitting, which the proposed framework readily allows us to do.
 
-In addition, [Vrudhula, 2006] does not seem to explore the case when the uncertain parameters are correlated: the methodology in Sec.~V in that paper does not imply any actions in this regard.
-However, a potential solution is mentioned in the context of Gaussian variables.
-On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition, which assumes that the correlation function of the uncertain parameters is known.
+Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are correlated; a potential solution is mentioned only in the context of Gaussian distributions.
+On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known.
 Such an assumption, however, is impractical, which is also noted by [Vrudhula, 2006].
-In reality, it can be difficult to make a justifiable choice and tune such a function.
+In reality, it can be difficult to make a justifiable choice and tune such a correlation function.
 In contrast,
 \begin{enumerate}
   \setcounter{enumi}{3}
-  \item The proposed framework is able to \emph{work under mild assumptions on the prior knowledge}.
+  \item The proposed framework \emph{systematically addresses correlations} and has mild requirements on the prior knowledge of these correlations.
 \end{enumerate}
-We do take correlations into account in all our experiments, and, as described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient for our approach.
+As described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient for our approach.
 Such a matrix can readily be estimated from measurements and, thus, is a more probable input to stochastic analyses.
-We would like to emphasize that the correlation function assumed by us in Eq.~13 is used with the only purpose of constructing correlation matrices for our experiments.
+Note that we also assume a correlation function, Eq.~(13).
+However, although it is rather unique and captures well certain features inherent to the fabrication process, we use this function with the only purpose of constructing correlation matrices for our experiments due to the above-mentioned reasons.
 
 Next, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
-However, the only illustrated case is Gaussian distributions with Hermite polynomials.
-The authors also discuss a log-normal parameter; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.
-As mentioned earlier, [Vrudhula, 2006] does not elaborate on correlations, which is not straightforward in the context of non-Gaussian distributions.
-On the other hand, [Ghanta, 2006] is tightened to only Gaussian distributions, which are critical for the development in that paper.
+However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
+In a non-Gaussian setting with correlations, PC expansions are not straightforward.
+The reason is that mutual independence is essential for PC expansions, and liner transformations, removing correlations, in general, do not yield independence.
+On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper.
 In contrast,
 \begin{enumerate}
   \setcounter{enumi}{4}
-  \item We not only claim but also show an application of PC expansions to non-Gaussian distributions including the treatment of correlations.
+  \item The proposed framework \emph{works with arbitrary distributions}\footnote{The applicability to arbitrary distributions is discussed later in our response to the corresponding comment of the current reviewer.} and is illustrated in a general setting using the Nataf transformation.
 \end{enumerate}
-The Nataf transformation has not received much attention in our research area.
-The paper demonstrates this powerful technique.
-
-In this context, we also would like to note that
+Correlated non-Gaussian variables are addressed via the Nataf transformation, which has not received much attention in our research area.
+Our paper demonstrates this powerful technique.
+At this point, we also would like to note that, in the manuscript,
 \begin{enumerate}
   \setcounter{enumi}{5}
-  \item We model physically-bounded variations using beta distributions.
+  \item Physically-bounded variations are modeled using beta distributions.
 \end{enumerate}
-We have not encountered in the literature the beta model for physically bounded quantities that we use in the illustrative example.
+We have not encountered such a model in the literature; however, it has its own right due to the boundedness of the support, as we explain in Sec.~VII.
 
-\begin{enumerate}
-  \setcounter{enumi}{6}
-  \item We provide a systematic description of all the steps of the process with the corresponding solutions.
-\end{enumerate}
+Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution.
+The manuscript provides a systematic description of all the stages involved in the uncertainty quantification process of transient temperature profiles.
+We sincerely hope that our work will give birth to other temperature-related studies where the presence of uncertainty will be seamlessly taken into account at little effort.
 
-\begin{enumerate}
-  \setcounter{enumi}{7}
-  \item Unique compositional correlation function.
-\end{enumerate}
+\done{The prior works have been described in more detail in Sec.~II.}
 
-First of all, both PC and PCA/KL are tools, and tools are \emph{designed/supposed} to be used to solve certain problems.
-Therefore, the fact that the aforementioned techniques ``[\ldots] have been applied to many analysis and modeling problems in the CAD areas [\ldots]'' does not affect in any way the contribution of the present work.
-As a matter of fact, PC expansions were developed in the first place to tackle stochastic differential equations, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem \etal) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal).
-Tools are there to help us, not to lie on a shelf.
-
-One does not need to go too far to note that the way we treat the thermal system in App. A and the way we construct PC expansions in Sec. V-D drastically diverge from the solution process described in [18].
-
-To summarize, all the discussions above advocate that our research makes a prominent contribution.
-We sincerely hope that the manuscript will give birth to other temperature-related studies where, thanks to the accuracy and computational speed of the proposed framework, the presence of uncertainty will be seamlessly taken into account at little effort.
+\done{The nonlinearity of the thermal system has been emphasized in Sec.~V-C.}
 
 \done{The benefits of non-intrusive PC expansions have been emphasized at the end of Sec.~V-D.}
 
@@ -128,11 +132,9 @@ We sincerely hope that the manuscript will give birth to other temperature-relat
 \end{authors}
 
 \begin{reviewer}
-Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations.  Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
+Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations.
 \end{reviewer}
 \begin{authors}
-The fact that ``many existing works mainly focus on the power or power grids [\ldots]'' does not say anything about the importance of temperature.
-In addition, if everybody was looking into the same direction, there would be no progress.
 Regarding constraining power in order to squeeze temperature into safe ranges, we would like to respond with the words of another reviewer; they served a different purpose but are suitable in this context as well.
 Such strategies ``[\ldots] can end up putting up a big enough guard band to design the system considering severe conditions.
 Thus, they end up being quite conservative and over-designing their system.''
@@ -140,6 +142,12 @@ In other words, the more we know about the things we care about and the more imm
 Coming closer to the subject matter, it is temperature that causes damage, not power \perse.
 Therefore, if we are to repress temperature, it is wiser to study this very temperature instead of power.
 With all our respect to the reviewer, the claim that temperature is less important seem to us to be rather questionable.
+\end{authors}
+
+\begin{reviewer}
+Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
+\end{reviewer}
+\begin{authors}
 Next, we agree with the reviewer that temperature is load dependent, which is equally well applies to power, and is influenced by environment.
 However, we prefer to follow Caesar’s rule ``divide and conquer'': the focal point of this particular work is process variation, and we departure from a given workload, as stated in the problem formulation.
 \end{authors}
@@ -213,7 +221,7 @@ This result, of course, is very general and applicable in any context.
 However, it tells us the chosen value for $\nsamples$ makes sense.
 
 The third aspect, which is the most important one, is our own experience and observations from the tables thoroughly discussed in Sec.~VII-A.
-Moreover, as we reply to the fifth question of Reviewer 4, we do believe that $\nsamples = 10^4$ is a lower bound.
+Moreover, as we write in the paper, we do believe that $\nsamples = 10^4$ is a lower bound.
 However, we tried to avoid any bias towards the proposed technique, which could happen if we raised $\nsamples$ to $10^5$.
 
 Let us also note the following.
