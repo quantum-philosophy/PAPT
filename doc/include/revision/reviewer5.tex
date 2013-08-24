@@ -207,18 +207,35 @@ Therefore, the proposed framework is exemplified on arguably the most crucial pr
 The claim that the proposed method can be applied to arbitrary distributions are not correct. As the author mentioned, that the resulting temperature or even the power distributions are not known a priori. As a result, we do not know which orthogonal polynomials we should use. This actually is the major limitations of the PC based method.
 \end{reviewer}
 \begin{authors}
-First of all, we would like to note that the formulation used in the manuscript is ``diverse probability laws'' (see the abstract), not ``arbitrary.''
-However, the theory of PC expansions can indeed be applied to arbitrary distributions as we shall justify shortly (which is also emphasized in other papers such as [Vrudhula, 2006], the third paragraph on page 2007).
+Let us please first clarify the formulation used in the manuscript.
+In the abstract, we write ``diverse probability laws and arbitrary impacts of the underlying uncertain parameters.''
+So, the word \emph{arbitrary} belongs to \emph{impacts} and refers to the fact that the influence of the uncertain parameters is introduced into the framework as a ``black box,'' as it is unfolded in Sec.~III.
+The formulation was ambiguous and has been modified in the revised version of the manuscript.
+
+Despite the fact that we do not use the word \emph{arbitrary}, the theory of PC expansions can indeed be applied to arbitrary distributions (which is also emphasized in other papers such as [Vrudhula, 2006], the third paragraph on page 2007), and we would like to justify it now.
 As the reviewer correctly noted, the output distribution is not known \apriori.
 Therefore, whenever it comes to the construction of a PC expansion, one is typically guided by other factors in order to choose an adequate polynomial basis.
 One such factor is the distributions of the independent random variables that parametrize the uncertainty quantification problem under consideration.
 Then, many standard distributions directly correspond to certain families of orthogonal polynomials, as shown in Tab.~I.
-When the reviewer claims that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials.
+When the reviewer says that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials.
 It is true; however, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
-Please refer to ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' (the origin of the generalized PC) by D. Xiu \etal, namely, Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
-In addition, one does not have to perform this re-parametrization and can construct custom orthogonal polynomials instead.
-Please refer to ``Modeling Arbitrary Uncertainties Using Gram-Schmidt Polynomial Chaos'' by J. Witteveen \etal\ We agree with the reviewer in the sense that the \emph{optimal} polynomial basis can indeed be unknown, and the expansion order, which is needed to reach the desired accuracy, can be high.
-Nevertheless, PC expansions still hold, meaning that any second-order stochastic process admits such a representation, and this representation is convergent in the mean-square sense (the Cameron-Martin theorem, 1947).
+Please refer to ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal, namely, Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
+In addition, one does not have to perform such a re-parametrization and can construct custom orthogonal polynomials instead.
+Please refer to ``Modeling Arbitrary Uncertainties Using Gram-Schmidt Polynomial Chaos'' by J. Witteveen \etal
+
+We agree with the reviewer in the sense that the \emph{optimal} polynomial basis can indeed be unknown, and the expansion order can be high to reach the desired accuracy.
+Nevertheless, PC expansions still hold, meaning that any second-order stochastic process admits such a representation, and this representation is convergent in the mean-square sense (the Cameron-Martin theorem).
+
+An open question now is: Why do we use the word \emph{diverse} instead of \emph{arbitrary}?
+The reason is to guard the paper.
+Such ambitious statements always some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
+For PC expansions, it is the second-order assumption (finite variance) mentioned in the last sentence of the previous paragraph and in Sec.~V-B of the manuscript.
+However, most physical processes have finite variance as noted by D. Xiu in the aforementioned paper.
+If the reviewer refers to this assumption, we apologize for our misunderstanding and remind that \emph{arbitrary} is not present in the manuscript.
+
+\done{The formulation in the abstract has been clarified.}
+
+\done{Possible solutions of non-standard distributions have been outlined in App.~C.}
 \end{authors}
 
 \begin{reviewer}
