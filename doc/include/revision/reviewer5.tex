@@ -4,14 +4,15 @@ The paper presented statistical thermal analysis for VLSI systems using the orth
 However, this paper has several major issues.
 \end{reviewer}
 \begin{authors}
-Thank you for your critique. Please find our response below.
+Thank you for your constructive critique given in what follows.
 \end{authors}
 
 \begin{reviewer}
 First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors.
 \end{reviewer}
 \begin{authors}
-Both PC and PCA/KL are tools, and tools are supposed to be used to solve certain problems.
+We agree that these techniques are known in our research area.
+However, they are just tools, and tools are supposed to be used to solve certain problems.
 For example, PC expansions, as we know them now-a-days, were pioneered to address stochastic differential equations in the first place, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem \etal) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal).
 Since then, these tools have been applied to a wide range of uncertainty quantification problems in scientific computing.
 Therefore, the fact that the aforementioned techniques are a part of our framework does not affect our contribution.
@@ -80,13 +81,13 @@ As mentioned in Sec.~III and further elaborated on in Sec.~V-B, our approach kee
 This type of projections is called non-intrusive [Eldred, 2008].
 The user of our technique, of course, should provide such a box; however, he/she has much more freedom to do so.
 
-In particular, the user does not have to come up with any expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures (\eg, to the data from SPICE simulations) in order to determine the coefficients of the chosen expressions.
-From our experience, it is considerably difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the uncertain parameters.
-In this regards, our preliminary research shown that the fits with polynomial of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors; it was also noted in [Shen, 2009].
-As mentioned in Sec.~VI-B, in our experiments, we simply utilize linear interpolation without any polynomial-based fitting, which the proposed framework readily allows us to do.
+In particular, the user does not have to come up with any expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of the chosen expressions.
+From our experience, it is rather difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the parameters.
+In this regards, our preliminary research shown that the fits with polynomial of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
+As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows to do.
 
 Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are correlated; a potential solution is mentioned only in the context of Gaussian distributions.
-On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known.
+On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
 Such an assumption, however, is impractical, which is also noted by [Vrudhula, 2006].
 In reality, it can be difficult to make a justifiable choice and tune such a correlation function.
 In contrast,
@@ -103,7 +104,7 @@ Next, [Vrudhula, 2006] states that the proposed methodology can be applied to ar
 However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
 In a non-Gaussian setting with correlations, PC expansions are not straightforward.
 The reason is that mutual independence is essential for PC expansions, and liner transformations, removing correlations, in general, do not yield independence.
-On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper.
+On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
 In contrast,
 \begin{enumerate}
   \setcounter{enumi}{4}
@@ -120,7 +121,6 @@ We have not encountered such a model in the literature; however, it has its own 
 
 Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution.
 The manuscript provides a systematic description of all the stages involved in the uncertainty quantification process of transient temperature profiles.
-We sincerely hope that our work will give birth to other temperature-related studies where the presence of uncertainty will be seamlessly taken into account at little effort.
 
 \done{The prior works have been described in more detail in Sec.~II.}
 
@@ -132,40 +132,75 @@ We sincerely hope that our work will give birth to other temperature-related stu
 \end{authors}
 
 \begin{reviewer}
-Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations.
+Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations. Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
 \end{reviewer}
 \begin{authors}
-Regarding constraining power in order to squeeze temperature into safe ranges, we would like to respond with the words of another reviewer; they served a different purpose but are suitable in this context as well.
+Let us please explain our motivation in detail.
+
+First, we believe that power analysis and temperature analysis are inseparable.
+The reason is the ever so important interdependence between temperature and leakage: high temperatures skyrocket the leakage power, and the leakage power strikes back by cranking up the dissipation of heat.
+Process variation, which has been rapidly increasing over the last decade due to technology scaling, magnifies the aforementioned concern even further.
+Therefore, stochastic power analysis has to be accompanied by stochastic temperature analysis.
+The proposed framework is self-contained from this perspective, which differentiates us from the prior works as discussed in our previous answer.
+
+Second, the immediate cause of various reliability issues (\eg, time-dependent dielectric breakdown, electro-migration, and thermal-cycling fatigue) is temperature, not power \perse.
+Moreover, for certain failure mechanisms, the failure rate has an exponential dependency on the operating temperature [Juan, 2012].
+In order to alleviate such issues, the designer indeed can try to constrain power and hope that temperature will get squeezed into safe ranges.
+In this regard, we would like to respond with the words of Reviewer 3.
 Such strategies ``[\ldots] can end up putting up a big enough guard band to design the system considering severe conditions.
 Thus, they end up being quite conservative and over-designing their system.''
-In other words, the more we know about the things we care about and the more immediate/direct this knowledge is, the more efficient and effective control we have over those important things.
-Coming closer to the subject matter, it is temperature that causes damage, not power \perse.
+In other words, the more we know about the quantities we care about and the more immediate/direct this knowledge is, the more efficient and effective control we have over those important quantities.
 Therefore, if we are to repress temperature, it is wiser to study this very temperature instead of power.
-With all our respect to the reviewer, the claim that temperature is less important seem to us to be rather questionable.
-\end{authors}
+In addition, since power does not translate to temperature in a straightforward manner, the well-established reliability models based on temperature will be excluded from the arsenal of the designer when only stochastic power analysis is at the designer's disposal.
+This implies, for example, that various temperature-dependent design-space-exploration procedures will not be possible to undertake.
 
-\begin{reviewer}
-Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
-\end{reviewer}
-\begin{authors}
-Next, we agree with the reviewer that temperature is load dependent, which is equally well applies to power, and is influenced by environment.
-However, we prefer to follow Caesar’s rule ``divide and conquer'': the focal point of this particular work is process variation, and we departure from a given workload, as stated in the problem formulation.
+It is true that temperature is load dependent (which applies to power equally well) and can be influenced by other conditions.
+The focal point of this paper is process variation, and the aforementioned factors are left for the future work.
+However, it is worth noting that the effect of process variation on temperature is substantial, in particular, due the leakage-temperature interdependence discussed earlier.
+This is also emphasized in other temperature-related studies.
+For instance, [Juan, 2011] gives an example wherein the maximal temperature fluctuates within a band of around $20^\circ$C, depending on the severity of process variation.
+Our example in Fig.~1 indicates a similar sensitivity of temperature to process variation.
+
+To conclude, the stochastic analysis presented in the manuscript is well motivated.
+
+\done{Our motivation has been explained in more detail in Sec.~I.}
+
+\done{It has been noted that process variation is not the only source of uncertainty in Sec.~IV.}
 \end{authors}
 
 \begin{reviewer}
 In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
 \end{reviewer}
 \begin{authors}
-We pursued clarity of presentation and, therefore, focused one parameter in our illustrative example.
-The choice of the effective channel length was a no-brainer as many studies show that it exhibits the largest deviation due to process variation and, therefore, constitutes the major concern.
-We agree with the reviewer that different correlation patterns make the model order reduction procedure work differently, and it is important to understand.
-For this particular reason, we presented the experimental results for various values of the $\eta$ parameter.
-The goal was to illustrate and explain, not to give a broad overview of all possible correlation patterns.
-It is worth mentioning that the number of considered parameters or the type of assumed correlations do not constrain the proposed framework; however, it is true that they affect the resulting complexity and lead to the curse of dimensionality as we emphasize in the paper.
+Let us please first remind that the proposed framework do not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
 
-First of all, as we emphasize at the end of Sec.~III and in Sec.~VIII, the proposed framework is not limited to any particular set of uncertain parameters or any particular way the considered parameters manifest themselves in the power model; thus, the designer has a great flexibility in taking various uncertain parameters into consideration.
-Regarding the illustrative example and experimental results, we tried to give a clear demonstration of the proposed framework and, therefore, decided to focus on one parameter.
-The choice of the effective channel length was straightforward as many studies show that it exhibits the largest deviation due to process variation and, therefore, constitutes the major concern.
+The reviewer is absolutely right that different correlation patterns make the model order reduction procedure work differently.
+As a result, two sets of initial uncertain parameters $\vU'(\o)$ and $\vU''(\o)$ of the same cardinality but with different correlation structures can end up in two sets of independent random variables $\vZ'(\o)$ and $\vZ''(\o)$ whose cardinalities arbitrary differ from each other.
+Therefore, it is difficult to make a connection between the dimensionality of $\vU(\o)$ with the dimensionality of $\vZ(\o)$.
+At the same time, the applicability of our approach, which is the main concern of the comment, is essentially dictated by the dimensionality of $\vZ(\o)$.
+Therefore, $\vZ(\o)$ is a better indicator of this applicability than $\vU(\o)$, and the latter can be even misleading.
+
+At this point, we kindly ask the reviewer to consider our response to the seventh comment of Reviewer 3 wherein we discuss the above issue in more detail and give an illustrative example.
+In particular, we justify there the fact that the results in Tab.~V, which include the dimensionality of $\vZ(\o)$, address well the aforementioned applicability concern.
+
+Let us continue our discussion here and emphasize that the effect of correlation patterns is indeed important; we are in a perfect alignment with the reviewer in this regard.
+For this particular reason, the experimental results are given for various values of the $\eta$ parameter, which controls these patterns and, thus, illustrates their influence.
+However, the goal was to illustrate and explain rather than to give a broad overview of possible correlation structures.
+Therefore, we decided to take the Ornstein-Uhlenbeck kernel, which is used in many papers (see, \eg, [Ghanta 2006], [Bhardwaj, 2006], [Bhardwaj, 2008], and [Shen, 2009]) and is used alone, and combine it with the squared-exponential kernel, which has not received much attention in the literature.
+In some cases, the lack of attention to the second kernel can be explained by the lack of an analytical solution for this correlation function with respect to the continuous KL decomposition (utilized in [Ghanta 2006], [Bhardwaj, 2006], and [Bhardwaj, 2008]).
+From this perspective, our exploration of correlation patterns is more comprehensive than the one in the prior works.
+
+Let us please also comment separately on the choice of the effective channel length.
+As with correlations, the goal was to give a clear illustration, and, therefore, we decided to pick one parameter.
+Our choice was guided by the reasoning given in [Juan, 2011, 2012].
+To elaborate, the two main components of the total leakage current are the subthreshold and gate leakage currents.
+The former constitutes the major concern since the importance of the latter has been recently reduced with the introduction of high-k dielectrics.
+Then, apart from temperature, the subthreshold leakage current has a strong dependency on the effective channel length and threshold voltage, which are severely deteriorated by process variation.
+The threshold voltage is most sensitive to the effective channel length and gate oxide thickness with the latter being the weakest one [Shen, 2010].
+Thus, the effective channel length was chosen.
+Therefore, the proposed framework is exemplified on arguably the most crucial process parameter.
+
+\done{The applicability of our approach has been discussed in connection with Tab.~V in Sec.~VII-B, which also addresses the seventh comment of Reviewer 3.}
 \end{authors}
 
 \begin{reviewer}
