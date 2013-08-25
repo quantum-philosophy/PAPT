@@ -135,7 +135,7 @@ The manuscript provides a systematic description of all the stages involved in t
 Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations. Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
 \end{reviewer}
 \begin{authors}
-Let us please explain our motivation in detail.
+Let us please explain our motivation in more detail.
 
 First, we believe that power analysis and temperature analysis are inseparable.
 The reason is the ever so important interdependence between temperature and leakage: high temperatures skyrocket the leakage power, and the leakage power strikes back by cranking up the dissipation of heat.
@@ -172,7 +172,7 @@ To conclude, the stochastic analysis presented in the manuscript is well motivat
 In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
 \end{reviewer}
 \begin{authors}
-Let us please first remind that the proposed framework do not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
+We would like to note first that the proposed framework do not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
 
 The reviewer is absolutely right that different correlation patterns make the model order reduction procedure work differently.
 As a result, two sets of initial uncertain parameters $\vU'(\o)$ and $\vU''(\o)$ of the same cardinality but with different correlation structures can end up in two sets of independent random variables $\vZ'(\o)$ and $\vZ''(\o)$ whose cardinalities arbitrary differ from each other.
@@ -207,7 +207,7 @@ Therefore, the proposed framework is exemplified on arguably the most crucial pr
 The claim that the proposed method can be applied to arbitrary distributions are not correct. As the author mentioned, that the resulting temperature or even the power distributions are not known a priori. As a result, we do not know which orthogonal polynomials we should use. This actually is the major limitations of the PC based method.
 \end{reviewer}
 \begin{authors}
-Let us please first clarify the formulation used in the manuscript.
+First of all, we would like to clarify the formulation used in the manuscript.
 In the abstract, we write ``diverse probability laws and arbitrary impacts of the underlying uncertain parameters.''
 So, the word \emph{arbitrary} belongs to \emph{impacts} and refers to the fact that the influence of the uncertain parameters is introduced into the framework as a ``black box,'' as it is unfolded in Sec.~III.
 The formulation was ambiguous and has been modified in the revised version of the manuscript.
@@ -286,12 +286,14 @@ The choice of $\nsamples = 10^4$ for the comparison of the computational speed h
 
 The first aspect is the experience from other studies.
 For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Shen, 2009] models the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
-Therefore, $\nsamples = 10^4$ is not an excess in our research area; moreover, one should take into consideration the fact heat transfer within electronic systems is one level above power.
+Thus, we conclude that $\nsamples = 10^4$ is not an excess in our research area.
+As we note earlier, one should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
+For this reason, the number of MC samples can also increase to retain the same accuracy.
 
 The second aspect is the theoretical results given in [I. D\'{i}az-Emparanza, 2002].
 For example (taken from an earlier publication of I. D\'{i}az-Emparanza), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
 This result, of course, is very general and applicable in any context.
-However, it tells us the chosen value for $\nsamples$ makes sense.
+However, it tells us that the chosen value for $\nsamples$ makes sense.
 
 The third aspect, which is the most important one, is our own experience and observations from the tables thoroughly discussed in Sec.~VII-A.
 Moreover, as we write in the paper, we do believe that $\nsamples = 10^4$ is a lower bound.
@@ -300,52 +302,53 @@ However, we tried to avoid any bias towards the proposed technique, which could 
 Let us also note the following.
 All the prior studies listed in Sec.~II that perform comparisons with MC simulations in terms of accuracy and/or speed postulate their choices regarding the number of MC samples.
 In contrast, we explain our choice and provide evidence to support it.
+
+\done{The discussion about the choice of $\nsamples = 10^4$ has been reformulated, moved from Sec.~VII-A to Sec.~VII-B, and supported with additional citations.}
 \end{authors}
 
 \begin{reviewer}
 Many pesudo MC methods actually have much faster convergent rate with much less number of samples actually.
 \end{reviewer}
 \begin{authors}
-We agree with the reviewer that quasi-MC methods indeed can be faster than pure MC methods: the convergence rates are $O_1 = O((\log\nsamples)^\nvars / \nsamples)$ and $O_2 = O(1 / \sqrt{\nsamples})$ for the former and latter, respectively.
-However, it was not the direction we wanted to put our efforts into: our major focus is at PC expansions, not at MC simulations.
-We think it would not make much of a difference on the results reported in Tab. V and Tab. VI.
-In addition, quasi-MC methods have their own problems.
-For example, $O_1$ is smaller than $O_2$ only when $\nvars$ is small and $\nsamples$ is large.
-In particular, already with $\nvars = 4$, the curve corresponding to $O_1$ is higher than the one of $O_2$ for $\nsamples$ from around 50 to $3 \times 10^6$.
-In the experimental results, $\nvars$ goes up to 12.
+We agree with the reviewer that there are other sampling techniques, such as Latin hypercube and quasi-MC sampling, which try to improve upon the convergence properties of the classical MC sampling.
+However, their applicability is often limited due to additional restrictions posed by the design of these methods [Xiu, 2010].
+For example, quasi-MC sampling can indeed be faster than pure MC sampling since the convergence rates are $\O_1 = \O((\log\nsamples)^\nvars / \nsamples)$ and $\O_2 = \O(1 / \sqrt{\nsamples})$ for the former and latter, respectively.
+However, $\O_1$ is smaller than $\O_2$ only when $\nvars$ is small and $\nsamples$ is large.
+In particular, already with $\nvars = 4$, the curve corresponding to $\O_1$ is higher than the one of $\O_2$ for $\nsamples$ from around 50 to $3 \times 10^6$.
+In our experimental results, $\nvars$ goes up to 12.
+
+Let us please also note that MC sampling was not the direction we wanted to put our efforts into: our major focus is at PC expansions.
+
+\done{Alternative sampling methods have been mentioned in Sec.~II.}
 \end{authors}
 
 \begin{reviewer}
 The table V and table VI look  bit weird.  It seems strange that the PC method just takes a few seconds, while MC method will takes hours. The speedups in the two tables  are even bigger than number of MC samples (10\^{}4) in many cases. This means that one PC-based computing take less than one MC sample run, which is impossible.  More explanations are needed.
 \end{reviewer}
 \begin{authors}
-In order to draw adequate conclusions about the accuracy of our framework, the MC-based approach is supposed to be as accurate as possible, meaning that it should solve everything directly without any further simplifications or assumptions.
-Therefore, as described at the beginning of Sec. VII, MC sampling solves the original system of differential equations directly using traditional numerical techniques.
-In contrast, our framework employs the approximation described in App. A, which we also elaborate on in our previous publication listed in the references [8].
-Consequently, the reported speedup of the proposed framework is due to two major factors: PC expansions \perse\ and the approximation of the thermal model.
-And these two things are inseparable: our derivation process is tightly interconnected with the recurrence given in App. A.
-Moreover, we have spent a great deal of time trying to construct a highly efficient algorithm for PC expansions.
-From our experience, a straightforward implementation, blindly following the formulae commonly found in the literature, can end up being dramatically slow.
-We are planning to present our solution process algorithmically as a part of our future publication.
+Thank you for the excellent observation.
+Let us explain how this speed has been achieved.
+
+First of all, recall that we utilize quadrature-based non-intrusive projections for the calculation of the coefficients of PC expansions.
+The reviewer is right that, if we were to construct such non-intrusive PC expansions in the traditional way, as it is usually presented in the corresponding literature (see, \eg, [Eldred, 2008]), the proposed framework could not be faster that one MC simulation.
+To be precise, the speedup would be exactly the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ utilized; we would not need to perform any actual time measurements.
+To elaborate further, the beauty of non-intrusive projections is in the fact that well-established deterministic codes require no modifications in order to be analyzed from the stochastic perspective when the input to these codes becomes stochastic.
+Therefore, when one has a deterministic solver of some problem and wishes to quantify this problem under a stochastic input, he/she takes this solver \emph{as is} and plugs it in into an appropriate uncertainty quantification framework, which calls this code a number of times with different (deterministic) inputs according to a certain strategy.
+In our case, this strategy is the chosen quadrature rule.
+Therefore, as many nodes are in the rule, that many times the solver will be called.
+Consequently, if we followed the procedure described above, our approach would be racing with the MC-based approach only in terms of the number of calls to a numerical solver of the system of differential equations given in Eq.~(2) (in its deterministic form, \ie, when $\o$ or, equivalently, $\vU(\o)$ is fixed).
+
+However, our solution diverges from the traditional construction of non-intrusive PC expansions.
+We go inside the solver and perform PC expansions in a step-wise manner following the recurrence given in Eq.~(3), which eventually leads to the recurrence for the PC coefficients in Eq.~(7).
+The advantages of such an approach are summarized in the last two paragraphs of Sec.~VI-D (the very last one has been added in the revised version of the manuscript).
+As described in Sec.~VI-C and App.~A, the derivation of this organic part of out framework is done under the assumption that the granularity of power/temperature profiles is sufficiently small such that the power consumption stays approximately constant within one time interval.
+
+On the other hand, the MC-based approach is a brute force.
+The accuracy of this approach is not compromised by any additional assumptions: there is no model order reduction inside and the thermal system is solved directly using traditional numerical techniques; in our case, it is Runge-Kutta formulae, as described at the beginning of Sec.~VII.
+
+Consequently, the reported speedup of the proposed framework is due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
+
+For a better intuition of the computational speed of the proposed framework, we kindly ask the reviewer to consider our answer to the first comment of Reviewer 4 wherein an analysis of the time complexity is given.
+
+\done{The two contributors to the speedup of the proposed framework have been highlighted in Sec.~VII-B.}
 \end{authors}
-%
-% To begin with, we would like to recall the assessment strategy utilized in the paper.
-% Sec.~VII-A, titled ``Approximation Accuracy,'' provides a cross-comparison of the proposed technique with an MC-based approach wherein we consider a platform with $\nprocs = 4$ cores and a dynamic power profile with $\nsteps = 10^2$ steps.
-% Our technique is given for a range of polynomial orders, $\pcorder$, while the MC-based approach is given for different numbers of samples, $\nsamples$.
-% On top of it, we report the obtained results for three different correlation patterns; this is controlled by the $\eta$ parameter.
-%
-% Regarding the first one, the results presented in Tab.~II, Tab.~III, and Tab.~IV include the case with $\nsamples = 10^5$ and, therefore, show the errors of the proposed framework with respect to convergent estimates delivered by MC simulations.
-% Since we suppose that this aspect is not the major concern of the reviewer, we do not discuss it here and kindly ask the reviewer to consider our response to the corresponding comment of Reviewer 5 wherein we justify solely the choice of $10^4$ samples.
-%
-%
-% It can seen in Tab.~II, Tab.~III, and Tab.~IV that we present results for a range of configurations of the MC-based approach and a range of configurations of the proposed framework.
-% One can also note the way the tables are discussed in Sec.~VII-A.
-% Namely, we not only assess the proposed framework using MC sampling, but also assess MC sampling using our framework.
-% Such a cross-assessment is possible since the accuracy of PC expansions and MC sampling increases as $\pcorder$ and $\nsamples$ grow.
-% Therefore, the reader has a possibility to observe the consequences, \ie, the approximation errors, of choosing one approach or the other for a range of setups.
-% This gives a wider picture of the relation between the two uncertainty quantification techniques and, eventually, leads a better appreciation of the proposed framework.
-%
-% Further, the assessment strategy utilized in the paper allows us to justify the choice of $10^4$ MC samples for the comparison of the computational speed in Sec.~VII-B.
-% This justification is given in Sec.~VII-A where we elaborate on the three tables mentioned above.
-% Moreover, as we reply to the fifth question of this reviewer, we do believe that $\nsamples = 10^4$ is a lower bound.
-% However, we tried to avoid any bias towards the proposed technique, which could happen if we raised $\nsamples$ to $10^5$.
