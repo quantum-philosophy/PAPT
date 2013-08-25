@@ -1,8 +1,10 @@
+\input{include/assets/notation.tex}
 Our work makes the following main contribution.
 We develop a probabilistic framework for the analysis of the transient power and temperature profiles of electronic systems subject to the uncertainty due to process variation.
 The proposed technique is flexible in modeling diverse probability distributions, specified by the user, of the uncertain parameters, such as the effective channel length and gate oxide thickness.
 Moreover, there are no assumptions on the distributions of the resulting power and temperature traces, as these distributions are unlikely to be known \apriori.
 The proposed technique is capable of capturing arbitrary joint effects of the uncertain parameters on the system since the impact of these parameters is introduced into the framework as a ``black box'', which is also defined by the user.
+\updated{In particular, it allows for the leakage-temperature interdependence to be taken into account at no effort.}
 Our approach is founded on the basis of polynomial chaos (PC) expansions, which constitute an attractive alternative to Monte Carlo (MC) sampling.
 This is due to the fact that PC expansions possess much faster convergence properties and provide succinct and intuitive representations of system responses to stochastic inputs.
 In addition, we illustrate the framework considering one of the most important parameters affected by process variation: the effective channel length.

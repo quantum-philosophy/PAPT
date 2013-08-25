@@ -18,7 +18,7 @@ In our experiments in \sref{experimental-results}, we use the library of quadrat
 
 Since in the example in \sref{illustrative-example} we need to compute inner products with respect to beta measures, the Gauss-Jacobi quadrature rule is of particular interest.
 \updated{The rule belongs to a broad class of rules known as Gaussian quadratures.
-For a one-dimensional Gaussian quadrature, the number of nodes $\qdorder$, also referred to as the order, and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorder - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
+For a one-dimensional Gaussian quadrature, the number of nodes $\qdorderone$, also referred to as the order, and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorderone - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
 Hence, we rewrite \eref{pc-coefficients} as follows:}
 \[
   \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oQuad{\nvars}{\qdlevel}{\vP_k(\o) \pcb_i(\vZ(\o))}
@@ -30,7 +30,7 @@ Therefore, $\qdlevel \geq \pcorder + 1$ as the quadrature is Gaussian.
 There is one more and, arguably, the most crucial aspect of numerical integration that we ought to discuss: the algorithm used to construct multidimensional quadratures.
 In low dimensions, the construction can be easily based on the direct tensor product of one-dimensional rules.
 However, in high dimensions, the situation changes dramatically as the number of points produced by this approach can easily explode.
-For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorder = 4$, then in 10 dimensions, \ie, $\nvars = 10$, the number of nodes becomes $\qdorder^\nvars = 4^{10} = 1,048,576$, which is not affordable.
+\updated{For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorderone = 4$, then in ten stochastic dimensions, \ie, $\nvars = 10$, the number of multivariate nodes becomes $\qdorder = \qdorderone^\nvars = 4^{10} = 1,048,576$, which is not affordable.}
 Moreover, it can be shown that most of the points obtained in such a way do not contribute to the asymptotic accuracy and, therefore, are a waste of time.
 In order to effectively alleviate this problem, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, burkardt2013, heiss2008}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.

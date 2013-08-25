@@ -12,13 +12,10 @@ The inner product with a weight function $\fPDF(\vz)$ is defined as the followin
   \oInner{h(\vz)}{g(\vz)} := \int h(\vz) g(\vz) \fPDF(\vz) d\vz.
 \end{equation}
 In the stochastic context, the parameters $\vz$ correspond to random variables, which we denote by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
-Some of the standard distributions and the corresponding polynomial bases are given in \tref{askey} \cite{eldred2008} and can be found in the Askey scheme \cite{xiu2010} of hypergeometric orthogonal polynomials.
-It can be seen that the weight functions are equal to the \pdfs\ of the corresponding probability distributions up to constant multipliers.
-Therefore, the inner product coincides with the covariance operator.
-Consequently, the presence of orthogonality is equivalent to the absence of correlations.
+\updated{Consequently, the inner product in \eref{inner-product} coincides with the covariance operator, and the presence of orthogonality is equivalent to the absence of correlations.}
 
-\updated{Finally, let us note the following.
-A distribution that does not have a direct correspondence with any basis from the Askey scheme can be transformed to one of those that do have such a correspondence using the technique shown in \sref{ie-uncertain-parameters}.
+\updated{Many of the most popular probability distributions directly correspond to certain families of the orthogonal polynomials given in the Askey scheme \cite{xiu2010}.
+A probability distribution that does not have such a correspondence can be transformed into one of those that do have using the technique shown in \sref{ie-uncertain-parameters}.
 Another solutions is to construct a custom polynomial basis using the Gram-Schmidt procedure.
 In addition, apart from continuous, PC expansions can be applied to discrete distributions.
 Refer to \cite{xiu2010, maitre2010} for further discussions.}

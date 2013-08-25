@@ -50,7 +50,7 @@ In numerical analysis, the solution process usually consists of a proper discret
 Hence, it is natural that different problems share similar models.
 The essence of the phenomena behind these models stays unchanged, which brings us to our first argument: heat transfer requires a separate treatment.
 
-Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our manuscript, which further differentiates us from [Vrudhula, 2006] and [Ghanta, 2006].
+Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our manuscript that further differentiate us from [Vrudhula, 2006] and [Ghanta, 2006].
 \begin{enumerate}
   \setcounter{enumi}{1}
   \item The perform stochastic temperature analysis takes into consideration \emph{the interdependence between leakage and temperature}.
@@ -86,23 +86,23 @@ From our experience, it is rather difficult to construct a good fit for the purp
 In this regards, our preliminary research shown that the fits with polynomial of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
 As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows to do.
 
-Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are correlated; a potential solution is mentioned only in the context of Gaussian distributions.
+Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are dependent; a potential solution is mentioned only in the context of Gaussian distributions.
 On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
 Such an assumption, however, is impractical, which is also noted by [Vrudhula, 2006].
 In reality, it can be difficult to make a justifiable choice and tune such a correlation function.
 In contrast,
 \begin{enumerate}
   \setcounter{enumi}{3}
-  \item The proposed framework \emph{systematically addresses correlations} and has mild requirements on the prior knowledge of these correlations.
+  \item The proposed framework \emph{systematically addresses dependencies} and has mild requirements on the prior knowledge of these dependencies.
 \end{enumerate}
-As described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient for our approach.
+As described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient to characterize dependencies for our approach.
 Such a matrix can readily be estimated from measurements and, thus, is a more probable input to stochastic analyses.
 Note that we also assume a correlation function, Eq.~(13).
 However, although it is rather unique and captures well certain features inherent to the fabrication process, we use this function with the only purpose of constructing correlation matrices for our experiments due to the above-mentioned reasons.
 
 Next, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
 However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
-In a non-Gaussian setting with correlations, PC expansions are not straightforward.
+In a non-Gaussian setting with dependencies, PC expansions are not straightforward.
 The reason is that mutual independence is essential for PC expansions, and liner transformations, removing correlations, in general, do not yield independence.
 On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
 In contrast,
@@ -110,7 +110,7 @@ In contrast,
   \setcounter{enumi}{4}
   \item The proposed framework \emph{works with arbitrary distributions}\footnote{The applicability to arbitrary distributions is discussed later in our response to the corresponding comment of the current reviewer.} and is illustrated in a general setting using the Nataf transformation.
 \end{enumerate}
-Correlated non-Gaussian variables are addressed via the Nataf transformation, which has not received much attention in our research area.
+Dependent non-Gaussian variables are addressed via the Nataf transformation, which has not received much attention in our research area.
 Our paper demonstrates this powerful technique.
 At this point, we also would like to note that, in the manuscript,
 \begin{enumerate}
@@ -212,47 +212,68 @@ In the abstract, we write ``diverse probability laws and arbitrary impacts of th
 So, the word \emph{arbitrary} belongs to \emph{impacts} and refers to the fact that the influence of the uncertain parameters is introduced into the framework as a ``black box,'' as it is unfolded in Sec.~III.
 The formulation was ambiguous and has been modified in the revised version of the manuscript.
 
-Despite the fact that we do not use the word \emph{arbitrary}, the theory of PC expansions can indeed be applied to arbitrary distributions (which is also emphasized in other papers such as [Vrudhula, 2006], the third paragraph on page 2007), and we would like to justify it now.
+Despite the fact that we do not use the word \emph{arbitrary}, the theory of PC expansions can indeed be applied to arbitrary distributions (which is also emphasized in other papers such as [Vrudhula, 2006]), and we would like to justify it now.
+
+Consider a stochastic system.
+The output of the system is a stochastic process.
+By the Cameron-Martin theorem established in 1947, the space of square-integrable (finite variance) stochastic processes is a separable Hilbert space wherein the countable orthonormal basis is formed by the Hermite polynomials.
+Therefore, arbitrary square-integrable stochastic process admits an expansion, convergent in the mean-square sense, with respect to the basis.
+In 2002, this result was generalized to the hypergeometric orthogonal polynomials from the Askey scheme in ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal
+
+Let us look at the system from a more practical perspective.
+The system is stochastic due to its internal dependence on a set of uncertain parameters $\vU(\o)$.
 As the reviewer correctly noted, the output distribution is not known \apriori.
 Therefore, whenever it comes to the construction of a PC expansion, one is typically guided by other factors in order to choose an adequate polynomial basis.
-One such factor is the distributions of the independent random variables that parametrize the uncertainty quantification problem under consideration.
-Then, many standard distributions directly correspond to certain families of orthogonal polynomials, as shown in Tab.~I.
-When the reviewer says that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials.
-It is true; however, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
-Please refer to ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal, namely, Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
+One such factor is the distributions of the independent random variables $\vZ(\o)$, which are either $\vU(\o)$ in the absence of dependencies or the result of the preprocessing stage in the presence of dependencies.
+Then, many standard distributions directly correspond to certain families of orthogonal polynomials from the Askey scheme.
+When the reviewer says that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials, which is true.
+However, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
+Please refer to the above paper by D. Xiu \etal, more precisely, to Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
 In addition, one does not have to perform such a re-parametrization and can construct custom orthogonal polynomials instead.
 Please refer to ``Modeling Arbitrary Uncertainties Using Gram-Schmidt Polynomial Chaos'' by J. Witteveen \etal
 
-We agree with the reviewer in the sense that the \emph{optimal} polynomial basis can indeed be unknown, and the expansion order can be high to reach the desired accuracy.
-Nevertheless, PC expansions still hold, meaning that any second-order stochastic process admits such a representation, and this representation is convergent in the mean-square sense (the Cameron-Martin theorem).
+We agree with the reviewer in the sense that the \emph{optimal} polynomial basis can indeed be unknown, and the expansion order can be rather high to reach the desired level of accuracy.
+Nevertheless, PC expansions are still legitimate and converge in the mean-square sense.
 
-An open question now is: Why do we use the word \emph{diverse} instead of \emph{arbitrary}?
-The reason is to guard the paper.
-Such ambitious statements always some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
-For PC expansions, it is the second-order assumption (finite variance) mentioned in the last sentence of the previous paragraph and in Sec.~V-B of the manuscript.
-However, most physical processes have finite variance as noted by D. Xiu in the aforementioned paper.
+Let us now explain why we prefer to use the word \emph{diverse} instead of \emph{arbitrary}.
+Such ambitious statements as ``applicable to arbitrary distributions'' nearly always some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
+For PC expansions, it is the finite-variance assumption mentioned above and in Sec.~V-B of the manuscript.
+However, most physical processes have finite variance; see the above paper by D. Xiu \etal{}
 If the reviewer refers to this assumption, we apologize for our misunderstanding and remind that \emph{arbitrary} is not present in the manuscript.
 
 \done{The formulation in the abstract has been clarified.}
 
-\done{Possible solutions of non-standard distributions have been outlined in App.~C.}
+\done{Possible solutions of general distributions have been outlined in App.~C.}
 \end{authors}
 
 \begin{reviewer}
 The paper did not address one important problems in thermal analysis: how the leakage and temperature interplay and its impacts on the statistical thermal analysis?
 \end{reviewer}
 \begin{authors}
-We apologize, but this comment is not entirely clear for us.
-Our leakage model is temperature aware, and, therefore, the interdependence between leakage and temperature is taken into consideration.
+The stochastic power-temperature analysis presented in the paper does take into consideration the interdependence between leakage and temperature.
+The general dependency of power on temperature can be seen in Eq.~(1) and is emphasized at the end of Sec.~V-D3.
+The leakage-temperature interdependence is mentioned at the end of Sec.~V-B and in Sec.~VI-B.
+Therefore, all the experimental results explore this important aspect.
+
+However, we indeed did not write anything about this interdependence in earlier sections; it has been fixed in the revised version of the manuscript.
+
+\done{The importance of the leakage-temperature interdependence has been mentioned in Sec.~I.}
+
+\done{The negligence of the interdependence by the prior works has been emphasized in Sec.~II.}
+
+\done{The fact that our framework accounts for the interdependence has been noted in Sec.~III.}
 \end{authors}
 
 \begin{reviewer}
 The paper has many math notations. It will be nice to have table of all the math notations at the beginning of  the paper.
 \end{reviewer}
 \begin{authors}
-Yes, we agree with the reviewer.
-We considered the possibility of including such a table in the paper.
-However, we decided to invest this paper space in thorough explanations and to remind the reader the notation on the fly when it is needed.
+We agree with the reviewer.
+Such a table has been introduced on page 2.
+In order to make room for the table, we remove Tab.~1---it was illustrating the correspondence between probability distributions and polynomial bases---since this information can be easily found in the cited literature.
+Also, due to the same shortage of space, we had to constrain the list of notations and, thus, cherry-picked only the most relevant notations from our perspective.
+
+\done{A table with the main notations has been introduced on page 2.}
 \end{authors}
 
 \begin{reviewer}

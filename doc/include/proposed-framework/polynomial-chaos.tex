@@ -5,13 +5,11 @@ Such series are especially attractive from the post-processing perspective as th
 An introduction to orthogonal polynomials, which we shall rely on in the derivation below, is given in \aref{polynomial-chaos}.
 
 \input{include/assets/hermite.tex}
-\input{include/assets/askey.tex}
 \subsubsection{Polynomial basis}
 The first step towards a polynomial expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, which is typically made based on the Askey scheme of orthogonal polynomials \cite{xiu2010}.
 The step is crucial as the rate of convergence of PC expansions closely depends on it.
 Although there are no strict rules that guarantee the optimal choice \cite{maitre2010, knio2006}, there are best practices saying that one should be guided by the probability distributions of the (independent) random variables that drive the stochastic system at hand (see \aref{polynomial-chaos}).
 In our case, these variables are $\vZ(\o)$.
-\tref{askey} displays several examples of such paired probability distributions and polynomial bases.
 For instance, when a random variable follows a beta distribution, the Jacobi basis is worth being tried first; on the other hand, the Hermite basis is preferable for Gaussian distributions.
 In order to give a better intuition of what such a basis may look like, \fref{hermite} plots the first six polynomials $\{ \pcb_i(\z) \}_{i = 1}^6$, $\z \in \real$, of the Hermite basis in one dimension.
 In multiple dimensions, which is the case with the $\nvars$-dimensional random variable $\vZ(\o)$, several (possibly different) univariate bases are to be combined together to produce a single $\nvars$-variate polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, $\vz \in \real^\nvars$ (see \cite{xiu2010, maitre2010}).
