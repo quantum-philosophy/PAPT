@@ -19,7 +19,7 @@ These parts can and should be precomputed and stored such that their future use 
 Such an in-depth explanation was planned to be given as a part of another work.
 Taking the received feedback into account, we have reconsidered our decision and have included in the manuscript a concise version of the analysis of the time complexity given in what follows.
 
-All the statements below regarding certain aspects of PC expansions should be understood only in the context of our implementation.
+All the statements below regarding certain aspects of PC expansions should be understood in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
 The construction of PC expansions is based on so-called non-intrusive spectral projections [Eldred, 2008] using quadrature rules.
 The needed quadrature rule is determined solely by the intended PC expansion.
@@ -28,10 +28,10 @@ Therefore, any two problems that share $\vZ(\o)$ and $\pcorder$ have identical s
 To give an extreme example, suppose a dual-core platform has three uncertain parameters $\vU'(\o)$, and a 32-core platform has 33 uncertain parameters $\vU''(\o)$.
 Then, if the model order reduction procedure leaves two beta variables $\vZ(\o)$ in both cases, the two problems are identical from the perspective of, say, the fourth-order PC, regardless of the input dynamic power profile.
 Consequently, the preliminary work for a fix combination of $\vZ(\o)$ and $\pcorder$ should be done only once.
-In particular, this means that, for a given electronic system and a given accuracy level, an unlimited number of dynamic power profiles can be analyzed at no additional costs.
+In particular, this means that, for a given electronic system and a given accuracy level, an unlimited number of dynamic power profiles can be analyzed at no extra effort.
 This is especially advantageous for various optimization procedures, as we note in Sec.~VII.
 
-Going further in detail, for each problem, we compute and store two matrices.
+Going deeper in detail, for each problem, we compute and store two matrices.
 The first one is an $\pcterms \times \qdorder$ matrix, referred to as the projection matrix, which is used to compute the coefficient of a PC expansion by one matrix multiplication.
 The second one is an $\pcterms \times \qdorder$ matrix, referred to as the evaluation matrix, which is used to evaluate a PC expansion at the quadrature nodes by one matrix multiplication.
 Having said all above, we can now calculate the time complexity of the PC expansions computed inside the proposed framework.
@@ -44,10 +44,10 @@ The first matrix is based on the result from the previous iteration and is obtai
 The second matrix is computed by one multiplication of an $\nnodes \times \nprocs$ matrix with an $\nprocs \times \pcterms$ matrix, representing the coefficients of the current PC expansion for power.
 So, the complexity of one step up to this point is $\O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$ (in the experimental results, $\nnodes = 4 \times \nprocs + 12$).
 The calculation of the current PC expansion for power is composed of two stages: evaluation and projection.
-At the first stages, the current (\ie, from the previous step) PC expansion for temperature is evaluated at the quadrature nodes.
+At the first stage, the current (\ie, from the previous step) PC expansion for temperature is evaluated at the quadrature nodes.
 As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $\O(\nprocs \, \pcterms \, \qdorder)$.
 Then, the power model is utilized to obtain an $\nprocs \times \qdorder$ matrix of power based on the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix.
-This operation can be viewed column-wise.
+This operation can be better viewed column-wise.
 Denote the complexity of the computations associated with the power model for one pair of columns by $\O(\oPower{\nprocs})$; hence, for $\qdorder$ columns, it is $\O(\qdorder \, \oPower{\nprocs})$.
 At the projection stage, the coefficients of the current PC expansion for power are calculated by one multiplication of the output of the power model, \ie, an $\nprocs \times \qdorder$ matrix, with the projection matrix; so, this operations is $\O(\nprocs \, \qdorder \, \pcterms)$, which is the same as the complexity of the evaluation stage.
 The time complexity of one time step is then
@@ -74,7 +74,7 @@ In contrast, for full-tensor-product grids, this dependency is exponential.
 The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
 \end{reviewer}
 \begin{authors}
-The following discussion is partially included in our answer to the third comment of Reviewer 2.
+Let us please first note that the following discussion is partially included in our answer to the third comment of Reviewer 2.
 
 Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
 In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature if you will.
@@ -95,7 +95,7 @@ Hence, the assessment of temperature allows us to implicitly draw reasonable con
 \begin{authors}
 The answer to the first comment partially covers the answer to this one.
 
-A multidimensional quadrature rule, based on a particular construction mechanism such as the Smolyak algorithm, is characterized by its family, accuracy level, and dimensionality.
+A multidimensional quadrature rule, based on a particular construction mechanism such as the Smolyak algorithm, is characterized by its family, accuracy level, and dimensionality.\footnote{All these parameters are dictated by the intended PC expansion.}
 There is no dependency on anything else.
 Once the rule has been chosen, it stays the same regardless of what we would like to integrate.
 Consequently, it is a common practice to have the needed rules precomputed and stored in tables for the future use.
@@ -114,7 +114,7 @@ In our work, we rely on the library by J. Burkardt from Florida State University
 Let us please explain our motivation behind the assessment strategy that we utilize in Sec.~VII-B to evaluate the proposed framework in terms of the computational speed.
 
 First of all, we would like to recall this strategy.
-Sec.~VII-A is a calibration stage wherein the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B is determined.
+Sec.~VII-A is a calibration stage wherein the configuration of our method, \ie, the order of PC expansions, $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
 We perform this calibration for one setup, namely, for a platform with $\nprocs = 4$ and a dynamic power profile with $\nsteps = 10^2$, and use the result for the rest of the considered setups, namely, for platforms with $\nprocs \in \{ 2, 8, 16, 32 \}$ and dynamic power profiles with $\nsteps = 10^3$.
 
 The above strategy was chosen for two major reasons.
@@ -122,13 +122,13 @@ First, our intention was to give a clear comparison of the computational speed o
 The clarity of a comparison increases as the number of variables involved in the comparison decreases.
 Ideally, only one parameter should change at a time in order to truly appreciate its influence.
 Therefore, we tried to illustrate the speedup of the proposed framework keeping as few parameters as possible.
-To this end, we perform a thorough inspection of the accuracy results obtained for a range of configuration, including various correlation patterns, and fix the number of MC simulations, $\nsamples$, to $10^4$.
-This choice is motivated in Sec.~VII-A and explain in more detail in our answer to the corresponding comment of Reviewer 5; we kindly ask the current reviewer to consider that answer as well.
+To this end, we perform a thorough inspection of the accuracy results obtained for a range of configuration, including various correlation patterns, and fix $\pcorder$ to four and $\nsamples$ to $10^4$.
+This choice is motivated in Sec.~VII-A, and the MC-related part of this choice, \ie, $\nsamples = 10^4$, is explained in more detail separately in our answer to the corresponding comment of Reviewer 5; we kindly ask the current reviewer to consider that answer as well.
 
 The second reason is more practical.
-Algorithms typically have an initialization phase, which stays constant from one input to another.
+An algorithm typically has an initialization phase, which stays constant from one input to another.
 The computational time associated with this phase is usually negligible; however, if the input is too small, this time can dominate, resulting in unrepresentative measurements of the total computational time.
-Hence, it is important to have sufficiently large examples in order to reduce the influence the initialization phase.
+Hence, it is important to have sufficiently large examples in order to reduce the influence of the initialization phase.
 For this reason, the assessment in Sec.~VII-B is given for dynamic power profiles with $\nsteps = 10^3$.
 In Tab.~VI, it can be seen that already for a quad-core platform and a dynamic power profile of $10^3$ steps, the MC-based approach takes almost two days.
 Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.
@@ -141,8 +141,9 @@ At this point, one should also take into account the fact that $\nsamples = 10^4
 4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations.
 \end{reviewer}
 \begin{authors}
+Thank you for our careful observations; let us please give our explanation for them.
+
 There are three cases where $\ePDF$ increases for $10^5$: 1.50/1.51, 1.59/1.62, and 1.13/1.24.
-Our explanation is the following.
 As described in the paper, PC expansions provide analytical formulae for the expected values and variances while PDFs can be estimated by sampling these expansions.
 Thus, $\ePDF$ differs from $\eExp$ and $\eVar$ by the fact that it is entirely based on sampling.
 Hence, the observed marginal differences can be ascribed to the ``two-sided randomness'' of the third error metric, $\ePDF$.
@@ -163,8 +164,7 @@ One component that influences this procedure is the placement of the processing 
 As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements, which are placed inside square dies, and the length-scale parameters of the correlation kernels are half the size (width or height) of the die.
 For example, 16 cores form a four-by-four grid, a perfect square, whereas 32 cores form an eight-by-four grid, a rectangle.
 Therefore, the processing elements in the first case cover the whole area of the die (a square inside another square) while the processing elements in the second case are concentrated along the middle line covering only half the area of the die (a rectangle inside a square).
-As a result, the processing elements are closer to each other in the second floorplan, making it more favorable for model order reduction with respect to the squared-exponential kernel $\fCorr_\SE$ prioritized by $\eta = 1$.
-As mentioned in the paper, all the floorplans used in our experiments are available online.
+As a result, the processing elements are closer to each other in the second floorplan, making it more favorable for model order reduction with respect to the squared-exponential kernel $\fCorr_\SE$ prioritized by $\eta = 1$.\footnote{As mentioned in the paper, all the floorplans used in our experiments are available online.}
 
 \done{The decrease of $\nvars$ has been noted and explained in Sec.~VII-B.}
 \end{authors}
@@ -173,12 +173,14 @@ As mentioned in the paper, all the floorplans used in our experiments are availa
 5).Why the reported error of 5.71\% for variance is likely to be overestimated? Even though the MC simulation with 10\^{}5 is not reliable (good enough), it does not mean that the report error of the developed framework is overestimated.
 \end{reviewer}
 \begin{authors}
+The reviewer is right that there is no direct implication here, and we tried to emphasize a degree of our uncertainty using the word \emph{likely}.
 Let us please explain our reasoning.
+
 In Tab.~III, we observe a drop of the error for variance from 9.80\% to 5.71\% for $10^4$ and $10^5$ samples, respectively.
 The large gap of 4.09\% between the two values suggests that it is \emph{likely} that the next error change would \emph{not} be negligible if we could draw $10^6$ samples, for example.
 Consequently, the reported error for variance is \emph{likely} to be overestimated, that is, the actual error is \emph{likely} to be smaller than the reported one of 5.71\%.
-However, it is true that there is no direct implication here, and we tried to emphasize a degree of our uncertainty using the word ``likely.''
-The sentence can indeed be confusing.
+
+We agree that the sentence can indeed be confusing.
 
 \done{The sentence has been removed from Sec.~VII.}
 \end{authors}
@@ -187,7 +189,7 @@ The sentence can indeed be confusing.
 6).Could the authors explain how to decide the mapping matrix \textbackslash{}tilde\{B\} and why in Appendix A?
 \end{reviewer}
 \begin{authors}
-Recall that $\mM$ is an $\nnodes \times \nprocs$ matrix.
+Let us first recall that $\mM$ is an $\nnodes \times \nprocs$ matrix.
 The purpose of this matrix is to relate $\nprocs$ processing elements with $\nnodes$ thermal nodes.
 It can be thought of as a way to distribution the power dissipation of the processing elements across the thermal nodes.
 If $\v{P} \in \real^\nprocs$ is a power vector with respect to the processing element then $\v{P}' = \mM \, \v{P} \in \real^\nnodes$ is a power vector with respect to the thermal nodes.
@@ -216,13 +218,21 @@ Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to th
 \end{authors}
 
 \begin{reviewer}
-7).The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used. A typo: ``A description of the latter can also found in the supplementary materials, App. B'' (lines 26\~{}28, page 5).
+7).The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used.
 \end{reviewer}
 \begin{authors}
 We apologize for this inconvenience.
 We were trying to do our best to make the paper transparent to as broad an audience as possible.
+In the revised version of the manuscript, some of the explanations in parentheses have been reformulated, and we tried to avoid using such a style in the new parts.
 
 \done{The number of parentheses has been reduced.}
+\end{authors}
+
+\begin{reviewer}
+A typo: ``A description of the latter can also found in the supplementary materials, App. B'' (lines 26\~{}28, page 5).
+\end{reviewer}
+\begin{authors}
+Thank you for pointing out the typo.
 
 \done{The typo found by the reviewer has been fixed in Sec.~V-A.}
 \end{authors}
