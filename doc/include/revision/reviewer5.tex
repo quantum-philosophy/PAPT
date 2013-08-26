@@ -12,10 +12,10 @@ First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to
 \end{reviewer}
 \begin{authors}
 We agree that these techniques are known in our research area.
-However, they are just tools, and tools are supposed to be used to solve certain problems.
+However, they are tools, and tools are supposed to be used to solve certain problems.
 For example, PC expansions, as we know them now-a-days, were pioneered to address stochastic differential equations in the first place, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem \etal) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal).
 Since then, these tools have been applied to a wide range of uncertainty quantification problems in scientific computing.
-Therefore, the fact that the aforementioned techniques are a part of our framework does not affect our contribution.
+Therefore, in our opinion, the use of such techniques in the proposed framework should not affect our contribution.
 \end{authors}
 
 \begin{reviewer}
@@ -32,25 +32,24 @@ The two temperature-driven works and their drawbacks are discussed in Sec.~II.
 More precisely, [Juan, 2012] considers only steady-state temperature analysis, which is considerably simpler than transient, and, moreover, is heavily based on Gaussian distributions.
 [Juan, 2011] also works only under the steady-state condition and, moreover, addresses only the maximal temperature.
 
-Let us now directly respond to the reviewer's claim that the temperature analysis in our work is no fundamentally different from power-grid analysis studied in [Ghanta, 2006].
+Let us please now directly respond to the reviewer's comment that the temperature analysis in our work is not fundamentally different from power-grid analysis studied in [Ghanta, 2006].
 In the revised version of the manuscript, we have included another paper wherein the response of interconnect networks is also analyzed, namely, [Vrudhula, 2006].
 Therefore, we shall discuss both.
 
-Our first argument is general; however, in our opinion, it is conceptually the most important one.
+Our first argument is general; however, we believe that it is conceptually the most important one.
 From the perspective of physics, the two physical phenomena, \ie, heat conduction and electrical conduction, are fundamentally different.
-Temperature is one level above power, and, therefore, temperature analysis embraces the complexity associated with power analysis and justifiably increases it.
-Therefore, conclusions with respect to power are not directly applicable to temperature.
+Hence, conclusions with respect to power are not directly applicable to temperature as there is no a straightforward relation between them.
 Consequently, the results presented in [Vrudhula, 2006] and [Ghanta, 2006] are of little help for the designer who is interested in temperature.
 In contract, we provide a readily applicable framework, which guides the designer through all the steps needed to quantify temperature.
 
 Our second argument is general as well; yet it is of the second importance for the present discussion.
-The reviewer justifies the aforementioned claim by the fact that both phenomena are modeled via systems of first-order ordinary differential equations (ODEs), which look especially alike in their state-space forms; see Eq.~(2).
+The reviewer mentioned that both phenomena are modeled via systems of first-order ordinary differential equations (ODEs), which look especially similar in their state-space forms; see Eq.~(2).
 However, differential equations are typical models for dynamic systems.
 In numerical analysis, the solution process usually consists of a proper discretization of the state space, leading to a system of first-order ODEs.
 Hence, it is natural that different problems share similar models.
-The essence of the phenomena behind these models stays unchanged, which brings us to our first argument: heat transfer requires a separate treatment.
+The essence of the phenomena behind these models stays unchanged, which brings us to our first argument that heat transfer requires a separate treatment.
 
-Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our manuscript that further differentiate us from [Vrudhula, 2006] and [Ghanta, 2006].
+Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our research presented in the manuscript that further differentiate us from [Vrudhula, 2006] and [Ghanta, 2006].
 \begin{enumerate}
   \setcounter{enumi}{1}
   \item The perform stochastic temperature analysis takes into consideration \emph{the interdependence between leakage and temperature}.
@@ -62,7 +61,7 @@ The presence of a feedback loop makes the problem more challenging and requires 
 It can be seen in Sec.~VI and App.~A that our solution process drastically differs from the solution processes described in [Vrudhula, 2006] and [Ghanta, 2006].
 
 It is worth emphasizing that our stochastic power analysis \perse\ is temperature aware, which is implied by the leakage-awareness of our stochastic temperature analysis.
-In contrast, all other prior works concerned with process variation at the device level and based on spectral methods for uncertainty quantification, \ie, [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (another new citation included in the manuscript), and [Shen, 2009], ignore the leakage-temperature interdependence.
+In contrast, all other prior works based on spectral methods for uncertainty quantification, \ie, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (another new citation included in the manuscript), and [Shen, 2009], ignore the leakage-temperature interdependence.
 This interdependence, however, is of a tremendous importance, which is well known and requires no introduction; see, \eg, [Liu, 2007] and [Srivastava, 2010].
 
 Let us return back to [Vrudhula, 2006] and [Ghanta, 2006] and continue contrasting them with the proposed framework.
@@ -83,8 +82,8 @@ The user of our technique, of course, should provide such a box; however, he/she
 
 In particular, the user does not have to come up with any expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of the chosen expressions.
 From our experience, it is rather difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the parameters.
-In this regards, our preliminary research shown that the fits with polynomial of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
-As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows to do.
+In this regard, our preliminary research shown that the fits with polynomials of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
+As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows us to do.
 
 Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are dependent; a potential solution is mentioned only in the context of Gaussian distributions.
 On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
@@ -100,10 +99,10 @@ Such a matrix can readily be estimated from measurements and, thus, is a more pr
 Note that we also assume a correlation function, Eq.~(13).
 However, although it is rather unique and captures well certain features inherent to the fabrication process, we use this function with the only purpose of constructing correlation matrices for our experiments due to the above-mentioned reasons.
 
-Next, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
+Further, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
 However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
 In a non-Gaussian setting with dependencies, PC expansions are not straightforward.
-The reason is that mutual independence is essential for PC expansions, and liner transformations, removing correlations, in general, do not yield independence.
+The reason is that mutual independence is essential for PC expansions, and linear transformations, removing correlations, in general, do not yield independence.
 On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
 In contrast,
 \begin{enumerate}
@@ -154,7 +153,7 @@ Therefore, if we are to repress temperature, it is wiser to study this very temp
 In addition, since power does not translate to temperature in a straightforward manner, the well-established reliability models based on temperature will be excluded from the arsenal of the designer when only stochastic power analysis is at the designer's disposal.
 This implies, for example, that various temperature-dependent design-space-exploration procedures will not be possible to undertake.
 
-It is true that temperature is load dependent (which applies to power equally well) and can be influenced by other conditions.
+We agree with the reviewer that temperature is load dependent (which applies to power equally well) and can be influenced by other conditions.
 The focal point of this paper is process variation, and the aforementioned factors are left for the future work.
 However, it is worth noting that the effect of process variation on temperature is substantial, in particular, due the leakage-temperature interdependence discussed earlier.
 This is also emphasized in other temperature-related studies.
@@ -172,7 +171,7 @@ To conclude, the stochastic analysis presented in the manuscript is well motivat
 In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
 \end{reviewer}
 \begin{authors}
-We would like to note first that the proposed framework do not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
+We would like to note first that the proposed framework does not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
 
 The reviewer is absolutely right that different correlation patterns make the model order reduction procedure work differently.
 As a result, two sets of initial uncertain parameters $\vU'(\o)$ and $\vU''(\o)$ of the same cardinality but with different correlation structures can end up in two sets of independent random variables $\vZ'(\o)$ and $\vZ''(\o)$ whose cardinalities arbitrary differ from each other.
@@ -188,7 +187,7 @@ For this particular reason, the experimental results are given for various value
 However, the goal was to illustrate and explain rather than to give a broad overview of possible correlation structures.
 Therefore, we decided to take the Ornstein-Uhlenbeck kernel, which is used in many papers (see, \eg, [Ghanta 2006], [Bhardwaj, 2006], [Bhardwaj, 2008], and [Shen, 2009]) and is used alone, and combine it with the squared-exponential kernel, which has not received much attention in the literature.
 In some cases, the lack of attention to the second kernel can be explained by the lack of an analytical solution for this correlation function with respect to the continuous KL decomposition (utilized in [Ghanta 2006], [Bhardwaj, 2006], and [Bhardwaj, 2008]).
-From this perspective, our exploration of correlation patterns is more comprehensive than the one in the prior works.
+From this perspective, our exploration of correlation patterns is more comprehensive than the ones in the prior works.
 
 Let us please also comment separately on the choice of the effective channel length.
 As with correlations, the goal was to give a clear illustration, and, therefore, we decided to pick one parameter.
@@ -198,7 +197,7 @@ The former constitutes the major concern since the importance of the latter has 
 Then, apart from temperature, the subthreshold leakage current has a strong dependency on the effective channel length and threshold voltage, which are severely deteriorated by process variation.
 The threshold voltage is most sensitive to the effective channel length and gate oxide thickness with the latter being the weakest one [Shen, 2010].
 Thus, the effective channel length was chosen.
-Therefore, the proposed framework is exemplified on arguably the most crucial process parameter.
+Consequently, the proposed framework is exemplified on arguably the most crucial process parameter.
 
 \done{The applicability of our approach has been discussed in connection with Tab.~V in Sec.~VII-B, which also addresses the seventh comment of Reviewer 3.}
 \end{authors}
@@ -220,13 +219,13 @@ By the Cameron-Martin theorem established in 1947, the space of square-integrabl
 Therefore, arbitrary square-integrable stochastic process admits an expansion, convergent in the mean-square sense, with respect to the basis.
 In 2002, this result was generalized to the hypergeometric orthogonal polynomials from the Askey scheme in ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal
 
-Let us look at the system from a more practical perspective.
+Let us now look at the system from a more practical perspective.
 The system is stochastic due to its internal dependence on a set of uncertain parameters $\vU(\o)$.
 As the reviewer correctly noted, the output distribution is not known \apriori.
 Therefore, whenever it comes to the construction of a PC expansion, one is typically guided by other factors in order to choose an adequate polynomial basis.
 One such factor is the distributions of the independent random variables $\vZ(\o)$, which are either $\vU(\o)$ in the absence of dependencies or the result of the preprocessing stage in the presence of dependencies.
 Then, many standard distributions directly correspond to certain families of orthogonal polynomials from the Askey scheme.
-When the reviewer says that PC expansions are not applicable to arbitrary distributions, he or she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials, which is true.
+When the reviewer says that PC expansions are not applicable to arbitrary distributions, he/she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials, which is true.
 However, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
 Please refer to the above paper by D. Xiu \etal, more precisely, to Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
 In addition, one does not have to perform such a re-parametrization and can construct custom orthogonal polynomials instead.
@@ -287,7 +286,7 @@ The choice of $\nsamples = 10^4$ for the comparison of the computational speed h
 The first aspect is the experience from other studies.
 For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Shen, 2009] models the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
 Thus, we conclude that $\nsamples = 10^4$ is not an excess in our research area.
-As we note earlier, one should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
+One should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
 For this reason, the number of MC samples can also increase to retain the same accuracy.
 
 The second aspect is the theoretical results given in [I. D\'{i}az-Emparanza, 2002].
@@ -347,7 +346,7 @@ As described in Sec.~VI-C and App.~A, the derivation of this organic part of out
 On the other hand, the MC-based approach is a brute force.
 The accuracy of this approach is not compromised by any additional assumptions: there is no model order reduction inside and the thermal system is solved directly using traditional numerical techniques; in our case, it is Runge-Kutta formulae, as described at the beginning of Sec.~VII.
 
-Consequently, the reported speedup of the proposed framework is due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
+Consequently, the reported speedups of the proposed framework are due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
 
 For a better intuition of the computational speed of the proposed framework, we kindly ask the reviewer to consider our answer to the first comment of Reviewer 4 wherein an analysis of the time complexity is given.
 
