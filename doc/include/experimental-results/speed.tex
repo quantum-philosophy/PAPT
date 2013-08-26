@@ -29,4 +29,6 @@ As it was noted before regarding the results in \tref{speed-processing-elements}
 It can be seen in \tref{speed-time-spans} that the computational times of both methods grow linearly with $\nsteps$, which is expected.
 However, the proposed framework shows a vastly superior performance being up to five orders of magnitude faster than MC sampling.
 
-\updated{Another finally.}
+\updated{It is worth noting that the observed speedups are due to two major reasons.
+First of all, PC expansions are generally superior to MC sampling when the curse of dimensionality is suppressed \cite{xiu2010, maitre2010, eldred2008}, which we accomplish by model order reduction and efficient integration schemes; see \sref{computational-challenges}.
+The second reason is the particular solution process used in this work to solve the thermal model and construct PC expansions in a step-wise manner; see \sref{pc-recurrence}.}

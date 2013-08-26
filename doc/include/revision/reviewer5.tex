@@ -331,9 +331,10 @@ Let us explain how this speed has been achieved.
 
 First of all, recall that we utilize quadrature-based non-intrusive projections for the calculation of the coefficients of PC expansions.
 The reviewer is right that, if we were to construct such non-intrusive PC expansions in the traditional way, as it is usually presented in the corresponding literature (see, \eg, [Eldred, 2008]), the proposed framework could not be faster that one MC simulation.
-To be precise, the speedup would be exactly the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ utilized; we would not need to perform any actual time measurements.
-To elaborate further, the beauty of non-intrusive projections is in the fact that well-established deterministic codes require no modifications in order to be analyzed from the stochastic perspective when the input to these codes becomes stochastic.
-Therefore, when one has a deterministic solver of some problem and wishes to quantify this problem under a stochastic input, he/she takes this solver \emph{as is} and plugs it in into an appropriate uncertainty quantification framework, which calls this code a number of times with different (deterministic) inputs according to a certain strategy.
+To be precise, the speedup would be exactly the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ utilized for non-intrusive projections inside our approach; we would not need to perform any actual time measurements.
+
+To elaborate, the beauty of non-intrusive projections is in the fact that well-established deterministic codes require no modifications in order to be analyzed from the stochastic perspective when the input to these codes becomes stochastic.
+Therefore, when one has a deterministic solver for some problem and wishes to quantify this problem under a stochastic input, he/she takes this solver \emph{as is} and plugs it in into an appropriate uncertainty quantification framework, which calls this code a number of times with different (deterministic, fixed) inputs according to a certain strategy.
 In our case, this strategy is the chosen quadrature rule.
 Therefore, as many nodes are in the rule, that many times the solver will be called.
 Consequently, if we followed the procedure described above, our approach would be racing with the MC-based approach only in terms of the number of calls to a numerical solver of the system of differential equations given in Eq.~(2) (in its deterministic form, \ie, when $\o$ or, equivalently, $\vU(\o)$ is fixed).
