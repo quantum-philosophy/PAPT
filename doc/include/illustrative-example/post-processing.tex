@@ -1,5 +1,3 @@
-\input{include/assets/application-power.tex}
-\input{include/assets/application-temperature.tex}
 We turn to \stage{5}\ in \fref{algorithm}.
 It can be seen in, for example, \eref{pc-example} that the surrogate model has a negligibly small computational cost at this stage: for any outcome of the uncertain parameters $\vZ(\o) \equiv \vZ$, we can easily compute the corresponding temperature by plugging in $\vZ$ into \eref{pc-example}; the same applies for power.
 Consequently, the constructed representation can be trivially analyzed to retrieve various statistics of the system in \eref{fourier-system}.
@@ -13,3 +11,5 @@ Furthermore, the expectation and variance of temperature are calculated simply a
 where $\pcn_i$ are normalization constants, and the squaring should be understood elementwise.
 For the whole time span of the power profile $\profilePdyn$ depicted in \fref{application-power}, these quantities are plotted in \fref{application-temperature}.
 The displayed curves closely match those obtained via MC simulations with $10^4$ samples; however, our method takes less than a second whilst MC sampling takes more than a day as we shall see next.
+\input{include/assets/application-power.tex}
+\input{include/assets/application-temperature.tex}
