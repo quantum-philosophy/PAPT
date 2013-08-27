@@ -13,7 +13,7 @@ This is an interesting topic, so some of my comments are more like discussions:
 \begin{authors}
 Let us emphasize first that the workload to be analyzed is an input to the proposed framework without any further restrictions: it is arbitrary and can come from an arbitrary source.
 Therefore, it would not make much contribution to the paper if we performed, \eg, cycle-accurate simulations of some applications and used the output of these simulation as an input to our analysis.
-Instead, as mentioned by the reviewer, our applications are generated randomly via TGFF.
+Instead, as mentioned by the reviewer, our applications are generated randomly \via\ TGFF.
 Apart from a DAG, TGFF generates a set of tables that specify the execution time and dynamic power of each task for each processing element individually.
 Then the simulation that we perform consists of a scheduling procedure of the DAG, which determines when and where each task should be executed (we employ a list scheduler for this purpose).
 Once this has been decided, the corresponding dynamic power profile is constructed based on the tables provided by TGFF.\footnote{The output files of TGFF used in our experiments are available online.}

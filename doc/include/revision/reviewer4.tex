@@ -12,12 +12,11 @@ A few of comments and suggestions are listed as follows.
 \end{reviewer}
 \begin{authors}
 The analysis of the time complexity of the framework is available.
-It was not include it in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
+It was not included in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
 A clear explanation requires an in-depth discussion on the algorithmic structure of the proposed framework since the particularities of our implementation are important for the performance of the proposed approach.
 In particular, a thorough attention is needed to the parts of the algorithm that stay unchanged when the input changes.
 These parts can and should be precomputed and stored such that their future use implies no additional computational costs (this is partially related to the second comment of this reviewer regarding Sec.~VI-D).
-Such an in-depth explanation was planned to be given as a part of another work.
-Taking the received feedback into account, we have reconsidered our decision and have included in the manuscript a concise version of the analysis of the time complexity given in what follows.
+Taking the received feedback into account, we have reconsidered our decision and have included in the manuscript a concise version of the analysis of the time complexity, given in what follows.
 
 All the statements below regarding certain aspects of PC expansions should be understood in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
@@ -67,26 +66,29 @@ The limiting behavior of $\qdorder$ with respect to $\nvars$, however, has been 
 For example, for Gaussian quadratures, $\log(\qdorder)$ is $\O(\log(\nvars))$, which means that the dependency of $\qdorder$ on $\nvars$ is polynomial [Heiss, 2008].
 In contrast, for full-tensor-product grids, this dependency is exponential.
 
-\done{The time complexity has been included in Sec.~V-D4.}
+\begin{actions}
+  \action{The time complexity has been included in Sec.~V-D4.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
 The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
 \end{reviewer}
 \begin{authors}
-Let us please first note that the following discussion is partially included in our answer to the third comment of Reviewer 2.
+Let us first note that the following discussion is partially included in our answer to the third comment of Reviewer 2.
 
-Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
-In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature if you will.
-Therefore, the experimental results are primarily dedicated to temperature analysis, which makes the main contribution of our research.
+Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming at the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
+In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature, if you will.
+Therefore, and also considering space limitations, the experimental results are primarily dedicated to temperature analysis, which makes the main contribution of our research.
 
 Furthermore, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
 Therefore, the quantification of power is expected to be easier than the quantification of temperature, and any accuracy problems with respect to power are expected to eventually propagate to temperature.
 Hence, the assessment of temperature allows us to implicitly draw reasonable conclusions with respect to power.
 
-\done{The absence of comparisons for power has been motivated in Sec.~VII.}
-
-\done{The power/temperature relation with respect to accuracy has been given in Sec.~VII.}
+\begin{actions}
+  \action{The absence of comparisons for power has been motivated in Sec.~VII.}
+  \action{The power/temperature relation with respect to accuracy has been given in Sec.~VII.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -102,24 +104,24 @@ Consequently, it is a common practice to have the needed rules precomputed and s
 One can compute such tables or use one of the many libraries available online.
 In our work, we rely on the library by J. Burkardt from Florida State University [Burkardt].
 
-\done{The explanation in Sec.~VI-D has been improved and moved to Sec.~V-D3.}
-
-\done{The explanation in App.~D has been also clarified.}
+\begin{actions}
+  \action{The explanation in Sec.~VI-D has been improved and moved to Sec.~V-D3.}
+  \action{The explanation in App.~D has been also improved.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
 3).Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
 \end{reviewer}
 \begin{authors}
-Let us please explain our motivation behind the assessment strategy that we utilize in Sec.~VII-B to evaluate the proposed framework in terms of the computational speed.
+Let us explain our motivation behind the assessment strategy that we utilize in Sec.~VII-B to evaluate the proposed framework in terms of the computational speed.
 
 First of all, we would like to recall this strategy.
-Sec.~VII-A is a calibration stage wherein the configuration of our method, \ie, the order of PC expansions, $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
-We perform this calibration for one setup, namely, for a platform with $\nprocs = 4$ and a dynamic power profile with $\nsteps = 10^2$, and use the result for the rest of the considered setups, namely, for platforms with $\nprocs \in \{ 2, 8, 16, 32 \}$ and dynamic power profiles with $\nsteps = 10^3$.
+Sec.~VII-A outlines a calibration stage wherein the configuration of our method, \ie, the order of PC expansions, $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
 
 The above strategy was chosen for two major reasons.
 First, our intention was to give a clear comparison of the computational speed of the proposed framework.
-The clarity of a comparison increases as the number of variables involved in the comparison decreases.
+The clarity of a comparison increases as the number of parameters involved in the comparison decreases.
 Ideally, only one parameter should change at a time in order to truly appreciate its influence.
 Therefore, we tried to illustrate the speedup of the proposed framework keeping as few parameters as possible.
 To this end, we perform a thorough inspection of the accuracy results obtained for a range of configuration, including various correlation patterns, and fix $\pcorder$ to four and $\nsamples$ to $10^4$.
@@ -134,14 +136,16 @@ In Tab.~VI, it can be seen that already for a quad-core platform and a dynamic p
 Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.
 At this point, one should also take into account the fact that $\nsamples = 10^4$ is a lower bound as we reason in Sec.~VII-A.
 
-\done{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}
+\begin{actions}
+  \action{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
 4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations.
 \end{reviewer}
 \begin{authors}
-Thank you for our careful observations; let us please give our explanation for them.
+Thank you for your careful observations; let us give our explanation for them.
 
 There are three cases where $\ePDF$ increases for $10^5$: 1.50/1.51, 1.59/1.62, and 1.13/1.24.
 As described in the paper, PC expansions provide analytical formulae for the expected values and variances while PDFs can be estimated by sampling these expansions.
@@ -151,7 +155,9 @@ One can also note that there are two more instantiations of this concern for $\e
 In this case, the results were obtained for a first- and second-order PC expansion, respectively, which are too low to be trustworthy.
 Nevertheless, in our opinion, the tables do their main job well: they capture the overall trend and allow one to draw sound conclusions.
 
-\done{The aforementioned outliers have been noted and explained in Sec.~VII-A.}
+\begin{actions}
+  \action{The aforementioned outliers have been noted and explained in Sec.~VII-A.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -166,7 +172,9 @@ For example, 16 cores form a four-by-four grid, a perfect square, whereas 32 cor
 Therefore, the processing elements in the first case cover the whole area of the die (a square inside another square) while the processing elements in the second case are concentrated along the middle line covering only half the area of the die (a rectangle inside a square).
 As a result, the processing elements are closer to each other in the second floorplan, making it more favorable for model order reduction with respect to the squared-exponential kernel $\fCorr_\SE$ prioritized by $\eta = 1$.\footnote{As mentioned in the paper, all the floorplans used in our experiments are available online.}
 
-\done{The decrease of $\nvars$ has been noted and explained in Sec.~VII-B.}
+\begin{actions}
+  \action{The decrease of $\nvars$ has been noted and explained in Sec.~VII-B.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -174,7 +182,7 @@ As a result, the processing elements are closer to each other in the second floo
 \end{reviewer}
 \begin{authors}
 The reviewer is right that there is no direct implication here, and we tried to emphasize a degree of our uncertainty using the word \emph{likely}.
-Let us please explain our reasoning.
+Let us explain our reasoning.
 
 In Tab.~III, we observe a drop of the error for variance from 9.80\% to 5.71\% for $10^4$ and $10^5$ samples, respectively.
 The large gap of 4.09\% between the two values suggests that it is \emph{likely} that the next error change would \emph{not} be negligible if we could draw $10^6$ samples, for example.
@@ -182,7 +190,9 @@ Consequently, the reported error for variance is \emph{likely} to be overestimat
 
 We agree that the sentence can indeed be confusing.
 
-\done{The sentence has been removed from Sec.~VII.}
+\begin{actions}
+  \action{The sentence has been removed from Sec.~VII.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -191,11 +201,12 @@ We agree that the sentence can indeed be confusing.
 \begin{authors}
 Let us first recall that $\mM$ is an $\nnodes \times \nprocs$ matrix.
 The purpose of this matrix is to relate $\nprocs$ processing elements with $\nnodes$ thermal nodes.
-It can be thought of as a way to distribution the power dissipation of the processing elements across the thermal nodes.
-If $\v{P} \in \real^\nprocs$ is a power vector with respect to the processing element then $\v{P}' = \mM \, \v{P} \in \real^\nnodes$ is a power vector with respect to the thermal nodes.
+It can be thought of as a way to distribute the power dissipation of the processing elements across the thermal nodes.
+If $\v{P} \in \real^\nprocs$ is a power vector with respect to the processing elements then $\v{P}' = \mM \, \v{P} \in \real^\nnodes$ is a power vector with respect to the thermal nodes.
 
 The structure of $\mM$ depends on the way the equivalent thermal circuit is constructed.
-For example, in the experimental results, the circuits follow the relation $\nnodes = 4 \, \nprocs + 12$, given in Sec.~VI-C, such that one processing element is mapped onto one thermal node; hence, $3 \, \nprocs + 12$ nodes are due to the thermal package, which does not dissipate power.
+For example, in the experimental results, the circuits follow the relation $\nnodes = 4 \, \nprocs + 12$, given in Sec.~VI-C.
+One processing element is mapped onto one active thermal node, and $3 \, \nprocs + 12$ nodes are due to the thermal package, which does not dissipate power.
 In this case, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity, which are located on the main diagonal of $\mM$ as shown below:
 \[
   \mM = \left(
@@ -212,9 +223,11 @@ In this case, $\mM$ is filled in with zeros except for $\nprocs$ elements equal 
   \right).
 \]
 Then, the transpose of this matrix allows us to perform the reverse operation.
-Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to the thermal then $\v{Q} = \mM^T \, \v{Q}' \in \real^\nprocs$ is a temperature vector with respect to the processing elements.
+Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to the thermal nodes then $\v{Q} = \mM^T \, \v{Q}' \in \real^\nprocs$ is a temperature vector with respect to the processing elements.
 
-\done{The structure of $\mM$ has been clarified in App.~A.}
+\begin{actions}
+  \action{The structure of $\mM$ has been clarified in App.~A.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -223,9 +236,11 @@ Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to th
 \begin{authors}
 We apologize for this inconvenience.
 We were trying to do our best to make the paper transparent to as broad an audience as possible.
-In the revised version of the manuscript, some of the explanations in parentheses have been reformulated, and we tried to avoid using such a style in the new parts.
+In the revised version of the manuscript, some of the explanations have been reformulated in order to avoid the use of parentheses.
 
-\done{The number of parentheses has been reduced.}
+\begin{actions}
+  \action{The number of parentheses has been reduced.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -234,5 +249,7 @@ A typo: ``A description of the latter can also found in the supplementary materi
 \begin{authors}
 Thank you for pointing out the typo.
 
-\done{The typo found by the reviewer has been fixed in Sec.~V-A.}
+\begin{actions}
+  \action{The typo found by the reviewer has been fixed in Sec.~V-A.}
+\end{actions}
 \end{authors}
