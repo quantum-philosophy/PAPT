@@ -30,6 +30,16 @@
   \vspace{1.0em}%
 }
 
+\newenvironment{actions}{%
+  \vspace{1.0em}%
+  {\color{done}\uline{Actions taken:}}
+  \begin{itemize}
+}{%
+  \end{itemize}
+}
+
+\newcommand{\action}[1]{\item[\color{done}$\checkmark$]{\color{done}\uline{#1}}}
+
 \newcommand{\perse}{\emph{per se}}
 
 \newcommand{\done}[1]{%
