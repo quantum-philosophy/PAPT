@@ -15,7 +15,9 @@ Still, the paper could be further strengthened by clearing up a few things as de
 \begin{authors}
 It is a very good point, which is now included in the paper. With your permission, we shall also use it to respond to the second comment of Reviewer 5.
 
-\done{The motivation behind this work has been extended in Sec.~I.}
+\begin{actions}
+  \action{The motivation behind this work has been extended in Sec.~I.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -38,11 +40,11 @@ However, in reality, the joint probability distribution is nearly never known [L
 Regardless of whether this requirement is fulfilled, the transformation is typically viewed as an approximation that allows one to tackle real-world problems without requiring the knowledge of the joint probability distribution [Eldred, 2008].
 It should also be noted right away that the inputs to the Nataf transformations, \ie, a covariance matrix and a set of marginal probability distributions, are already not sufficient to fully specify a joint probability distribution; hence, in general, it \emph{is} an approximation.
 
-\done{The elliptical-copula assumption of the Nataf transformation has been included in Sec.~V-A}.
-
-\done{It has been clarified that the two transformations mentioned in Sec.~V-A are only two possible alternatives for the extraction of independent parameters.}
-
-\done{Independent component analysis has also been mentioned in Sec.~V-A.}
+\begin{actions}
+  \action{The elliptical-copula assumption of the Nataf transformation has been included in Sec.~V-A}.
+  \action{It has been clarified that the two transformations mentioned in Sec.~V-A are only two possible alternatives for the extraction of independent parameters.}
+  \action{Independent component analysis has also been mentioned in Sec.~V-A.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -51,7 +53,7 @@ It should also be noted right away that the inputs to the Nataf transformations,
 S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations''.
 \end{reviewer}
 \begin{authors}
-Thank you for the reference; it has been revised and included in the manuscript.
+Thank you for the reference; it has been reviewed and included in the revised manuscript.
 
 The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would be worth considering some ad hoc solutions, like the exponentiation of PC expansions.
 However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, which is relevant to his/her problem, individually.
@@ -59,24 +61,23 @@ It can also be seen right in [Bhardwaj, 2008], mentioned by the reviewer, that e
 The reason is that, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent in the expression for the subthreshold leakage current.
 To tackle the difficulty, [Bhardwaj, 2008] pulls this ``inconvenient'' term inside the exponent using the usual exp/log transformation, as shown in App.~A in that paper.
 Regardless of where the effective channel length ends up in the formula, the essence of the physical process behind stays unchanged.
-Our proposed approach eliminates the need in such manipulations.
+Our proposed approach eliminates the need of such manipulations.
 It is very flexible in this regard and can be applied in various situations in a straightforward manner.
 
 Moreover, as we have already mentioned, our primary target is temperature, and such ad hoc solutions as the exponentiation of PC expansions would hinder the achievement of this target.
 More precisely, as it is summarized at the end of Sec.~V-B, the recurrent expression in Eq.~6 is linear in terms of the base polynomials, and this linearity property is highly beneficial from the computational perspective, leading to the recurrence in Eq.~7.
 The property would be lost if we had one PC expansion next to an exponent of another PC expansion, for example.
-At this point, one should not forget the following two facts inherent to the modeled physical phenomenon, \ie, heat transfer within electronic systems.
-First, the aforementioned recurrent expressions operate with vectors and matrices, which basically means that the temperature of one thermal node affects the temperatures of all other nodes.
+At this point, one should not forget the following two facts inherent to the modeled physical phenomenon, \ie, heat transfer within electronic systems: First, the aforementioned recurrent expressions operate with vectors and matrices, which basically means that the temperature of one thermal node affects the temperatures of all other nodes.
 Second, since the leakage power and temperature are tightly interrelated, at each step of the iterative process, the expansion of power is based on the previous expansion of temperature, and this dependency is strictly nonlinear (it is also emphasized at the end of Sec.~V-D3).
 Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
 
 To summarize, taking into consideration the above discussion, such a comparison (\ie, the exponentiation of PC expansions for power) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
 
-\done{The above discussion has been appended to Sec.~V-D.}
-
-\done{The absence of a comparisons for power has been explained in Sec.~VII.}
-
-\done{[Bhardwaj, 2008] has been reviewed and cited.}
+\begin{actions}
+  \action{The above discussion has been appended to Sec.~V-D.}
+  \action{The absence of a comparison for power has been explained in Sec.~VII.}
+  \action{The paper [Bhardwaj, 2008] has been reviewed and cited.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
@@ -89,36 +90,39 @@ We apologize for the confusion.
 By ``assumed to deviate by 5\% from the nominal value,'' we meant ``assumed to have a standard deviation of 5\% of the nominal value.''
 So, 5\% is about $\sigma$, not $3 \sigma$.
 
-\done{The formulation regarding the variability of the effective channel length has been updated in Sec.~VII, which also brought attention of Reviewer 2 in the first comment.}
+\begin{actions}
+  \action{The formulation regarding the variability of the effective channel length has been updated at the beginning of Sec.~VII.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
 6. Although PC expansion is a really good tool to estimate the system response in the presence of process variations, the authors only consider a single source of variations, i.e. gate length, and hence the error estimates and the runtimes shown will be somewhat optimistic compared to the scenario where there are more sources of variations for example: threshold voltage, oxide thickness etc. For this reason, the reviewer suggests highlighting some of the discussion related to the curse of dimensionality in the main section in addition to discussing it in the Appendix.
 \end{reviewer}
 \begin{authors}
-Since the first part of the comment serves an introduction to the reviewer's suggestion contained in the last sentence, we do not address this first part here.
-However, we kindly ask the reviewer to consider our response to the corresponding comment received from Reviewer 5.
-
-We agree with the reviewer that the more uncertain parameters are taken into account, the more independent variables might eventually be needed for the construction of a sufficiently accurate PC expansion (see our answer to the next comment of the current reviewer).
+We agree with the reviewer that the more uncertain parameters are taken into account, the more independent variables might eventually be needed for the construction of a sufficiently accurate PC expansion (see our answer to the seventh comment below).
 This, of course, can intensify the curse of dimensionality.
 The concern is described in one of the main sections of the manuscript, namely, in Sec.~V-D4, in which we also summarize how we address this issue.
 
-In response to the first comment of Reviewer 4, we have also included an analysis of the time complexity of the PC expansions constructed inside the proposed framework in Sec.~V-D4.
+In response to the first comment of Reviewer 4, we have also included an analysis of the time complexity of the PC expansions performed inside our proposed framework, Sec.~V-D4.
 
-\done{The curse of dimensionality has been further elaborated on in Sec.~V-D4.}
+With regard to the choice of the unique uncertain parameter for the illustration example, the reviewer might also read our answer to the fourth comment of Reviewer 5.
+
+\begin{actions}
+  \action{The curse of dimensionality has been further elaborated on in Sec.~V-D4.}
+\end{actions}
 \end{authors}
 
 \begin{reviewer}
 7. For practical purposes, it would be nice to see how the convergence rates and the computational speeds change with additional sources of variations such as the threshold voltage. Some commentary on this will help readers better understand the applicability of this approach.
 \end{reviewer}
 \begin{authors}
-Let us please note the following two things.
+Let us note the following two aspects:
 
 First, as the reviewer correctly pointed out earlier, the curse of dimensionality constitutes a concern, which is arguably the major one when it comes to PC expansions.
 Therefore, the applicability of the proposed framework mainly depends on how this curse of dimensionality manifests itself in the problem at hand.
 This manifestation, in its turn, depends primarily on the number $\nvars$ of independent parameters $\vZ(\o)$ left after the preprocessing stage described in Sec.~V-A; this fact is explained in Sec.~V-D4, ``Computational challenges.''
 
-Second, the conclusions about the performance the proposed framework, which are based on the number/essence of the considered sources of variations $\vU(\o)$, can be misleading as we would like to illustrate now.
+Second, the conclusions about the performance of the proposed framework, which are based on the number/nature of the considered sources of variations $\vU(\o)$, can be misleading as we would like to illustrate now.
 Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
 Then, the first question to ask is whether $L$ and $W$ are independent.
 Assume first they are.
@@ -143,7 +147,9 @@ It is a function of the effective channel length according to the BSIM4 model, w
 The dependency of the threshold voltage to the effective channel length is one of the strongest [Shen, 2009] [Juan, 2011, 2012].
 Consequently, by considering the variability of the latter, we implicitly take into consideration one of the largest portions of the variability of the former.
 
-As with the previous comment of the current reviewer, our answer to the comment of Reviewer~5 regarding the considered uncertain parameters is relevant to the current comment.
+As with the previous comment, our answer to the fourth comment of Reviewer~5 regarding the considered uncertain parameters is relevant to the current comment.
 
-\done{The above discussion in connection with Tab.~V has been included in Sec.~VII-B.}
+\begin{actions}
+  \action{The above discussion in connection with Tab.~V has been included in Sec.~VII-B.}
+\end{actions}
 \end{authors}
