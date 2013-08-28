@@ -114,27 +114,39 @@ In our work, we rely on the library by J. Burkardt from Florida State University
 3).Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
 \end{reviewer}
 \begin{authors}
-Let us explain our motivation behind the assessment strategy that we utilize in Sec.~VII-B to evaluate the proposed framework in terms of the computational speed.
+Let us explain the motivation behind the assessment strategy utilized in Sec.~VII-B for the evaluation of the computational speed of the proposed framework.
 
-First of all, we would like to recall this strategy.
-Sec.~VII-A outlines a calibration stage wherein the configuration of our method, \ie, the order of PC expansions, $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
+To begin with, let us recall that Sec.~VII-A outlines a calibration stage wherein the configuration of the proposed approach, \ie, the order of PC expansions $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
+For the easy of the following discussion, we shall refer to the strategy mentioned by the reviewer as Strategy~A and to ours as Strategy~B.
 
-The above strategy was chosen for two major reasons.
-First, our intention was to give a clear comparison of the computational speed of the proposed framework.
-The clarity of a comparison increases as the number of parameters involved in the comparison decreases.
-Ideally, only one parameter should change at a time in order to truly appreciate its influence.
-Therefore, we tried to illustrate the speedup of the proposed framework keeping as few parameters as possible.
-To this end, we perform a thorough inspection of the accuracy results obtained for a range of configuration, including various correlation patterns, and fix $\pcorder$ to four and $\nsamples$ to $10^4$.
-This choice is motivated in Sec.~VII-A, and the MC-related part of this choice, \ie, $\nsamples = 10^4$, is explained in more detail separately in our answer to the corresponding comment of Reviewer 5; we kindly ask the current reviewer to consider that answer as well.
+We agree with the reviewer that Strategy~A is a possible alternative to Strategy~B, and it could be beneficial in certain contexts.
+However, in our opinion, the two strategies serve different purposes, and none of them is better or worse than the other.
+Strategy~A can assess the computational speed of the proposed framework while forcing the MC-based approach to synchronize with the accuracy of our technique.
+On the other hand, Strategy~B can assess this speed while eliminating the accuracy-induced influence on the speed measurements by keeping $\pcorder$ and $\nsamples$ constant.
+Therefore, the results of Strategy~A display the time needed to attain a certain accuracy level while those of Strategy~B display the time needed to do a certain amount of work.
 
-The second reason is more practical.
-An algorithm typically has an initialization phase, which stays constant from one input to another.
-The computational time associated with this phase is usually negligible; however, if the input is too small, this time can dominate, resulting in unrepresentative measurements of the total computational time.
-Hence, it is important to have sufficiently large examples in order to reduce the influence of the initialization phase.
-For this reason, the assessment in Sec.~VII-B is given for dynamic power profiles with $\nsteps = 10^3$.
-In Tab.~VI, it can be seen that already for a quad-core platform and a dynamic power profile of $10^3$ steps, the MC-based approach takes almost two days.
-Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.
-At this point, one should also take into account the fact that $\nsamples = 10^4$ is a lower bound as we reason in Sec.~VII-A.
+Strategy~B has been chosen for two major reasons:
+
+First, our intention is to evaluate the accuracy and speed characteristics of the proposed framework separately, independently of each other.
+Therefore, Sec.~VII-B is entirely dedicated to speed, and Strategy~B provides the desired separation from accuracy.
+
+Second, the goal is to make it easier for the reader to generalize the reported results to other problems with respect to the computational speed.
+The dependency of Strategy~A on accuracy makes this generalization more difficult since one of the two compared objects constantly changes, namely, the MC-based approach due to the changes of $\nsamples$.
+Since the value of $\nsamples$ needed to reach a certain accuracy level is problem specific (which applies to $\pcorder$ as well), this variability of $\nsamples$ adds an extra dimension to the complexity of the speed assessment.
+On the contrary, Strategy~B keeps the configurations of the two techniques fixed and provides a ``pure'' assessment of speed, leading a better insight into the applicability of the proposed framework for other problems.
+
+There is also one practical aspect behind Strategy~B.
+Sec.~VII-B illustrates the proposed framework on relatively large examples.
+More precisely, we assess the speed of our approach using platforms with up to 32 processing elements and power profiles with up to $10^5$ time steps; in addition, all the experiments are repeated three times for different values of the $\eta$ parameter.
+As discussed in Sec.~VII-A, there is evidence that $10^4$ is a lower bound on the number of MC samples.
+Therefore, in general, the MC-based approach is expected to converge with $\nsamples$ larger than $10^4$.
+However, already for $\nsamples = 10^4$, we would have not been able to provide the results shown in Tab.~VI if we had not utilized extrapolation.
+As we write in the last but one paragraph of Sec.~VII-B, the execution times corresponding to high values of the number of time moments, $\nsteps$, are based on extrapolation: we measured the time of a few MC samples and then estimated the time needed for $10^4$ MC samples.
+For example, it can be seen in Tab.~VI that already for a quad-core platform and a power profile with $\nsteps = 10^3$, MC sampling takes almost 40 hours, and this figure increases by two orders of magnitude for $\nsteps = 10^5$ (it scales linearly).
+Even if the MC-based approach converged with, say, $\nsamples = 10^3$, the execution time would still be considerably large.
+Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework, which is Strategy~A.
+
+The reviewer might also read our response to the eighth comment of Reviewer 5, in which the choice of $\nsamples = 10^4$ is discussed in more detail.
 
 \begin{actions}
   \action{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}

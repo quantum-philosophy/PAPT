@@ -1,6 +1,6 @@
 \updated{In this section, we focus on the speed of the proposed framework.
-In order to increase the clarity of the comparisons below, we use the same order of PC expansions and the same number of MC samples in each case, taking these two variables out of the picture.
-Namely, based on the conclusion from the previous subsection, $\pcorder$ is set to four, and $\nsamples$ is set to $10^4$; the latter also conforms to the experience from the literature \cite{shen2009, bhardwaj2008, ghanta2006} and to the theoretical results given in \cite{diaz-emparanza2002}.}
+In order to increase the clarity of the comparisons given below, we use the same order of PC expansions and the same number of MC samples in each case.
+Namely, based on the conclusion from the previous subsection, $\pcorder$ is set to four, and $\nsamples$ is set to $10^4$; the latter also conforms to the experience from the literature \cite{shen2009, bhardwaj2008, ghanta2006} and to the theoretical results on the accuracy of MC sampling given in \cite{diaz-emparanza2002}.}
 
 First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU(\o) \in \real^{\nprocs + 1}$ (recall \sref{illustrative-example}).
 As before, we shall report the results obtained for various correlation weights $\eta$, which impacts the number of the independent variables $\vZ(\o) \in \real^\nvars$, preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
