@@ -7,115 +7,129 @@ However, this paper has several major issues.
 \noindent[Comment 1] First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors.
 \end{reviewer}
 \begin{authors}
-We agree that these techniques are known in our research area.
-However, they are tools, and they can be used to solve various new problems.
-For example, PC expansions, as we know them now-a-days, were pioneered to address stochastic differential equations in the first place, and it was in 1991 for the classical PC (``Stochastic Finite Elements: A Spectral Approach'' by R. Ghanem \etal) and in 2002 for the generalized PC (``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal).
-Since then, these tools have been applied to a wide range of uncertainty quantification problems in scientific computing.
-Therefore, in our opinion, the use of such techniques in the proposed framework should not affect the novelty of our contribution.
+We agree with the reviewer that the aforementioned techniques are known in our research area.
+However, they are generic techniques, and applying a generic technique to a particular problem area, as we did in this paper, is a valid contribution as long as nobody has done it before.
+Please consider our answers to the comments below.
 \end{authors}
 
 \begin{reviewer}
 [Comment 2] The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
 \end{reviewer}
 \begin{authors}
-We understand the reviewer's concern; however, we do believe that the contribution of our work is sound, and we would like to explain it now in more detail.
+We believe that the contribution of our work is sound for the following reasons.
+\begin{itemize}
+  \item[(R1)] We are the first to formulate and solve the problem of transient power-temperature analysis of electronic systems under the uncertainty due to process variation.
+\end{itemize}
+The most relevant prior studies and their limitations are outlined in Sec.~II.
+More specifically, [Juan, 2012] considers only static steady-state temperature analysis, which is considerably simpler than transient.
+[Juan, 2011] relies on the static steady-state assumption as well and, moreover, addresses only the maximal temperature.
+The rest of the prior works, namely, [Vrudhula, 2006] (a new reference), [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (a new reference), [Shen, 2009], and [Chandra, 2010], are concerned with power analysis only.
+Since there is no straightforward relation between power and temperature, the conclusions drawn with respect to power are not directly applicable to temperature.
+Hence, the techniques solely focused on power analysis are of little help for the designer who is interested in temperature, which shall also discuss later on.
 
-First and the foremost,
-\begin{enumerate}
-  \item We are \emph{the first to formulate and solve the problem} of transient temperature analysis of electronic systems under the uncertainty due to process variation.
-\end{enumerate}
-The two temperature-related works and their drawbacks are discussed in Sec.~II.
-More precisely, [Juan, 2012] considers only static steady-state temperature analysis, which is considerably simpler than transient, and, moreover, is heavily based on Gaussian distributions.
-[Juan, 2011] also works only under the steady-state condition and, moreover, addresses only the maximal temperature.
+The proposed framework has the following features:
+\begin{itemize}
+  \item[1.] Arbitrary (inter)dependencies between the power dissipation and operating temperature can be taken into consideration.
+  In particular, the interdependence between leakage and temperature is systematically addressed.
 
-Let us now address the issue of the temperature analysis developed in our work \vs\ the power-grid analysis developed in [Ghanta, 2006].
-In the revised version of the manuscript, we have included another paper wherein the response of interconnect networks is also analyzed, namely, [Vrudhula, 2006].
-Therefore, we shall discuss both.
+  \item[2.] Arbitrary uncertain parameters can be readily analyzed.
+  Our framework requires no modifications to be applied to various parameters since the manifestation of these parameters is introduced into the framework as a ``black box.''
 
-Our first argument is general; however, we believe that it is conceptually the most important one.
-From the perspective of physics, the two phenomena, \ie, heat conduction and electrical conduction, are fundamentally different.
-Hence, conclusions with respect to power are not directly applicable to temperature as there is no straightforward relation between them.
-Consequently, the results presented in [Vrudhula, 2006] and [Ghanta, 2006] are of little help for the designer who is interested in temperature.
-In contract, we provide a readily applicable framework, which guides the designer through all the steps needed to quantify temperature.
+  \item[3.] Arbitrary probability distributions of the uncertain parameters can be handled.\footnote{The applicability to arbitrary distributions is discussed later in our response to the fifth comment of the reviewer.}
 
-Our second argument is general as well; yet it is of the second importance for the present discussion.
-The reviewer mentioned that both phenomena are modeled \via\ systems of first-order ordinary differential equations (ODEs), which look especially similar in their state-space forms; see Eq.~(2).
-However, differential equations are typical models for dynamic systems.
-In numerical analysis, the solution process usually consists of a proper discretization of the state space, leading to a system of first-order ODEs.
-Hence, it is natural that different problems share similar models.
-The essence of the phenomena behind these models stays unchanged, which brings us to our first argument that heat transfer requires a separate treatment.
+  \item[4.] The dependencies of the uncertain parameters are systematically addressed, and the requirements for the prior knowledge of these dependencies are mild.
+  In particular, spatial correlations specified by a correlation matrix can be taken into account.
+\end{itemize}
 
-Our third and the last argument goes into the details of our particular problem and enumerates the unique aspects of our research presented in the manuscript that further differentiate us from [Vrudhula, 2006] and [Ghanta, 2006].
-\begin{enumerate}
-  \setcounter{enumi}{1}
-  \item The performed stochastic temperature analysis takes into consideration \emph{the interdependence between leakage and temperature}.
-\end{enumerate}
-This aspect means that the input vector of power in Eq.~(2) is a nonlinear function of the output vector of temperature.
-Hence, the system of ODEs considered in our work is \emph{nonlinear}.
+In addition, the illustrative example given in the manuscript has the following features:
+\begin{itemize}
+  \item[5.] A general (non-Gaussian) setting is considered.
+  In contract, those prior studies that, in theory, can handle arbitrary distributions illustrate their solutions using only Gaussian distributions.
+  Non-Gaussian setups are more challenging than Gaussian, in particular, due to the fact that uncorrelated non-Gaussian variables are not independent in general.
+
+  \item[6.] Physically-bounded variations are modeled using beta distributions, which can capture the nature of such variations better.
+  We have not encountered such a model in the literature; however, it has its own right due to the boundedness of the support; see Sec.~VII.
+
+  \item[7.] Spatial correlations are modeled using a composition of two correlation functions, which is rather unique.
+  We combine the Ornstein-Uhlenbeck kernel, which is omnipresent in the literature, with the squared-exponential kernel, which has not received much attention.
+
+  \item[8.] The Nataf transformation is demonstrated.
+  This transformation has not received much attention in our research area.
+  The paper brings attention to this powerful technique.
+\end{itemize}
+
+The above-mentioned features of the proposed framework and illustrative example will be further detailed under the following argument supporting the soundness of our contribution.
+We shall refer to these features as \feature{1}--\feature{8}.
+
+\begin{itemize}
+  \item[(R2)] The problem of transient power-temperature analysis under process variation cannot be solved in a straightforward manner using the state-of-the-art techniques.
+\end{itemize}
+Let us begin with the temperature-targeted studies, namely, [Juan, 2011] and [Juan, 2012].
+Transient temperature analysis is concerned with the dynamics of the electronic system under consideration and is governed by a system of differential equations.
+On the other hand, static steady-state temperature analysis is narrowed to the steady state of the system and is based on a system of linear equations.
+Both [Juan, 2011] and [Juan, 2012] are based on the static steady-state assumption and, therefore, cannot be trivially applied to solve the problem formulated in our paper.
+
+Let us now turn to the power-targeted studies.
+In this case, the prior techniques can be classified into two groups.
+The first group aims at the estimation of the total leakage power and includes [Bhardwaj, 2006], [Bhardwaj, 2008], and [Shen, 2009].
+The second group can be used to analyze transient power and includes [Vrudhula, 2006], [Ghanta, 2006], and [Chandra, 2010].
+Similar to static steady-state temperature analysis, the first group is not concerned with any dynamics of the system, and a potential extension to transient processes is not straightforward.
+
+The second group techniques, which is related to transient power, can be classified even further.
+[Vrudhula, 2006] and [Ghanta, 2006] are based on spectral methods, namely, PC expansions and the KL decomposition, whereas [Chandra, 2010] is based on MC simulations.
+[Chandra, 2010] provides a temperature-aware technique for power analysis.
+However, due to the limitations induced by the MC-based core of this technique, the temperature dependency is taken into account in a rather crude manner \via\ precomputed temperature traces.
+Therefore, a straightforward application of the approach in [Chandra, 2010] to the problem considered in our work is not possible.
+
+Two prior works are left to discuss, namely, [Vrudhula, 2006] and [Ghanta, 2006].
+[Ghanta, 2006] is the paper that the reviewer refers to in the comment, and the reviewer is right that heat conduction in our work and electrical conduction in [Ghanta, 2006] are both modeled \via\ systems of first-order ordinary differential equations (ODEs).
+Taking this concern into consideration, we have also included [Vrudhula, 2006] in the manuscript as it contains another study based on a system of differential equations; more precisely, the subject of [Vrudhula, 2006] is the response of interconnect networks.
+In what follows, we shall demonstrate that the solutions in [Vrudhula, 2006] and [Ghanta, 2006] cannot be trivially applied to the problem considered in our work.
+
+We begin with \feature{1} of the proposed framework given earlier.
+The dependency of power on temperature, taken into account in our approach, implies that the input vector of power in Eq.~(2) is a nonlinear function of the output vector of temperature.
+Hence, the system of ODEs considered in our work is nonlinear.
 Meanwhile, the systems of ODEs in [Vrudhula, 2006] and [Ghanta, 2006] are linear.
 The presence of a feedback loop makes the problem more challenging and requires a different solution strategy.
-It can be seen in Sec.~VI and App.~A that our solution process drastically differs from the solution processes described in [Vrudhula, 2006] and [Ghanta, 2006].
+This aspect is especially urgent in the present of process variation: the source/power term on the right-hand side of Eq.~(2a) is uncertain not only due to the direct dependency on the uncertain parameters, but also due to the influence of temperature, which is another uncertain quantity as it depends on power.
+It can be seen in Sec.~VI that our step-wise solution drastically differs from those described in [Vrudhula, 2006] and [Ghanta, 2006], and it is very efficient as we discuss in our response to the tenth comment of the reviewer.
 
-It is worth emphasizing that our stochastic power analysis \perse\ is temperature aware, which is implied by the leakage-awareness of our stochastic temperature analysis.
-In contrast, all other prior works based on spectral methods for uncertainty quantification, \ie, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (another new citation included in the manuscript), and [Shen, 2009], ignore the leakage-temperature interdependence.
+With respect to \feature{1}, it is worth emphasizing that all the prior works based on spectral methods for uncertainty quantification, \ie, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008], and [Shen, 2009], ignore the leakage-temperature interdependence.
 This interdependence, however, is of a tremendous importance, which is well known and requires no introduction; see, \eg, [Liu, 2007] and [Srivastava, 2010].
 
-Let us return back to [Vrudhula, 2006] and [Ghanta, 2006] and continue contrasting them with the proposed framework.
-The developments given in both papers are tailored for particular sets of uncertain parameters.
-They rely on specific expressions, describing how the uncertain parameters influence the system, and these expression are tightly entangled with the overall solution process.
+Let us turn to \feature{2}.
+The developments given in [Vrudhula, 2006] and [Ghanta, 2006] are tailored for particular sets of uncertain parameters.
+They rely on specific expressions, describing how these parameters influence the system, and these expression are tightly entangled with the overall solution process.
 As noted by the authors of [Vrudhula, 2006], their analysis of interconnects is not limited to any particular formula modeling the influence of the internal independent variables, which is true.
 However, a potential extension is not straightforward; the same applies to [Ghanta, 2006].
 The reason for this is the use of so-called intrusive Galerkin projections for the computation of the coefficient of PC expansions.
 This means that the user of [Vrudhula, 2006] and [Ghanta, 2006] has to adapt their solutions to every problem individually.
-In contrast,
-\begin{enumerate}
-  \setcounter{enumi}{2}
-  \item The proposed framework is \emph{flexible and can be readily applied to arbitrary parameters}.
-\end{enumerate}
-As mentioned in Sec.~III and further elaborated on in Sec.~V-B, our approach keeps the uncertain parameters inside a ``black box,'' which can be replaced with another box at no effort.
+In contrast, as mentioned in Sec.~III and further elaborated on in Sec.~V-B, our approach keeps the uncertain parameters inside a ``black box,'' which can be replaced with another box at no effort.
 This type of projections is called non-intrusive [Eldred, 2008].
 The user of our technique, of course, should provide such a box; however, he/she has much more freedom to do so.
 
-In particular, the user does not have to come up with any expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of the chosen expressions.
+In particular, \feature{2} implies the user does not have to come up with artificial expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of these expressions.
 From our experience, it is rather difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the parameters.
 In this regard, our preliminary research has shown that the fits with polynomials of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
 As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows us to do.
 
-Next, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are dependent; a potential solution is mentioned only in the context of Gaussian distributions.
-On the other hand, [Ghanta, 2006] is founded on the basis of the \emph{continuous} version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
-Such an assumption, however, is impractical, which is also noted by [Vrudhula, 2006].
-In reality, it can be difficult to make a justifiable choice and tune such a correlation function.
-In contrast,
-\begin{enumerate}
-  \setcounter{enumi}{3}
-  \item The proposed framework \emph{systematically addresses dependencies} and has mild requirements on the prior knowledge of these dependencies.
-\end{enumerate}
-As described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient to characterize dependencies for our approach.
-Such a matrix can readily be estimated from measurements and, thus, is a more probable input to stochastic analyses.
-Note that we also assume a correlation function, Eq.~(13).
-However, although it is rather unique and captures well certain features inherent to the fabrication process, we use this function with the only purpose of constructing correlation matrices for our experiments due to the above-mentioned reasons.
-
-Further, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
+Regarding \feature{3}, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
 However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
 In a non-Gaussian setting with dependencies, PC expansions are not straightforward.
 The reason is that mutual independence is essential for PC expansions, and linear transformations, removing correlations, in general, do not yield independence.
 On the other hand, [Ghanta, 2006] is tightened to Gaussian distributions, which are critical for the development in that paper (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
-In contrast,
-\begin{enumerate}
-  \setcounter{enumi}{4}
-  \item The proposed framework \emph{works with arbitrary distributions}\footnote{The applicability to arbitrary distributions is discussed later in our response to the corresponding comment of the current reviewer.} and is illustrated in a general setting using the Nataf transformation.
-\end{enumerate}
-Dependent non-Gaussian variables are addressed \via\ the Nataf transformation, which has not received much attention in our research area.
-Our paper demonstrates this powerful technique.
-At this point, we also would like to note that, in the manuscript,
-\begin{enumerate}
-  \setcounter{enumi}{5}
-  \item Physically-bounded variations are modeled using beta distributions.
-\end{enumerate}
-We have not encountered such a model in the literature; however, it has its own right due to the boundedness of the support, as we explain in Sec.~VII.
+In contrast, the proposed framework is exemplified using a general setup (\feature{5}, \feature{6}, and \feature{8}).
 
-Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution.
-The manuscript provides a systematic description of all the stages involved in the uncertainty quantification process of transient temperature profiles.
+With respect to \feature{4}, the methodology described in Sec.~V in [Vrudhula, 2006] does not address the case when the uncertain parameters are dependent; a potential solution is mentioned only in the context of Gaussian distributions.
+On the other hand, [Ghanta, 2006] is founded on the basis of the continuous version of the KL decomposition and, therefore, assumes that the correlation function of the uncertain parameters is known (the same in [Bhardwaj, 2006] and [Bhardwaj, 2008]).
+Such an assumption, however, is impractical, which is also noted by [Vrudhula, 2006].
+In reality, it can be difficult to make a justifiable choice and tune such a correlation function.
+As described in Sec.~V-A and Sec.~VI-A, the knowledge of a correlation matrix is sufficient to characterize dependencies for our approach (\feature{8}).
+Such a matrix can readily be estimated from measurements and, thus, is a more probable input to stochastic analyses.
+Note that we also assume a correlation function, Eq.~(13).
+However, although it is rather unique and captures well certain features inherent to the fabrication process (\feature{7}), we use this function with the only purpose of constructing correlation matrices for our experiments.
+
+Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution: it solves the problem of transient temperature analysis under process variation for the first time, and none of the state-of-the-art techniques can be applied to tackle this problem in a straightforward manner.
 
 \begin{actions}
   \action{The prior works have been described in more detail in Sec.~II.}

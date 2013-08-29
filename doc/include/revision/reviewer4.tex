@@ -140,7 +140,7 @@ Sec.~VII-B illustrates the proposed framework on relatively large examples.
 More precisely, we assess the speed of our approach using platforms with up to 32 processing elements and power profiles with up to $10^5$ time steps; in addition, all the experiments are repeated three times for different values of the $\eta$ parameter.
 As discussed in Sec.~VII-A, there is evidence that $10^4$ is a lower bound on the number of MC samples.
 Therefore, in general, the MC-based approach is expected to converge with $\nsamples$ larger than $10^4$.
-However, already for $\nsamples = 10^4$, we would have not been able to provide the results shown in Tab.~VI if we had not utilized extrapolation.
+However, already for $\nsamples = 10^4$, we would not be able to provide the results shown in Tab.~VI if we did not utilize extrapolation.
 As we write in the last but one paragraph of Sec.~VII-B, the execution times corresponding to high values of the number of time moments, $\nsteps$, are based on extrapolation: we measured the time of a few MC samples and then estimated the time needed for $10^4$ MC samples.
 For example, it can be seen in Tab.~VI that already for a quad-core platform and a power profile with $\nsteps = 10^3$, MC sampling takes almost 40 hours, and this figure increases by two orders of magnitude for $\nsteps = 10^5$ (it scales linearly).
 Even if the MC-based approach converged with, say, $\nsamples = 10^3$, the execution time would still be considerably large.
