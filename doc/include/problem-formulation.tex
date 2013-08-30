@@ -10,8 +10,8 @@ Let $\system$ be a thermal specification of the system defined as a collection o
 A (transient) power profile $\profileP$ is defined as a tuple composed of a data matrix $\mP = (\vP_i) \in \real^{\nprocs \times \nsteps}$, $\vP_i \in \real^\nprocs$, that captures the power dissipation of the $\nprocs$ processing elements at $\nsteps$ moments of time and a (column) vector $\partition{\mP} = (\t_i) \in \real^{\nsteps}$ with positive and strictly increasing components that specifies these moments of time.
 The definition of a (transient) temperature profile $\profileT$ is the same as the one for power except that the data matrix $\mTO$ contains temperature.
 
-\updated{The system depends on a set process parameters, which are uncertain at the design stage; these parameters are denoted by a random vector $\vU(\o)$.
-Once the fabrication process yields a particular outcome $\o \in \outcomes$, $\vU(\o)$ takes (potentially) different values for each fabricated chip individually and stay unchanged thereafter.
+\updated{The system depends on a set of process parameters, which are uncertain at the design stage; these parameters are denoted by a random vector $\vU(\o)$.
+Once the fabrication process yields a particular outcome $\o \in \outcomes$, $\vU(\o)$ takes (potentially) different values for each fabricated chip individually and stays unchanged thereafter.
 Consequently, $\vU(\o)$ leads to deviations of the actual power dissipation from nominal values and, thus, to deviations of temperature from the one corresponding to the nominal power consumption.}
 In what follows, we shall make a distinction between deterministic and stochastic profiles.
 In the latter case, the power and temperature profiles are denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively.

@@ -3,20 +3,21 @@ The paper presented statistical thermal analysis for VLSI systems using the orth
 
 However, this paper has several major issues.
 
-\vspace{0.5em}
-\noindent[Comment 1] First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors.
+\clabel{5}{1}
+First is the novelty. Most of the techniques (PC, PCA etc.) have been applied to many analysis and modeling problems in the CAD areas as reviewed by the authors.
 \end{reviewer}
 \begin{authors}
-We agree with the reviewer that the aforementioned techniques are known in our research area.
+We agree with the reviewer that the aforementioned techniques are known.
 However, they are generic techniques, and applying a generic technique to a particular problem area, as we did in this paper, is a valid contribution as long as nobody has done it before.
 Please consider our answers to the comments below.
 \end{authors}
 
 \begin{reviewer}
-[Comment 2] The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
+\clabel{5}{2}
+The thermal analysis is not foundamentally different than the power grid analysis.  If we just look at the eqn(2), this statistical analysis problem is even a simplified version of power grid analysis problem where the A matrix is the function of have variational parameters.
 \end{reviewer}
 \begin{authors}
-We believe that the contribution of our work is sound for the following reasons.
+We believe that the contribution of our work is sound for the reasons specified as (R1) and (R2) in the following:
 \begin{itemize}
   \item[(R1)] We are the first to formulate and solve the problem of transient power-temperature analysis of electronic systems under the uncertainty due to process variation.
 \end{itemize}
@@ -27,7 +28,7 @@ The rest of the prior works, namely, [Vrudhula, 2006] (a new reference), [Ghanta
 Since there is no straightforward relation between power and temperature, the conclusions drawn with respect to power are not directly applicable to temperature.
 Hence, the techniques solely focused on power analysis are of little help for the designer who is interested in temperature.
 
-The proposed framework has the following features:
+In addition, the proposed framework has the following distinguishing features:
 \begin{itemize}
   \item[1.] Arbitrary (inter)dependencies between the power dissipation and operating temperature can be taken into consideration.
   In particular, the interdependence between leakage and temperature is systematically addressed.
@@ -41,7 +42,7 @@ The proposed framework has the following features:
   In particular, spatial correlations specified by a correlation matrix can be taken into account.
 \end{itemize}
 
-In addition, the illustrative example given in the manuscript has the following features:
+Further, the illustrative example given in the manuscript has the following features:
 \begin{itemize}
   \item[5.] A general (non-Gaussian) setting is considered.
   In contract, those prior studies that, in theory, can handle arbitrary distributions illustrate their solutions using only Gaussian distributions.
@@ -108,10 +109,10 @@ In contrast, as mentioned in Sec.~III and further elaborated on in Sec.~V-B, our
 This type of projections is called non-intrusive [Eldred, 2008].
 The user of our technique, of course, should provide such a box; however, one has much more freedom to do so.
 
-In particular, \feature{2} implies the user does not have to come up with artificial expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of these expressions.
+In particular, \feature{2} implies that the user does not have to come up with artificial expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of these expressions.
 From our experience, it is rather difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the parameters.
 In this regard, our preliminary research has shown that the fits with polynomials of low orders (pure polynomials and rational functions w/o exponentiation) can introduce significant errors, which is also noted in [Shen, 2009].
-As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which our framework readily allows us to do.
+As mentioned in Sec.~VI-B, in our experiments, we utilize linear interpolation without any polynomial-based fitting, which the proposed framework readily allows us to do.
 
 Regarding \feature{3}, [Vrudhula, 2006] states that the proposed methodology can be applied to arbitrary distributions, which is true.
 However, the only illustrated case is Gaussian.\footnote{The authors also discuss log-normal parameters; however, this case is reduced to Gaussian due to the natural relation between the two families of distributions.}
@@ -129,7 +130,7 @@ Such a matrix can readily be estimated from measurements and, thus, is a more pr
 Note that we also assume a correlation function, Eq.~(13).
 However, although it is rather unique and captures well certain features inherent to the fabrication process (\feature{7}), we use this function with the only purpose of constructing correlation matrices for our experiments.
 
-Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution: it solves the problem of transient temperature analysis under process variation for the first time, and none of the state-of-the-art techniques can be applied to tackle this problem in a straightforward manner.
+Taking into consideration the argumentation given above, we conclude that our research makes a prominent contribution: it solves the problem of transient temperature analysis under process variation for the first time, and none of the state-of-the-art techniques can be applied in a straightforward manner to tackle this problem.
 
 \begin{actions}
   \action{The prior works have been described in more detail in Sec.~II.}
@@ -140,7 +141,8 @@ Taking into consideration the argumentation given above, we conclude that our re
 \end{authors}
 
 \begin{reviewer}
-[Comment 3] Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations. Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
+\clabel{5}{3}
+Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations. Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
 \end{reviewer}
 \begin{authors}
 First, we believe that power analysis and temperature analysis are inseparable.
@@ -152,7 +154,7 @@ The proposed framework is self-contained from this perspective, which differenti
 Second, the immediate cause of various reliability issues (\eg, time-dependent dielectric breakdown, electro-migration, and thermal-cycling fatigue) is temperature, not power \perse.
 Moreover, for certain failure mechanisms, the failure rate has an exponential dependency on the operating temperature [Juan, 2012].
 In order to alleviate such issues, the designer indeed can try to constrain power and hope that temperature will get squeezed into safe ranges.
-In this regard, we would like to respond with the words of Reviewer 3.
+In this regard, we would like to respond with the words of Reviewer 3 (\cref{3}{1}):
 Such strategies ``[\ldots] can end up putting up a big enough guard band to design the system considering severe conditions.
 Thus, they end up being quite conservative and over-designing their system.''
 In other words, the more we know about the quantities we care about and the more immediate/direct this knowledge is, the more efficient and effective control we have over those important quantities.
@@ -174,7 +176,8 @@ Our example in Fig.~1 indicates a similar sensitivity of temperature to process 
 \end{authors}
 
 \begin{reviewer}
-[Comment 4] In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
+\clabel{5}{4}
+In addition, the paper only consider the effective channel length, which makes the paper weak as different parameters may exhibits different correlations patterns (strong or weak). In case of weak correlations, the standard KL and PCA method will not work well as they can’t reduce many variables in this case. This may be the case even for the effective channel length. The authors only consider exponential correlation models.
 \end{reviewer}
 \begin{authors}
 We would like to note first that the proposed framework does not pose any constraints on the considered uncertain parameters $\vU(\o)$ including their correlations.
@@ -184,7 +187,7 @@ As a result, two sets of initial uncertain parameters $\vU'(\o)$ and $\vU''(\o)$
 Therefore, it is difficult to make a connection between the dimensionality of $\vU(\o)$ with the dimensionality of $\vZ(\o)$.
 At the same time, the applicability of our approach, which is the main concern of the comment, is essentially dictated by the dimensionality of $\vZ(\o)$, $\nvars$.
 Therefore, $\vZ(\o)$ is a better indicator of this applicability than $\vU(\o)$, and the latter can be even misleading.
-In order to illustrate this concern, we would like to include here the following two paragraphs taken from our response to the seventh comment of Reviewer 3.
+In order to illustrate this concern, we would like to include here the following two paragraphs taken from our response to \cref{3}{7}.
 
 Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
 Then, the first question to ask is whether $L$ and $W$ are independent.
@@ -192,13 +195,13 @@ Assume first they are.
 The second question to ask is whether $W$ has local variations.
 If it does not, $\nvars$ will be increased by one, relative to the case wherein only $L$ is considered.
 If it does, the third question to ask is: What is the correlation patter inherent to $W$?
-For instance, if the patter is the same as for $L$, $\nvars$ will be doubled in the end.
+For instance, if the pattern is the same as for $L$, $\nvars$ will be doubled in the end.
 In general, the answer depends on how strong/weak the assumed spatial correlations of $W$ are.
 Coming back to the very first question we asked, suppose $L$ and $W$ are now correlated.
 In this case, the follow-up questions are the same as before; however, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
-As we can see, it is not straightforward to relate $\vU(\o)$ with the dimensionality $\nvars$ of $\vZ(\o)$ and, thus, with the complexity of the further analysis.
+As we can see, it is not straightforward to relate the considered uncertain parameters $\vU(\o)$ with the resulting independent random variables $\vZ(\o)$ and, thus, with the complexity of the further analysis.
 
-To summarize, we believe that the foremost quantity to pay attention to is $\nvars$.
+To summarize, we believe that the foremost quantity to pay attention to is the dimensionality of $\vZ(\o)$, $\nvars$, which, of course, can increase with additional uncertain parameters.
 The column of Tab.~V titled ``$\nvars$'' serves this exact purpose: it demonstrates how the computational speed of the proposed framework scales with respect to the number of independent parameters.
 The fact that there is another variable in Tab.~V, namely, the number of processing elements, $\nprocs$, does not affect the corresponding conclusions since, as mentioned above, the complexity is dictated by the stochastic dimensionality of the problem.
 Regarding accuracy, we observed that fourth-order PC expansions (used to obtain the results in Tab.~V) were sufficiently accurate for the purpose of temperature analysis considered in this paper.
@@ -223,15 +226,16 @@ Thus, the effective channel length was chosen.
 Consequently, the proposed framework is exemplified on arguably the most crucial process parameter.
 
 \begin{actions}
-  \action{The applicability of our approach has been discussed in connection with Tab.~V in Sec.~VII-B, which also addresses the seventh comment of Reviewer 3.}
+  \action{The applicability of our approach with respect to $\nvars$ has been discussed in Sec.~VII-B.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
-[Comment 5] The claim that the proposed method can be applied to arbitrary distributions are not correct. As the author mentioned, that the resulting temperature or even the power distributions are not known a priori. As a result, we do not know which orthogonal polynomials we should use. This actually is the major limitations of the PC based method.
+\clabel{5}{5}
+The claim that the proposed method can be applied to arbitrary distributions are not correct. As the author mentioned, that the resulting temperature or even the power distributions are not known a priori. As a result, we do not know which orthogonal polynomials we should use. This actually is the major limitations of the PC based method.
 \end{reviewer}
 \begin{authors}
-First of all, we would like to clarify the formulation used in the manuscript.
+First, we would like to clarify the formulation used in the manuscript.
 In the abstract, we write ``diverse probability laws and arbitrary impacts of the underlying uncertain parameters.''
 So, the word \emph{arbitrary} belongs to \emph{impacts} and refers to the fact that the influence of the uncertain parameters is introduced into the framework as a ``black box,'' as it is unfolded in Sec.~III.
 The formulation was ambiguous and has been modified in the revised version of the manuscript.
@@ -266,16 +270,17 @@ However, most physical processes have finite variance; see the above paper by D.
 If the reviewer refers to this assumption, we apologize for our misunderstanding and remind that \emph{arbitrary} is not present in the manuscript.
 
 \begin{actions}
-  \action{The formulation in the abstract has been clarified.}
-  \action{Possible solutions of general distributions have been outlined in App.~C.}
+  \action{The formulation in the abstract has been revised.}
+  \action{Possible solutions for general distributions have been outlined in App.~C.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
-[Comment 6] The paper did not address one important problems in thermal analysis: how the leakage and temperature interplay and its impacts on the statistical thermal analysis?
+\clabel{5}{6}
+The paper did not address one important problems in thermal analysis: how the leakage and temperature interplay and its impacts on the statistical thermal analysis?
 \end{reviewer}
 \begin{authors}
-As mentioned in our previous answers, the stochastic power-temperature analysis presented in the paper does take into consideration the interdependence between leakage and temperature.
+As mentioned in our previous answers and, in particular, in the answer to \cref{5}{2}, the stochastic power-temperature analysis presented in the paper does take into consideration the interdependence between leakage and temperature.
 The general dependency of power on temperature can be seen in Eq.~(1) and is noted at the end of Sec.~V-D3.
 The leakage-temperature interdependence is mentioned at the end of Sec.~V-B and in Sec.~VI-B.
 Therefore, all the experimental results explore this important aspect.
@@ -284,13 +289,14 @@ In the revised manuscript, we have drawn more attention to this interdependency.
 
 \begin{actions}
   \action{The importance of the leakage-temperature interdependence has been mentioned in Sec.~I.}
-  \action{The negligence of the interdependence by the prior works has been emphasized in Sec.~II.}
+  \action{The lack of considering this interdependence by the prior works has been emphasized in Sec.~II.}
   \action{The fact that our framework accounts for the interdependence has been noted in Sec.~III.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
-[Comment 7] The paper has many math notations. It will be nice to have table of all the math notations at the beginning of  the paper.
+\clabel{5}{7}
+The paper has many math notations. It will be nice to have table of all the math notations at the beginning of  the paper.
 \end{reviewer}
 \begin{authors}
 We agree with the reviewer.
@@ -306,8 +312,8 @@ Also, due to the shortage of space, we had to constrain the list of notations an
 \begin{reviewer}
 In the experimental section:
 
-\vspace{0.5em}
-\noindent[Comment 8] The number of MC samples (10\^{}4) seems too big. For many practical problems, MC method with a few hundreds or thousands of samples will be good enough to get a good distributions.
+\clabel{5}{8}
+The number of MC samples (10\^{}4) seems too big. For many practical problems, MC method with a few hundreds or thousands of samples will be good enough to get a good distributions.
 \end{reviewer}
 \begin{authors}
 The choice of $\nsamples = 10^4$ for the comparison of the computational speed in Sec.~VII-B is based on three major aspects.
@@ -337,7 +343,8 @@ In contrast, we explain our choice and provide evidence to support it.
 \end{authors}
 
 \begin{reviewer}
-[Comment 9] Many pesudo MC methods actually have much faster convergent rate with much less number of samples actually.
+\clabel{5}{9}
+Many pesudo MC methods actually have much faster convergent rate with much less number of samples actually.
 \end{reviewer}
 \begin{authors}
 We agree with the reviewer that there are other sampling techniques, such as Latin hypercube and quasi-MC sampling, which try to improve upon the convergence properties of the classical MC sampling.
@@ -355,7 +362,8 @@ Let us also note that MC sampling was not the direction we wanted to put our eff
 \end{authors}
 
 \begin{reviewer}
-[Comment 10] The table V and table VI look  bit weird.  It seems strange that the PC method just takes a few seconds, while MC method will takes hours. The speedups in the two tables  are even bigger than number of MC samples (10\^{}4) in many cases. This means that one PC-based computing take less than one MC sample run, which is impossible.  More explanations are needed.
+\clabel{5}{10}
+The table V and table VI look  bit weird.  It seems strange that the PC method just takes a few seconds, while MC method will takes hours. The speedups in the two tables  are even bigger than number of MC samples (10\^{}4) in many cases. This means that one PC-based computing take less than one MC sample run, which is impossible.  More explanations are needed.
 \end{reviewer}
 \begin{authors}
 Thank you for the excellent observation.
@@ -382,7 +390,7 @@ In our case, it is Runge-Kutta formulae, as described at the beginning of Sec.~V
 
 Consequently, the reported speedups of the proposed framework are due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
 
-For a better intuition of the computational speed of the proposed framework, we kindly refer the reviewer to our answer to the first comment of Reviewer 4 wherein an analysis of the time complexity is given.
+For a better intuition of the computational speed of the proposed framework, we kindly refer the reviewer to our answer to \cref{4}{1a} wherein an analysis of the time complexity is given.
 
 \begin{actions}
   \action{The two contributors to the speedup of the proposed framework have been highlighted in Sec.~VII-B.}

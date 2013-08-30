@@ -10,10 +10,12 @@ Thank you.
 \begin{reviewer}
 Still, the paper could be further strengthened by clearing up a few things as described below.
 
-1. The authors try to motivate the subject of variational analysis by mentioning that the design at nominal parameters does not guarantee that it will work under severe conditions. This is, however, quite well known and for these reasons no one designs at nominal corners and end up putting up a big enough guard band to design the system considering severe conditions. Thus, they end up being quite conservative and over-designing their system. This is where the variational analysis comes into picture to alleviate the problem of over-designing by allowing the design a better estimate of how the severe conditions impact the performance/power/temperature of the system.
+\clabel{3}{1}
+The authors try to motivate the subject of variational analysis by mentioning that the design at nominal parameters does not guarantee that it will work under severe conditions. This is, however, quite well known and for these reasons no one designs at nominal corners and end up putting up a big enough guard band to design the system considering severe conditions. Thus, they end up being quite conservative and over-designing their system. This is where the variational analysis comes into picture to alleviate the problem of over-designing by allowing the design a better estimate of how the severe conditions impact the performance/power/temperature of the system.
 \end{reviewer}
 \begin{authors}
-It is a very good point, which is now included in the paper. With your permission, we shall also use it to respond to the second comment of Reviewer 5.
+It is a very good point, which is now included in the paper.
+We shall also use it to respond to \cref{5}{3}.
 
 \begin{actions}
   \action{The motivation behind this work has been extended in Sec.~I.}
@@ -21,14 +23,16 @@ It is a very good point, which is now included in the paper. With your permissio
 \end{authors}
 
 \begin{reviewer}
-2. Section VI: The reviewer likes the use of the correlation function that captures both the correlations between the devices close to each other and also equidistant from the center of the die.
+\clabel{3}{2}
+Section VI: The reviewer likes the use of the correlation function that captures both the correlations between the devices close to each other and also equidistant from the center of the die.
 \end{reviewer}
 \begin{authors}
 Thank you.
 \end{authors}
 
 \begin{reviewer}
-3. Section VI-A:  Some discussion on how the Nataf transformation compares with Independent component analysis which works even on non-Gaussian random variables. Some discussion on when Nataf transformation is valid or when does its accuracy suffers and what are the properties of the distributions that can be well transformed using this transformation will be useful to the reader.
+\clabel{3}{3}
+Section VI-A:  Some discussion on how the Nataf transformation compares with Independent component analysis which works even on non-Gaussian random variables. Some discussion on when Nataf transformation is valid or when does its accuracy suffers and what are the properties of the distributions that can be well transformed using this transformation will be useful to the reader.
 \end{reviewer}
 \begin{authors}
 Thank you for drawing our attention to ICA; we have mentioned this technique as a potential alternative in the revised version of the manuscript.
@@ -48,7 +52,8 @@ It should also be noted right away that the inputs to the Nataf transformations,
 \end{authors}
 
 \begin{reviewer}
-4. Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion. It will be good if the authors can compare and contrast with the exponential modeling as described in:
+\clabel{3}{4}
+Leakage Analysis: Leakage is an exponential function of gate length, this kind of shows up in the experimental results section where the authors see that the errors in the PC expansion reduce with the expansion order for 4-5 or more. The following previous approach for leakage analysis considers the leakage as exponential function of gate length and approximates the leakage as an exponential function of the PC expansion in gate length. Such exponential model will be more accurate at lower orders of expansion and still afford similar efficiency of computation as the normal PC expansion. It will be good if the authors can compare and contrast with the exponential modeling as described in:
 
 S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and leakage analysis of nanoscale circuits considering intra-die process variations''.
 \end{reviewer}
@@ -71,7 +76,7 @@ At this point, one should not forget the following two facts inherent to the mod
 Second, since the leakage power and temperature are tightly interrelated, at each step of the iterative process, the expansion of power is based on the previous expansion of temperature, and this dependency is strictly nonlinear (it is also emphasized at the end of Sec.~V-D3).
 Consequently, stochastic temperature analysis significantly differs from stochastic power analysis and, thus, requires a different mindset in order to solve the problem efficiently.
 
-To summarize, taking into consideration the above discussion, such a comparison (\ie, the exponentiation of PC expansions for power) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
+To summarize, taking into consideration the above discussion, such a comparison (\ie, our PC expansions for power \vs\ the exponentiated PC expansions for power in [Bhardwaj, 2008]) is not possible since our algorithm is designed with temperature in mind and does not allow for a substitution of an ad hoc expression for power.
 
 \begin{actions}
   \action{The above discussion has been appended to Sec.~V-D.}
@@ -83,7 +88,8 @@ To summarize, taking into consideration the above discussion, such a comparison 
 \begin{reviewer}
 Experimental Results:
 
-5. It is somewhat unclear how much variation in the parameters was assumed. The authors mention that the channel length was assumed to deviate by 5\%. So, does it mean that the standard deviation was 5\% or 3-sigma was 5\%. If it is the latter (3-sigma = 5\%), then the variation assumption in gate length is somewhat small. We need to see how the accuracy of the approach at some higher degrees of variation. So, some comparison with 10-15\% 3-sigma variation will be important.
+\clabel{3}{5}
+It is somewhat unclear how much variation in the parameters was assumed. The authors mention that the channel length was assumed to deviate by 5\%. So, does it mean that the standard deviation was 5\% or 3-sigma was 5\%. If it is the latter (3-sigma = 5\%), then the variation assumption in gate length is somewhat small. We need to see how the accuracy of the approach at some higher degrees of variation. So, some comparison with 10-15\% 3-sigma variation will be important.
 \end{reviewer}
 \begin{authors}
 We apologize for the confusion.
@@ -96,16 +102,17 @@ So, 5\% is about $\sigma$, not $3 \sigma$.
 \end{authors}
 
 \begin{reviewer}
-6. Although PC expansion is a really good tool to estimate the system response in the presence of process variations, the authors only consider a single source of variations, i.e. gate length, and hence the error estimates and the runtimes shown will be somewhat optimistic compared to the scenario where there are more sources of variations for example: threshold voltage, oxide thickness etc. For this reason, the reviewer suggests highlighting some of the discussion related to the curse of dimensionality in the main section in addition to discussing it in the Appendix.
+\clabel{3}{6}
+Although PC expansion is a really good tool to estimate the system response in the presence of process variations, the authors only consider a single source of variations, i.e. gate length, and hence the error estimates and the runtimes shown will be somewhat optimistic compared to the scenario where there are more sources of variations for example: threshold voltage, oxide thickness etc. For this reason, the reviewer suggests highlighting some of the discussion related to the curse of dimensionality in the main section in addition to discussing it in the Appendix.
 \end{reviewer}
 \begin{authors}
 We agree with the reviewer that the more uncertain parameters are taken into account, the more independent variables might eventually be needed for the construction of a sufficiently accurate PC expansion (see our answer to the seventh comment below).
 This, of course, can intensify the curse of dimensionality.
 The concern is described in one of the main sections of the manuscript, namely, in Sec.~V-D4, in which we also summarize how we address this issue.
 
-In response to the first comment of Reviewer 4, we have also included an analysis of the time complexity of the PC expansions performed inside our proposed framework, Sec.~V-D4.
+In response to \cref{4}{1}, we have also included an analysis of the time complexity of the PC expansions performed inside our proposed framework, Sec.~V-D4.
 
-With regard to the choice of the unique uncertain parameter for the illustration example, the reviewer might also read our answer to the fourth comment of Reviewer 5.
+With regard to the choice of the unique uncertain parameter for the illustration example, the reviewer might also read our answer to \cref{5}{4}.
 
 \begin{actions}
   \action{The curse of dimensionality has been further elaborated on in Sec.~V-D4.}
@@ -122,20 +129,20 @@ First, as the reviewer correctly pointed out earlier, the curse of dimensionalit
 Therefore, the applicability of the proposed framework mainly depends on how this curse of dimensionality manifests itself in the problem at hand.
 This manifestation, in its turn, depends primarily on the number $\nvars$ of independent parameters $\vZ(\o)$ left after the preprocessing stage described in Sec.~V-A; this fact is explained in Sec.~V-D4, ``Computational challenges.''
 
-Second, the conclusions about the performance of the proposed framework, which are based on the number/nature of the considered sources of variations $\vU(\o)$, can be misleading as we would like to illustrate now.
+Second, we would like to argue that conclusions about the performance of the proposed framework, which are based on the number/nature of the considered sources of variations $\vU(\o)$, are misleading.
 Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
 Then, the first question to ask is whether $L$ and $W$ are independent.
 Assume first they are.
 The second question to ask is whether $W$ has local variations.
 If it does not, $\nvars$ will be increased by one, relative to the case wherein only $L$ is considered.
 If it does, the third question to ask is: What is the correlation patter inherent to $W$?
-For instance, if the patter is the same as for $L$, $\nvars$ will be doubled in the end.
+For instance, if the pattern is the same as for $L$, $\nvars$ will be doubled in the end.
 In general, the answer depends on how strong/weak the assumed spatial correlations of $W$ are.
 Coming back to the very first question we asked, suppose $L$ and $W$ are now correlated.
 In this case, the follow-up questions are the same as before; however, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
 As we can see, it is not straightforward to relate the considered uncertain parameters $\vU(\o)$ with the resulting independent random variables $\vZ(\o)$ and, thus, with the complexity of the further analysis.
 
-To summarize, we believe that the foremost quantity to pay attention to is $\nvars$.
+To summarize, we believe that the foremost quantity to pay attention to is the dimensionality of $\vZ(\o)$, $\nvars$, which, of course, can increase with additional uncertain parameters.
 The column of Tab.~V titled ``$\nvars$'' serves this exact purpose: it demonstrates how the computational speed of the proposed framework scales with respect to the number of independent parameters.
 The fact that there is another variable in Tab.~V, namely, the number of processing elements, $\nprocs$, does not affect the corresponding conclusions since, as mentioned above, the complexity is dictated by the stochastic dimensionality of the problem.
 Regarding accuracy, we observed that fourth-order PC expansions (used to obtain the results in Tab.~V) were sufficiently accurate for the purpose of temperature analysis considered in this paper.
@@ -147,9 +154,9 @@ It is a function of the effective channel length according to the BSIM4 model, w
 The dependency of the threshold voltage to the effective channel length is one of the strongest [Shen, 2009] [Juan, 2011, 2012].
 Consequently, by considering the variability of the latter, we implicitly take into consideration one of the largest portions of the variability of the former.
 
-As with the previous comment, our answer to the fourth comment of Reviewer~5 regarding the considered uncertain parameters is relevant to the current comment.
+As with the previous comment, our answer to \cref{5}{4} regarding the considered uncertain parameters is relevant to the current comment.
 
 \begin{actions}
-  \action{The above discussion in connection with Tab.~V has been included in Sec.~VII-B.}
+  \action{The above discussion has been included in Sec.~VII-B.}
 \end{actions}
 \end{authors}

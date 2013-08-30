@@ -8,14 +8,15 @@ Thank you.
 \begin{reviewer}
 A few of comments and suggestions are listed as follows.
 
-1).The computational complexity of the proposed framework should be analyzed.
+\clabel{4}{1a}
+The computational complexity of the proposed framework should be analyzed.
 \end{reviewer}
 \begin{authors}
 The analysis of the time complexity of the framework is available.
 It was not included in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
 A clear explanation requires an in-depth discussion on the algorithmic structure of the proposed framework since the particularities of our implementation are important for the performance of the proposed approach.
 In particular, a thorough analysis is needed to the parts of the algorithm that stay unchanged when the input changes.
-These parts can and should be precomputed and stored so that their future use implies no additional computational costs (this is partially related to the second comment of this reviewer regarding Sec.~VI-D).
+These parts can and should be precomputed and stored so that their future use implies no additional computational costs (this is partially related to \cref{4}{2} regarding Sec.~VI-D).
 Taking the received feedback into account, we have reconsidered our decision and have included in the revised manuscript a concise version of the analysis of the time complexity, given as follows.
 
 All the statements below regarding certain aspects of PC expansions should be understood in the context of our implementation.
@@ -47,16 +48,16 @@ At the first stage, the current (\ie, from the previous step) PC expansion for t
 As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $\O(\nprocs \, \pcterms \, \qdorder)$.
 Then, the power model is utilized to obtain an $\nprocs \times \qdorder$ matrix of power based on the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix.
 This operation can be better viewed column-wise.
-Denote the complexity of the computations associated with the power model for one pair of columns by $\O(\oPower{\nprocs})$; hence, for $\qdorder$ columns, it is $\O(\qdorder \, \oPower{\nprocs})$.
+Denote the complexity of the computations associated with the power model for one pair of columns by $\O(\vP(\nprocs))$; hence, for $\qdorder$ columns, it is $\O(\qdorder \, \vP(\nprocs))$.
 At the projection stage, the coefficients of the current PC expansion for power are calculated by one multiplication of the output of the power model, \ie, an $\nprocs \times \qdorder$ matrix, with the projection matrix; so, this operations is $\O(\nprocs \, \qdorder \, \pcterms)$, which is the same as the complexity of the evaluation stage.
 The time complexity of one time step is then
 \[
-  \O(\nprocs^2 \, \pcterms + \nprocs \, \qdorder \, \pcterms + \qdorder \, \oPower{\nprocs}).
+  \O(\nprocs^2 \, \pcterms + \nprocs \, \qdorder \, \pcterms + \qdorder \, \vP(\nprocs)).
 \]
 The first term can be dropped as $\nprocs$ is typically much smaller than $\qdorder$.
 Taking into consideration all the time steps, we have
 \[
-  \O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \oPower{\nprocs}).
+  \O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \vP(\nprocs)).
 \]
 The expression can be detailed even further by expanding $\pcterms$ and $\qdorder$.
 For total-order polynomial spaces, the exact formula for $\pcterms$ is given in Eq.~5.
@@ -72,10 +73,11 @@ In contrast, for full-tensor-product grids, this dependency is exponential.
 \end{authors}
 
 \begin{reviewer}
+\clabel{4}{1b}
 The authors also should compare the estimated stochastic power profiles provided by the proposed framework with those obtained by the MC simulations.
 \end{reviewer}
 \begin{authors}
-Let us first note that the following discussion is partially included in our answer to the third comment of Reviewer 2.
+Let us first note that the following discussion is partially included in our answer to \cref{2}{3}.
 
 Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming at the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
 In other words, our main focus was always on temperature.
@@ -87,15 +89,16 @@ Hence, the assessment of temperature allows us to implicitly draw reasonable con
 
 \begin{actions}
   \action{The absence of comparisons for power has been motivated in Sec.~VII.}
-  \action{The power/temperature relation with respect to accuracy has been given in Sec.~VII.}
+  \action{The power/temperature relation with respect to accuracy has been discussed in Sec.~VII.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
-2).In section VI.D, the authors mentioned that ``these points along with the corresponding weights are generally precomputed and tabulated;\ldots''. Could the authors clearly explain it?
+\clabel{4}{2}
+In section VI.D, the authors mentioned that ``these points along with the corresponding weights are generally precomputed and tabulated;\ldots''. Could the authors clearly explain it?
 \end{reviewer}
 \begin{authors}
-The answer to the first comment partially covers the answer to this one.
+The answer to \cref{4}{1a} partially covers the answer to this one.
 
 A multidimensional quadrature rule, based on a particular construction mechanism such as the Smolyak algorithm, is characterized by its family, accuracy level, and dimensionality.\footnote{All these parameters are dictated by the intended PC expansion.}
 There is no dependency on anything else.
@@ -111,7 +114,8 @@ In our work, we rely on the library by J. Burkardt from Florida State University
 \end{authors}
 
 \begin{reviewer}
-3).Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
+\clabel{4}{3}
+Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
 \end{reviewer}
 \begin{authors}
 Let us explain the motivation behind the assessment strategy utilized in Sec.~VII-B for the evaluation of the computational speed of the proposed framework.
@@ -146,7 +150,7 @@ For example, it can be seen in Tab.~VI that already for a quad-core platform and
 Even if the MC-based approach converged with, say, $\nsamples = 10^3$, the execution time would still be considerably large.
 Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework, which is Strategy~A.
 
-The reviewer might also read our response to the eighth comment of Reviewer 5, in which the choice of $\nsamples = 10^4$ is discussed in more detail.
+The reviewer might also read our response to \cref{5}{8}, in which the choice of $\nsamples = 10^4$ is discussed in more detail.
 
 \begin{actions}
   \action{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}
@@ -154,7 +158,8 @@ The reviewer might also read our response to the eighth comment of Reviewer 5, i
 \end{authors}
 
 \begin{reviewer}
-4).According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations.
+\clabel{4}{4a}
+According to Tables III and IV, a few of results show that e\_f might increase as n\_po increases compared with 10\^{}5 samples of MC simulations.
 \end{reviewer}
 \begin{authors}
 Thank you for your careful observations; let us give our explanation for them.
@@ -173,6 +178,7 @@ Nevertheless, in our opinion, the tables do their main job well: they capture th
 \end{authors}
 
 \begin{reviewer}
+\clabel{4}{4b}
 Table V shows that as \textbackslash{}eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
 \end{reviewer}
 \begin{authors}
@@ -190,7 +196,8 @@ As a result, the processing elements are closer to each other in the second floo
 \end{authors}
 
 \begin{reviewer}
-5).Why the reported error of 5.71\% for variance is likely to be overestimated? Even though the MC simulation with 10\^{}5 is not reliable (good enough), it does not mean that the report error of the developed framework is overestimated.
+\clabel{4}{5}
+Why the reported error of 5.71\% for variance is likely to be overestimated? Even though the MC simulation with 10\^{}5 is not reliable (good enough), it does not mean that the report error of the developed framework is overestimated.
 \end{reviewer}
 \begin{authors}
 The reviewer is right that there is no direct implication here, and we tried to emphasize a degree of our uncertainty using the word \emph{likely}.
@@ -208,7 +215,8 @@ We agree that the sentence can indeed be confusing.
 \end{authors}
 
 \begin{reviewer}
-6).Could the authors explain how to decide the mapping matrix \textbackslash{}tilde\{B\} and why in Appendix A?
+\clabel{4}{6}
+Could the authors explain how to decide the mapping matrix \textbackslash{}tilde\{B\} and why in Appendix A?
 \end{reviewer}
 \begin{authors}
 Let us first recall that $\mM$ is an $\nnodes \times \nprocs$ matrix.
@@ -243,7 +251,8 @@ Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to th
 \end{authors}
 
 \begin{reviewer}
-7).The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used.
+\clabel{4}{7a}
+The authors tried to use  ``(...)'' to help the readers to understand the work. However, it is getting kind of annoying if too many of them are used.
 \end{reviewer}
 \begin{authors}
 We apologize for this inconvenience.
@@ -256,6 +265,7 @@ In the revised version of the manuscript, some of the explanations have been ref
 \end{authors}
 
 \begin{reviewer}
+\clabel{4}{7b}
 A typo: ``A description of the latter can also found in the supplementary materials, App. B'' (lines 26\~{}28, page 5).
 \end{reviewer}
 \begin{authors}

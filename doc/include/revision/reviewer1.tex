@@ -8,7 +8,8 @@ Thank you for the kind words.
 \begin{reviewer}
 This is an interesting topic, so some of my comments are more like discussions:
 
-1) Power consumption has two components: dynamic power and leakage power. Process variation mainly affects leakage power. I think that’s why the authors focus on the model for statistical leakage power. However, temperature and total power (dynamic and leakage) are highly correlated. Since this paper is focus on modeling transient power-temperature behavior, the accuracy of total power model is important. Dynamic power is related to the run-time operations. In Sec. VII, the dynamic power profiles are obtained by simulations of randomly generated via TGFF, applications defined by DAGs of tasks. Usually the simulation has a size limit, it will be nice to provide some details about how large scale of the chip can be.
+\clabel{1}{1}
+Power consumption has two components: dynamic power and leakage power. Process variation mainly affects leakage power. I think that’s why the authors focus on the model for statistical leakage power. However, temperature and total power (dynamic and leakage) are highly correlated. Since this paper is focus on modeling transient power-temperature behavior, the accuracy of total power model is important. Dynamic power is related to the run-time operations. In Sec. VII, the dynamic power profiles are obtained by simulations of randomly generated via TGFF, applications defined by DAGs of tasks. Usually the simulation has a size limit, it will be nice to provide some details about how large scale of the chip can be.
 \end{reviewer}
 \begin{authors}
 Let us emphasize first that the workload to be analyzed is an input to the proposed framework without any further restrictions: it is arbitrary and can come from an arbitrary source.
@@ -21,16 +22,20 @@ Once this has been decided, the corresponding dynamic power profile is construct
 We agree with the reviewer that, in reality, the size of the problem at hand can be a concern since power profiles, of course, should be properly captured using adequate simulators of the target platform capable of modeling the power dissipation.
 However, to the best of our knowledge, contemporary software packages can handle rather large configurations.
 For example, the following interrelated tools can be utilized for this purpose: SimpleScalar, PTscalar, gem5, McPAT, and Wattch.
+In order to give a better intuition of the scale, let us mention one concrete example.
+The target architecture in [Juan, 2011] is a symmetric CMP with 16 cores, namely, Alpha 21264, running 16 benchmarks from the SPEC CPU2000 suite; the utilized tools are SimpleScalar (performance simulation) and Wattch (power simulation).
+
 Also, it is worth noting that the corresponding simulation is undertaken prior to our analysis and does not affect the scaling of the proposed framework.
 
 \begin{actions}
-  \action{The absence of requirements to input workloads has been noted in Sec.~IV.}
+  \action{Additional clarifications regarding the input workload have been included in Sec.~IV.}
   \action{Practical aspects of input workloads have been outlined in Sec.~VII.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
-2) Question about the thermal model: The authors mentioned the following in Sec. IV-C: ``Given the thermal specification S of the system at hand (see Sec. IV), \ldots'' I’m interested in the modeling of thermal specification as well. But it seems that the authors are referring to the wrong Section (or should provide more details about sub-session?).
+\clabel{1}{2a}
+Question about the thermal model: The authors mentioned the following in Sec. IV-C: ``Given the thermal specification S of the system at hand (see Sec. IV), \ldots'' I’m interested in the modeling of thermal specification as well. But it seems that the authors are referring to the wrong Section (or should provide more details about sub-session?).
 \end{reviewer}
 \begin{authors}
 We use $\system$ as a shortcut to refer to all the information needed for the construction of an equivalent thermal RC circuit of the target electronic system.
@@ -42,16 +47,17 @@ Then $\system$ reflects the configuration of HotSpot, which includes more than 6
 \begin{actions}
   \action{The reference to $\system$ from Sec.~V-C has been made clear.}
   \action{The content of $\system$ has been detailed further, Sec.~IV.}
-  \action{The references [Kreith, 2000] and [HotSpot] have been replaced by [Skadron, 2004], mentioned above, which is more concrete and well suited for the discussions in the paper.}
+  \action{The references [Kreith, 2000] and [HotSpot] have been replaced by [Skadron, 2004], mentioned above, which is more concrete and well suited to the discussions in the paper.}
 \end{actions}
 \end{authors}
 
 \begin{reviewer}
+\clabel{1}{2b}
 In Sec. III, the authors mentioned that this framework works for electronic systems with temperature profiles. Is that chip level? Architecture level? If it’s chip level, the cooling system is not settled yet, so it’s hard to have a final temperature profile;
 \end{reviewer}
 \begin{authors}
 The thermal modeling considered in this paper is at the architecture/system level.
-The cooling system is assumed to be decided in order to construct an adequate thermal RC circuit.
+The cooling system is assumed to be known in order to construct an adequate thermal RC circuit.
 Therefore, the thermal package is included in the thermal model, as mentioned in the second paragraph of Sec.~IV.
 For example, the thermal package in the experimental results consists of three layers: the thermal interface material, heat spreader, and heat sink.
 
@@ -61,6 +67,7 @@ For example, the thermal package in the experimental results consists of three l
 \end{authors}
 
 \begin{reviewer}
+\clabel{1}{2c}
 If it’s architecture level, there might be multiple chips involved with different statistical power behaviors, I’m curious about how the proposed method works in this situation.
 \end{reviewer}
 \begin{authors}
@@ -70,12 +77,12 @@ The first potential concern of the comment is that the electronic system at hand
 The proposed framework does not specify any particular way the processing elements are identified at the system level.
 Therefore, if the user wishes to analyze a compound system, each subsystem can be treated as one processing element, for example.
 If a finer granularity is needed, however, each subsystem can be represented by several processing elements.
-Our approach can also be applied to each subsystem individually if it suffices the purpose of the analysis.
+Our approach can also be applied to each subsystem individually if this is appropriate for the purpose of the analysis.
 
 The second potential concern of the comment is that multiple fabricated chips, instantiating the same system, can have different statistical behaviors.
 The source of uncertainty considered in this work is process variation.
 At the design stage, the process parameters of a yet-to-be-fabricated chip are random variables.
-Once the chip has been fabricated, these parameters take particular values and remain fixed thereafter, \ie, the process parameters of this particular chip become pure deterministic.
+Once the chip has been fabricated, these parameters take particular values and remain fixed thereafter, \ie, the process parameters of this particular chip become purely deterministic.
 Thus, a fabricated chip alone does not exhibit any statistical behavior; the behavior is deterministic.
 However, since this behavior is unknown at the design stage, the power/temperature profiles are stochastic for the designer, and our framework provides the tools to characterizes all possible outcomes of these uncertain profiles.
 
@@ -85,14 +92,15 @@ However, since this behavior is unknown at the design stage, the power/temperatu
 \end{authors}
 
 \begin{reviewer}
-3) On Fig 1, it will be nice to use different line shapes as well. When the paper is printed black/white, it’s hard to tell the color difference.
+\clabel{1}{3}
+On Fig 1, it will be nice to use different line shapes as well. When the paper is printed black/white, it’s hard to tell the color difference.
 \end{reviewer}
 \begin{authors}
 Thank you for drawing our attention.
 We should have done it right from the very beginning.
 
 \begin{actions}
-  \action{Fig.~1 have been adapted for printing in grayscale.}
+  \action{Fig.~1 has been adapted for printing in grayscale.}
   \action{The same issue has been addressed with respect to Fig.~3, Fig.~4, Fig.~5, and Fig.~6.}
 \end{actions}
 \end{authors}
