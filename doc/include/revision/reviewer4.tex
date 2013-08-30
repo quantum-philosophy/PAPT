@@ -14,9 +14,9 @@ A few of comments and suggestions are listed as follows.
 The analysis of the time complexity of the framework is available.
 It was not included in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
 A clear explanation requires an in-depth discussion on the algorithmic structure of the proposed framework since the particularities of our implementation are important for the performance of the proposed approach.
-In particular, a thorough attention is needed to the parts of the algorithm that stay unchanged when the input changes.
-These parts can and should be precomputed and stored such that their future use implies no additional computational costs (this is partially related to the second comment of this reviewer regarding Sec.~VI-D).
-Taking the received feedback into account, we have reconsidered our decision and have included in the manuscript a concise version of the analysis of the time complexity, given in what follows.
+In particular, a thorough analysis is needed to the parts of the algorithm that stay unchanged when the input changes.
+These parts can and should be precomputed and stored so that their future use implies no additional computational costs (this is partially related to the second comment of this reviewer regarding Sec.~VI-D).
+Taking the received feedback into account, we have reconsidered our decision and have included in the revised manuscript a concise version of the analysis of the time complexity, given as follows.
 
 All the statements below regarding certain aspects of PC expansions should be understood in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
@@ -78,7 +78,7 @@ The authors also should compare the estimated stochastic power profiles provided
 Let us first note that the following discussion is partially included in our answer to the third comment of Reviewer 2.
 
 Despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming at the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
-In other words, our main focus was always on temperature, and power is a byproduct on the way to temperature, if you will.
+In other words, our main focus was always on temperature.
 Therefore, and also considering space limitations, the experimental results are primarily dedicated to temperature analysis, which makes the main contribution of our research.
 
 Furthermore, power is an intermediate step towards temperature and, thus, resides closer to the sources of uncertainty in the chain of various transformations.
@@ -176,7 +176,7 @@ Nevertheless, in our opinion, the tables do their main job well: they capture th
 Table V shows that as \textbackslash{}eta=1, n\_v at n\_p=16 is larger than that at n\_p=32. Could the authors explain or discuss them?
 \end{reviewer}
 \begin{authors}
-This decrease also drew our attention, and we thoroughly investigated this issue before submitting the manuscript.
+This issue also drew our attention, and we thoroughly investigated it before submitting the manuscript.
 The number of independent random variables $\nvars$ is a result of the model order reduction procedure described in App.~B.
 One component that influences this procedure is the placement of the processing elements on the die.
 As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements, which are placed inside square dies, and the length-scale parameters of the correlation kernels are half the size (width or height) of the die.
@@ -247,7 +247,7 @@ Namely, if $\v{Q}' \in \real^\nnodes$ is a temperature vector with respect to th
 \end{reviewer}
 \begin{authors}
 We apologize for this inconvenience.
-We were trying to do our best to make the paper transparent to as broad an audience as possible.
+We were trying our best to make the paper transparent to as broad an audience as possible.
 In the revised version of the manuscript, some of the explanations have been reformulated in order to avoid the use of parentheses.
 
 \begin{actions}

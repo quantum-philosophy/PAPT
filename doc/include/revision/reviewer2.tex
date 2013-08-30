@@ -38,11 +38,12 @@ But without large size of examples, the scaling up numbers in the tables in this
 We would like to clarify that the power/temperature modeling in the paper is at the system level, not at the circuit level.
 Please consider our answer to the second comment of Reviewer 1.
 
-As described in Sec.~VI-B, the leakage model used in the illustrative example is based on SPICE simulations of a reference electrical circuit.
+Regarding the thermal modeling, we exemplify our framework using the block model of HotSpot v5.02 with a one-to-one mapping between the processing elements and thermal nodes as mentioned in Sec.~V-C.
+In this case, the considered setups with 2--32 processing elements translate into 20--140 thermal nodes.\footnote{The exact relation is $\nnodes = 4 \, \nprocs + 12$ given in Sec. VI-C.}
+Therefore, the performed calculations are doable for MATLAB.
+
+Also, it is worth noting that, even though we work at the system level, in order to construct the leakage model, we utilize SPICE simulations of a reference electrical circuit, as we write in Sec.~VI-B.
 The circuit that we use is a series of CMOS invertors, kindly provided to us by the people acknowledged at the end of the main part of the manuscript.
-Regarding the thermal modeling, we exemplify our framework using the block model of HotSpot v5.02 with a one-to-one mapping between the processing elements and thermal nodes (mentioned in Sec.~V-C).
-In this case, the considered setups with 2--32 processing elements translate into 20--140 thermal nodes (the relation is $\nnodes = 4 \, \nprocs + 12$ given in Sec. VI-C).
-Therefore, the performed calculations are doable for MATLAB running on a personal laptop.
 
 \begin{actions}
   \action{The system-level scope of the paper has been emphasized in Sec.~IV, which also addressed the second comment of Reviewer 1.}
@@ -68,9 +69,9 @@ Finally, the leakage modeling, which is based on the data from SPICE simulations
 Let us turn now to the absence of a comparison with probabilistic solutions to power.
 As mentioned in Sec.~II, [Bhardwaj, 2006] and [Ghanta, 2006] perform power analysis without taking into account the important interdependence between leakage and temperature.
 Thus, a direct comparison with the power part of our stochastic power-temperature analysis cannot be drawn.
-In addition, despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming to the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
-Our main focus was always on temperature, and power is a side effect, although essential, on the way to temperature.
-Therefore, the experimental results are primarily dedicated to temperature, which makes the main contribution of our research.
+In addition, despite the fact that the proposed framework covers both power and temperature, we initiated this work aiming at the quantification of temperature, not power \perse\ as it had already been addressed by other researchers.
+In other words, our main focus was always on temperature.
+Therefore, and also considering space limitations, the experimental results are primarily dedicated to temperature analysis, which makes the main contribution of our research.
 
 We would like to comment also on potential comparisons with temperature-targeted techniques.
 The most relevant works, from our perspective, and their limitations are discussed in Sec.~II.

@@ -20,10 +20,7 @@ Once this has been decided, the corresponding dynamic power profile is construct
 
 We agree with the reviewer that, in reality, the size of the problem at hand can be a concern since power profiles, of course, should be properly captured using adequate simulators of the target platform capable of modeling the power dissipation.
 However, to the best of our knowledge, contemporary software packages can handle rather large configurations.
-For example, the following interrelated tools are very frequently utilized for this purpose: SimpleScalar, PTscalar, gem5, McPAT, and Wattch.
-In order to give a better intuition of the scale, let us mention one concrete example.
-The target architecture in [Juan, 2011] is a symmetric CMP with 16 cores, namely, Alpha 21264, running 16 benchmarks from the SPEC CPU2000 suite; the utilized tools are SimpleScalar (performance simulation) and Wattch (power simulation).
-
+For example, the following interrelated tools can be utilized for this purpose: SimpleScalar, PTscalar, gem5, McPAT, and Wattch.
 Also, it is worth noting that the corresponding simulation is undertaken prior to our analysis and does not affect the scaling of the proposed framework.
 
 \begin{actions}
@@ -54,7 +51,7 @@ In Sec. III, the authors mentioned that this framework works for electronic syst
 \end{reviewer}
 \begin{authors}
 The thermal modeling considered in this paper is at the architecture/system level.
-The cooling system is assumed to be settled in order to construct an adequate thermal RC circuit.
+The cooling system is assumed to be decided in order to construct an adequate thermal RC circuit.
 Therefore, the thermal package is included in the thermal model, as mentioned in the second paragraph of Sec.~IV.
 For example, the thermal package in the experimental results consists of three layers: the thermal interface material, heat spreader, and heat sink.
 
@@ -67,15 +64,23 @@ For example, the thermal package in the experimental results consists of three l
 If it’s architecture level, there might be multiple chips involved with different statistical power behaviors, I’m curious about how the proposed method works in this situation.
 \end{reviewer}
 \begin{authors}
-Let us clarify this concern.
+Let us discuss the comment from two perspectives.
+
+The first potential concern of the comment is that the electronic system at hand can be composed of a number of subsystems with different statistical behaviors.
+The proposed framework does not specify any particular way the processing elements are identified at the system level.
+Therefore, if the user wishes to analyze a compound system, each subsystem can be treated as one processing element, for example.
+If a finer granularity is needed, however, each subsystem can be represented by several processing elements.
+Our approach can also be applied to each subsystem individually if it suffices the purpose of the analysis.
+
+The second potential concern of the comment is that multiple fabricated chips, instantiating the same system, can have different statistical behaviors.
 The source of uncertainty considered in this work is process variation.
 At the design stage, the process parameters of a yet-to-be-fabricated chip are random variables.
 Once the chip has been fabricated, these parameters take particular values and remain fixed thereafter, \ie, the process parameters of this particular chip become pure deterministic.
-Thus, a \emph{fabricated} chip alone does not exhibit any statistical behavior; the behavior is deterministic.
+Thus, a fabricated chip alone does not exhibit any statistical behavior; the behavior is deterministic.
 However, since this behavior is unknown at the design stage, the power/temperature profiles are stochastic for the designer, and our framework provides the tools to characterizes all possible outcomes of these uncertain profiles.
 
 \begin{actions}
-  \action{The above discussion has been included in Sec.~IV.}
+  \action{The description of the considered electronic system has been improved in Sec.~IV.}
 \end{actions}
 \end{authors}
 

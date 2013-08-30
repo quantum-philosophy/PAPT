@@ -25,7 +25,7 @@ More specifically, [Juan, 2012] considers only static steady-state temperature a
 [Juan, 2011] relies on the static steady-state assumption as well and, moreover, addresses only the maximal temperature.
 The rest of the prior works, namely, [Vrudhula, 2006] (a new reference), [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008] (a new reference), [Shen, 2009], and [Chandra, 2010], are concerned with power analysis only.
 Since there is no straightforward relation between power and temperature, the conclusions drawn with respect to power are not directly applicable to temperature.
-Hence, the techniques solely focused on power analysis are of little help for the designer who is interested in temperature, which shall also discuss later on.
+Hence, the techniques solely focused on power analysis are of little help for the designer who is interested in temperature.
 
 The proposed framework has the following features:
 \begin{itemize}
@@ -54,7 +54,7 @@ In addition, the illustrative example given in the manuscript has the following 
   We combine the Ornstein-Uhlenbeck kernel, which is omnipresent in the literature, with the squared-exponential kernel, which has not received much attention.
 
   \item[8.] The Nataf transformation is demonstrated.
-  This transformation has not received much attention in our research area.
+  This transformation is not known sufficiently well in our research area.
   The paper brings attention to this powerful technique.
 \end{itemize}
 
@@ -106,7 +106,7 @@ The reason for this is the use of so-called intrusive Galerkin projections for t
 This means that the user of [Vrudhula, 2006] and [Ghanta, 2006] has to adapt their solutions to every problem individually.
 In contrast, as mentioned in Sec.~III and further elaborated on in Sec.~V-B, our approach keeps the uncertain parameters inside a ``black box,'' which can be replaced with another box at no effort.
 This type of projections is called non-intrusive [Eldred, 2008].
-The user of our technique, of course, should provide such a box; however, he/she has much more freedom to do so.
+The user of our technique, of course, should provide such a box; however, one has much more freedom to do so.
 
 In particular, \feature{2} implies the user does not have to come up with artificial expressions describing the joint effects of the uncertain parameters and to perform curve fitting procedures to the data from SPICE simulations (see, \eg, [Bhardwaj, 2008]) in order to determine the coefficients of these expressions.
 From our experience, it is rather difficult to construct a good fit for the purpose of stochastic analysis since stochastic analysis tries to explore as large a portion of the probability space as possible, and, thus, this fit should capture very well broad ranges of the parameters.
@@ -143,13 +143,11 @@ Taking into consideration the argumentation given above, we conclude that our re
 [Comment 3] Second is the motivation for the statistical thermal analysis problem. Many existing works mainly focus on the power or power grids as we can determine the chip yields once the powers or timing (due to power grids) distributions are known. If we limit the power to the given ranges, the temperature variations will be limited to a safe ranges. As a result, verify the temperature variations seems less important than verifying the power variations. Also for multi-core and many-core architectures, the temperatures are highly loads dependent and the variations due to process variations maybe still secondary effects for a chip designers. Temperature is also environment and boundary conditions (fan speeds, liquid speed) dependent
 \end{reviewer}
 \begin{authors}
-Let us explain our motivation in more detail.
-
 First, we believe that power analysis and temperature analysis are inseparable.
-The reason is the ever so important interdependence between temperature and leakage: high temperatures skyrocket the leakage power, and the leakage power strikes back by cranking up the dissipation of heat.
+The reason is the ever so important interdependence between temperature and leakage: high temperatures lead to the increase of the leakage power, and the leakage power strikes back by cranking up the dissipation of heat.
 Process variation, which has been rapidly increasing over the last decade due to technology scaling, magnifies the aforementioned concern even further.
 Therefore, stochastic power analysis has to be accompanied by stochastic temperature analysis.
-The proposed framework is self-contained from this perspective, which differentiates us from the prior works as discussed in our previous answer.
+The proposed framework is self-contained from this perspective, which differentiates us from the prior works as discussed in our previous answers.
 
 Second, the immediate cause of various reliability issues (\eg, time-dependent dielectric breakdown, electro-migration, and thermal-cycling fatigue) is temperature, not power \perse.
 Moreover, for certain failure mechanisms, the failure rate has an exponential dependency on the operating temperature [Juan, 2012].
@@ -158,7 +156,7 @@ In this regard, we would like to respond with the words of Reviewer 3.
 Such strategies ``[\ldots] can end up putting up a big enough guard band to design the system considering severe conditions.
 Thus, they end up being quite conservative and over-designing their system.''
 In other words, the more we know about the quantities we care about and the more immediate/direct this knowledge is, the more efficient and effective control we have over those important quantities.
-Therefore, if we are to repress temperature, it is wiser to study this very temperature instead of power.
+Therefore, if we are interested in temperature, it is wiser to study this very temperature instead of power.
 In addition, since power does not translate to temperature in a straightforward manner, the well-established reliability models based on temperature will be excluded from the arsenal of the designer when only stochastic power analysis is at the designer's disposal.
 This implies, for example, that various temperature-dependent design-space-exploration procedures will not be possible to undertake.
 
@@ -184,11 +182,28 @@ We would like to note first that the proposed framework does not pose any constr
 The reviewer is absolutely right that different correlation patterns make the model order reduction procedure work differently.
 As a result, two sets of initial uncertain parameters $\vU'(\o)$ and $\vU''(\o)$ of the same cardinality but with different correlation structures can end up in two sets of independent random variables $\vZ'(\o)$ and $\vZ''(\o)$ whose cardinalities arbitrary differ from each other.
 Therefore, it is difficult to make a connection between the dimensionality of $\vU(\o)$ with the dimensionality of $\vZ(\o)$.
-At the same time, the applicability of our approach, which is the main concern of the comment, is essentially dictated by the dimensionality of $\vZ(\o)$.
+At the same time, the applicability of our approach, which is the main concern of the comment, is essentially dictated by the dimensionality of $\vZ(\o)$, $\nvars$.
 Therefore, $\vZ(\o)$ is a better indicator of this applicability than $\vU(\o)$, and the latter can be even misleading.
+In order to illustrate this concern, we would like to include here the following two paragraphs taken from our response to the seventh comment of Reviewer 3.
 
-At this point, we kindly ask the reviewer to consider our response to the seventh comment of Reviewer 3 wherein we discuss the above issue in more detail and give an illustrative example.
-In particular, we justify there the fact that the results in Tab.~V, which include the dimensionality of $\vZ(\o)$, address well the aforementioned applicability concern.
+Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
+Then, the first question to ask is whether $L$ and $W$ are independent.
+Assume first they are.
+The second question to ask is whether $W$ has local variations.
+If it does not, $\nvars$ will be increased by one, relative to the case wherein only $L$ is considered.
+If it does, the third question to ask is: What is the correlation patter inherent to $W$?
+For instance, if the patter is the same as for $L$, $\nvars$ will be doubled in the end.
+In general, the answer depends on how strong/weak the assumed spatial correlations of $W$ are.
+Coming back to the very first question we asked, suppose $L$ and $W$ are now correlated.
+In this case, the follow-up questions are the same as before; however, $\nvars$ will generally be smaller than in the first scenario due to additional possibilities for model order reduction.
+As we can see, it is not straightforward to relate $\vU(\o)$ with the dimensionality $\nvars$ of $\vZ(\o)$ and, thus, with the complexity of the further analysis.
+
+To summarize, we believe that the foremost quantity to pay attention to is $\nvars$.
+The column of Tab.~V titled ``$\nvars$'' serves this exact purpose: it demonstrates how the computational speed of the proposed framework scales with respect to the number of independent parameters.
+The fact that there is another variable in Tab.~V, namely, the number of processing elements, $\nprocs$, does not affect the corresponding conclusions since, as mentioned above, the complexity is dictated by the stochastic dimensionality of the problem.
+Regarding accuracy, we observed that fourth-order PC expansions (used to obtain the results in Tab.~V) were sufficiently accurate for the purpose of temperature analysis considered in this paper.
+Note also that this order is higher than the one used for power in the PC-related literature discussed in Sec.~II: typically, it is the second order (see, \eg, [Bhardwaj, 2008] and [Shen, 2009]).
+Therefore, following a similar reasoning as in the previous paragraph, the information provided by Tab.~V allows the reader to draw conclusions about the performance of the proposed framework when additional parameters are considered.
 
 Let us continue our discussion here and emphasize that the effect of correlation patterns is indeed important; we are in a perfect alignment with the reviewer in this regard.
 For this particular reason, the experimental results are given for various values of the $\eta$ parameter, which controls these patterns and, thus, illustrates their influence.
@@ -225,7 +240,7 @@ Despite the fact that we do not use the word \emph{arbitrary}, the theory of PC 
 
 Consider a stochastic system.
 The output of the system is a stochastic process.
-By the Cameron-Martin theorem established in 1947, the space of square-integrable (finite variance) stochastic processes is a separable Hilbert space wherein the countable orthonormal basis is formed by the Hermite polynomials.
+By the Cameron-Martin theorem established in the 1940s, the space of square-integrable (finite variance) stochastic processes is a separable Hilbert space wherein the countable orthonormal basis is formed by the Hermite polynomials.
 Therefore, an arbitrary square-integrable stochastic process admits an expansion, convergent in the mean-square sense, with respect to the basis.
 In 2002, this result was generalized to the hypergeometric orthogonal polynomials from the Askey scheme in ``The Wiener-Askey Polynomial Chaos for Stochastic Differential Equations'' by D. Xiu \etal
 
@@ -245,7 +260,7 @@ We agree with the reviewer in the sense that the \emph{optimal} polynomial basis
 Nevertheless, PC expansions are still legitimate and converge in the mean-square sense.
 
 Let us now explain why we prefer to use the word \emph{diverse} instead of \emph{arbitrary}.
-Such ambitious statements as ``applicable to arbitrary distributions'' nearly always have some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
+Such ambitious statements as ``applicable to arbitrary distributions'' almost always have some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
 For PC expansions, it is the finite-variance assumption mentioned above and in Sec.~V-B of the manuscript.
 However, most physical processes have finite variance; see the above paper by D. Xiu \etal{}
 If the reviewer refers to this assumption, we apologize for our misunderstanding and remind that \emph{arbitrary} is not present in the manuscript.
@@ -260,12 +275,12 @@ If the reviewer refers to this assumption, we apologize for our misunderstanding
 [Comment 6] The paper did not address one important problems in thermal analysis: how the leakage and temperature interplay and its impacts on the statistical thermal analysis?
 \end{reviewer}
 \begin{authors}
-The stochastic power-temperature analysis presented in the paper does take into consideration the interdependence between leakage and temperature.
-The general dependency of power on temperature can be seen in Eq.~(1) and is emphasized at the end of Sec.~V-D3.
+As mentioned in our previous answers, the stochastic power-temperature analysis presented in the paper does take into consideration the interdependence between leakage and temperature.
+The general dependency of power on temperature can be seen in Eq.~(1) and is noted at the end of Sec.~V-D3.
 The leakage-temperature interdependence is mentioned at the end of Sec.~V-B and in Sec.~VI-B.
 Therefore, all the experimental results explore this important aspect.
 
-It has been fixed in the revised version of the manuscript.
+In the revised manuscript, we have drawn more attention to this interdependency.
 
 \begin{actions}
   \action{The importance of the leakage-temperature interdependence has been mentioned in Sec.~I.}
@@ -281,7 +296,7 @@ It has been fixed in the revised version of the manuscript.
 We agree with the reviewer.
 Such a table has been introduced on page 2.
 In order to make room for the table, we remove Tab.~1---it was illustrating the correspondence between probability distributions and polynomial bases---since this information can be easily found in the cited literature.
-Also, due to the same shortage of space, we had to constrain the list of notations and, thus, cherry-picked only the most relevant notations from our perspective.
+Also, due to the shortage of space, we had to constrain the list of notations and, thus, cherry-picked only the most relevant notations from our perspective.
 
 \begin{actions}
   \action{A table with the main notations has been introduced on page 2.}
@@ -295,22 +310,22 @@ In the experimental section:
 \noindent[Comment 8] The number of MC samples (10\^{}4) seems too big. For many practical problems, MC method with a few hundreds or thousands of samples will be good enough to get a good distributions.
 \end{reviewer}
 \begin{authors}
-The choice of $\nsamples = 10^4$ for the comparison of the computational speed has three major aspects.
+The choice of $\nsamples = 10^4$ for the comparison of the computational speed in Sec.~VII-B is based on three major aspects.
 
 The first aspect is the experience from other studies.
 For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Shen, 2009] models the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
-Thus, we conclude that $\nsamples = 10^4$ is not an excess in our research area.
+Thus, we conclude that $\nsamples = 10^4$ is not an excess in this research area.
 One should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
 For this reason, the number of MC samples can also increase to retain the same accuracy.
 
 The second aspect is the theoretical results given in [I. D\'{i}az-Emparanza, 2002].
 For example (taken from an earlier publication of I. D\'{i}az-Emparanza), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
-This result, of course, is very general and applicable in any context.
+This result, of course, is very general and applicable in many contexts.
 However, it tells us that the chosen value for $\nsamples$ makes sense.
 
 The third aspect, which is the most important one, is our own experience and observations from the tables thoroughly discussed in Sec.~VII-A.
-Moreover, as we write in the paper, we do believe that $\nsamples = 10^4$ is a lower bound.
-However, we tried to avoid any bias towards the proposed technique, which could happen if we raised $\nsamples$ to $10^5$.
+Moreover, as we write in the paper, we believe that $\nsamples = 10^4$ is a lower bound.
+At the same time, we tried to avoid any bias towards the proposed technique, which could happen if we raised $\nsamples$ to $10^5$.
 
 Let us also note the following.
 All the prior studies listed in Sec.~II that perform comparisons with MC simulations in terms of accuracy and/or speed, namely, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2008], [Shen, 2009], [Chandra, 2010], [Juan, 2011], and [Juan, 2012], postulate their choices regarding the number of MC samples.\footnote{One prior work, namely, [Bhardwaj, 2006], is not listed here as there is no comparison with MC sampling in that work.}
@@ -344,16 +359,16 @@ Let us also note that MC sampling was not the direction we wanted to put our eff
 \end{reviewer}
 \begin{authors}
 Thank you for the excellent observation.
-Let us explain how this speed has been achieved.
+Let us explain how this speedup has been achieved.
 
 First of all, recall that we utilize quadrature-based non-intrusive projections for the calculation of the coefficients of PC expansions.
 The reviewer is right that, if we were to construct such non-intrusive PC expansions in the traditional way, as it is usually presented in the corresponding literature (see, \eg, [Eldred, 2008]), the proposed framework could not be faster that one MC simulation.
 To be precise, the speedup would be exactly the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ utilized for non-intrusive projections inside our approach; we would not need to perform any actual time measurements.
 
 To elaborate, the beauty of non-intrusive projections is in the fact that well-established deterministic codes require no modifications in order to be analyzed from the stochastic perspective when the input to these codes becomes stochastic.
-Therefore, when one has a deterministic solver for some problem and wishes to quantify this problem under a stochastic input, he/she takes this solver \emph{as is} and plugs it in into an appropriate uncertainty quantification framework, which calls this code a number of times with different (deterministic, fixed) inputs according to a certain strategy.
+Therefore, when one has a deterministic solver for some problem and wishes to quantify this problem under a stochastic input, one takes this solver \emph{as is} and plugs it into an appropriate uncertainty quantification framework, which calls this code a number of times with different (deterministic, fixed) inputs according to a certain strategy.
 In our case, this strategy is the chosen quadrature rule.
-Therefore, as many nodes are in the rule, that many times the solver will be called.
+Therefore, as many nodes are in the rule, as many times the solver will be called.
 Consequently, if we followed the procedure described above, our approach would be racing with the MC-based approach only in terms of the number of calls to a numerical solver of the system of differential equations given in Eq.~(2) (in its deterministic form, \ie, when $\o$ or, equivalently, $\vU(\o)$ is fixed).
 
 However, our solution diverges from the traditional construction of non-intrusive PC expansions.
@@ -361,12 +376,13 @@ We go inside the solver and perform PC expansions in a step-wise manner followin
 The advantages of such an approach are summarized in the last two paragraphs of Sec.~VI-D (the very last one has been added in the revised version of the manuscript).
 As described in Sec.~VI-C and App.~A, the derivation of this organic part of out framework is done under the assumption that the granularity of power/temperature profiles is sufficiently small such that the power consumption stays approximately constant within one time interval.
 
-On the other hand, the MC-based approach is a brute force.
-The accuracy of this approach is not compromised by any additional assumptions: there is no model order reduction inside and the thermal system is solved directly using traditional numerical techniques; in our case, it is Runge-Kutta formulae, as described at the beginning of Sec.~VII.
+On the other hand, the MC-based approach is a brute-force technique.
+The accuracy of this approach is not compromised by any additional assumptions: there is no model order reduction inside and the thermal system is solved directly using traditional numerical techniques.
+In our case, it is Runge-Kutta formulae, as described at the beginning of Sec.~VII.
 
 Consequently, the reported speedups of the proposed framework are due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
 
-For a better intuition of the computational speed of the proposed framework, we kindly ask the reviewer to consider our answer to the first comment of Reviewer 4 wherein an analysis of the time complexity is given.
+For a better intuition of the computational speed of the proposed framework, we kindly refer the reviewer to our answer to the first comment of Reviewer 4 wherein an analysis of the time complexity is given.
 
 \begin{actions}
   \action{The two contributors to the speedup of the proposed framework have been highlighted in Sec.~VII-B.}
