@@ -61,7 +61,7 @@ S. Bhardwaj et.al. ``A Unified approach for Full chip statistical timing and lea
 Thank you for the reference; it has been reviewed and included in the revised manuscript.
 
 The reviewer is right that, if we were to focus solely on the variability of the effective channel length, it would be worth considering some ad hoc solutions, like the exponentiation of PC expansions.
-However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter or every combination of parameters, which is relevant to his/her problem, individually.
+However, in this case, the user of the proposed framework would need to find such an ad hoc solution, \ie, to adapt the framework, for every parameter/combination of parameters, relevant to the user's problem, individually.
 It can also be seen right in [Bhardwaj, 2008], mentioned by the reviewer, that even the effective channel length does not naturally fit into the exponential model.
 The reason is that, according to the BSIM4 model, the inverse of the effective channel length appears in front of the exponent in the expression for the subthreshold leakage current.
 To tackle the difficulty, [Bhardwaj, 2008] pulls this ``inconvenient'' term inside the exponent using the usual exp/log transformation, as shown in App.~A in that paper.
@@ -120,7 +120,8 @@ With regard to the choice of the unique uncertain parameter for the illustration
 \end{authors}
 
 \begin{reviewer}
-7. For practical purposes, it would be nice to see how the convergence rates and the computational speeds change with additional sources of variations such as the threshold voltage. Some commentary on this will help readers better understand the applicability of this approach.
+\clabel{3}{7}
+For practical purposes, it would be nice to see how the convergence rates and the computational speeds change with additional sources of variations such as the threshold voltage. Some commentary on this will help readers better understand the applicability of this approach.
 \end{reviewer}
 \begin{authors}
 Let us note the following two aspects:
@@ -129,7 +130,7 @@ First, as the reviewer correctly pointed out earlier, the curse of dimensionalit
 Therefore, the applicability of the proposed framework mainly depends on how this curse of dimensionality manifests itself in the problem at hand.
 This manifestation, in its turn, depends primarily on the number $\nvars$ of independent parameters $\vZ(\o)$ left after the preprocessing stage described in Sec.~V-A; this fact is explained in Sec.~V-D4, ``Computational challenges.''
 
-Second, we would like to argue that conclusions about the performance of the proposed framework, which are based on the number/nature of the considered sources of variations $\vU(\o)$, are misleading.
+Second, we would like to argue that conclusions about the performance of the proposed framework which are based on the number/nature of the considered sources of variations $\vU(\o)$ are misleading.
 Suppose, apart from the effective channel length $L$, we take into account one additional parameter denoted by $W$.
 Then, the first question to ask is whether $L$ and $W$ are independent.
 Assume first they are.

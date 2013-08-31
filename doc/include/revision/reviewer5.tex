@@ -264,7 +264,7 @@ We agree with the reviewer in the sense that the \emph{optimal} polynomial basis
 Nevertheless, PC expansions are still legitimate and converge in the mean-square sense.
 
 Let us now explain why we prefer to use the word \emph{diverse} instead of \emph{arbitrary}.
-Such ambitious statements as ``applicable to arbitrary distributions'' almost always have some formal assumptions underneath, which can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
+Such ambitious statements as ``applicable to arbitrary distributions'' almost always have some formal assumptions underneath that can formally invalidate these statements, even though the assumptions fail only for a few pathological cases.
 For PC expansions, it is the finite-variance assumption mentioned above and in Sec.~V-B of the manuscript.
 However, most physical processes have finite variance; see the above paper by D. Xiu \etal{}
 If the reviewer refers to this assumption, we apologize for our misunderstanding and remind that \emph{arbitrary} is not present in the manuscript.
@@ -316,25 +316,25 @@ In the experimental section:
 The number of MC samples (10\^{}4) seems too big. For many practical problems, MC method with a few hundreds or thousands of samples will be good enough to get a good distributions.
 \end{reviewer}
 \begin{authors}
-The choice of $\nsamples = 10^4$ for the comparison of the computational speed in Sec.~VII-B is based on three major aspects.
+The choice of $\nsamples = 10^4$ for the comparison of the computational speed in Sec.~VII-B is based on the three major aspects given below and also in our response to \cref{4}{3}.
 
 The first aspect is the experience from other studies.
-For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Shen, 2009] models the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
-Thus, we conclude that $\nsamples = 10^4$ is not an excess in this research area.
+For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Bhardwaj, 2008] studies the full-chip leakage power and uses $10^4$ samples; [Shen, 2009] is also concerned with the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
+Therefore, we conclude that our $\nsamples = 10^4$ is not an excess in this research area.
 One should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
 For this reason, the number of MC samples can also increase to retain the same accuracy.
 
 The second aspect is the theoretical results given in [I. D\'{i}az-Emparanza, 2002].
-For example (taken from an earlier publication of I. D\'{i}az-Emparanza), in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
+Let us give an example taken from an earlier publication of I. D\'{i}az-Emparanza: in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
 This result, of course, is very general and applicable in many contexts.
 However, it tells us that the chosen value for $\nsamples$ makes sense.
 
 The third aspect, which is the most important one, is our own experience and observations from the tables thoroughly discussed in Sec.~VII-A.
-Moreover, as we write in the paper, we believe that $\nsamples = 10^4$ is a lower bound.
-At the same time, we tried to avoid any bias towards the proposed technique, which could happen if we raised $\nsamples$ to $10^5$.
+Moreover, as we write in the paper, we believe that $\nsamples = 10^4$ is a lower bound, which is also related to \cref{4}{5}.
+At the same time, we tried to avoid any bias towards our technique, which could happen if we raised $\nsamples$ to $10^5$.
+Therefore, even if the choice of $\nsamples = 10^4$ is biased, it is biased in favor of the MC-based technique.
 
-Let us also note the following.
-All the prior studies listed in Sec.~II that perform comparisons with MC simulations in terms of accuracy and/or speed, namely, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2008], [Shen, 2009], [Chandra, 2010], [Juan, 2011], and [Juan, 2012], postulate their choices regarding the number of MC samples.\footnote{One prior work, namely, [Bhardwaj, 2006], is not listed here as there is no comparison with MC sampling in that work.}
+In addition, it is worth emphasize that all the prior studies listed in Sec.~II which perform comparisons with MC simulations in terms of accuracy and/or speed, namely, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2008], [Shen, 2009], [Chandra, 2010], [Juan, 2011], and [Juan, 2012], postulate their choices regarding the number of MC samples.\footnote{One prior work, namely, [Bhardwaj, 2006], is not listed here as there is no comparison with MC sampling in that work.}
 In contrast, we explain our choice and provide evidence to support it.
 
 \begin{actions}

@@ -16,14 +16,14 @@ The analysis of the time complexity of the framework is available.
 It was not included in the manuscript as we tried to avoid those things that could not be explained clearly within the given space limit.
 A clear explanation requires an in-depth discussion on the algorithmic structure of the proposed framework since the particularities of our implementation are important for the performance of the proposed approach.
 In particular, a thorough analysis is needed to the parts of the algorithm that stay unchanged when the input changes.
-These parts can and should be precomputed and stored so that their future use implies no additional computational costs (this is partially related to \cref{4}{2} regarding Sec.~VI-D).
+These parts can and should be precomputed and stored so that their future use implies no additional computational costs; this is partially related to \cref{4}{2} regarding Sec.~VI-D.
 Taking the received feedback into account, we have reconsidered our decision and have included in the revised manuscript a concise version of the analysis of the time complexity, given as follows.
 
 All the statements below regarding certain aspects of PC expansions should be understood in the context of our implementation.
 Recall that $\nprocs$, $\nnodes$, $\nsteps$, $\pcterms$, and $\qdorder$ are the numbers of processing elements, thermal nodes, time steps, polynomial terms, and quadrature points, respectively.
 The construction of PC expansions is based on so-called non-intrusive spectral projections [Eldred, 2008] using quadrature rules.
 The needed quadrature rule is determined solely by the intended PC expansion.
-The structure of the intended PC expansion (\ie, everything except for the coefficients) is determined solely by the desired accuracy, \ie, $\pcorder$, and the parametrization of the problem in terms of independent variables, \ie, $\vZ(\o)$.
+The structure of the intended PC expansion, \ie, everything except for the coefficients, is determined solely by the desired accuracy, \ie, $\pcorder$, and the parametrization of the problem in terms of independent variables, \ie, $\vZ(\o)$.
 Therefore, any two problems that share $\vZ(\o)$ and $\pcorder$ have identical structures of PC expansions and identical quadrature rules.
 To give an extreme example, suppose a dual-core platform has three uncertain parameters $\vU'(\o)$, and a 32-core platform has 33 uncertain parameters $\vU''(\o)$.
 Then, if the model order reduction procedure leaves two beta variables $\vZ(\o)$ in both cases, the two problems are identical from the perspective of, say, the fourth-order PC, regardless of the input dynamic power profile.
@@ -35,16 +35,16 @@ Going deeper in detail, for each problem, we compute and store two matrices.
 The first one is an $\pcterms \times \qdorder$ matrix, referred to as the projection matrix, which is used to compute the coefficient of a PC expansion by one matrix multiplication.
 The second one is an $\pcterms \times \qdorder$ matrix, referred to as the evaluation matrix, which is used to evaluate a PC expansion at the quadrature nodes by one matrix multiplication.
 Having said all above, we can now calculate the time complexity of the PC expansions computed inside the proposed framework.
-As usual, the costs associated with other preliminary computations (the construction of equivalent thermal RC circuits, \etc), which are constant for a particular problem/platform, are not included.
+As usual, the costs associated with other preliminary computations which are constant for a particular problem/platform, \eg, the construction of equivalent thermal RC circuits, are not included.
 
 The iterative procedure in Eq.~7 traverses $\nsteps$ time steps.
 Each step yields an $\nnodes \times \pcterms$ matrix that contains the coefficients of a PC expansion for temperature.
 This matrix is the sum of two matrices corresponding to the two terms in Eq.~7.
 The first matrix is based on the result from the previous iteration and is obtained by one multiplication of an $\nnodes \times \nnodes$ matrix with an $\nnodes \times \pcterms$ matrix.
 The second matrix is computed by one multiplication of an $\nnodes \times \nprocs$ matrix with an $\nprocs \times \pcterms$ matrix, representing the coefficients of the current PC expansion for power.
-So, the complexity of one step up to this point is $\O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$ (in the experimental results, $\nnodes = 4 \times \nprocs + 12$).
+So, the complexity of one step up to this point is $\O(\nprocs^2 \, \pcterms)$ since $\nnodes$ is typically proportional to $\nprocs$; for example, in the experimental results, $\nnodes = 4 \, \nprocs + 12$.
 The calculation of the current PC expansion for power is composed of two stages: evaluation and projection.
-At the first stage, the current (\ie, from the previous step) PC expansion for temperature is evaluated at the quadrature nodes.
+At the first stage, the current PC expansion for temperature, that is, the one from the previous step, is evaluated at the quadrature nodes.
 As mentioned earlier, this operation is one multiplication of an $\nprocs \times \pcterms$ matrix with the evaluation matrix; so, this operation is $\O(\nprocs \, \pcterms \, \qdorder)$.
 Then, the power model is utilized to obtain an $\nprocs \times \qdorder$ matrix of power based on the evaluated temperature, \ie, an $\nprocs \times \qdorder$ matrix, and the assignments of the uncertain parameters with respect to the quadrature nodes, which is another $\nprocs \times \qdorder$ matrix.
 This operation can be better viewed column-wise.
@@ -118,42 +118,42 @@ In our work, we rely on the library by J. Burkardt from Florida State University
 Is it fair to demonstrate the efficiency of the proposed framework by using 10\^{}4 samples of MC simulations? The authors might perform the MC simulations until the result is converged, and use this result as the reference solution. Then, the MC simulation is re-performed until it achieves the same accuracy level (compared with the reference solution) as the developed framework.
 \end{reviewer}
 \begin{authors}
-Let us explain the motivation behind the assessment strategy utilized in Sec.~VII-B for the evaluation of the computational speed of the proposed framework.
+Let us explain the choice of $10^4$ MC samples for the evaluation of the computational speed of the proposed framework given in Sec.~VII-B.
+This choice is based on three major aspects.
 
-To begin with, let us recall that Sec.~VII-A outlines a calibration stage wherein the configuration of the proposed approach, \ie, the order of PC expansions $\pcorder$, and the configuration of MC sampling, \ie, the number of samples $\nsamples$, for the comparison in Sec.~VII-B are determined.
-For the easy of the following discussion, we shall refer to the strategy mentioned by the reviewer as Strategy~A and to ours as Strategy~B.
+The first aspect is the experience from other studies.
+For example, [Ghanta, 2006] analyzes power grids and uses $5 \times 10^3$ samples; [Bhardwaj, 2008] studies the full-chip leakage power and uses $10^4$ samples; [Shen, 2009] is also concerned with the full-chip leakage power and uses $5 \times 10^4$ samples; [Chandra, 2010] performs system-level power analysis and uses $10^4$ samples; and [Cheng, 2011] studies across-wafer variations and uses $10^5$ samples.
+Therefore, we conclude that our $\nsamples = 10^4$ is not an excess in this research area.
+One should also take into consideration the fact that heat transfer is one level above power, and, therefore, the complexity of temperature analysis can reasonably be higher than the one of power analysis.
+For this reason, the number of MC samples can also increase to retain the same accuracy.
 
-We agree with the reviewer that Strategy~A is a possible alternative to Strategy~B, and it could be beneficial in certain contexts.
-However, in our opinion, the two strategies serve different purposes, and none of them is better or worse than the other.
-Strategy~A can assess the computational speed of the proposed framework while forcing the MC-based approach to synchronize with the accuracy of our technique.
-On the other hand, Strategy~B can assess this speed while eliminating the accuracy-induced influence on the speed measurements by keeping $\pcorder$ and $\nsamples$ constant.
-Therefore, the results of Strategy~A display the time needed to attain a certain accuracy level while those of Strategy~B display the time needed to do a certain amount of work.
+The second aspect is the theoretical results given in [I. D\'{i}az-Emparanza, 2002].
+Let us give an example taken from an earlier publication of I. D\'{i}az-Emparanza: in order to approach the 0.05-probability tail of a probability distribution with confidence 99\% and accuracy 0.005, the estimated number of samples is roughly 12550.
+This result, of course, is very general and applicable in many contexts.
+However, it tells us that the chosen value for $\nsamples$ makes sense.
 
-Strategy~B has been chosen for two major reasons:
+The third aspect, which is the most important one, is our own experience and observations from the tables thoroughly discussed in Sec.~VII-A.
+Moreover, as we write in the paper, we believe that $\nsamples = 10^4$ is a lower bound, which is also related to \cref{4}{5}.
+At the same time, we tried to avoid any bias towards our technique, which could happen if we raised $\nsamples$ to $10^5$.
+Therefore, even if the choice of $\nsamples = 10^4$ is biased, it is biased in favor of the MC-based technique.
 
-First, our intention is to evaluate the accuracy and speed characteristics of the proposed framework separately, independently of each other.
-Therefore, Sec.~VII-B is entirely dedicated to speed, and Strategy~B provides the desired separation from accuracy.
+In addition, it is worth emphasize that all the prior studies listed in Sec.~II which perform comparisons with MC simulations in terms of accuracy and/or speed, namely, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2008], [Shen, 2009], [Chandra, 2010], [Juan, 2011], and [Juan, 2012], postulate their choices regarding the number of MC samples.\footnote{One prior work, namely, [Bhardwaj, 2006], is not listed here as there is no comparison with MC sampling in that work.}
+In contrast, we explain our choice and provide evidence to support it.
 
-Second, the goal is to make it easier for the reader to generalize the reported results to other problems with respect to the computational speed.
-The dependency of Strategy~A on accuracy makes this generalization more difficult since one of the two compared objects constantly changes, namely, the MC-based approach due to the changes of $\nsamples$.
-Since the value of $\nsamples$ needed to reach a certain accuracy level is problem specific (which applies to $\pcorder$ as well), this variability of $\nsamples$ adds an extra dimension to the complexity of the speed assessment.
-On the contrary, Strategy~B keeps the configurations of the two techniques fixed and provides a ``pure'' assessment of speed, leading a better insight into the applicability of the proposed framework for other problems.
+We agree with the reviewer that the strategy described in the comment is a possible alternative, and it could be beneficial in certain contexts.
+That strategy can assess the computational speed of the proposed framework while forcing the MC-based approach to synchronize with the accuracy of our technique.
+However, there is one practical aspect that should also be taken into consideration: the high computational demand of MC simulations, which we would like to discuss now.
 
-There is also one practical aspect behind Strategy~B.
 Sec.~VII-B illustrates the proposed framework on relatively large examples.
-More precisely, we assess the speed of our approach using platforms with up to 32 processing elements and power profiles with up to $10^5$ time steps; in addition, all the experiments are repeated three times for different values of the $\eta$ parameter.
-As discussed in Sec.~VII-A, there is evidence that $10^4$ is a lower bound on the number of MC samples.
-Therefore, in general, the MC-based approach is expected to converge with $\nsamples$ larger than $10^4$.
-However, already for $\nsamples = 10^4$, we would not be able to provide the results shown in Tab.~VI if we did not utilize extrapolation.
-As we write in the last but one paragraph of Sec.~VII-B, the execution times corresponding to high values of the number of time moments, $\nsteps$, are based on extrapolation: we measured the time of a few MC samples and then estimated the time needed for $10^4$ MC samples.
-For example, it can be seen in Tab.~VI that already for a quad-core platform and a power profile with $\nsteps = 10^3$, MC sampling takes almost 40 hours, and this figure increases by two orders of magnitude for $\nsteps = 10^5$ (it scales linearly).
-Even if the MC-based approach converged with, say, $\nsamples = 10^3$, the execution time would still be considerably large.
-Therefore, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework, which is Strategy~A.
-
-The reviewer might also read our response to \cref{5}{8}, in which the choice of $\nsamples = 10^4$ is discussed in more detail.
+More precisely, we measure the speed of our approach using platforms with up to $\nprocs = 32$ processing elements and power profiles with up to $\nsteps = 10^5$ time steps; on top of that, all the experiments are repeated three times for different values of the $\eta$ parameter.
+Meanwhile, it can be seen in Tab.~VI that MC sampling with $\nsamples = 10^4$ takes an enormous amount of time: the estimated execution time of the MC-based approach climbs up to around 160 days.
+At this point, we would like to remind that the results reported in the table are based on extrapolation: we measure the time needed for a few MC simulations and then estimated the time needed for $10^4$ simulations, which is described in the last but one paragraph of Sec.~VII-B.
+Let us also recall that $10^4$ MC samples is a lower bound as we reason in Sec.~VII-A, and, therefore, in general, the MC-based approach is expected to converge with $\nsamples$ larger than $10^4$.
+However, even if we needed to draw only, say, $10^3$ MC samples, the execution time of MC simulations for one example could still go up to about $160 / 10 = 16$ days.
+Consequently, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.
 
 \begin{actions}
-  \action{The chosen computational-speed assessment strategy has been explained in Sec.~VII-B.}
+  \action{The discussion about the choice of $\nsamples = 10^4$ has been reformulated, moved from Sec.~VII-A to Sec.~VII-B, and supported with additional citations.}
 \end{actions}
 \end{authors}
 
@@ -185,9 +185,15 @@ Table V shows that as \textbackslash{}eta=1, n\_v at n\_p=16 is larger than that
 This issue also drew our attention, and we thoroughly investigated it before submitting the manuscript.
 The number of independent random variables $\nvars$ is a result of the model order reduction procedure described in App.~B.
 One component that influences this procedure is the placement of the processing elements on the die.
-As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements, which are placed inside square dies, and the length-scale parameters of the correlation kernels are half the size (width or height) of the die.
+As it is described at the beginning of Sec. VII, our floorplans are regular grids of processing elements, which are placed inside square dies, and the length-scale parameters of the correlation kernels are half the size of the die.
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.3\linewidth]{include/revision/floorplans.pdf}
+  \caption{16-core and 32-core floorplans.}
+  \flabel{floorplans}
+\end{figure}
 For example, 16 cores form a four-by-four grid, a perfect square, whereas 32 cores form an eight-by-four grid, a rectangle.
-Therefore, the processing elements in the first case cover the whole area of the die (a square inside another square) while the processing elements in the second case are concentrated along the middle line covering only half the area of the die (a rectangle inside a square).
+Therefore, the processing elements in the first case cover the whole area of the die while the processing elements in the second case are concentrated along the middle line covering only half the area of the die, as shown in \fref{floorplans}.
 As a result, the processing elements are closer to each other in the second floorplan, making it more favorable for model order reduction with respect to the squared-exponential kernel $\fCorr_\SE$ prioritized by $\eta = 1$.\footnote{As mentioned in the paper, all the floorplans used in our experiments are available online.}
 
 \begin{actions}
@@ -227,7 +233,7 @@ If $\v{P} \in \real^\nprocs$ is a power vector with respect to the processing el
 The structure of $\mM$ depends on the way the equivalent thermal circuit is constructed.
 For example, in the experimental results, the circuits follow the relation $\nnodes = 4 \, \nprocs + 12$, given in Sec.~VI-C.
 One processing element is mapped onto one active thermal node, and $3 \, \nprocs + 12$ nodes are due to the thermal package, which does not dissipate power.
-In this case, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity, which are located on the main diagonal of $\mM$ as shown below:
+In this case, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity that are located on the main diagonal of $\mM$ as shown below:
 \[
   \mM = \left(
     \begin{array}{ccccc}

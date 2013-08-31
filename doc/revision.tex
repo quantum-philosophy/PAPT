@@ -19,6 +19,12 @@
   backgroundcolor=reviewerBackground%
 }
 
+\newcommand{\header}[1]{%
+  \begin{center}%
+  \section*{{\Huge #1}}%
+  \end{center}%
+}
+
 \newenvironment{reviewer}{%
   \begin{mdframed}[style=reviewer]%
 }{%
@@ -38,7 +44,9 @@
   \end{itemize}
 }
 
-\newcommand{\action}[1]{\item[\color{done}$\checkmark$]{\color{done}\uline{#1}}}
+\newcommand{\action}[1]{%
+  \item[\color{done}$\checkmark$]{\color{done}\uline{#1}}%
+}
 
 \newcommand{\done}[1]{%
   {\color{done}$\checkmark$~\uline{#1}}%
@@ -54,43 +62,40 @@
 
 \newcommand{\feature}[1]{\textbf{Feature~#1}}
 
-\newcommand{\clabel}[2]{\textbf{[Comment~#1.#2]}}
+\newcommand{\clabel}[2]{[\textbf{Comment~#1.#2}]}
 \newcommand{\cref}[2]{\textbf{Comment~#1.#2}}
 
 \begin{document}
-  \pagenumbering{gobble}
-
   \linespread{1.4}\selectfont
 
-  \section*{\hspace{6em}{\Huge Submission Notes}}
+  \header{Submission Notes}
   \vspace{1em}
   {\Large \input{include/revision/submission.tex}}
 
   \clearpage
-  \section*{\hspace{7em}{\Huge Revision Notes}}
+  \header{Revision Notes}
   \vspace{1em}
   {\Large \input{include/revision/introduction.tex}}
 
   \linespread{1}\selectfont
 
   \clearpage
-  \section*{\hspace{4em}{\Huge Response to Reviewer 1}}
+  \header{Response to Reviewer 1}
   \input{include/revision/reviewer1.tex}
 
   \clearpage
-  \section*{\hspace{4em}{\Huge Response to Reviewer 2}}
+  \header{Response to Reviewer 2}
   \input{include/revision/reviewer2.tex}
 
   \clearpage
-  \section*{\hspace{4em}{\Huge Response to Reviewer 3}}
+  \header{Response to Reviewer 3}
   \input{include/revision/reviewer3.tex}
 
   \clearpage
-  \section*{\hspace{4em}{\Huge Response to Reviewer 4}}
+  \header{Response to Reviewer 4}
   \input{include/revision/reviewer4.tex}
 
   \clearpage
-  \section*{\hspace{4em}{\Huge Response to Reviewer 5}}
+  \header{Response to Reviewer 5}
   \input{include/revision/reviewer5.tex}
-
 \end{document}

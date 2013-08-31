@@ -57,7 +57,7 @@ where $\oInner{\cdot}{\cdot}$ stands for the inner product (see \aref{polynomial
 In general, the inner product in \eref{pc-coefficients}, given in \eref{inner-product} in \aref{polynomial-chaos}, should be evaluated numerically.
 \updated{This task is typically accomplished by virtue of a quadrature rule \cite{press2007}, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
 These points along with the corresponding weights are generally precomputed and tabulated since they do not depend the quantity being integrated; see \aref{gauss-quadrature}.
-The only parameter, which is essential for the development in this section, is the number of such points denoted by $\qdorder$.
+The only parameter that is essential for the development in this section is the number of such points denoted by $\qdorder$.
 The rest of the integration procedure is discussed separately in \aref{gauss-quadrature}.
 However, it is worth noting here that, since $\vP(\o)$ depends on temperature as shown in \eref{power-model}, at each step of the recurrence in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC expansion of the temperature vector $\vTO_{k - 1}(\o)$.}
 
