@@ -147,7 +147,7 @@ However, there is one practical aspect that should also be taken into considerat
 Sec.~VII-B illustrates the proposed framework on relatively large examples.
 More precisely, we measure the speed of our approach using platforms with up to $\nprocs = 32$ processing elements and power profiles with up to $\nsteps = 10^5$ time steps; on top of that, all the experiments are repeated three times for different values of the $\eta$ parameter.
 Meanwhile, it can be seen in Tab.~VI that MC sampling with $\nsamples = 10^4$ takes an enormous amount of time: the estimated execution time of the MC-based approach climbs up to around 160 days.
-At this point, we would like to remind that the results reported in the table are based on extrapolation: we measure the time needed for a few MC simulations and then estimated the time needed for $10^4$ simulations, which is described in the last but one paragraph of Sec.~VII-B.
+At this point, we would like to remind that the results reported in Tab.~VI are based on extrapolation: we measure the time needed for a few MC simulations and then estimated the time needed for $10^4$ simulations, which is described in the last but one paragraph of Sec.~VII-B.
 Let us also recall that $10^4$ MC samples is a lower bound as we reason in Sec.~VII-A, and, therefore, in general, the MC-based approach is expected to converge with $\nsamples$ larger than $10^4$.
 However, even if we needed to draw only, say, $10^3$ MC samples, the execution time of MC simulations for one example could still go up to about $160 / 10 = 16$ days.
 Consequently, we could not afford to run MC simulations until convergence and then to run it once again until it would reach the same accuracy as the proposed framework.

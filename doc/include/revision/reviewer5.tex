@@ -36,7 +36,7 @@ In addition, the proposed framework has the following distinguishing features:
   \item[2.] Arbitrary uncertain parameters can be readily analyzed.
   Our framework requires no modifications to be applied to various parameters since the manifestation of these parameters is introduced into the framework as a ``black box.''
 
-  \item[3.] Arbitrary probability distributions of the uncertain parameters can be handled.\footnote{The applicability to arbitrary distributions is discussed later in our response to the fifth comment of the reviewer.}
+  \item[3.] Arbitrary probability distributions of the uncertain parameters can be handled.\footnote{The applicability to arbitrary distributions is discussed later in our response to \cref{5}{5}.}
 
   \item[4.] The dependencies of the uncertain parameters are systematically addressed, and the requirements for the prior knowledge of these dependencies are mild.
   In particular, spatial correlations specified by a correlation matrix can be taken into account.
@@ -93,7 +93,7 @@ Hence, the system of ODEs considered in our work is nonlinear.
 Meanwhile, the systems of ODEs in [Vrudhula, 2006] and [Ghanta, 2006] are linear.
 The presence of a feedback loop makes the problem more challenging and requires a different solution strategy.
 This aspect is especially urgent in the present of process variation: the source/power term on the right-hand side of Eq.~(2a) is uncertain not only due to the direct dependency on the uncertain parameters, but also due to the influence of temperature, which is another uncertain quantity as it depends on power.
-It can be seen in Sec.~VI that our step-wise solution drastically differs from those described in [Vrudhula, 2006] and [Ghanta, 2006], and it is very efficient as we discuss in our response to the tenth comment of the reviewer.
+It can be seen in Sec.~VI that our step-wise solution drastically differs from those described in [Vrudhula, 2006] and [Ghanta, 2006], and it is very efficient as we discuss in our response to \cref{5}{10}.
 
 With respect to \feature{1}, it is worth emphasizing that all the prior works based on spectral methods for uncertainty quantification, \ie, [Vrudhula, 2006], [Ghanta, 2006], [Bhardwaj, 2006], [Bhardwaj, 2008], and [Shen, 2009], ignore the leakage-temperature interdependence.
 This interdependence, however, is of a tremendous importance, which is well known and requires no introduction; see, \eg, [Liu, 2007] and [Srivastava, 2010].
@@ -254,7 +254,7 @@ As the reviewer correctly noted, the output distribution is not known \apriori.
 Therefore, whenever it comes to the construction of a PC expansion, one is typically guided by other factors in order to choose an adequate polynomial basis.
 One such factor is the distributions of the independent random variables $\vZ(\o)$, which are either $\vU(\o)$ in the absence of dependencies or the result of the preprocessing stage in the presence of dependencies.
 Then, many standard distributions directly correspond to certain families of orthogonal polynomials from the Askey scheme.
-When the reviewer says that PC expansions are not applicable to arbitrary distributions, he/she probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials, which is true.
+When the reviewer says that PC expansions are not applicable to arbitrary distributions, the reviewer probably refers to the fact that not all probability distributions have such a direct correspondence with orthogonal polynomials, which is true.
 However, one can always re-parametrize the problem by transforming one probability distribution into another, for example, to the one that does have a suitable polynomial basis.
 Please refer to the above paper by D. Xiu \etal, more precisely, to Sec.~6 titled ``Representation of Arbitrary Random Inputs.''
 In addition, one does not have to perform such a re-parametrization and can construct custom orthogonal polynomials instead.
