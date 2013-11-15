@@ -4,18 +4,18 @@ All the experiments are conducted on a GNU/Linux machine with Intel Core i7 2.66
 
 Now we shall elaborate on the default configuration of our experimental setup, which, in the following subsections, will be adjusted according to the purpose of each particular experiment.
 We consider a 45-nanometer technological process.
-\updated{The effective channel length is assumed to have a nominal value of $45\,\text{nm}$ and a standard deviation of 5\% of the nominal value where the global and local variations are equally weighted \cite{juan2011, juan2012}.}
+The effective channel length is assumed to have a nominal value of $45\,\text{nm}$ and a standard deviation of 5\% of the nominal value where the global and local variations are equally weighted \cite{juan2011, juan2012}.
 Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the square die.
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
-Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.\footnote{\updated{In practice, dynamic power profiles are typically obtained \via\ an adequate simulator of the architecture of interest.}}
+Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.\footnote{In practice, dynamic power profiles are typically obtained \via\ an adequate simulator of the architecture of interest.}
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
 Time steps of power and temperature traces are set to $1\,\text{ms}$ (see \sref{problem-formulation}).
 As a comparison to our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
-\updated{For each sample, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.}
+For each sample, the MC approach solves the initial problem in \eref{fourier-system} numerically using the fourth- and fifth-order Runge-Kutta formulae \cite{press2007} available in MATLAB \cite{matlab}.
 
-\updated{Since the temperature part of PTA is the main contribution of this work, we shall focus on the assessment of temperature profiles.
+Since the temperature part of PTA is the main contribution of this work, we shall focus on the assessment of temperature profiles.
 Note, however, that the results for temperature allow one to implicitly draw reasonable conclusions regarding power since power is an intermediate step towards temperature, and any accuracy problems with respect to power are expected to propagate to temperature.
-Note also that, since the two temperature-driven studies \cite{juan2011, juan2012} work under the steady-state assumption, and the paper \cite{juan2011}, in addition, is limited to the maximal temperature (see \sref{prior-work}), a one-to-one comparison with our framework is not possible.}
+Note also that, since the two temperature-driven studies \cite{juan2011, juan2012} work under the steady-state assumption, and the paper \cite{juan2011}, in addition, is limited to the maximal temperature (see \sref{prior-work}), a one-to-one comparison with our framework is not possible.
 
 \subsection{Approximation Accuracy} \slabel{er-accuracy}
 \input{include/experimental-results/accuracy.tex}

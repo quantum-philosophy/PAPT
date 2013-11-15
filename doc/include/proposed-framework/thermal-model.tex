@@ -1,6 +1,6 @@
-\updated{Given the thermal specification $\system$ of the system at hand (see the second paragraph of \sref{problem-formulation}), an equivalent thermal RC circuit with $\nnodes$ thermal nodes is constructed \cite{skadron2004}.}
+Given the thermal specification $\system$ of the system at hand (see the second paragraph of \sref{problem-formulation}), an equivalent thermal RC circuit with $\nnodes$ thermal nodes is constructed \cite{skadron2004}.
 The structure of the circuit depends on the intended level of granularity and, therefore, impacts the resulting accuracy.
-\updated{Without loss of generality, we assume that each processing element is mapped onto one corresponding node, and the thermal package is represented as a set of additional nodes.}
+Without loss of generality, we assume that each processing element is mapped onto one corresponding node, and the thermal package is represented as a set of additional nodes.
 
 The thermal behavior of the constructed circuit is modeled with the following system of differential-algebraic equations (see \aref{thermal-model} for a derivation):
 \begin{subnumcases}{\elabel{fourier-system}}
@@ -8,8 +8,8 @@ The thermal behavior of the constructed circuit is modeled with the following sy
   \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
 where $\vP(\t, \o)$ and $\vTO(\t, \o)$ are the input power and output temperature vectors of the processing elements, respectively, and $\vX \in \real^\nnodes$ is the vector of the internal state of the system.
-\updated{Note that, as shown in \eref{power-model}, $\vP(\t, \o)$ is an arbitrary function of $\vTO(\t, \o)$.
-Therefore, in general, the system in \eref{fourier-de} is nonlinear and does not have a closed-form solution.}
+Note that, as shown in \eref{power-model}, $\vP(\t, \o)$ is an arbitrary function of $\vTO(\t, \o)$.
+Therefore, in general, the system in \eref{fourier-de} is nonlinear and does not have a closed-form solution.
 
 Recall that the power and temperature profiles we work with are discrete-time representations of the power consumption and heat dissipation, respectively, which contain $\nsteps$ samples, or steps, covering a certain time span (see \sref{problem-formulation}).
 As detailed in \aref{thermal-model}, we let the total power be constant between neighboring power steps and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \nsteps$,

@@ -16,13 +16,13 @@ $\eExp$ and $\eVar$ are easy to interpret, and they are based on the analytical 
 $\ePDF$ is a strong indicator of the quality of the distributions estimated by our framework, and it is computed by sampling the constructed PC expansions.
 In contrast with the MC approach, this sampling has a negligible overhead as we discussed in \sref{post-processing}.
 
-\updated{The considered values for $\pcorder$, $\nsamples$, and $\eta$ are the sets $\{ n \}_{n = 1}^7$, $\{ 10^n \}_{n = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively.}
+The considered values for $\pcorder$, $\nsamples$, and $\eta$ are the sets $\{ n \}_{n = 1}^7$, $\{ 10^n \}_{n = 2}^5$, and $\{ 0, 0.5, 1 \}$, respectively.
 The three cases of $\eta$ correspond to the total dominance of $\fCorr_\OU$ ($\eta = 0$), perfect balance between $\fCorr_\SE$ and $\fCorr_\OU$ ($\eta = 0.5$), and total dominance of $\fCorr_\SE$ ($\eta = 1$).
 A comparison for a quad-core architecture with a dynamic power profile of $\nsteps = 10^2$ steps is given in \tref{accuracy-eta-0}, \tref{accuracy-eta-0-5}, and \tref{accuracy-eta-1}, which correspond to $\eta = 0$, $\eta = 0.5$, and $\eta = 1$, respectively.
 Each table contains three subtables: one for $\eExp$ (the left most), one for $\eVar$ (in the middle), and one for $\ePDF$ (the right most), which gives nine subtables in total.
 The columns of the tables that correspond to high values of $\nsamples$ can be used to assess the accuracy of the constructed PC expansions; likewise, the rows that correspond to high values of $\pcorder$ can be used to judge about the sufficiency of the number of MC samples.
 One can immediately note that, in all the subtables, all the error metrics tend to decrease from the top left corners (low values of $\pcorder$ and $\nsamples$) to the bottom right corners (high values of $\pcorder$ and $\nsamples$), which suggests that the PC and MC methods converge.
-\updated{There are a few outliers, associated with low PC orders and/or the random nature of sampling, \eg, $\eVar$ increases from 66.13 to 66.70 and $\ePDF$ from 1.59 to 1.62 when $\nsamples$ increases from $10^4$ and $10^5$ in \tref{accuracy-eta-0-5}; however, the aforementioned main trend is still clear.}
+There are a few outliers, associated with low PC orders and/or the random nature of sampling, \eg, $\eVar$ increases from 66.13 to 66.70 and $\ePDF$ from 1.59 to 1.62 when $\nsamples$ increases from $10^4$ and $10^5$ in \tref{accuracy-eta-0-5}; however, the aforementioned main trend is still clear.
 
 For clarity of the discussions below, we shall primarily focus on one of the tables, namely, on the middle table, \tref{accuracy-eta-0-5}, as the case with $\eta = 0.5$ turned out to be the most challenging (explained in \sref{er-speed}).
 The drawn conclusions will be generalized to the other two tables later on.
@@ -53,4 +53,4 @@ In particular, according to $\eVar$, the case with $\eta = 1$, which corresponds
 
 Guided by the observations in this subsection, we conclude that our framework delivers accurate results starting from $\pcorder = 4$.
 The MC estimates, on the other hand, can be considered as sufficiently reliable starting from $\nsamples = 10^4$.
-\updated{The last conclusion, however, is biased in favor of the MC technique since, as we noted earlier, there is evidence that $10^4$ samples might still not be enough.}
+The last conclusion, however, is biased in favor of the MC technique since, as we noted earlier, there is evidence that $10^4$ samples might still not be enough.

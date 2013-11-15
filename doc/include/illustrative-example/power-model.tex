@@ -3,6 +3,6 @@ To this end, \eref{power-model} is decomposed into the sum of the dynamic and st
 As motivated earlier, we let $\oPower{\dyn}{\t, \vU(\o)} = \vP_\dyn(\t)$ (does not depend on $\vU(\o)$).
 We assume that the desired workload of the system is given as a dynamic power profile denoted by $\profilePdyn$.
 Without loss of generality, the development of the static part is based on SPICE simulations of a reference electrical circuit composed of BSIM4 devices (v4.7.0) \cite{bsim} configured according to the 45-nm PTM (high-performance) \cite{ptm}.
-\updated{Specifically, we use a series of CMOS invertors for this purpose.}
+Specifically, we use a series of CMOS invertors for this purpose.
 The simulations are performed for a fine-grained two-dimensional grid, the effective channel length \vs\ temperature, and the results are tabulated.
 The linear interpolation facilities of MATLAB (vR2013a) \cite{matlab} are then utilized whenever we need to evaluate the leakage power for a particular point within the range of the grid, which is chosen to be sufficiently wide.
