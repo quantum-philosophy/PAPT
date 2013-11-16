@@ -1,0 +1,147 @@
+\begin{reviewer}
+The author  replies to the previously proposed questions are satisfactory in general.
+\end{reviewer}
+\begin{authors}
+Thank you.
+\end{authors}
+
+\begin{reviewer}
+However, the reviewr still has the concerns with the answers to the speedup and related equation (3) in the paper.
+
+Foundamentally, the author used different method to solve the thermal equations. For the MC, the author use the traditional stable appraoch such as Runge-Kutta method, which allows any time step used. While  in the proposed statisitcal method using PC, it used the explicit iterative method as shown in (3). This explicit Forward Euler intergattion method will of course be much much faster than the Runge-Kutta method as it will not need to solve (performing LU decompostion) the matrix at all.  But this explicit integration method will only converge for very small time steps (the time step allowed actually depends on the finite difference discretization steps).
+
+Since the explicit iteration formulat (3) is important for the proposed method to consider power and temperature interplay, the proposed method thus has severe limitations due to the time step restirctions.  The author should be provide more explanation on this issue.
+\end{reviewer}
+\begin{authors}
+It is indeed a highly important concern, and we would like to respond with a detailed answer.
+We assume that the reviewer is referring to the standard explicit/forward Euler method.
+The reviewer is absolutely right that this method has poor stability properties; however, we do not use Euler's method in our work.
+As shown in App.~A, the thermal system is solved using an exponential integrator method [Minchev, 2005],\footnote{This reference has been added in the revised manuscript.} which we shall demonstrate shortly.
+
+Let us first digress from numerical integration schemes and investigate some aspects of our problem.
+Combining Eq.~(1) and Eq.~(2) and dropping the details that are irrelevant for the present discussion, the system of ordinary differential equations under consideration is
+\begin{equation}
+  \frac{d\vX(\t)}{d\t} = \mA \: \vX(\t) + \mB \: \vP(\t, \vX(\t)) \tag{$\ast$}
+\end{equation}
+where $\vP$ is a nonlinear function of $\vX$.
+A detailed description of the thermal system can be found in App.~A (see also [Ukhov, 2012]); for our purposes, it is sufficient to recall that
+\[
+  \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}
+\]
+where $\mC$ and $\mG$ are the capacitance and conductance matrices, respectively.
+By the construction of thermal RC circuits imposed by the nature of the modeled phenomenon [Skadron, 2004], both matrices are real, symmetric, and positive definite,\footnote{It is also explained in the source code of HotSpot (v5.02), namely, in \texttt{temperature\char`_block.c}, lines 278--289, which can be downloaded at \url{http://lava.cs.virginia.edu/HotSpot/}.} and $\mC$ is also diagonal.
+Since $\mG$ is real and symmetric, $\mG$ admits the eigenvalue decomposition [Press, 2007]
+\[
+    \mG = \m{V} \m{\Lambda} \m{V}^T
+\]
+where $\m{V}$ is a matrix composed of the eigenvectors of $\mG$, and $\m{\Lambda}$ is a diagonal matrix composed of the eigenvalues $\lambda_i$, $i = 1, \dotsc, \nnodes$, of $\mG$.
+Since $\mG$ is positive definite, $\lambda_i > 0$, $\forall i$.
+Consequently, $\mA$ is also symmetric as
+\[
+  \mA^T = (-\mC^{-\frac{1}{2}} \: \mG \: \mC^{-\frac{1}{2}})^T = -(\mC^{-\frac{1}{2}})^T \: \mG^T \: (\mC^{-\frac{1}{2}})^T = \mA
+\]
+and, more impotently, negative definite as
+\[
+  \mA = -\mC^{-\frac{1}{2}} \: \mG \: \mC^{-\frac{1}{2}} = -\mC^{-\frac{1}{2}} \: \m{V} \m{\Lambda} \m{V}^T \: (\mC^{-\frac{1}{2}})^T = \m{U} \: (-\m{\Lambda}) \: \m{U}^T,
+\]
+which means that the eigenvalues of $\mA$ are all negative.
+Now, denote by $\m{J}(\t, \vX(\t))$ the Jacobian matrix of $\vP(\t, \vX(\t))$ with respect to $\vX(\t)$.
+It can be shown that the system in Eq.~($\ast$) is asymptotically stable if the eigenvalues of
+\begin{equation}
+  \mA + \mB \: \m{J}(\t, \vX(\t)) \tag{$\ast\ast$}
+\end{equation}
+are all negative; refer to [Olver, 2006].\footnote{P. Olver and C. Shakiban. ``Applied Linear Algebra.'' Pearson Prentice Hall. 2006. This book is not cited in the manuscript. Extra chapters of this book, which are also relevant to the present discussion, in particular, Chapters 19 and 20, are available online at \url{http://www.math.umn.edu/~olver/appl.html}.}
+Since the considered problem is assumed to be well posed, this condition should hold.
+In other words, the perturbation of the eigenvalues of $\mA$---which are all negative as it was shown earlier---caused by the nonlinear term results in negative eigenvalues.
+
+Let us return to numerical solutions of Eq.~($\ast$).
+If the explicit Euler method was utilized, the iterative procedure would be as follows:\footnote{For the clarity of our answer, we shall use a different indexing of the power term than the one used in the manuscript, which has no effect on the generality of the corresponding conclusions.}
+\begin{align*}
+  \vX_k & = \vX_{k - 1} + \Delta \t \: (\mA \: \vX_{k - 1} + \mB \: \vP_{k - 1}) \\
+  & = (\mI + \Delta \t \: \mA) \vX_{k - 1} + \Delta \t \: \mB \: \vP_{k - 1} \\
+  & = \hat{\mCF} \vX_{k - 1} + \hat{\mCS} \vP_{k - 1}
+\end{align*}
+where $\vX_k = \vX(\t_k)$, $\vP_k = \vP(\t_k, \vX(\t_k))$, and $\Delta \t$ is the time step of integration.
+It can be shown that $\Delta \t$ needed for the above iterative procedure to be asymptotically stable is dictated by the matrix in Eq.~($\ast\ast$).
+More precisely, the following inequality should be satisfied with respect to each eigenvalue $\hat{\lambda}_i$ of that matrix:
+\[
+  |1 + \Delta \t \: \tilde{\lambda}_i | < 1.
+\]
+As it can be seen, and as it was mentioned by the reviewer, there is a strict limitation on $\Delta \t$ due to the narrow stability region inherent to the explicit Euler method: roughly speaking, $\Delta \t$ should be smaller than the inverse of the maximal eigenvalue of the matrix in Eq.~($\ast\ast$).
+
+In our work, we do not use the integration method described above.
+Instead, we proceed as follows [Ukhov, 2012].
+Multiplying both sides of Eq.~($\ast$) by $e^{- \mA \t}$ and noting that
+\[
+  e^{-\mA \t} \frac{d\vX(\t)}{d\t} = \frac{d\, e^{-\mA \t} \vX(\t)}{d\t} + \mA e^{-\mA \t} \vX(\t) = \frac{d\, e^{-\mA \t} \vX(\t)}{d\t} + e^{-\mA \t} \mA \vX(\t),
+\]
+we obtain the exact solution of Eq.~($\ast$) over a time interval $\Delta \t = \t_k - \t_{k - 1}$:
+\[
+  \vX(\t_k) = e^{\mA \Delta \t} \vX(\t_{k - 1}) + \int_0^{\Delta \t} e^{\mA (\Delta t - \tau)} \mB \: \vP(\t_k + \tau, \vX(\t_k + \tau)) \: d\tau.
+\]
+Next, the integral on the right-hand side is approximated by assuming that, within $\Delta \t$, the power dissipation does not change and is equal to the power dissipation at $\t_k$, which we write in App.~A.
+Then, the approximated solution is
+\[
+  \vX(\t_k) = e^{\mA \Delta \t} \vX(\t_{k - 1}) + \mA^{-1}(e^{\mA \Delta \t} - \mI) \mB \: \vP(\t_{k - 1}, \vX(\t_{k - 1})),
+\]
+which leads to our recurrence
+\[
+  \vX_k = \mCF \: \vX_{k - 1} + \mCS \: \vP_{k - 1}
+\]
+where
+\[
+  \mCF = e^{\mA \Delta t} \hspace{1em} \text{and} \hspace{1em} \mCS = \mA^{-1} (e^{\mA \Delta \t} - \mI) \: \mB.
+\]
+The matrix exponential and matrix inverse needed for the recurrence are efficiently computed using the eigenvalue decomposition of $\mA$ as described in [Ukhov, 2012].
+Such a decomposition is always possible since $\mA$ is real and symmetric, which was shown earlier, and it should be computed only once for a particular thermal circuit.
+
+The solution technique that we use belongs to the family of exponential integrators [Minchev, 2005].
+This particular member of that family is a first-order method based on the function value from the previous iteration.
+This makes the method appear similar to the explicit Euler method, which was also noted by the reviewer.\footnote{Due to this similarity, the method is sometimes referred to as the first-order explicit Euler exponential integrator; in order to avoid any confusion, we do use this name here.}
+However, the stability properties of the two approaches are considerably different, which we shell discuss next.
+
+In contrast with Euler's method, the utilized exponential integrator evaluates the linear part of the thermal system exactly, which eliminates stability issues from this perspective.
+In order to investigate the behavior of the nonlinear part, let us unfold both recurrences and compare the cumulative influences of $\hat{\mCF}$ and $\mCF$:
+\[
+  \vX_k = \sum_{i = 1}^k \tilde{\mCF}^{k - i} \: \mCS \: \vP_{i - 1}
+\]
+where $\vX_0 = \mZero$ is taken into account, and $\tilde{\mCF}$ stands for either $\hat{\mCF}$ or $\mCF$.
+Due to the negative-definiteness of $\mA$ discussed earlier, $e^{\mA \Delta \t}$, \ie, $\mCF$, is a convergent matrix [Olver, 2006] for any time step.
+Therefore, under the assumption that the problem is well posed, as our iterative procedure advances, the increasing power of $\mCF$ does not allow the solution to explode, which one could expect from the explicit Euler method with an inadequately chosen time step.
+\end{authors}
+
+\begin{reviewer}
+Actually, going back the speedup issue, the review thinks that a more fair comparision is to use (3) for MC run as well (If PC based method can use it with stable results, then it should work for tranisent anlysis by MC). The author should give the time step used for the transient simulation using (3).
+\end{reviewer}
+\begin{authors}
+The time step is given in the last but one paragraph of Sec.~VII, and it is equal to 1$\,\text{ms}$.
+
+\begin{actions}
+  \action{It has been clarified in Sec.~VII that the reported time step of power and temperature traces is the time step of the iterative procedure in Eq.~(3).}
+\end{actions}
+\end{authors}
+
+\begin{reviewer}
+In summary, if (3) is essential for the proposed method, the author should mention this limitation and its impacts on the mentioned contribuations in this paepr.
+\end{reviewer}
+\begin{authors}
+\end{authors}
+%
+% @book{olver2006,
+%   title = {Applied Linear Algebra},
+%   author = {Olver, P. and Shakiban, C.},
+%   year = {2006},
+%   publisher = {Pearson Prentice Hall}
+% }
+%
+% Stability of linear iterative schemes:
+% http://www.math.umn.edu/~olver/num_/lni.pdf, Theorem 7.9
+%
+% Convergence of fixed-point iterations for linear systems:
+%
+% http://www.math.umn.edu/~olver/num_/lni.pdf, Proposition 7.25
+%
+% Stability of nonlinear autonomous systems:
+%
+% http://www.math.umn.edu/~olver/am_/odz.pdf, Theorem 20.22
+%
