@@ -116,7 +116,7 @@ In order to further investigate the behaviors of the two methods, let us unfold 
 \]
 where $\vX_0 = \mZero$ is taken into account, and $\tilde{\mCF}$ stands for either $\hat{\mCF}$ or $\mCF$.
 Due to the negative-definiteness of $\mA$ discussed earlier, $\mCF = e^{\mA \Delta \t}$ is a convergent matrix [Olver, 2006] for any positive $\Delta \t$.
-Therefore, under the assumption that the problem is well posed, as our iterative procedure advances, the increasing powers of $\mCF$ prevents the numerical solution from an unbounded growth [Hochbruck, 2010], which is expected from $\hat{\mCF} = \mI + \Delta \t \mA$ with an inadequately chosen time step.
+Therefore, under the assumption that the problem is well posed, as our iterative procedure advances, the increasing powers of $\mCF$ prevents the numerical solution from an unbounded growth [Hochbruck, 2010], which is expected from $\hat{\mCF} = \mI + \Delta \t \mA$ of Euler's method with an inadequately chosen time step.
 
 To conclude, the time step used in the recurrence given by Eq.~(3) does not impose severe limitations on the proposed framework.
 
@@ -131,21 +131,30 @@ To conclude, the time step used in the recurrence given by Eq.~(3) does not impo
 Actually, going back the speedup issue, the review thinks that a more fair comparision is to use (3) for MC run as well (If PC based method can use it with stable results, then it should work for tranisent anlysis by MC).
 \end{reviewer}
 \begin{authors}
-The exponential iterator method employed in our work is a low-order method as its local error depends linearly on the time step of integration [Hochbruck, 2010].
-The applicability of this method is based on our assumption (see App.~A) that, within each time step of the input power profiles, the total dissipation of power can be approximated by a constant.
-In reality, however, the total power is not constant within $\Delta \t$; in particular, it is due to the interdependency between the leakage power and temperature.
-Consequently, our assumption can introduce errors in the power/temperature computations, which we are willing to accept.
-Let us note that the accuracy of the recurrence in Eq.~(3) can be improved using more advanced exponential iterators, for example, linearized multistep exponential methods; however, we did not explore this direction.
+The reviewer is referring to \cref{5}{10 (Revision 1)}.
+In our answer to that comment, we explained what had been done in order to achieve the reported speedups of the proposed framework.
+In our answer to this new comment, we would like to recall several aspects mentioned last time and give a further elaboration on them.
 
-At the same time, we did not want to compromise the assessment of the proposed framework and, therefore, tried to eliminate extra assumptions from MC sampling.
+Our solution does not adhere to the traditional way of constructing non-intrusive PC expansions; it can be classified as semi-intrusive, if you will.
+If we took the traditional approach, our framework would be competing with the MC-based approach in terms of the number of calls to a numerical solver of the thermal system.
+In such a case, the speedup would be the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ needed for non-intrusive spectral projections.
+However, we have taken a different route: we perform PC expansions in a step-wise manner based on the exponential iterator method described earlier.
+Consequently, the reported speedups of the proposed framework are due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
+This aspect has been emphasized in the manuscript as one of the actions taken with respect to \cref{5}{10 (Revision 1)}.
+
+The reviewer is right that our approach for solving the thermal system could also be used for MC sampling.
+In this case, we would return to the aforementioned comparison in terms of the number of solver calls.
+However, we consider the chosen solution method as an part of our research.
+As we replied to \cref{5}{9 (Revision 1)}---that comment was concerned with alternative MC sampling techniques such as quasi-MC sampling---MC sampling was not our focal point, and we put all our efforts into the development of the proposed framework rather than into the exploration of possibilities with the MC-based approach.
+
+Let us also mention the following.
+We did not want to compromise the assessment of the proposed framework and, therefore, tried to eliminate any additional assumptions from MC sampling; we tried to keep MC sampling pure.
 There are two main aspects in this regard.
 First of all, the model order reduction procedure described in App.~B is not performed inside the MC-based approach: MC sampling preserves 100\% of the variance of the problem and, thus, operates on all the random variables.
-Second, the MC-based approach solves the initial problem directly using the fourth- and fifth-order Runge-Kutta formulae available in MATLAB.
-To elaborate, MC sampling is based on the well-known \texttt{ode45} routine, which implements the Dormand-Prince method.
-We would like to emphasize that, similar to our exponential iterator, this method is explicit and, therefore, has no need in such techniques as the LU decomposition mentioned in \cref{5}{1}.
-However, \texttt{ode45} uses an advanced approximation scheme and, thus, is considered to be a reliable general-purpose solve that typically delivers accurate results; therefore, we use it as the etalon for the comparison given in Sec.~VII.
-
-As we replied to \cref{5}{9} received in the first revision (that comment was concerned with alternative MC sampling techniques such as quasi-MC sampling), MC sampling was not the focal point of our research, and we put all our efforts into the development of the proposed framework rather than into the exploration of possibilities with the MC-based approach.
+Second, the assumption about the constant power dissipation between successive moments of time described in App.~A is not made by the MC-based approach: MC sampling solves the initial problem directly and, thus, accounts for the variability of power within each $\Delta \t$.
+To elaborate, MC sampling is based on the fourth- and fifth-order Runge-Kutta formulae available in MATLAB, namely, on the well-known \texttt{ode45} routine, which implements the Dormand-Prince method.
+We would like to emphasize that, similar to our exponential iterator, this method is explicit and, therefore, has no need of such techniques as the LU decomposition mentioned in \cref{5}{1}.
+However, \texttt{ode45} uses an advanced approximation scheme and, thus, is considered to be a reliable general-purpose solver that typically delivers accurate results; therefore, we use it as the etalon for the comparison given in Sec.~VII.
 
 \begin{actions}
   \action{The solution method used by the MC approach has been clarified in Sec.~VII.}
