@@ -135,7 +135,7 @@ The reviewer is referring to \cref{5}{10 (Revision 1)}.
 In our answer to that comment, we explained what had been done in order to achieve the reported speedups of the proposed framework.
 In our answer to this new comment, we would like to recall several aspects mentioned last time and give a further elaboration on them.
 
-Our solution does not adhere to the traditional way of constructing non-intrusive PC expansions; it can be classified as semi-intrusive.
+Our solution does not adhere to the traditional way of constructing non-intrusive PC expansions; it can be thought of as semi-intrusive.
 If we took the traditional approach, our framework would be competing with the MC-based approach only in terms of the number of calls to a numerical solver of the thermal system.
 In such a case, the speedup would be the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ needed for non-intrusive spectral projections.
 However, we have taken a different route: we perform PC expansions in a step-wise manner based on the exponential iterator method described earlier.
