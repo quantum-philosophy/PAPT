@@ -80,7 +80,7 @@ As it can be seen, and as it was mentioned by the reviewer, there is a strict li
 \]
 
 In our work, we do not use the integration method described above.
-Instead, we proceed as follows [Ukhov, 2012].
+Instead, we proceed as follows.
 Multiplying both sides of Eq.~($\ast$) by $e^{- \mA \t}$ and noting that
 \[
   e^{-\mA \t} \frac{d\vX(\t)}{d\t} = \frac{d\, e^{-\mA \t} \vX(\t)}{d\t} + \mA e^{-\mA \t} \vX(\t) = \frac{d\, e^{-\mA \t} \vX(\t)}{d\t} + e^{-\mA \t} \mA \vX(\t),
@@ -109,7 +109,7 @@ This particular member of that family is a one-step method based on the function
 This makes the method appear similar to the explicit Euler method, which was also noted by the reviewer.\footnote{Due to this similarity, the method is sometimes referred to as the exponential Euler method; in order to avoid any confusion, we do use this terminology here.}
 However, the stability properties of the two approaches are considerably different, which we shall discuss next.
 
-In contrast to Euler's method, the utilized exponential integrator evaluates the linear part of the thermal system exactly, which eliminates potential issues from this side.
+In contrast to Euler's method, the utilized exponential integrator evaluates the linear part of the thermal system exactly, which eliminates potential issues related to this linear component.
 In order to further investigate the behaviors of the two methods, let us unfold their recurrent expressions and compare the cumulative influences of $\hat{\mCF}$ and $\mCF$:
 \[
   \vX_k = \sum_{i = 1}^k \tilde{\mCF}^{k - i} \: \mCS \: \vP_{i - 1}
@@ -135,26 +135,22 @@ The reviewer is referring to \cref{5}{10 (Revision 1)}.
 In our answer to that comment, we explained what had been done in order to achieve the reported speedups of the proposed framework.
 In our answer to this new comment, we would like to recall several aspects mentioned last time and give a further elaboration on them.
 
-Our solution does not adhere to the traditional way of constructing non-intrusive PC expansions; it can be classified as semi-intrusive, if you will.
-If we took the traditional approach, our framework would be competing with the MC-based approach in terms of the number of calls to a numerical solver of the thermal system.
+Our solution does not adhere to the traditional way of constructing non-intrusive PC expansions; it can be classified as semi-intrusive.
+If we took the traditional approach, our framework would be competing with the MC-based approach only in terms of the number of calls to a numerical solver of the thermal system.
 In such a case, the speedup would be the ratio between the number of MC samples $\nsamples$ and the number of quadrature nodes $\qdorder$ needed for non-intrusive spectral projections.
 However, we have taken a different route: we perform PC expansions in a step-wise manner based on the exponential iterator method described earlier.
+The reviewer is right that our solution approach could also be used for MC sampling, in which case we would return to the aforementioned comparison in terms of the number of solver calls.
 Consequently, the reported speedups of the proposed framework are due to two major factors: PC expansions \perse\ and the recurrence-based solution process of the thermal model.
 This aspect has been emphasized in the manuscript as one of the actions taken with respect to \cref{5}{10 (Revision 1)}.
 
-The reviewer is right that our approach for solving the thermal system could also be used for MC sampling.
-In this case, we would return to the aforementioned comparison in terms of the number of solver calls.
-However, we consider the chosen solution method as an part of our research.
-As we replied to \cref{5}{9 (Revision 1)}---that comment was concerned with alternative MC sampling techniques such as quasi-MC sampling---MC sampling was not our focal point, and we put all our efforts into the development of the proposed framework rather than into the exploration of possibilities with the MC-based approach.
-
-Let us also mention the following.
-We did not want to compromise the assessment of the proposed framework and, therefore, tried to eliminate any additional assumptions from MC sampling; we tried to keep MC sampling pure.
-There are two main aspects in this regard.
+The particular setup of MC sampling used in our experiments is due to the following reason: our intent was to compare the proposed framework with a reliable and accurate etalon.
+In this regard, the following two main aspects have been taken care of.
 First of all, the model order reduction procedure described in App.~B is not performed inside the MC-based approach: MC sampling preserves 100\% of the variance of the problem and, thus, operates on all the random variables.
 Second, the assumption about the constant power dissipation between successive moments of time described in App.~A is not made by the MC-based approach: MC sampling solves the initial problem directly and, thus, accounts for the variability of power within each $\Delta \t$.
 To elaborate, MC sampling is based on the fourth- and fifth-order Runge-Kutta formulae available in MATLAB, namely, on the well-known \texttt{ode45} routine, which implements the Dormand-Prince method.
 We would like to emphasize that, similar to our exponential iterator, this method is explicit and, therefore, has no need of such techniques as the LU decomposition mentioned in \cref{5}{1}.
-However, \texttt{ode45} uses an advanced approximation scheme and, thus, is considered to be a reliable general-purpose solver that typically delivers accurate results; therefore, we use it as the etalon for the comparison given in Sec.~VII.
+However, \texttt{ode45} uses an advanced approximation scheme and, thus, is considered to be a reliable general-purpose solver that typically delivers accurate results.
+Consequently, we chose this configuration of MC sampling as the desired golden etalon for the assessment given in Sec.~VII, and this etalon let us demonstrate that the proposed framework delivers accurate results, as discussed in the manuscript in connection with Tab.~II, Tab.~III, and Tab.~IV.
 
 \begin{actions}
   \action{The solution method used by the MC approach has been clarified in Sec.~VII.}
