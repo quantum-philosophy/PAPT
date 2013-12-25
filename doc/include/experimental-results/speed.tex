@@ -18,7 +18,7 @@ First, since the curse of dimensionality constitutes arguably the major concern 
 Second, since $\vZ(\o)$ is a result of the preprocessing stage depending on many factors, the relation between $\vU(\o)$ and $\vZ(\o)$ is not straightforward, which is illustrated in the previous paragraph.
 Thus, the dimensionality of $\vU(\o)$ can be misleading when reasoning about the applicability of our technique, and $\nvars$ shown \tref{speed-processing-elements} is well suited for this purpose.
 
-Another observation from \tref{speed-processing-elements} is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per MC sample is independent of the number of stochastic dimensions \cite{maitre2010}.
+Another observation from \tref{speed-processing-elements} is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per MC sample is independent of the number of stochastic dimensions.
 On the other hand, the rows with $\nvars > 10$ hint at the curse of dimensionality characteristic to PC expansions (see \sref{computational-challenges}).
 However, even with high dimensions, our framework significantly outperforms MC sampling. For instance, in order to analyze a power profile with $10^3$ steps of a system with 32 cores, the MC approach requires more than 40 hours whereas the proposed framework takes less than two minutes (the case with $\eta = 0.5$).
 
@@ -30,5 +30,5 @@ It can be seen in \tref{speed-time-spans} that the computational times of both m
 However, the proposed framework shows a vastly superior performance being up to five orders of magnitude faster than MC sampling.
 
 It is worth noting that the observed speedups are due to two major reasons.
-First of all, PC expansions are generally superior to MC sampling when the curse of dimensionality is suppressed \cite{xiu2010, maitre2010, eldred2008}, which we accomplish by model order reduction and efficient integration schemes; see \sref{computational-challenges}.
+First of all, PC expansions are generally superior to MC sampling when the curse of dimensionality is suppressed \cite{xiu2010, eldred2008}, which we accomplish by model order reduction and efficient integration schemes; see \sref{computational-challenges}.
 The second reason is the particular solution process used in this work to solve the thermal model and construct PC expansions in a step-wise manner; see \sref{pc-recurrence}.

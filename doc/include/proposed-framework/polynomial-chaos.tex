@@ -7,10 +7,10 @@ An introduction to orthogonal polynomials, which we shall rely on in the derivat
 \subsubsection{Polynomial basis}
 The first step towards a polynomial expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, which is typically made based on the Askey scheme of orthogonal polynomials \cite{xiu2010}.
 The step is crucial as the rate of convergence of PC expansions closely depends on it.
-Although there are no strict rules that guarantee the optimal choice \cite{maitre2010, knio2006}, there are best practices saying that one should be guided by the probability distributions of the (independent) random variables that drive the stochastic system at hand (see \aref{polynomial-chaos}).
+Although there are no strict rules that guarantee the optimal choice \cite{knio2006}, there are best practices saying that one should be guided by the probability distributions of the (independent) random variables that drive the stochastic system at hand (see \aref{polynomial-chaos}).
 In our case, these variables are $\vZ(\o)$.
 For instance, when a random variable follows a beta distribution, the Jacobi basis is worth being tried first; on the other hand, the Hermite basis is preferable for Gaussian distributions.
-In multiple dimensions, which is the case with the $\nvars$-dimensional random variable $\vZ(\o)$, several (possibly different) univariate bases are to be combined together to produce a single $\nvars$-variate polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, $\vz \in \real^\nvars$ (see \cite{xiu2010, maitre2010}).
+In multiple dimensions, which is the case with the $\nvars$-dimensional random variable $\vZ(\o)$, several (possibly different) univariate bases are to be combined together to produce a single $\nvars$-variate polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, $\vz \in \real^\nvars$ (see \cite{xiu2010}).
 
 \subsubsection{Recurrence of polynomial expansions} \slabel{pc-recurrence}
 Having chosen an appropriate basis, we apply the PC expansion formalism to the power term in \eref{recurrence} and truncate the resulting infinite series in order to make it feasible for practical implementations.
@@ -55,7 +55,7 @@ where $\oInner{\cdot}{\cdot}$ stands for the inner product (see \aref{polynomial
   \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oInner{\vP_k(\o)}{\pcb_i(\vZ(\o))}.
 \end{equation}
 In general, the inner product in \eref{pc-coefficients}, given in \eref{inner-product} in \aref{polynomial-chaos}, should be evaluated numerically.
-This task is typically accomplished by virtue of a quadrature rule \cite{press2007}, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
+This task is typically accomplished by virtue of a quadrature rule, which, loosely speaking, is a weighted summation over the integrand values computed at a set of prescribed points.
 These points along with the corresponding weights are generally precomputed and tabulated since they do not depend the quantity being integrated; see \aref{gauss-quadrature}.
 The only parameter that is essential for the development in this section is the number of such points denoted by $\qdorder$.
 The rest of the integration procedure is discussed separately in \aref{gauss-quadrature}.
@@ -70,7 +70,7 @@ where $\O(\vP(\nprocs))$ denotes the complexity of the computations associated w
 The expression can be detailed further by expanding $\pcterms$ and $\qdorder$.
 The exact formula for $\pcterms$ is given in \eref{pc-terms}, and the limiting behavior of $\pcterms$ with respect to $\nvars$ is $\O(\nvars^\pcorder / \pcorder!)$.
 For brute-force quadrature rules, $\log(\qdorder)$ is $\O(\nvars)$, meaning that the dependency of $\qdorder$ on $\nvars$ is exponential.
-It can be seen that the theory of PC expansions suffers from the so-called curse of dimensionality \cite{xiu2010, maitre2010, eldred2008}.
+It can be seen that the theory of PC expansions suffers from the so-called curse of dimensionality \cite{xiu2010, eldred2008}.
 More precisely, when $\nvars$ increases, the number of polynomial terms as well as the complexity of the corresponding coefficients exhibit a growth, which is exponential without special treatments.
 The problem does not have a general solution and is one of the central topics of many ongoing studies.
 In this paper, we mitigate this issue by: (a) keeping the number of stochastic dimensions low using the KL decomposition as we shall see in \sref{ie-uncertain-parameters} and (b) utilizing efficient integration techniques as discussed in \aref{gauss-quadrature}.
@@ -82,5 +82,5 @@ Thus, the performed spectral decompositions have effectively substituted the hea
 Consequently, the output of the proposed PTA framework constitutes two stochastic profiles: the power and temperature profiles denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively, which are ready to be analyzed.
 
 Finally, note the ease and generality of taking the uncertainty into consideration using the proposed approach: the above derivation is delivered from any explicit formula for any particular uncertain parameter.
-In contrast, a typical solution from the literature related to process variation is based on ad hoc expressions and should be tailored by the user for each new parameter individually; see, \eg, \cite{bhardwaj2008, ghanta2006}.
+In contrast, a typical solution from the literature related to process variation is based on ad hoc expressions and should be tailored by the user for each new parameter individually; see, \eg, \cite{huang2009, bhardwaj2008, ghanta2006}.
 Our framework provides a great flexibility in this regard.

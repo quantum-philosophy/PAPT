@@ -3,7 +3,7 @@ Following the guidance given in \sref{uncertain-parameters}, the most suitable t
 Here we describe the algorithm in brief and refer the interested reader to \cite{li2008} for additional details.
 The transformation is typically presented in two steps.
 First, $\vU(\o) \in \real^{\nprocs + 1}$ are morphed into correlated Gaussian variables, denoted by $\vZ'(\o) \in \real^{\nprocs + 1}$, using the knowledge of the marginal distributions and covariance matrix of $\vU(\o)$.
-Second, the obtained correlated Gaussian variables are mapped into independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$, using one of several available techniques such as the Cholesky decomposition \cite{press2007} utilized in \cite{li2008}.
+Second, the obtained correlated Gaussian variables are mapped into independent standard Gaussian variables, denoted by $\vZ''(\o) \in \real^{\nprocs + 1}$, using one of several available techniques; see \cite{li2008}.
 
 The number of stochastic dimensions, which so far is $\nprocs + 1$, directly impacts the computational cost of PC expansions as it is discussed in \sref{computational-challenges}.
 Therefore, one should consider a possibility for model order reduction before constructing PC expansions.
@@ -19,7 +19,7 @@ where the superscript ``$-1$'' signifies the fact that we are interested in expr
 At this point, we have $\nvars$ independent Gaussian random variables $\vZ'''(\o)$, which already suffice the independence prerequisite of PC expansions (see \sref{uncertain-parameters}).
 However, we would like to retain, after the Nataf transformation and model order reduction, the boundedness of the initial beta variables $\vU(\o)$ since the PC expansions constructed in terms of bounded variables will also be bounded, which more accurately reflect the underlying physics.
 Therefore, we undertake one additional transformation on top that yields the desired bounded and independent parameters, which we denote by $\vZ(\o)$ throughout the paper.
-This transformation is a standard technique \cite{durrett2010} based on an application of the CDF of $\vZ(\o)$, denoted by $\fCDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\fCDF_{\vZ'''}$.
+This transformation is a standard technique based on an application of the CDF of $\vZ(\o)$, denoted by $\fCDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''(\o)$, denoted by $\fCDF_{\vZ'''}$.
 The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU(\o)$ to $\vZ(\o)$ is then
 \[
   \vU(\o) = \oTransform{\vZ(\o)} = \oInvNataf{\fCDF^{-1}_{\vZ'''}(\fCDF_{\vZ}(\vZ(\o)))}.

@@ -4,16 +4,16 @@ Hence, we shall focus on the subthreshold leakage and, more specifically, on the
 In particular, $\Leff(\o)$ also affects other leakage-magnifying parameters such as the threshold voltage \cite{juan2011}.
 
 It is well known that the dispersion due to process variation of the effective channel length around the nominal value resembles a bell shape, which is similar to the ones owned by Gaussian distributions.
-Therefore, such variations are often conveniently modeled using Gaussian variables \cite{srivastava2010, juan2011, juan2012, chandra2010, shen2009, bhardwaj2006, ghanta2006}.
+Therefore, such variations are often conveniently modeled using Gaussian variables \cite{srivastava2010, juan2011, juan2012, chandra2010, huang2009, lee2013, shen2009, bhardwaj2006, ghanta2006}.
 In this work, due to both the underlying physics and demonstration purposes, we make a step further and bake right into the model the fact that the effective channel length---occupying the space between the drain and source of a nanoscopic transistor---cannot be arbitrarily large or take a negative value, as Gaussian distributions allow it to do.
 In other words, we require the model of $\Leff(\o)$ to have a bounded support.
 With this in mind, we propose to model physically-bounded parameters using the four-parametric family of beta distributions: $\dBeta(\alpha, \beta, a, b)$ where $\alpha$ and $\beta$ are the shape parameters, and $a$ and $b$ are the left and right bounds of the support, respectively.
-$\alpha$ and $\beta$ can be chosen in such a way that the typically found bell shape of the distribution is preserved.
+$\alpha$ and $\beta$ can be chosen in such a way that the typically found bell shape of the distribution is preserved.\footnote{Alternatively, one can match the first two moments.}
 An illustration is given in \fref{beta-normal} where we fitted a beta distribution to the standard Gaussian distribution.
 It can be seen that the curves are nearly indistinguishable, but the beta one has a strictly bounded support $[-4, 4]$, which can potentially lead to more realistic models.
 
 \input{include/assets/beta-normal.tex}
-The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, $\gLeff(\o)$ can be treated as a composition of independent inter-lot, inter-wafer, and inter-die variations; likewise, $\lLeff(\o)$ can be treated as a composition of independent (purely random) and dependent (spatially correlated) local variations.}
+The variations of $\Leff(\o)$ are split into global $\gLeff(\o)$ and local $\lLeff(\o)$ parts \cite{chandra2010, shen2009}.\footnote{Without loss of generality, $\gLeff(\o)$ can be treated as a composition of independent inter-lot, inter-wafer, and inter-die variations; likewise, $\lLeff(\o)$ can be treated as a composition of independent and dependent local variations.}
 $\gLeff(\o)$ is assumed to be shared among all processing elements whereas each processing element has its own local parameter $\lLeff_i(\o)$.
 Therefore, the effective channel length $\Leff_i(\o)$ of the $i$th processing element on the die is modeled as follows:
 \begin{equation} \elabel{leakage-partition}
@@ -36,15 +36,14 @@ where $\r_i \in \real^2$ is the spatial location of the center of the $i$th proc
   & \fCorr_\OU(\r_i, \r_j) = \exp\left(- \frac{\abs{\,\norm{\r_i} - \norm{\r_j}\,}}{\ell_\OU} \right),
 \end{align*}
 which are known as the squared-exponential and Ornstein-Uhlenbeck kernels, respectively.
-In the above equations, $\eta \in [0, 1]$ is a weight coefficient balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm{\cdot}$ stands for the Euclidean distance.
-The choice of the correlation function in \eref{correlation-function} is guided by the observations of the correlations induced by the fabrication process \cite{chandrakasan2001, friedberg2005, cheng2011}: $\fCorr_\SE$ imposes similarities between the spatial locations that are close to each other, and $\fCorr_\OU$ imposes similarities between the locations that are at the same distance from the center of the die (see also \cite{ghanem1991, bhardwaj2008, ghanta2006}).
+$\eta \in [0, 1]$ is a weight coefficient balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm{\cdot}$ stands for the Euclidean distance.
+The choice of the correlation function in \eref{correlation-function} is guided by the observations of the correlations induced by the fabrication process \cite{chandrakasan2001, friedberg2005, cheng2011}: $\fCorr_\SE$ imposes similarities between the spatial locations that are close to each other, and $\fCorr_\OU$ imposes similarities between the locations that are at the same distance from the center of the die (see also \cite{huang2009, ghanem1991, lee2013, bhardwaj2008, ghanta2006}).
 The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these similarities, \ie, the range wherein the influence of one point on another is significant.
 
-It is important to note the following.
-Although \eref{correlation-function} captures certain features inherent to the fabrication process, it is still an idealization, like any other function given analytically.
-In practice, it can be difficult to make a justifiable choice and tune such a formula.
+Although \eref{correlation-function} captures certain features inherent to the fabrication process, it is still an idealization.
+In practice, it can be difficult to make a justifiable choice and tune such a formula, which is a prerequisite for the techniques in \sref{prior-work} based on the (continuous) KL decomposition.
 A correlation matrix, on the other hand, can readily be estimated from measurements and, thus, is a more probable input to PTA.
-Therefore, \eref{correlation-function} is used here with the only purpose of constructing a correlation matrix of the random variables $\lLeff_i(\o)$.
+Thus, we use \eref{correlation-function} with the only purpose of constructing a correlation matrix of the random variables $\lLeff_i(\o)$.
 For convenience, the resulting matrix is extended by one dimension to pack $\gLeff(\o)$ and $\lLeff_i(\o)$ together.
 In this case, the correlation matrix obtains one additional non-zero element on the diagonal.
 Taking into account the variances of the variable, the final covariance matrix of the whole random vector $\vU(\o)$ (see \eref{uncertain-parameters}) is formed, which we denote by $\mCov_\vU$.
