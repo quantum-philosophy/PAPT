@@ -1,6 +1,8 @@
 \input{include/assets/algorithm.tex}
 The probability space that we shall reside in is defined as a triple $(\outcomes, \sAlgebra, \pMeasure)$ where $\outcomes$ is a set of outcomes, $\sAlgebra \subseteq 2^\outcomes$ is a $\sigma$-algebra on $\outcomes$, and $\pMeasure: \sAlgebra \to [0, 1]$ is a probability measure \cite{maitre2010}.
-Loosely speaking, an $n$-dimensional random variable is then a mapping $\v{X}: \o \in \outcomes \mapsto \v{X}(\o) \in \real^n$.
+A random variable is a function $X: \o \in \outcomes \mapsto X(\o) \in \real$ which is $\sAlgebra$-measurable.
+A random vector (matrix) is then a vector (matrix) whose elements are random variables.
+In order to make a clear distinction between deterministic and stochastic quantities, the latter will be written as $X(\o)$, which should not be confused with a point evaluation.
 In what follows, the probability space $(\outcomes, \sAlgebra, \pMeasure)$ is always implied.
 
 Consider a heterogeneous electronic system that consists of $\nprocs$ processing elements and is equipped with a thermal package.

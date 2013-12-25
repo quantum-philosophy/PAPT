@@ -1,54 +1,30 @@
 \usepackage[english]{babel}
-\usepackage[usenames,dvipsnames]{color}
 \usepackage{amssymb}
 \usepackage{amsmath}
 \usepackage{cases}
-\usepackage{url}
 \usepackage{mathrsfs}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{rotating}
 \usepackage{graphicx}
-\usepackage[maxnames=1,sorting=none,defernumbers=true]{biblatex}
-\usepackage{csquotes}
-\usepackage{flushend}
 
 \makeatletter
 \let\l@ENGLISH\l@english
 \makeatother
 
 %
-% Submission and revision
+% Bibliography
 %
-\usepackage{pdfpages}
-
-\definecolor{updated}{rgb}{1,0,0}
-\definecolor{updatedBackground}{rgb}{1,0.95,0.95}
-
-\usepackage[normalem]{ulem}
-\newcommand{\updated}[1]{{\color{updated}\uline{#1}}}
-
-\newcommand{\updatedFigure}[1]{%
-  \setlength{\fboxsep}{0pt}%
-  \setlength{\fboxrule}{1pt}%
-  \vspace*{-2pt}%
-  \hspace*{-5pt}%
-  \fcolorbox{updated}{updatedBackground}{#1}%
-}
-
-\AtEveryBibitem{%
-  \iffieldequalstr{note}{updated}
-  {%
-    \clearfield{note}%
-    \color{red}%
-  }%
-  {%
-  }%
-}
+\usepackage[maxnames=1,sorting=none,defernumbers=true]{biblatex}
+\usepackage{csquotes}
+\usepackage{url}
 
 %
 % Format
 %
+\usepackage[bottom]{footmisc}
+\usepackage{flushend}
+
 \raggedbottom
 \setlength{\parskip}{0pt}
 

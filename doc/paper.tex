@@ -3,16 +3,10 @@
 
 \bibliography{include/references.bib}
 
+\title{\input{include/title.tex}}
+\author{\input{include/authors.tex}}
+
 \begin{document}
-  \includepdf[pages={-}]{revision2.pdf}
-  \pagenumbering{arabic}
-
-  \title{\TitleFont Probabilistic Analysis of Power and Temperature Under Process Variation for Electronic System Design}
-
-  \author{
-    \input{include/authors.tex}
-  }
-
   \maketitle
 
   \begin{abstract}
@@ -20,7 +14,11 @@
   \end{abstract}
 
   \begin{IEEEkeywords}
-    Uncertainty quantification, power analysis, temperature analysis, process variation, polynomial chaos, leakage power, spatial correlations.
+    Power analysis,
+    process variation,
+    system-level design,
+    temperature analysis,
+    uncertainty quantification.
   \end{IEEEkeywords}
 
   \section{Introduction} \slabel{introduction}

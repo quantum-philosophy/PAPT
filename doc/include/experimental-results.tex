@@ -9,9 +9,9 @@ Correlation matrices are computed according to \eref{correlation-function} where
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
 Dynamic power profiles involved in the experiments are based on simulations of randomly generated, \via\ TGFF (v3.5) \cite{dick1998}, applications defined as directed acyclic task graphs.\footnote{In practice, dynamic power profiles are typically obtained \via\ an adequate simulator of the architecture of interest.}
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
-\updated{The time step of power and temperature traces is set to $1\,\text{ms}$ (see \sref{problem-formulation}), which is also the time step of the recurrence in \eref{pc-recurrence}.}
+The time step of power and temperature traces is set to $1\,\text{ms}$ (see \sref{problem-formulation}), which is also the time step of the recurrence in \eref{pc-recurrence}.
 As a comparison to our polynomial chaos (PC) expansions, we employ a Monte Carlo (MC) sampling technique.
-\updated{The MC approach is set to preserve the whole variance of the problem, \ie, no model order reduction, and it solves the system in \eref{fourier-system} directly using the fourth- and fifth-order Runge-Kutta formulae (the Dormand-Prince method) \cite{press2007} available in MATLAB \cite{matlab}.}
+The MC approach is set to preserve the whole variance of the problem, \ie, no model order reduction, and it solves the system in \eref{fourier-system} directly using the fourth- and fifth-order Runge-Kutta formulae (the Dormand-Prince method) \cite{press2007} available in MATLAB \cite{matlab}.
 
 Since the temperature part of PTA is the main contribution of this work, we shall focus on the assessment of temperature profiles.
 Note, however, that the results for temperature allow one to implicitly draw reasonable conclusions regarding power since power is an intermediate step towards temperature, and any accuracy problems with respect to power are expected to propagate to temperature.
