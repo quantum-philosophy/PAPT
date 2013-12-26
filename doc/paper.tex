@@ -1,8 +1,6 @@
 \documentclass[journal]{IEEEtran}
 \input{include/definitions.tex}
 
-\bibliography{include/references.bib}
-
 \title{\input{include/title.tex}}
 \author{\input{include/authors.tex}}
 
@@ -48,10 +46,8 @@
   \section*{Acknowledgments}
   \input{include/acknowledgments.tex}
 
-  \begingroup
-  \setlength\bibitemsep{1pt}
-  \printbibliography
-  \endgroup
+  \bibliographystyle{IEEEtran}
+  \bibliography{IEEEabrv,include/references}
 
   \appendix
   \input{include/appendix.tex}
