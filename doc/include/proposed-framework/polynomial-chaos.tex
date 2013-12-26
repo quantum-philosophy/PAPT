@@ -2,7 +2,7 @@ The goal now is to transform the ``problematic'' term in \eref{recurrence}, \ie,
 Our solution is the construction of a surrogate model for the power model in \eref{power-model}, which we further propagate through \eref{recurrence} to obtain an approximation for temperature.
 To this end, we employ polynomial chaos (PC) \cite{xiu2010}, which decomposes stochastic quantities into infinite series of orthogonal polynomials of random variables.
 Such series are especially attractive from the post-processing perspective as they are nothing more than polynomials; hence, PC expansions are easy to interpret and easy to evaluate.
-An introduction to orthogonal polynomials, which we shall rely on in the derivation below, is given in \aref{polynomial-chaos}.
+An introduction to orthogonal polynomials, which we rely on below, is given in \aref{polynomial-chaos}.
 
 \subsubsection{Polynomial basis}
 The first step towards a polynomial expansion is the choice of a suitable polynomial basis $\{ \pcb_i(\vz) \}_{i = 1}^\infty$, which is typically made based on the Askey scheme of orthogonal polynomials \cite{xiu2010}.
@@ -46,7 +46,7 @@ where $k = 1, \dotsc, \nsteps$ and $i = 1, \dotsc, \pcterms$. Finally, \eref{fou
 The general formula of a truncated PC expansion applied to the power term in \eref{recurrence} is given in \eref{pc-expansion}.
 Let us now find the coefficients of this expansion, $\pcc{\vP}_{ki}$, which will be propagated to temperature (using \eref{pc-recurrence} and \eref{fourier-output}).
 To this end, a spectral projection of the stochastic quantity being expanded, \ie, $\vP_k(\o)$, is to be performed onto the space spanned by $\{ \pcb_i(\vZ(\o)) \}_{i = 1}^{\pcterms}$, where $\pcterms$ is the number of polynomials in the truncated basis.
-This means that we need to compute inner products of \eref{power-model} with each polynomial from the basis as
+This means that we need to compute inner products of \eref{power-model} with each polynomial from the basis as follows:
 \[
   \oInner{\vP_k(\o)}{\pcb_i(\vZ(\o))} = \oInner{\sum_{j=1}^{\pcterms} \pcc{\vP}_{kj} \: \pcb_j(\vZ(\o))}{\pcb_i(\vZ(\o))}
 \]
@@ -79,7 +79,7 @@ In particular, for sparse integration grids based on Gaussian quadratures, $\log
 To summarize, let us recall the stochastic recurrence in \eref{recurrence} where, in the presence of correlations, an arbitrary functional $\vP_k(\omega)$ of the uncertain parameters $\vU(\o)$ and random temperature $\vTO_k(\o)$ (see \sref{power-model}) needs to be evaluated and combined with another random vector, $\vX_k(\omega)$.
 Now the recurrence in \eref{recurrence} has been replaced with a purely deterministic recurrence in \eref{pc-recurrence} that involves only linear operations.
 Thus, the performed spectral decompositions have effectively substituted the heavy thermal system in \eref{fourier-system} with a light polynomial surrogate defined by a set of basis functions $\{ \pcb_i(\vz) \}_{i = 1}^\pcterms$ and the corresponding sets of coefficients, namely, $\{ \pcc{\vP}_{ki} \}_{i = 1}^\pcterms$ for power and $\{ \pcc{\vTO}_{ki} \}_{i = 1}^\pcterms$ for temperature, where $k$ traverses the $\nsteps$ intervals of the considered time span.
-Consequently, the output of the proposed PTA framework constitutes two stochastic profiles: the power and temperature profiles denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively, which are ready to be analyzed.
+Consequently, the output of the proposed PTA framework constitutes two stochastic profiles: the power and temperature profiles denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively, which are ready to be further analyzed.
 
 Finally, note the ease and generality of taking the uncertainty into consideration using the proposed approach: the above derivation is delivered from any explicit formula for any particular uncertain parameter.
 In contrast, a typical solution from the literature related to process variation is based on ad hoc expressions and should be tailored by the user for each new parameter individually; see, \eg, \cite{huang2009, bhardwaj2008, ghanta2006}.

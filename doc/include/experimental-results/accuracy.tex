@@ -29,12 +29,12 @@ The drawn conclusions will be generalized to the other two tables later on.
 
 \input{include/assets/speed.tex}
 \input{include/assets/experimental-results-pdf.tex}
-First, we concentrate on the accuracy of the proposed technique and, thus, pay particular attention the columns of \tref{accuracy-eta-0-5} corresponding to high values of $\nsamples$.
+First, we concentrate on the accuracy of our technique and, thus, pay particular attention the columns of \tref{accuracy-eta-0-5} corresponding to high values of $\nsamples$.
 It can be seen that the error of the expected value, $\eExp$, is small even for $\pcorder = 1$: it is bounded by 0.6\% (see $\eExp$ for $\pcorder \geq 1$ and $\nsamples \geq 10^4$).
 
 The error of the second central moment, $\eVar$, starts from 66.7\% for the first-order PC expansions and drops significantly to 5.71\% and below for the fourth order and higher (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
 It should be noted, however, that, for a fixed $\pcorder \geq 4$, $\eVar$ exhibits a considerable decrease even when $\nsamples$ transitions from $10^4$ to $10^5$.
-The rate of this decrease suggests that $\nsamples = 10^4$ is not sufficient to reach the same accuracy as the one delivered by our framework, and $\nsamples = 10^5$ might not be either.
+The rate of this decrease suggests that $\nsamples = 10^4$ is not sufficient to reach the same accuracy as the one delivered by the proposed framework, and $\nsamples = 10^5$ might not be either.
 
 The results of the third metric, $\ePDF$, allow us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed difference in \tref{accuracy-eta-0-5} is bounded by 1.83\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
 To give a better appreciation of the proximity of the two methods, \fref{experimental-results-pdf} displays the \pdfs\ computed using our framework for time moment 50~ms with $\pcorder = 4$ (the dashed lines) along with those calculated by the MC approach with $\nsamples = 10^4$ (the solid lines).
