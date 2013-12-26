@@ -15,3 +15,7 @@ paper-blx.bib
 paper.pdf
 revision.pdf
 revision2.pdf
+*.fff
+*.lof
+*.lot
+*.ttt
