@@ -1,21 +1,18 @@
 *.aux
 *.bbl
-*.bcf
 *.blg
 *.dvi
 *.fdb_latexmk
 *.fls
 *.log
-*.out
-*.run.xml
-*.synctex.gz
+*.fff
+*.lof
+*.lot
+*.ttt
 
 paper-blx.bib
 
 paper.pdf
 revision.pdf
 revision2.pdf
-*.fff
-*.lof
-*.lot
-*.ttt
+biography.pdf
