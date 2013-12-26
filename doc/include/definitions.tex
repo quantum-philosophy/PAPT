@@ -1,30 +1,31 @@
+%
+% General
+%
 \usepackage[english]{babel}
-\usepackage{amssymb}
-\usepackage{amsmath}
-\usepackage{cases}
-\usepackage{mathrsfs}
-\usepackage{multirow}
-\usepackage{booktabs}
-\usepackage{rotating}
-\usepackage{graphicx}
 
 %
-% Bibliography
+% Submission
 %
-\usepackage{url}
+\usepackage[noheads,nomarkers]{endfloat}
+
+\newlength{\ColumnWidth}
+\setlength{\ColumnWidth}{21pc} % IEEE standard
+
+%
+% Graphics
+%
+\usepackage{graphicx}
 
 %
 % Format
 %
 \usepackage[bottom]{footmisc}
 \usepackage{flushend}
+\usepackage{url}
 
 \raggedbottom
 \setlength{\parskip}{0pt}
 
-%
-% Fonts
-%
 \newcommand*{\TitleFont}{%
   \fontsize{22}{26}%
   \selectfont%
@@ -72,6 +73,10 @@
 %
 % Tables
 %
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{rotating}
+
 \usepackage{array}
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
@@ -91,6 +96,14 @@
 \newcommand{\colVar}{$\eVar, \%$}
 \newcommand{\colPDF}{$\ePDF, \%$}
 \newcommand{\colMC}[1]{$\scriptstyle \nsamples = 10^#1$}
+
+%
+% Mathematics
+%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+\usepackage{mathrsfs}
 
 %
 % Real analysis

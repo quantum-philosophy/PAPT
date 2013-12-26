@@ -1,24 +1,22 @@
 \begin{table}[t]
   \centering
-  \vspace{-0.5em}
   \caption{Main notations}
   \vspace{-1.0em}
   \setlength{\tabcolsep}{5pt}
-  \begin{tabular*}{1\linewidth}{ll|ll}
+  \begin{tabular*}{1\ColumnWidth}{llll}
     \toprule
     Notation & Meaning & Notation & Meaning \\
-    \midrule
-    \midrule
-    $\vP$                               & Power                              & $\nprocs$   & \# of processing elements \\
-    $\vTO$                              & Temperature                        & $\nnodes$   & \# of thermal nodes \\
-    $\vU$                               & Uncertain parameters               & $\nsteps$   & \# of time moments \\
-    $\vZ$                               & Independent variables              & $\nvars$    & \# of elements in $\vZ$ \\
-    $(\cdot)(\o)$                       & Stochastic quantity                & $\pcorder$  & Order of PC expansions \\
-    $\oPC{\nvars}{\pcorder}{\:\cdot\:}$ & PC expansion, \eref{pc-expansion}  & $\pcterms$  & \# of PC terms, \eref{pc-terms} \\
-    $\pcb_i(\vz)$                       & Base polynomials                   & $\qdorder$  & \# of quadrature nodes \\
+    \cmidrule(r){1-2}
+    \cmidrule(l){3-4}
+    $\vP$                               & Power                               & $\nprocs$   & \# of processing elements \\
+    $\vTO$                              & Temperature                         & $\nnodes$   & \# of thermal nodes \\
+    $\vU$                               & Uncertain parameters                & $\nsteps$   & \# of time moments \\
+    $\vZ$                               & Independent variables               & $\nvars$    & \# of elements in $\vZ$ \\
+    $(\cdot)(\o)$                       & Stochastic quantity                 & $\pcorder$  & Order of PC expansions \\
+    $\oPC{\nvars}{\pcorder}{\:\cdot\:}$ & PC expansion, \eref{pc-expansion}   & $\pcterms$  & \# of PC terms, \eref{pc-terms} \\
+    $\pcb_i(\vz)$                       & Base polynomials                    & $\qdorder$  & \# of quadrature nodes \\
     $\oInner{\cdot}{\cdot}$             & Inner product, \eref{inner-product} & $\nsamples$ & \# of MC samples \\
     \bottomrule
   \end{tabular*}
   \tlabel{notation}
-  \vspace{-2.0em}
 \end{table}
