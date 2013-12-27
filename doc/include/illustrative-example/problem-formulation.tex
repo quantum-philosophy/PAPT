@@ -28,17 +28,17 @@ Hence, the uncertain parameters of the problem are
 Global variations are typically assumed to be uncorrelated with respect to the local ones.
 The latter, however, are known to have high spatial correlations, which we shall model using the following correlation function:
 \begin{equation} \elabel{correlation-function}
-  \oCorr{\lLeff_i, \lLeff_j} = \eta \; \fCorr_\SE(\vR_i, \vR_j) + (1 - \eta) \fCorr_\OU(\vR_i, \vR_j)
+  \oCorr{\lLeff_i, \lLeff_j} = \eta \; \fCorrSE(\vR_i, \vR_j) + (1 - \eta) \fCorrOU(\vR_i, \vR_j)
 \end{equation}
 where $\vR_i \in \real^2$ is the spatial location of the center of the $i$th processing element relative to the center of the die. The correlation function is a composition of two kernels:
 \begin{align*}
-  & \fCorr_\SE(\vR_i, \vR_j) = \exp\left(-\frac{\norm{\vR_i - \vR_j}^2}{\ell_\SE^2}\right) \text{ and} \\
-  & \fCorr_\OU(\vR_i, \vR_j) = \exp\left(- \frac{\abs{\,\norm{\vR_i} - \norm{\vR_j}\,}}{\ell_\OU} \right),
+  & \fCorrSE(\vR_i, \vR_j) = \exp\left(- \frac{\norm{\vR_i - \vR_j}^2}{\lCorrSE^2} \right) \text{ and} \\
+  & \fCorrOU(\vR_i, \vR_j) = \exp\left(- \frac{\abs{\,\norm{\vR_i} - \norm{\vR_j}\,}}{\lCorrOU} \right),
 \end{align*}
 which are known as the squared-exponential and Ornstein-Uhlenbeck kernels, respectively.
-$\eta \in [0, 1]$ is a weight coefficient balancing the kernels; $\ell_\SE$ and $\ell_\OU > 0$ are so-called length-scale parameters; and $\norm{\cdot}$ stands for the Euclidean distance.
-The choice of the correlation function in \eref{correlation-function} is guided by the observations of the correlations induced by the fabrication process \cite{chandrakasan2001, friedberg2005, cheng2011}: $\fCorr_\SE$ imposes similarities between the spatial locations that are close to each other, and $\fCorr_\OU$ imposes similarities between the locations that are at the same distance from the center of the die (see also \cite{huang2009, ghanem1991, lee2013, bhardwaj2008, ghanta2006}).
-The length-scale parameters $\ell_\SE$ and $\ell_\OU$ control the extend of these similarities, \ie, the range wherein the influence of one point on another is significant.
+$\eta \in [0, 1]$ is a weight coefficient balancing the kernels; $\lCorrSE$ and $\lCorrOU > 0$ are so-called length-scale parameters; and $\norm{\cdot}$ stands for the Euclidean distance.
+The choice of the correlation function in \eref{correlation-function} is guided by the observations of the correlations induced by the fabrication process \cite{chandrakasan2001, friedberg2005, cheng2011}: $\fCorrSE$ imposes similarities between the spatial locations that are close to each other, and $\fCorrOU$ imposes similarities between the locations that are at the same distance from the center of the die (see also \cite{huang2009, ghanem1991, lee2013, bhardwaj2008, ghanta2006}).
+The length-scale parameters $\lCorrSE$ and $\lCorrOU$ control the extend of these similarities, \ie, the range wherein the influence of one point on another is significant.
 
 Although \eref{correlation-function} captures certain features inherent to the fabrication process, it is still an idealization.
 In practice, it can be difficult to make a justifiable choice and tune such a formula, which is a prerequisite for the techniques in \sref{prior-work} based on the (continuous) KL decomposition.

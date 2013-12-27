@@ -144,9 +144,6 @@
 \newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left(#1\right)}
 \newcommand{\oCorr}[1]{\mathbb{C}\text{orr}\left(#1\right)}
 
-\newcommand{\SE}{\text{SE}}
-\newcommand{\OU}{\text{OU}}
-
 \newcommand{\fPDF}{f}
 \newcommand{\fCDF}{F}
 
@@ -161,11 +158,19 @@
 \def\fCov{\@ifnextchar\bgroup{\fCovOne}{\fCovZero}}
 \def\fCovOne#1{k(#1)}
 \def\fCovZero{k}
-
-\def\fCorr{\@ifnextchar\bgroup{\fCorrOne}{\fCorrZero}}
-\def\fCorrOne#1{k(#1)}
-\def\fCorrZero{k}
 \makeatother
+
+\newcommand{\fCorr}{k}
+\newcommand{\lCorr}{\ell}
+
+\newcommand{\SE}{\text{SE}}
+\newcommand{\OU}{\text{OU}}
+
+\newcommand{\fCorrSE}{\fCorr_\SE}
+\newcommand{\fCorrOU}{\fCorr_\OU}
+
+\newcommand{\lCorrSE}{\lCorr_\SE}
+\newcommand{\lCorrOU}{\lCorr_\OU}
 
 %
 % Polynomial chaos expansion
@@ -309,11 +314,11 @@
 \newcommand{\vR}{\v{r}}
 
 \newcommand{\Leff}{L}
-\newcommand{\vLeff}{\v{L}}
-\newcommand{\nLeff}{L_\text{nom}}
-\newcommand{\gLeff}{{\delta L^{(g)}}}
-\newcommand{\lLeff}{\delta L^{(l)}}
-\newcommand{\vlLeff}{\delta \v{L}^{(l)}}
+\newcommand{\vLeff}{\v{\Leff}}
+\newcommand{\nLeff}{\Leff_\text{nom}}
+\newcommand{\gLeff}{{\delta \Leff^{(g)}}}
+\newcommand{\lLeff}{\delta \Leff^{(l)}}
+\newcommand{\vlLeff}{\delta \vLeff^{(l)}}
 
 %
 % Numbers

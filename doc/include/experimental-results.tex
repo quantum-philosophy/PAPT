@@ -5,7 +5,7 @@ All the experiments are conducted on a GNU/Linux machine with Intel Core i7 2.66
 Now we shall elaborate on the default configuration of our experimental setup, which, in the following subsections, will be adjusted according to the purpose of each particular experiment.
 We consider a 45-nanometer technological process.
 The effective channel length is assumed to have a nominal value of $17.5\,\text{nm}$ \cite{ptm} and a standard deviation of $2.25\,\text{nm}$ where the global and local variations are equally weighted.
-Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\ell_\SE$ and $\ell_\OU$ are set to half the size of the square die.
+Correlation matrices are computed according to \eref{correlation-function} where the length-scale parameters $\lCorrSE$ and $\lCorrOU$ are set to half the size of the square die.
 In the model order reduction technique (see \sref{ie-uncertain-parameters}), the threshold parameter is set to 0.99 preserving 99\% of the variance of the data.
 Dynamic power profiles involved in the experiments are based on simulations of randomly generated applications defined as directed acyclic task graphs.\footnote{In practice, dynamic power profiles are typically obtained \via\ an adequate simulator of the architecture of interest.}
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
