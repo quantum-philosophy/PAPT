@@ -1,15 +1,15 @@
 Due to the properties of PC expansions---in particular, due to the pairwise orthogonality of the basis polynomials as discussed in \aref{polynomial-chaos}---the obtained polynomial traces allow for various prospective analyses to be performed with no effort. For instance, consider the PC expansion of temperature at the $k$th moment of time given by
 \begin{equation} \elabel{pc-k}
-  \oPC{\nvars}{\pcorder}{\vTO_k(\o)} = \sum_{i = 1}^{\pcterms} \pcc{\vTO}_{ki} \pcb_i(\vZ(\o))
+  \oPC{\nvars}{\pcorder}{\vTO_k} = \sum_{i = 1}^{\pcterms} \pcc{\vTO}_{ki} \pcb_i(\vZ)
 \end{equation}
 where $\pcc{\vTO}_{ki}$ are computed using \eref{fourier-output} and \eref{pc-recurrence}. Let us, for example, find the expectation and variance of the expansion.
-Due to the fact that, by definition \cite{xiu2010}, the first polynomial $\pcb_1(\vZ(\o))$ in a polynomial basis is unity, $\oExp{\pcb_1(\vZ(\o))} = 1$.
-Therefore, using the orthogonality property in \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ(\o))} = 0$ for $i = 2, \dotsc, \pcterms$.
-Consequently, the expectation and variance have the following simple expressions solely based on the coefficients:
+Due to the fact that, by definition \cite{xiu2010}, the first polynomial $\pcb_1$ in a polynomial basis is unity, $\oExp{\pcb_1(\vZ)} = 1$.
+Therefore, using the orthogonality property in \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ)} = 0$ for $i = 2, \dotsc, \pcterms$.
+Consequently, the expected value and variance have the following simple expressions solely based on the coefficients:
 \begin{equation} \elabel{pc-moments}
 \begin{aligned}
-  & \oExp{\vTO_k(\o)} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \\
-  & \oVar{\vTO_k(\o)} = \sum_{i = 2}^{\pcterms} \pcn_i \: \pcc{\vTO}_{ki}^2
+  & \oExp{\vTO_k} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \\
+  & \oVar{\vTO_k} = \sum_{i = 2}^{\pcterms} \pcn_i \: \pcc{\vTO}_{ki}^2
 \end{aligned}
 \end{equation}
 where the squaring should be understood elementwise, and $\pcn_i$ are normalization constants with analytical expressions. Such quantities as \cdfs, \pdfs, probabilities of certain events, \etc\ can be estimated by sampling \eref{pc-k}; each sample is a trivial evaluation of a polynomial. Furthermore, global and local sensitivity analyses of deterministic and non-deterministic quantities can be readily conducted on \eref{pc-k}.

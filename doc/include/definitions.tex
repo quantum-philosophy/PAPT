@@ -64,7 +64,6 @@
 \newcommand{\apriori}{\emph{a priori}}
 \newcommand{\vs}{vs.}
 \newcommand{\via}{via}
-\newcommand{\perse}{\emph{per se}}
 
 \makeatletter
 \def\stage#1{\@ifnextchar\bgroup{\stageDouble{#1}}{\stageSingle{#1}}}
@@ -171,10 +170,10 @@
 %
 % Polynomial chaos expansion
 %
-\newcommand{\pcb}{\Phi}
+\newcommand{\pcb}{\psi}
 \newcommand{\pcn}{\nu}
 \newcommand{\pcc}[1]{\hat{#1}}
-\newcommand{\oPC}[3]{\mathcal{C}_{#2}^{#1}\left[#3\right]}
+\newcommand{\oPC}[3]{\mathcal{C}^{#1}_{#2}\left[#3\right]}
 
 \makeatletter
 \def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
@@ -195,13 +194,13 @@
 %
 \newcommand{\qdn}[1]{\hat{#1}}
 \newcommand{\qdw}{w}
-\newcommand{\oQuad}[3]{\mathcal{Q}_{#2}^{#1}\left[#3\right]}
+\newcommand{\oQuad}[3]{\mathcal{Q}^{#1}_{#2}\left[#3\right]}
 
 %
 % Thermal model:
 %
-%      dT
-%  C * -- + (G - G_amb) * T = P
+%      dq
+%  C * -- + (G - G_amb) * q = p
 %      dt
 %
 
@@ -215,13 +214,13 @@
 %
 % Transformed thermal model:
 %
-%  dX
-%  -- = A * X + B * P
+%  ds
+%  -- = A * s + B * p
 %  dt
 %
-%  Y = B^T * X
+%  q = B^T * s + q_amb
 %
-\newcommand{\vX}{\v{X}}
+\newcommand{\vS}{\v{s}}
 \newcommand{\mA}{\m{A}}
 \newcommand{\mB}{\m{B}}
 
@@ -229,8 +228,8 @@
 \newcommand{\mM}{\m{\tilde{B}}}
 
 % Recurrence coefficients
-\newcommand{\mCF}{\m{D}}
-\newcommand{\mCS}{\m{E}}
+\newcommand{\mCF}{\m{E}}
+\newcommand{\mCS}{\m{F}}
 
 %
 % Time
@@ -238,30 +237,24 @@
 \renewcommand{\t}{t}
 \newcommand{\dt}{\Delta \t}
 \newcommand{\period}{T}
-\newcommand{\sTime}{T}
 
 %
 % Temperature
 %
-\newcommand{\T}{Q}
-\newcommand{\vTI}{\v{\tilde{Q}}}
-\newcommand{\vTO}{\v{\T}}
-\newcommand{\mTO}{\m{\T}}
+\newcommand{\vTI}{\v{\tilde{q}}}
+\newcommand{\vTO}{\v{q}}
+\newcommand{\mTO}{\m{Q}}
 
 \newcommand{\amb}{\text{amb}}
 
 %
 % Power
 %
-\renewcommand{\P}{P}
-\newcommand{\vP}{\v{P}}
+\newcommand{\vP}{\v{p}}
 \newcommand{\mP}{\m{P}}
 
 \newcommand{\dyn}{\text{dyn}}
-\newcommand{\leak}{\text{leak}}
 \newcommand{\stat}{\text{stat}}
-
-\newcommand{\f}{f}
 
 \makeatletter
 \def\oPower{\@ifnextchar\bgroup{\oPowerPlus}{\oPowerZero}}
@@ -292,35 +285,35 @@
 %
 % Uncertain parameters
 %
-\newcommand{\U}{U}
-\newcommand{\vU}{\v{U}}
+\newcommand{\U}{u}
+\newcommand{\vU}{\v{u}}
 
 %
 % Independent random variables
 %
-\newcommand{\z}{\zeta}
-\newcommand{\Z}{Z}
-\newcommand{\vZ}{\v{Z}}
-\newcommand{\vz}{\boldsymbol{\zeta}}
+\newcommand{\Z}{\xi}
+\newcommand{\vZ}{\boldsymbol{\xi}}
+
+\newcommand{\x}{x}
+\newcommand{\vX}{\v{x}}
 
 \makeatletter
 \def\oTransform{\@ifnextchar\bgroup{\oTransformWithArgument}{\oTransformWithoutArgument}}
-\def\oTransformWithArgument#1{\mathcal{T}\left[#1\right]}
-\def\oTransformWithoutArgument{\mathcal{T}}
+\def\oTransformWithArgument#1{\mathbb{T}\left[#1\right]}
+\def\oTransformWithoutArgument{\mathbb{T}}
 \makeatother
 
 %
 % Process variation
 %
+\newcommand{\vR}{\v{r}}
+
 \newcommand{\Leff}{L}
 \newcommand{\vLeff}{\v{L}}
-\newcommand{\nLeff}{L}
+\newcommand{\nLeff}{L_\text{nom}}
 \newcommand{\gLeff}{{\delta L^{(g)}}}
 \newcommand{\lLeff}{\delta L^{(l)}}
 \newcommand{\vlLeff}{\delta \v{L}^{(l)}}
-
-\renewcommand{\r}{r}
-\newcommand{\vr}{\v{r}}
 
 %
 % Numbers
@@ -329,14 +322,14 @@
 \newcommand{\nprocs}{{n_\text{p}}}
 \newcommand{\nsteps}{{n_\text{t}}}
 
-\newcommand{\nvars}{{n_\text{v}}}
+\newcommand{\nparams}{{n_\text{u}}}
+\newcommand{\nvars}{{n_\xi}}
 
 \newcommand{\pcorder}{{n_\text{po}}}
-\newcommand{\pcterms}{{n_\text{pt}}}
+\newcommand{\pcterms}{{n_\text{pc}}}
 
 \newcommand{\qdlevel}{{n_\text{ql}}}
-\newcommand{\qdorder}{{n_\text{qo}}}
-\newcommand{\qdorderone}{{\tilde{n}_\text{qo}}}
-\newcommand{\qdprecision}{{n_\text{qp}}}
+\newcommand{\qdorder}{{n_\text{qp}}}
+\newcommand{\qdorderone}{{\tilde{n}_\text{qp}}}
 
 \newcommand{\nsamples}{{n_\text{mc}}}

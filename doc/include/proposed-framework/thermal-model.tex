@@ -4,21 +4,21 @@ Without loss of generality, we assume that each processing element is mapped ont
 
 The thermal behavior of the constructed circuit is modeled with the following system of differential-algebraic equations (see \aref{thermal-model} for a derivation):
 \begin{subnumcases}{\elabel{fourier-system}}
-  \frac{d\vX(\t, \o)}{d\t} = \mA \: \vX(\t, \o) + \mB \: \vP(\t, \o) \elabel{fourier-de} \\
-  \vTO(\t, \o) = \mB^T \vX(\t, \o) + \vTO_\amb \elabel{fourier-output}
+  \frac{d\,\vS(\t, \vU)}{d\t} = \mA \: \vS(\t, \vU) + \mB \: \vP(\t, \vU) \elabel{fourier-de} \\
+  \vTO(\t, \vU) = \mB^T \vS(\t, \vU) + \vTO_\amb \elabel{fourier-output}
 \end{subnumcases}
-where $\vP(\t, \o)$ and $\vTO(\t, \o)$ are the input power and output temperature vectors of the processing elements, respectively, and $\vX \in \real^\nnodes$ is the vector of the internal state of the system.
-Note that, as shown in \eref{power-model}, $\vP(\t, \o)$ is an arbitrary function of $\vTO(\t, \o)$.
+where $\vP(\t, \vU)$ and $\vTO(\t, \vU)$ are the input power and output temperature vectors of the processing elements, respectively, and $\vS(\t, \vU) \in \real^\nnodes$ is the vector of the internal state of the system.
+Note that, as shown in \eref{power-model}, $\vP(\t, \vU)$ is an arbitrary function of $\vTO(\t, \vU)$.
 Therefore, in general, the system in \eref{fourier-de} is nonlinear and does not have a closed-form solution.
 
 Recall that the power and temperature profiles we work with are discrete-time representations of the power consumption and heat dissipation, respectively, which contain $\nsteps$ samples, or steps, covering a certain time span (see \sref{problem-formulation}).
 As detailed in \aref{thermal-model}, we let the total power be constant between neighboring power steps and reduce the solution process of \eref{fourier-system} to the following recurrence, for $k = 1, \dotsc, \nsteps$,
 \begin{equation} \elabel{recurrence}
-  \vX_k(\o) = \mCF_k \: \vX_{k - 1}(\o) + \mCS_k \: \vP_k(\o)
+  \vS_k = \mCF_k \: \vS_{k - 1} + \mCS_k \: \vP_k
 \end{equation}
-where $\vX_0(\o) = \vZero$.
+where $\vS_0 = \vZero$.
 In the deterministic case, \eref{recurrence} can be readily employed to perform deterministic transient PTA \cite{thiele2011, ukhov2012}.
-In the stochastic case, however, the analysis of \eref{recurrence} is substantially different since $\vP_k(\o)$ and, consequently, $\vX_k(\o)$ and $\vTO_k(\o)$ are probabilistic quantities.
-The situation is complicated by the fact that, at each step of the iterative process in \eref{recurrence}, (a) $\vP_k(\o)$ is an arbitrary transformation of the uncertain parameters $\vU(\o)$ and stochastic temperature $\vTO_k(\o)$ (see \sref{power-model}), which results in a multivariate random variable with a generally unknown probability distribution, and (b) $\vU(\o)$, $\vP_k(\o)$, $\vX_k(\o)$, and $\vTO_k(\o)$ are dependent random variables as the latter three are functions of $\vU(\o)$.
-Therefore, the operations involved in \eref{recurrence} are to be performed on dependent random variables with arbitrary probability distributions, which, in general, have no closed-form solutions.
-To tackle this difficulty, we utilize PC expansions as we shall discuss in the next section.
+In the stochastic case, however, the analysis of \eref{recurrence} is substantially different since $\vP_k$ and, consequently, $\vS_k$ and $\vTO_k$ are probabilistic quantities.
+The situation is complicated by the fact that, at each step of the iterative process in \eref{recurrence}, (a) $\vP_k$ is an arbitrary transformation of the uncertain parameters $\vU$ and stochastic temperature $\vTO_k$ (see \sref{power-model}), which results in a multivariate random variable with a generally unknown probability distribution, and (b) $\vU$, $\vP_k$, $\vS_k$, and $\vTO_k$ are dependent random vectors as the last three are functions of the first.
+Hence, the operations involved in \eref{recurrence} are to be performed on dependent random vectors with arbitrary probability distributions, which, in general, have no closed-form solutions.
+To tackle this difficulty, we utilize PC expansions as follows.

@@ -1,7 +1,7 @@
 In this section, we provide additional details on the thermal model utilized by the proposed framework at \stage{3}, \sref{thermal-model}.
 We use the widespread model based on Fourier's heat equation \cite{skadron2004}, which, after a proper spacial discretization, leads to the following system:
 \begin{subnumcases}{\elabel{fourier-system-original}}
-  \mC \: \frac{d\vTI(\t)}{d\t} + \mG \: \vTI(\t) = \mM \: \vP(\t) \elabel{fourier-original} \\
+  \mC \: \frac{d\,\vTI(\t)}{d\t} + \mG \: \vTI(\t) = \mM \: \vP(\t) \elabel{fourier-original} \\
   \vTO(\t) = \mM^T \vTI(\t) + \vTO_\amb
 \end{subnumcases}
 where the number of differential equations is equal to the number of thermal nodes denoted by $\nnodes$; $\mC \in \real^{\nnodes \times \nnodes}$ and $\mG \in \real^{\nnodes \times \nnodes}$ are a diagonal matrix of the thermal capacitance and a symmetric, positive-definite matrix of the thermal conductance, respectively; $\vTI \in \real^\nnodes$ is the vector of the difference between the temperature of the thermal nodes and the ambient temperature; $\vP \in \real^\nprocs$ and $\mM \in \real^{\nnodes \times \nprocs}$ are the input vector of power and its mapping matrix to the thermal nodes; $\vTO \in \real^\nprocs$ is the temperature vector of the processing elements; and $\vTO_\amb \in \real^\nprocs$ is the vector of the ambient temperature.
@@ -9,9 +9,9 @@ $\mM$ distributes power of the processing elements across the thermal nodes.
 Assuming that one processing element is mapped onto one thermal node, $\mM$ is filled in with zeros except for $\nprocs$ elements equal to unity that are located on the main diagonal.
 For convenience, we perform an auxiliary transformation of the system in \eref{fourier-system-original} using \cite{ukhov2012}
 \[
-  \vX = \mC^\frac{1}{2} \vTI, \hspace{1em} \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \hspace{1em} \text{and} \hspace{1em} \mB = \mC^{-\frac{1}{2}} \mM
+  \vS = \mC^\frac{1}{2} \vTI, \hspace{1em} \mA = -\mC^{-\frac{1}{2}} \mG \mC^{-\frac{1}{2}}, \hspace{1em} \text{and} \hspace{1em} \mB = \mC^{-\frac{1}{2}} \mM
 \]
-and obtain the system in \eref{fourier-system}, which is rewritten in the stochastic form, where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$.
+and obtain the system in \eref{fourier-system}, which is rewritten to account for $\vU: \outcomes \to \real^\nparams$, where the coefficient matrix $\mA$ preserves the symmetry and positive-definiteness of $\mG$.
 In general, the differential part in \eref{fourier-system} (and in \eref{fourier-system-original}) is nonlinear due to the source term $\vP(\t)$ since we do not make any assumptions about its structure (see the discussion in \sref{power-model}).
 Therefore, there is no closed-form solution to the system.
 
@@ -19,14 +19,14 @@ The time intervals of the power profile (see \sref{problem-formulation}) are ass
 In this case, \eref{fourier-de} (and \eref{fourier-original}) is a system of linear differential equations that can be solved analytically.
 The solution is \cite{ukhov2012}
 \begin{equation} \elabel{ode-solution}
-  \vX(\t) = \mCF(\t) \: \vX(0) + \mCS(\t) \: \vP(0)
+  \vS(\t) = \mCF(\t) \: \vS(0) + \mCS(\t) \: \vP(0)
 \end{equation}
 where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation at the beginning of the time interval with respect to the corresponding temperature,
 \begin{align*}
-  & \mCF(\t) = e^{\mA \t} \in \real^{\nnodes \times \nnodes}, \text{ and} \\
+  & \mCF(\t) = e^{\mA \t} \in \real^{\nnodes \times \nnodes}, \hspace{1em} \text{and} \\
   & \mCS(\t) = \mA^{-1} (e^{\mA \t} - \mI) \: \mB \in \real^{\nnodes \times \nprocs}.
 \end{align*}
 The procedure is to be repeated for all $\nsteps$ time intervals starting from the initial temperature, which, without loss of generality, is assumed to be equal to the ambient temperature.
 Note that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique in \cite{ukhov2012}.
 It is also worth being emphasized that the described solution method belongs to the family of so-called exponential integrators, which have good stability properties; refer to \cite{hochbruck2010} for an overview.
-Finally, introducing the dependency on the outcome $\o \in \outcomes$ of the probability space, we obtain the recurrence in \eref{recurrence}.
+Finally, taking into account $\vU$, we obtain the recurrence in \eref{recurrence}.

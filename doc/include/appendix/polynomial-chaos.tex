@@ -2,16 +2,16 @@ Here we elaborate on the orthogonality property \cite{xiu2010} of PC expansions,
 Due to the inherent complexity, uncertainty quantification problems are typically viewed as approximation problems.
 More precisely, one usually constructs computationally efficient surrogates of the initial models and then studies these light representations instead.
 PC expansions \cite{xiu2010} are one way to perform such approximations, in which the approximating functions are orthogonal polynomials.
-A set of multivariate polynomials $\{ \pcb_i(\vz) \}$ is orthogonal if
+A set of multivariate polynomials $\{ \pcb_i: \real^\nvars \to \real \}$ is orthogonal if
 \begin{equation} \elabel{orthogonality}
-  \oInner{\pcb_i(\vz)}{\pcb_j(\vz)} = \pcn_i \delta_{ij}, \qquad \forall i, j,
+  \oInner{\pcb_i}{\pcb_j} = \pcn_i \delta_{ij}, \qquad \forall i, j,
 \end{equation}
-where $\oInner{\cdot}{\cdot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i(\vz)^2}$ is a normalization constant.
-The inner product with a weight function $\fPDF(\vz)$ is defined as the following multidimensional integral:
+where $\oInner{\cdot}{\cdot}$ denotes the inner product in the Hilbert space spanned by the polynomials, $\delta_{ij}$ is the Kronecker delta function, and $\pcn_i = \oInner{\pcb_i}{\pcb_i}$ is a normalization constant.
+The inner product with a weight function $\fPDF: \real^\nvars \to \real$ is defined as the following multidimensional integral:
 \begin{equation} \elabel{inner-product}
-  \oInner{h(\vz)}{g(\vz)} := \int h(\vz) g(\vz) \fPDF(\vz) d\vz.
+  \oInner{h}{g} := \int h(\vX) \, g(\vX) \, \fPDF(\vX) \, d\vX.
 \end{equation}
-In the stochastic context, the parameters $\vz$ correspond to random variables, which we denote by $\vZ(\o)$, and the weight function corresponds to the \pdf\ of $\vZ(\o)$ (see \sref{uncertain-parameters}).
+In our context, the weight function corresponds to the \pdf\ of $\vZ$ (see \sref{uncertain-parameters}).
 Consequently, the inner product in \eref{inner-product} coincides with the covariance operator, and the presence of orthogonality is equivalent to the absence of correlations.
 
 Many of the most popular probability distributions directly correspond to certain families of the orthogonal polynomials given in the Askey scheme \cite{xiu2010}.

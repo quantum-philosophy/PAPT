@@ -1,12 +1,12 @@
-This section contains a description of the discrete Karhunen-Lo\`{e}ve decomposition \cite{ghanem1991}, which is utilized at \stage{1}\ for the purpose of model order reduction.
+This section contains a description of the discrete Karhunen-Lo\`{e}ve decomposition \cite{ghanem1991}, which is utilized at \stage{1}.
 We shall use the notation introduced in \sref{ie-uncertain-parameters}.
-Let $\mCov_{\vZ'}$ be the covariance matrix of the centered random vector $\vZ'(\o)$ (which is the result of the first step of the Nataf transformation discussed in \sref{ie-uncertain-parameters}).
+Let $\mCov_{\vZ'}$ be the covariance matrix of the centered random vector $\vZ'$ (which is the result of the first step of the Nataf transformation discussed in \sref{ie-uncertain-parameters}).
 Since any covariance matrix is real and symmetric, $\mCov_{\vZ'}$ admits the eigenvalue decomposition as $\mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
-$\vZ'(\o)$ can then be represented as $\vZ'(\o) = \m{V} \m{\Lambda}^\frac{1}{2} \vZ''(\o)$ where the vector $\vZ''(\o)$ is centered, normalized, and uncorrelated, which is also independent as $\vZ'(\o)$ is Gaussian.
+$\vZ'$ can then be represented as $\vZ' = \m{V} \m{\Lambda}^\frac{1}{2} \vZ''$ where the vector $\vZ''$ is centered, normalized, and uncorrelated, which is also independent as $\vZ'$ is Gaussian.
 
 The decomposition above provides means for model order reduction.
-The intuition is that, due to the correlations possessed by $\vZ'(\o) \in \real^{\nprocs + 1}$, it can be recovered from a small subset $\vZ'''(\o) \in \real^\nvars$ of $\vZ''(\o) \in \real^{\nprocs + 1}$, $\nvars \ll \nprocs + 1$.
+The intuition is that, due to the correlations possessed by $\vZ' \in \real^\nparams$, it can be recovered from a small subset $\vZ''' \in \real^\nvars$ of $\vZ'' \in \real^\nparams$, $\nvars \ll \nparams$.
 Such redundancies can be revealed by analyzing the eigenvalues $\lambda_i$ stored in $\m{\Lambda}$.
 Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.
 Gradually summing up the arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a subset of them that has the cumulative sum greater than a certain threshold.
-When this threshold is sufficiently high (close to one), the rest of the eigenvalues and the corresponding eigenvectors can be dropped as being insignificant, reducing the number of stochastic dimensions.
+When this threshold is sufficiently high (close to one), the rest of the eigenvalues and the corresponding eigenvectors can be dropped as being insignificant, reducing the stochastic dimensionality of the problem.

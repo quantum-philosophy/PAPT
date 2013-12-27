@@ -1,12 +1,12 @@
 As stated in \sref{problem-formulation}, the user of the framework is supposed to decide on the power model for the system under consideration.
 Such a model can be generally expressed as the following $\nprocs$-dimensional functional $\oPower$:
 \begin{equation} \elabel{power-model}
-  \vP(\t, \o) = \oPower{\t, \vTO(\t, \o), \vU(\o)}
+  \vP(\t, \vU) = \oPower{\t, \vTO(\t, \vU), \vU}
 \end{equation}
-where $\nprocs$ is the number of processing elements in the system, and $\vP(\t, \o) \in \real^\nprocs$ and $\vTO(\t, \o) \in \real^\nprocs$ are vectors of power and temperature, respectively,\footnote{For brevity, we do not spell out the dependency of $\vP(\t, \o)$ and $\vTO(\t, \o)$ on $\vU(\omega)$ explicitly and use $\omega$ instead.} at time $\t$ and a given outcome $\o \in \outcomes$ of the probability space $(\outcomes, \sAlgebra, \pMeasure)$.
-Since $\vU(\o) = \oTransform{\vZ(\o)}$, in what follows, we shall use $\vZ(\o)$ instead of $\vU(\o)$.
+where $\nprocs$ is the number of processing elements in the system, and $\vP(\t, \vU) \in \real^\nprocs$ and $\vTO(\t, \vU) \in \real^\nprocs$ are random vectors of power and temperature, respectively, at time $\t$.
 
-The user can choose any $\oPower$. It can be, for instance, a closed-form formula, a piece of code, or an output of a system/power simulator that takes in, for some fixed $\o \in \outcomes$, the temperature vector $\vTO(\t, \o)$ and uncertain parameters $\vU(\o)$ and computes the corresponding total power $\vP(\t, \o)$.
-The only assumption we make about $\oPower$ is that the function is smooth in $\vZ(\o)$ and has a finite variance, which is generally applicable to most physical systems \cite{xiu2010}.
+The user can choose any $\oPower$.
+It can be, for instance, a closed-form formula, a piece of code, or an output of a system/power simulator that takes in, for some fixed $\vU \equiv \vU(\o)$, $\o \in \outcomes$, the temperature vector $\vTO(\t, \vU)$ and uncertain parameters $\vU$ and computes the corresponding total power $\vP(\t, \vU)$.
+The only assumption we make about $\oPower$ is that the function is smooth in $\vZ$ and has a finite variance, which is generally applicable to most physical systems \cite{xiu2010}.
 Note also that the operation performed by this ``black box'' is purely deterministic.
 It can be seen that the definition of $\oPower$ is flexible enough to account for such effects as the interdependency between leakage and temperature \cite{srivastava2010, liu2007}, which is discussed in \sref{ie-power-model}.

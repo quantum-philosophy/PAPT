@@ -1,9 +1,8 @@
 \input{include/assets/algorithm.tex}
 The probability space that we shall reside in is defined as a triple $(\outcomes, \sAlgebra, \pMeasure)$ where $\outcomes$ is a set of outcomes, $\sAlgebra \subseteq 2^\outcomes$ is a $\sigma$-algebra on $\outcomes$, and $\pMeasure: \sAlgebra \to [0, 1]$ is a probability measure \cite{xiu2010}.
-A random variable is a function $X: \o \in \outcomes \mapsto X(\o) \in \real$ which is $\sAlgebra$-measurable.
+A random variable is a function $\zeta: \outcomes \to \real$ which is $\sAlgebra$-measurable.
 A random vector (matrix) is then a vector (matrix) whose elements are random variables.
-In order to make a clear distinction between deterministic and stochastic quantities, the latter will be written as $X(\o)$, which should not be confused with a point evaluation.
-In what follows, the probability space $(\outcomes, \sAlgebra, \pMeasure)$ is always implied.
+In what follows, the space $(\outcomes, \sAlgebra, \pMeasure)$ will always be implied.
 
 Consider a heterogeneous electronic system that consists of $\nprocs$ processing elements and is equipped with a thermal package.
 The processing elements are the active components of the system identified at the system level (ALUs, FPUs, caches, \etc).
@@ -12,12 +11,11 @@ Let $\system$ be a thermal specification of the system defined as a collection o
 A (transient) power profile $\profileP$ is defined as a tuple composed of a data matrix $\mP = (\vP_i) \in \real^{\nprocs \times \nsteps}$, $\vP_i \in \real^\nprocs$, that captures the power dissipation of the $\nprocs$ processing elements at $\nsteps$ moments of time and a (column) vector $\partition{\mP} = (\t_i) \in \real^{\nsteps}$ with positive and strictly increasing components that specifies these moments of time.
 The definition of a (transient) temperature profile $\profileT$ is the same as the one for power except that the data matrix $\mTO$ contains temperature.
 
-The system depends on a set of process parameters that are uncertain at the design stage; these parameters are denoted by a random vector $\vU(\o)$.
-Once the fabrication process yields a particular outcome $\o \in \outcomes$, $\vU(\o)$ takes (potentially) different values for each fabricated chip individually and stays unchanged thereafter.
-Consequently, $\vU(\o)$ leads to deviations of the actual power dissipation from nominal values and, thus, to deviations of temperature from the one corresponding to the nominal power consumption.
-In what follows, we shall make a distinction between deterministic and stochastic profiles.
-In the latter case, the power and temperature profiles are denoted by $\profileP{\o}$ and $\profileT{\o}$, respectively.
+The system depends on a set of process parameters that are uncertain at the design stage.
+These parameters are denoted by a random vector $\vU: \outcomes \to \real^\nparams$.
+Once the fabrication process yields a particular outcome, $\vU$ takes (potentially) different values across each fabricated chip individually and stays unchanged thereafter.
+Consequently, $\vU$ leads to deviations of the actual power dissipation from the nominal values and, therefore, to deviations of temperature from the one corresponding to the nominal power consumption.
 
-The goal of this work is to develop a system-level probabilistic framework for transient power-temperature analysis (PTA) of electronic systems where the actual power dissipation and temperature are stochastic due to their dependency on the set of uncertain parameters $\vU(\o)$.\footnote{Although the focal point of this paper is process variation, there can be other uncertainties such as those related to the system load and environment.}
-The user is required to: (a) provide a thermal specification of the platform $\system$; (b) have prior knowledge (or belief) on the probability distribution of the uncertain parameters; and (c) specify a power model, in which $\vU(\o)$ is an input.
-The framework should provide the user with the tools to analyze the system under a given workload, without imposing any constraints on the nature/origins of this workload, and obtain the corresponding stochastic power $\profileP{\o}$ and temperature $\profileT{\o}$ profiles with a desired level of accuracy and at low costs.
+The goal of this work is to develop a system-level probabilistic framework for transient power-temperature analysis (PTA) of electronic systems where the actual power dissipation and temperature are stochastic due to their dependency on the set of uncertain parameters $\vU$.\footnote{Although the focal point of this paper is process variation, there can be other uncertainties such as those related to the system load and environment.}
+The user is required to: (a) provide a thermal specification of the platform $\system$; (b) have prior knowledge (or belief) on the probability distribution of the uncertain parameters; and (c) specify a power model, in which $\vU$ is an input.
+The framework should provide the user with the tools to analyze the system under a given workload, without imposing any constraints on the nature/origins of this workload, and obtain the corresponding stochastic power $\profileP$ and temperature $\profileT$ profiles with a desired level of accuracy and at low costs.

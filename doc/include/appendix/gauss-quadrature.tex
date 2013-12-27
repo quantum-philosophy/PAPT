@@ -1,29 +1,25 @@
 As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which should be calculated numerically at \stage{4}.
 In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding set of prescribed weights.
 Such pairs of nodes and weights are called quadrature rules.
-A one-dimensional quadrature rule is characterized by its precision $\qdprecision$, which is defined as the maximal total order \cite{heiss2008} of polynomials that the rule integrates exactly.
-In multiple dimensions, an $\nvars$-variate quadrature rule is formed by tensoring one-dimensional counterparts. Such a multidimensional rule is characterized by the level of accuracy $\qdlevel$, which is defined as the index of the rule in the corresponding family of multidimensional rules with increasing precision.
+A one-dimensional quadrature rule is characterized by its precision, which is defined as the maximal total order \cite{heiss2008} of polynomials that the rule integrates exactly.
+In multiple dimensions, an $\nvars$-variate quadrature rule is formed by tensoring one-dimensional counterparts. Such a multidimensional rule is characterized by its accuracy level $\qdlevel$, which is defined as the index of the rule in the corresponding family of multidimensional rules with increasing precision.
 
-It can be seen in \eref{inner-product} that the integrand can be decomposed into two parts: the weight function, $\fPDF(\vz)$, and everything else.
-The former stays the same for all inner products; therefore, an integration rule is typically chosen in such a way that the corresponding weights take into consideration this ``constant'' part since there is no point of recomputing $\fPDF(\vz)$ each time when the other part, \ie, the functions that the inner product operates on, changes.
+It can be seen in \eref{inner-product} that the integrand can be decomposed into two parts: the weight function $\fPDF$ and everything else.
+The former stays the same for all inner products; therefore, an integration rule is typically chosen in such a way that the corresponding weights take into consideration this ``constant'' part since there is no point of recomputing $\fPDF$ each time when the other part, \ie, the functions that the inner product operates on, changes.
 Consequently, there exist different families of quadrature rules tailored for different weight functions.
-Define such a quadrature-based approximation of the inner product in \eref{inner-product} as follows:
+Define such a quadrature-based approximation of \eref{inner-product} as follows:
 \[
-  \oInner{h(\vz)}{g(\vz)} \approx \oQuad{\nvars}{\qdlevel}{h(\vz) \: g(\vz)} := \sum_{i = 1}^{\qdorder} h(\qdn{\vz}_i) \: g(\qdn{\vz}_i) \: \qdw_i
+  \oInner{h}{g} \approx \oQuad{\nvars}{\qdlevel}{h \: g} := \sum_{i = 1}^{\qdorder} h(\qdn{\vX}_i) \: g(\qdn{\vX}_i) \: \qdw_i
 \]
-where $\qdn{\vz}_i \in \real^\nvars$ and $\qdw_i \in \real$ are the prescribed nodes and weights, respectively; $\qdorder$ is their number; and $\qdlevel$ is the accuracy level of the quadrature rule, which is said to be $\nvars$-variate.
-It is important to note that $\qdn{\vz}_i$ and $\qdw_i$ do not change when the quantity being integrated changes.
+where $\qdn{\vX}_i \in \real^\nvars$ and $\qdw_i \in \real$ are the prescribed points and weights, respectively; $\qdorder$ is their number; and $\qdlevel$ is the accuracy level of the quadrature rule, which is said to be $\nvars$-variate.
+It is important to note that $\qdn{\vX}_i$ and $\qdw_i$ do not change when the quantity being integrated changes.
 Thus, once the rule to use has been identified, it can be utilized to compute the inner product for arbitrary $h$ and $f$ at no additional computational effort.
 In our experiments in \sref{experimental-results}, we use the library of quadrature rules available at \cite{burkardt2013}.
 
 Since in the example in \sref{illustrative-example} we need to compute inner products with respect to beta measures, the Gauss-Jacobi quadrature rule is of particular interest.
 The rule belongs to a broad class of rules known as Gaussian quadratures.
-For a one-dimensional Gaussian quadrature, the number of nodes $\qdorderone$, also referred to as the order, and precision $\qdprecision$ are related as $\qdprecision = 2 \qdorderone - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
-Hence, we rewrite \eref{pc-coefficients} as follows:
-\[
-  \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oQuad{\nvars}{\qdlevel}{\vP_k(\o) \pcb_i(\vZ(\o))}
-\]
-where $\{ \pcn_i \}_{i = 1}^{\pcterms}$ are computed exactly, either by directly using the same quadrature rule or by taking products of the one-dimensional counterparts with known analytical expressions \cite{xiu2010}; the result is further tabulated.
+The precision of a one-dimensional Gaussian quadrature with $\qdorderone$ points is $2 \qdorderone - 1$; this feature makes such quadratures especially efficient \cite{heiss2008}.
+Hence, we rewrite \eref{pc-coefficients} as shown in \eref{pc-coefficients-quadrature} where $\{ \pcn_i \}_{i = 1}^{\pcterms}$ are computed exactly, either by directly using the same quadrature rule or by taking products of the one-dimensional counterparts with known analytical expressions \cite{xiu2010}; the result is further tabulated.
 It is important to note that $\qdlevel$ should be chosen in such a way that the rule is exact for polynomials of the total order at least $2 \pcorder$, \ie, twice the order of the PC expansion, which can be seen in \eref{pc-coefficients} \cite{eldred2008}.
 Therefore, $\qdlevel \geq \pcorder + 1$ as the quadrature is Gaussian.
 

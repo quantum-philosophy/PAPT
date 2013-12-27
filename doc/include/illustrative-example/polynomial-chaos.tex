@@ -1,20 +1,20 @@
-At \stage{4}, the uncertain parameters, power model, and thermal model developed in the previous sections are to be fused together under the desired workload, $\profilePdyn$, to produce the corresponding stochastic power $\profileP{\o}$ and temperature $\profileT{\o}$ profiles.
+At \stage{4}, the uncertain parameters, power model, and thermal model developed in the previous sections are to be fused together under the desired workload, $\profilePdyn$, to produce the corresponding stochastic power $\profileP$ and temperature $\profileT$ profiles.
 The construction of PC expansions, in the current scenario, is based on the Jacobi polynomial basis as it is preferable in situations involving beta-distributed parameters \cite{xiu2010}.
 To give an example, for a dual-core platform (\ie, $\nprocs = 2$) with two stochastic dimensions (\ie, $\nvars = 2$), the second-order PC expansion (\ie, $\pcorder = 2$) of temperature at the $k$th moment of time has the following form:
 \begin{align}
-  & \oPC{2}{2}{\vTO_k(\o)} = \pcc{\vTO}_{k1} \pcb_1(\vZ(\o)) + \pcc{\vTO}_{k2} \pcb_2(\vZ(\o)) + \pcc{\vTO}_{k3} \pcb_3(\vZ(\o)) \nonumber \\
-  & {} \; \; + \pcc{\vTO}_{k4} \pcb_4(\vZ(\o)) + \pcc{\vTO}_{k5} \pcb_5(\vZ(\o)) + \pcc{\vTO}_{k6} \pcb_6(\vZ(\o)) \elabel{pc-example}
+  \oPC{2}{2}{\vTO_k} &= \pcc{\vTO}_{k1} \, \pcb_1(\vZ) + \pcc{\vTO}_{k2} \, \pcb_2(\vZ) + \pcc{\vTO}_{k3} \, \pcb_3(\vZ) \nonumber \\
+  & {} + \pcc{\vTO}_{k4} \, \pcb_4(\vZ) + \pcc{\vTO}_{k5} \, \pcb_5(\vZ) + \pcc{\vTO}_{k6} \, \pcb_6(\vZ) \elabel{pc-example}
 \end{align}
 where the coefficients $\pcc{\vTO}_{ki}$ are vectors with two elements corresponding to the two processing elements,
 \begin{align*}
-  & \pcb_1(\vz) = 1, \hspace{1em} \pcb_2(\vz) = 2 \z_1, \hspace{1em} \pcb_3(\vz) = 2 \z_2, \hspace{1em} \pcb_4(\vz) = 4 \z_1 \z_2 \\
-  & \pcb_5(\vz) = \frac{15}{4} \z_1^2 - \frac{3}{4}, \hspace{1em} \text{and} \hspace{1em} \pcb_6(\vz) = \frac{15}{4} \z_2^2 - \frac{3}{4}.
+  & \pcb_1(\vX) = 1, \hspace{0.7em} \pcb_2(\vX) = 2 \x_1, \hspace{0.7em} \pcb_3(\vX) = 2 \x_2, \hspace{0.7em} \pcb_4(\vX) = 4 \x_1 \x_2 \\
+  & \pcb_5(\vX) = \frac{15}{4} \x_1^2 - \frac{3}{4}, \hspace{0.7em} \text{and} \hspace{0.7em} \pcb_6(\vX) = \frac{15}{4} \x_2^2 - \frac{3}{4}.
 \end{align*}
 The expansion for power has the same structure but different coefficients.
 Such a series might be shorter or longer depending on the accuracy requirements defined by $\pcorder$.
 
 Once the basis has been chosen, we need to compute the corresponding coefficients, specifically, $\pcc{\vP}_{ki}$ in \eref{pc-expansion}, which will yield $\pcc{\vTO}_{ki}$.
-As shown in \aref{polynomial-chaos}, the computation of $\pcc{\vP}_i$ involves multidimensional integration with respect to the \pdf\ of $\vZ(\o)$, which should be done numerically using a quadrature rule; recall \sref{pc-coefficients}.
+As shown in \aref{polynomial-chaos}, the computation of $\pcc{\vP}_i$ involves multidimensional integration with respect to the \pdf\ of $\vZ$, which should be done numerically using a quadrature rule; recall \sref{pc-coefficients}.
 When beta distributions are concerned, a natural choice of such a rule is the Gauss-Jacobi quadrature.
 Additional details are given in \aref{gauss-quadrature}.
 

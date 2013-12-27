@@ -2,9 +2,9 @@ In this section, we focus on the speed of the proposed framework.
 In order to increase the clarity of the comparisons given below, we use the same order of PC expansions and the same number of MC samples in each case.
 Namely, based on the conclusion from the previous subsection, $\pcorder$ is set to four, and $\nsamples$ is set to $10^4$; the latter also conforms to the experience from the literature \cite{shen2009, bhardwaj2008, ghanta2006} and to the theoretical results on the accuracy of MC sampling given in \cite{diaz-emparanza2002}.
 
-First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU(\o) \in \real^{\nprocs + 1}$ (recall \sref{illustrative-example}).
-As before, we shall report the results obtained for various correlation weights $\eta$, which impacts the number of the independent variables $\vZ(\o) \in \real^\nvars$, preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
-The results, including the dimensionality $\nvars$ of $\vZ(\o)$, are given in \tref{speed-processing-elements} where the considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$, and the number of time steps $\nsteps$ is set to $10^3$.
+First, we vary the number of processing elements $\nprocs$, which directly affects the dimensionality of the uncertain parameters $\vU \in \real^\nparams$ (recall \sref{illustrative-example}).
+As before, we shall report the results obtained for various correlation weights $\eta$, which impacts the number of the independent variables $\vZ \in \real^\nvars$, preserved after the KL-based model order reduction procedure described in \sref{ie-uncertain-parameters} and \aref{karhunen-loeve}.
+The results, including the dimensionality $\nvars$ of $\vZ$, are given in \tref{speed-processing-elements} where the considered values for $\nprocs$ are $\{ 2^n \}_{n = 1}^5$, and the number of time steps $\nsteps$ is set to $10^3$.
 It can be seen that the correlation patters inherent to the fabrication process \cite{cheng2011} open a great possibility for model order reduction: $\nvars$ is observed to be at most 12 while the maximal number without reduction is 33 (one global variable and 32 local ones corresponding to the case with 32 processing elements).
 This reduction also depends on the floorplans, which is illustrated by the decrease of $\nvars$ when $\nprocs$ increases from 16 to 32 for $\eta = 1$.
 To elaborate, one floorplan is a four-by-four grid, a perfect square, while the other an eight-by-four grid, a rectangle.
@@ -14,9 +14,9 @@ It means that, in the latter case, more variables should be preserved in order t
 Hence, the case with $\eta = 0.5$ is the most demanding in terms of complexity; see \sref{computational-challenges}.
 
 It is important to note the following.
-First, since the curse of dimensionality constitutes arguably the major concern of the theory of PC expansions, the applicability of our framework primarily depends on how this curse manifests itself in the problem at hand, \ie, on the dimensionality of $\vZ(\o)$, $\nvars$.
-Second, since $\vZ(\o)$ is a result of the preprocessing stage depending on many factors, the relation between $\vU(\o)$ and $\vZ(\o)$ is not straightforward, which is illustrated in the previous paragraph.
-Thus, the dimensionality of $\vU(\o)$ can be misleading when reasoning about the applicability of our technique, and $\nvars$ shown \tref{speed-processing-elements} is well suited for this purpose.
+First, since the curse of dimensionality constitutes arguably the major concern of the theory of PC expansions, the applicability of our framework primarily depends on how this curse manifests itself in the problem at hand, \ie, on the dimensionality $\nvars$ of $\vZ$.
+Second, since $\vZ$ is a result of the preprocessing stage depending on many factors, the relation between $\vU$ and $\vZ$ is not straightforward, which is illustrated in the previous paragraph.
+Consequently, the dimensionality of $\vU$ can be misleading when reasoning about the applicability of our technique, and $\nvars$ shown \tref{speed-processing-elements} is well suited for this purpose.
 
 Another observation from \tref{speed-processing-elements} is the low slope of the execution time of the MC technique, which illustrates the well-known fact that the workload per MC sample is independent of the number of stochastic dimensions.
 On the other hand, the rows with $\nvars > 10$ hint at the curse of dimensionality characteristic to PC expansions (see \sref{computational-challenges}).
@@ -25,7 +25,7 @@ However, even with high dimensions, our framework significantly outperforms MC s
 Finally, we investigate the scaling properties of the proposed framework with respect to the duration of the considered time spans, which is directly proportional to the number of steps $\nsteps$ in the power and temperature profiles.
 The results for a quad-core architecture are given in \tref{speed-time-spans}.
 Due to the long execution times demonstrated by the MC approach, its statistics for high values of $\nsteps$ are extrapolated based on a smaller number of samples, \ie, $\nsamples \ll 10^4$.
-As it was noted before regarding the results in \tref{speed-processing-elements}, we observe the dependency of the PC expansions on the dimensionality of $\vZ(\o)$, $\nvars$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
+As it was noted before regarding the results in \tref{speed-processing-elements}, we observe the dependency of the PC expansions on the dimensionality $\nvars$ of $\vZ$, which is two for $\eta = 0$ and five for the other two values of $\eta$ (see \tref{speed-processing-elements} for $\nprocs = 4$).
 It can be seen in \tref{speed-time-spans} that the computational times of both methods grow linearly with $\nsteps$, which is expected.
 However, the proposed framework shows a vastly superior performance being up to five orders of magnitude faster than MC sampling.
 
