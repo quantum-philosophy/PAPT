@@ -46,7 +46,7 @@ where $k = 1, \dotsc, \nsteps$ and $i = 1, \dotsc, \pcterms$. Finally, \eref{fou
 \subsubsection{Expansion coefficients} \slabel{pc-coefficients}
 The general formula of a truncated PC expansion applied to the power term in \eref{recurrence} is given in \eref{pc-expansion}.
 Let us now find the coefficients $\{ \pcc{\vP}_{ki} \}$ of this expansion, which will be propagated to temperature (using \eref{pc-recurrence} and \eref{fourier-output}).
-To this end, a spectral projection of the stochastic quantity being expanded, \ie, $\vP_k$, is to be performed onto the space spanned by the $\nvars$-variate polynomials $\{ \pcb_i \}_{i = 1}^{\pcterms}$, where $\pcterms$ is the number of polynomials in the truncated basis.
+To this end, a spectral projection of the stochastic quantity being expanded---that is, of $\vP_k$ as a function of $\vZ$ \via\ $\vU = \oTransform{\vZ}$ discussed in \sref{uncertain-parameters}---is to be performed onto the space spanned by the $\nvars$-variate polynomials $\{ \pcb_i \}_{i = 1}^{\pcterms}$, where $\pcterms$ is the number of polynomials in the truncated basis.
 This means that we need to compute the inner product of \eref{power-model} with each polynomial from the basis as follows:
 \[
   \oInner{\vP_k}{\pcb_i} = \oInner{\sum_{j=1}^{\pcterms} \pcc{\vP}_{kj} \: \pcb_j}{\pcb_i}
