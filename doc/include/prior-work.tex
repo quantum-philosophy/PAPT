@@ -1,8 +1,8 @@
 Since the appearance of the first digital computers in 1940s, Monte Carlo (MC) sampling remains one of the most well-known and widely used methods for the analysis of stochastic systems.
-The reason for this popularity lies in the ease of implementation, in the independence of the stochastic dimensionality of the considered problems, and in the fact that the quantities estimated using MC simulations asymptotically approach the true values (the laws of large numbers).
-The crucial problem with MC sampling, however, is the low rate of convergence: the error decreases at the order of $\nsamples^{-1/2}$ where $\nsamples$ is the number of samples \cite{xiu2010}.\footnote{There are other sampling techniques that have better convergence rates than the one of the classical MC sampling, \eg, quasi-MC sampling; however, due to additional restrictions, their applicability is often limited \cite{xiu2010}.}
+The reason for this popularity lies in the ease of implementation, in the independence of the stochastic dimensionality of the considered problems, and in the fact that the quantities estimated using MC simulations asymptotically approach the true values (the law of large numbers).
+The crucial problem with MC sampling, however, is the low rate of convergence: the error decreases at the order of $\nsamples^{-1/2}$ where $\nsamples$ is the number of samples.\footnote{There are other sampling techniques that have better convergence rates than the one of the classical MC sampling, \eg, quasi-MC sampling; however, due to additional restrictions, their applicability is often limited \cite{xiu2010}.}
 This means that, in order to get an additional decimal point of accuracy, one has to obtain hundred times more samples.
-Each such sample implies a complete realization of the whole system, which renders MC-based methods slow and often infeasible since the number of needed simulations can be extremely large \cite{diaz-emparanza2002}.
+Each such sample implies a complete realization of the whole system, which renders MC-based methods slow and often infeasible since the needed number of simulations can be extremely large \cite{diaz-emparanza2002}.
 
 In order to overcome the limitations of deterministic power-temperature analysis (PTA) and, at the same time, to completely eliminate or, at least, mitigate the costs associated with MC sampling, a number of alternative stochastic PTA techniques have been recently introduced.
 Due to the fact that the leakage component of the power dissipation is influenced by process variation the most \cite{chandrakasan2001, srivastava2010, juan2011, juan2012}, the techniques discussed below primarily focus on the variability of leakage.
@@ -15,7 +15,7 @@ A KL-aided stochastic collocation \cite{xiu2010} approach to steady-state temper
 In \cite{shen2009}, PC expansions are employed to estimate the full-chip leakage power.
 The KL decomposition is utilized in \cite{bhardwaj2006} for leakage calculations.
 In \cite{bhardwaj2008}, the total leakage is quantified using the PC and KL methods.
-The same combination of techniques is employed in \cite{vrudhula2006} and \cite{ghanta2006} to analyze the response of interconnect networks and power grids, respectively, under process variation.
+The same combination of tools is employed in \cite{vrudhula2006} and \cite{ghanta2006} to analyze the response of interconnect networks and power grids, respectively, under process variation.
 
 The last five of the aforementioned techniques, \ie, \cite{shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, perform only stochastic power analysis and ignore the interdependence between leakage and temperature.
 The others are temperature-related approaches, but none of them attempts to tackle stochastic transient PTA and to compute the evolving-in-time probability distributions of power and temperature.
@@ -30,4 +30,4 @@ The null hypothesis that the data are from an unspecified Gaussian distribution 
 Therefore, the two distributions are neither Gaussian nor log-normal, which can also be seen in \fref{experimental-results-pdf} described in the experimental results, \sref{experimental-results}.
 
 To conclude, the prior stochastic PTA techniques for electronic system design are restricted in use due to one or several of the following traits: based on MC simulations (potentially slow) \cite{chandra2010}, limited to power analysis \cite{chandra2010, shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, ignoring the leakage-temperature interplay \cite{huang2009, shen2009, bhardwaj2006, bhardwaj2008, vrudhula2006, ghanta2006}, limited to the assumption of the constant steady-state temperature \cite{juan2011, juan2012, huang2009, lee2013}, exclusive focus on the maximal temperature \cite{juan2011}, and \apriori\ chosen distributions of power and temperature \cite{srivastava2010, juan2012, bhardwaj2006}.
-Thus, there is a lack of flexible stochastic PTA techniques, which we aim to eliminate.
+Consequently, there is a lack of flexible stochastic PTA techniques, which we aim to eliminate.

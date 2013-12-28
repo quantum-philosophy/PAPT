@@ -4,8 +4,8 @@ Let $\mCov_{\vZ'}$ be the covariance matrix of the centered random vector $\vZ'$
 Since any covariance matrix is real and symmetric, $\mCov_{\vZ'}$ admits the eigenvalue decomposition as $\mCov_{\vZ'} = \m{V} \m{\Lambda} \m{V}^T$ where $\m{V}$ and $\m{\Lambda}$ are an orthogonal matrix of the eigenvectors and a diagonal matrix of the eigenvalues of $\mCov_{\vZ'}$, respectively.
 $\vZ'$ can then be represented as $\vZ' = \m{V} \m{\Lambda}^\frac{1}{2} \vZ''$ where the vector $\vZ''$ is centered, normalized, and uncorrelated, which is also independent as $\vZ'$ is Gaussian.
 
-The decomposition above provides means for model order reduction.
-The intuition is that, due to the correlations possessed by $\vZ' \in \real^\nparams$, it can be recovered from a small subset $\vZ''' \in \real^\nvars$ of $\vZ'' \in \real^\nparams$, $\nvars \ll \nparams$.
+The aforementioned decomposition provides means for model order reduction.
+The intuition is that, due to the correlations possessed by $\vZ' \in \real^\nparams$, this vector can be recovered from a small subset $\vZ''' \in \real^\nvars$ of $\vZ'' \in \real^\nparams$, $\nvars \ll \nparams$.
 Such redundancies can be revealed by analyzing the eigenvalues $\lambda_i$ stored in $\m{\Lambda}$.
 Assume $\lambda_i$, $\forall i$, are arranged in a non-increasing order and let $\tilde{\lambda}_i = \lambda_i / \sum_j \lambda_j$.
 Gradually summing up the arranged and normalized eigenvalues $\tilde{\lambda}_i$, we can identify a subset of them that has the cumulative sum greater than a certain threshold.

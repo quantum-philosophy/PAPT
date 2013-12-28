@@ -1,6 +1,6 @@
 The first set of experiments is aimed to identify the accuracy of our framework with respect to MC simulations.
 At this point, it is important to note that the true distributions of temperature are unknown, and both the PC and MC approaches introduce errors.
-These errors decrease as the order of PC expansions, $\pcorder$, and the number of MC samples, $\nsamples$, respectively, increase.
+These errors decrease as the order of PC expansions $\pcorder$ and the number of MC samples $\nsamples$, respectively, increase.
 Therefore, instead of postulating that the MC technique with a certain number of samples is the ``universal truth'' that we should achieve, we shall vary both $\pcorder$ and $\nsamples$ and monitor the corresponding difference between the results produced by the two alternatives.
 
 In order to make the comparison even more comprehensive, let us also inspect the effect of the correlation patterns between the local random variables $\{ \lLeff_i \}$ (recall \sref{illustrative-example}).
@@ -11,7 +11,7 @@ Consequently, prior to any analysis, it should be determined based on the knowle
 The PC and MC methods are compared by means of three error metrics.
 The first two are the normalized root mean square errors (\nrmses) of the expectation and variance of the computed temperature profiles.\footnote{In the context of \nrmses, we treat the MC results as the observed data and the PC results as the corresponding model predictions.}
 The third metric is the mean of the \nrmses\ of the empirical \pdfs\ of temperature constructed at each time step for each processing element.
-The metrics are denoted by $\eExp$, $\eVar$, and $\ePDF$, respectively.
+The error metrics are denoted by $\eExp$, $\eVar$, and $\ePDF$, respectively.
 $\eExp$ and $\eVar$ are easy to interpret, and they are based on the analytical formulae in \eref{pc-moments}.
 $\ePDF$ is a strong indicator of the quality of the distributions estimated by our framework, and it is computed by sampling the constructed PC expansions.
 In contrast with the MC approach, this sampling has a negligible overhead as we discussed in \sref{post-processing}.
@@ -30,13 +30,13 @@ The drawn conclusions will be generalized to the other two tables later on.
 \input{include/assets/speed.tex}
 \input{include/assets/experimental-results-pdf.tex}
 First, we concentrate on the accuracy of our technique and, thus, pay particular attention the columns of \tref{accuracy-eta-0-5} corresponding to high values of $\nsamples$.
-It can be seen that the error of the expected value, $\eExp$, is small even for $\pcorder = 1$: it is bounded by 0.6\% (see $\eExp$ for $\pcorder \geq 1$ and $\nsamples \geq 10^4$).
+It can be seen that the error $\eExp$ of the expected value is small even for $\pcorder = 1$: it is bounded by 0.6\% (see $\eExp$ for $\pcorder \geq 1$ and $\nsamples \geq 10^4$).
 
-The error of the second central moment, $\eVar$, starts from 66.7\% for the first-order PC expansions and drops significantly to 5.71\% and below for the fourth order and higher (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
+The error $\eVar$ of the second central moment starts from 66.7\% for the first-order PC expansions and drops significantly to 5.71\% and below for the fourth order and higher (see $\eVar$ for $\pcorder \geq 4$ and $\nsamples = 10^5$).
 It should be noted, however, that, for a fixed $\pcorder \geq 4$, $\eVar$ exhibits a considerable decrease even when $\nsamples$ transitions from $10^4$ to $10^5$.
 The rate of this decrease suggests that $\nsamples = 10^4$ is not sufficient to reach the same accuracy as the one delivered by the proposed framework, and $\nsamples = 10^5$ might not be either.
 
-The results of the third metric, $\ePDF$, allow us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed difference in \tref{accuracy-eta-0-5} is bounded by 1.83\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
+The results of the third metric $\ePDF$ allow us to conclude that the \pdfs\ computed by the third-order (and higher) PC expansions closely follow those estimated by the MC technique with large numbers of samples, namely, the observed difference in \tref{accuracy-eta-0-5} is bounded by 1.83\% (see $\ePDF$ for $\pcorder \geq 3$ and $\nsamples \geq 10^4$).
 To give a better appreciation of the proximity of the two methods, \fref{experimental-results-pdf} displays the \pdfs\ computed using our framework for time moment 50~ms with $\pcorder = 4$ (the dashed lines) along with those calculated by the MC approach with $\nsamples = 10^4$ (the solid lines).
 It can be seen that the \pdfs\ tightly match each other.
 Note that this example captures one particular time moment, and such curves are readily available for all the other steps of the considered time span.

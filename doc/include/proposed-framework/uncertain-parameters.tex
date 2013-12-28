@@ -1,4 +1,4 @@
-Independence of the parameters is a prerequisite of PC expansions.
+Independence of the parameters is a prerequisite for PC expansions.
 In general, however, $\vU$ can be correlated and, therefore, should be preprocessed in order to fulfill the requirement.
 To this end, an adequate probability transformation should be undertaken \cite{eldred2008}.
 Denote such a transformation by $\vU = \oTransform{\vZ}$, which relates the $\nparams$ dependent uncertain parameters $\vU$ with $\nvars$ independent random variables $\vZ$.
@@ -11,7 +11,7 @@ The marginal probability distributions and correlation matrix of $\vU$ are more 
 The Nataf transformation produces correlated Gaussian variables, which are then turned into independent ones by virtue of the KL decomposition mentioned earlier.
 
 Apart from the extraction of the independent parameters $\vZ$, an essential operation at this stage is model order reduction since the number of stochastic dimensions of the problem directly impacts the complexity of the rest of the computations.
-The intuition is that, due to the correlations possessed by the random variables in $\vU$, some of them can be harmlessly replaced by combinations of the rest, leading to a smaller number of the variables in $\vZ$.
+The intuition is that, due to the correlations possessed by the random variables in $\vU$, some of them can be harmlessly replaced by combinations of the rest, leading to a smaller number of the random variables in $\vZ$.
 This operation is often treaded as a part of the KL decomposition.
 
 In \sref{ie-uncertain-parameters}, we shall demonstrate the Nataf transformation together with the discrete KL decomposition.

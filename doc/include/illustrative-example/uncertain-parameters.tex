@@ -16,11 +16,13 @@ We also denote the whole operation, \ie, the reduction-aware Nataf transformatio
 \]
 where the superscript ``$-1$'' signifies the fact that we are interested in expressing $\vU$ \via\ $\vZ'''$ and, hence, need to perform all the operations in the reversed order.
 
-At this point, we have $\nvars$ independent Gaussian random variables $\vZ'''$, which already suffice the independence prerequisite of PC expansions (see \sref{uncertain-parameters}).
-However, we would like to retain, after the Nataf transformation and model order reduction, the boundedness of the initial beta variables $\vU$ since the PC expansions constructed in terms of bounded variables will also be bounded, which more accurately reflect the underlying physics.
-Therefore, we undertake one additional transformation on top that yields the desired bounded and independent parameters, which we denote by $\vZ: \outcomes \to \real^\nvars$ throughout the paper.
-This transformation is a standard technique based on an application of the CDF of $\vZ$, denoted by $\fCDF_{\vZ}$, followed by an application of the inverse CDF of $\vZ'''$, denoted by $\fCDF_{\vZ'''}$.
+At this point, we have $\nvars$ independent Gaussian random variables stored in $\vZ'''$, which already suffice the independence prerequisite for PC expansions (see \sref{uncertain-parameters}).
+However, we prefer to construct PC expansions in terms of bounded variables since such expansions will also be bounded.
+To this end, we undertake one additional transformation that yields a vector of (independent) random variables $\vZ \in \real^\nvars$ whose distributions have bounded supports.
+This transformation is a standard technique based on the composition of the inverse \cdf\ of $\vZ'''$ and the \cdf\ of $\vZ$ denoted by $\fCDF^{-1}_{\vZ'''}$ and $\fCDF_{\vZ}$, respectively.
 The overall probability transformation $\oTransform$ (see \sref{uncertain-parameters}) from $\vU$ to $\vZ$ is then given as follows:
 \[
   \vU = \oTransform{\vZ} = \oInvNataf{\fCDF^{-1}_{\vZ'''}(\fCDF_{\vZ}(\vZ))}.
 \]
+The distributions of $\vZ$ can be chosen arbitrary as long as one can construct a suitable polynomial basis as described in \sref{pc-basis}.
+We let $\vZ$ have beta distributions, staying in the same family of distributions with the parameters $\vU$.
