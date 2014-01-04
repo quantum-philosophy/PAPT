@@ -1,6 +1,6 @@
 The main idea of our framework is to construct a surrogate model for the joint power and thermal models of the considered system using PC expansions.
 Having constructed this surrogate, such quantities as cumulative distribution functions (\cdfs) and probability density functions (\pdfs) can be easily estimated.
-Moreover, the representations, which we compute, provide analytical formulae for probabilistic moments, \ie, the expected value, variance, \etc\ are readily available.
+Moreover, the representations, which we compute, provide analytical formulae for probabilistic moments, \ie, the expected value and variance are readily available.
 
 The major stages of our technique are depicted in \fref{algorithm}.
 
@@ -15,7 +15,7 @@ With respect to the thermal specification $\system$ (defined in \sref{problem-fo
 The thermal model closely interacts with the power model from \stage{2}\ and produces the corresponding temperature profile.
 
 \stage{4}{Surrogate Modeling (\sref{polynomial-chaos}).}
-The surrogate model is obtained by traversing the desired time span and gradually constructing polynomial expansions (in terms of the processed uncertain parameters $\vZ$ from \stage{1}) for the stochastic power and temperature profiles.
+The surrogate model is obtained by traversing the desired time span and gradually constructing polynomial expansions (in terms of the processed uncertain parameters $\vZ$ from \stage{1}) of the stochastic power and temperature profiles.
 The output is essentially a substitute for the model produced at \stage{3}\ with respect to the power model determined at \stage{2}.
 
 \stage{5}{Post-processing (\sref{post-processing}).}

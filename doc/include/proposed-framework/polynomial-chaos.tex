@@ -7,8 +7,7 @@ An introduction to orthogonal polynomials, which we rely on in what follows, is 
 \subsubsection{Polynomial basis} \slabel{pc-basis}
 The first step towards a polynomial expansion is the choice of a suitable polynomial basis, which is typically made based on the Askey scheme of orthogonal polynomials \cite{xiu2010}.
 The step is crucial as the rate of convergence of PC expansions closely depends on it.
-Although there are no strict rules that guarantee the optimal choice \cite{knio2006}, there are best practices saying that one should be guided by the probability distributions of the (independent) random variables that drive the stochastic system at hand (see \aref{polynomial-chaos}).
-In our case, these variables are $\vZ$.
+Although there are no strict rules that guarantee the optimal choice \cite{knio2006}, there are best practices saying that one should be guided by the probability distributions of the random variables that drive the stochastic system at hand.
 For instance, when a random variable follows a beta distribution, the Jacobi basis is worth being tried first; on the other hand, the Hermite basis is preferable for Gaussian distributions.
 In multiple dimensions, which is the case with the $\nvars$-dimensional random variable $\vZ$, several (possibly different) univariate bases are to be combined together to produce a single $\nvars$-variate polynomial basis, which we denote by $\{ \pcb_i: \real^\nvars \to \real \}_{i = 1}^\infty$; see \cite{xiu2010}.
 
@@ -21,7 +20,7 @@ Such an expansion is defined as follows:
 where $\{ \pcb_i: \real^\nvars \to \real \}_{i = 1}^{\pcterms}$ is the truncated basis with $\pcterms$ polynomials in $\nvars$ variables, and $\pcc{\vP}_{ki} \in \real^\nprocs$ are the coefficients of the expansion, which are deterministic.
 The latter can be computed using spectral projections as it is described in \sref{pc-coefficients}.
 $\pcorder$ denotes the order of the expansion, which determines the maximal degree of the $\nvars$-variate polynomials involved in the expansion; hence, $\pcorder$ also determines the resulting accuracy.
-The total number of the PC coefficients, $\pcterms$, is given by the following expression, which corresponds to the total-order polynomial space \cite{eldred2008, beck2011}:
+The total number of the PC coefficients $\pcterms$ is given by the following expression, which corresponds to the total-order polynomial space \cite{eldred2008, beck2011}:
 \begin{equation} \elabel{pc-terms}
   \pcterms = { \pcorder + \nvars \choose \nvars } := \frac{(\pcorder + \nvars)!}{\pcorder! \, \nvars!}.
 \end{equation}
@@ -54,8 +53,9 @@ This means that we need to compute the inner product of \eref{power-model} with 
 where $i = 1, \dotsc, \pcterms$, $k = 1, \dotsc, \nsteps$, and $\oInner{\cdot}{\cdot}$ stands for the inner product (see \aref{polynomial-chaos} for a definition), which should be understood elementwise.
 Making use of the orthogonality property of the basis, we obtain
 \begin{equation} \elabel{pc-coefficients}
-  \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oInner{\vP_k}{\pcb_i}.
+  \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oInner{\vP_k}{\pcb_i}
 \end{equation}
+where $\{ \pcn_i = \oInner{\pcb_i}{\pcb_i} \}_{i = 1}^\pcterms$ are normalization constants.
 
 In general, the inner product in \eref{pc-coefficients}, given in \eref{inner-product} in \aref{polynomial-chaos}, should be evaluated numerically.
 This task is accomplished by virtue of a quadrature rule, which is a weighted summation over the integrand values computed at a set of prescribed points.
@@ -66,14 +66,14 @@ Denote such a quadrature-based approximation of \eref{pc-coefficients} by
 \end{equation}
 where $\qdlevel$ is the level of the quadrature utilized.
 The procedure is detailed in \aref{gauss-quadrature}; for the development in this section, we only need to note that $\nvars$ and $\qdlevel$ dictate the number of quadrature points, which we shall denote by $\qdorder$.
-Also, it is worth emphasizing here that, since power depends on temperature as shown in \eref{power-model}, at each step of the recurrence in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC expansion of the temperature vector $\vTO_{k - 1}$.
+Also, it is worth emphasizing that, since power depends on temperature as shown in \eref{power-model}, at each step of the recurrence in \eref{pc-recurrence}, the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC expansion of the temperature vector $\vTO_{k - 1}$.
 
 \subsubsection{Computational challenges} \slabel{computational-challenges}
 The construction process of the stochastic power and temperature profiles, implemented inside our prototype of the proposed framework, has been estimated to have the following time complexity:
 \[
-  \O(\nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \vP(\nprocs))
+  \O(\nsteps \, \nnodes^2 \, \pcterms + \nsteps \, \nprocs \, \qdorder \, \pcterms + \nsteps \, \qdorder \, \oPower{\nprocs})
 \]
-where $\O(\vP(\nprocs))$ denotes the complexity of the computations associated with the power model in \eref{power-model}.
+where $\O(\oPower{\nprocs})$ denotes the complexity of the computations associated with the power model in \eref{power-model}.
 The expression can be detailed further by expanding $\pcterms$ and $\qdorder$.
 The exact formula for $\pcterms$ is given in \eref{pc-terms}, and the limiting behavior of $\pcterms$ with respect to $\nvars$ is $\O(\nvars^\pcorder / \pcorder!)$.
 For brute-force quadrature rules, $\log(\qdorder)$ is $\O(\nvars)$, meaning that the dependency of $\qdorder$ on $\nvars$ is exponential.
@@ -84,8 +84,8 @@ In this paper, we mitigate this issue by: (a) keeping the number of stochastic d
 In particular, for sparse integration grids based on Gaussian quadratures, $\log(\qdorder)$ is $\O(\log(\nvars))$, meaning that the dependency of $\qdorder$ on $\nvars$ is only polynomial \cite{heiss2008}.
 
 To summarize, let us recall the stochastic recurrence in \eref{recurrence} where, in the presence of correlations, an arbitrary functional $\vP_k$ of the uncertain parameters $\vU$ and random temperature $\vTO_k$ (see \sref{power-model}) needs to be evaluated and combined with another random vector $\vS_k$.
-Now the recurrence in \eref{recurrence} has been replaced with a purely deterministic recurrence in \eref{pc-recurrence} that involves only linear operations.
-Thus, the performed spectral decompositions have effectively substituted the heavy thermal system in \eref{fourier-system} with a light polynomial surrogate defined by a set of basis functions $\{ \pcb_i \}_{i = 1}^\pcterms$ and the corresponding sets of coefficients, namely, $\{ \pcc{\vP}_{ki} \}_{i = 1}^\pcterms$ for power and $\{ \pcc{\vTO}_{ki} \}_{i = 1}^\pcterms$ for temperature, where $k$ traverses the $\nsteps$ intervals of the considered time span.
+Now the recurrence in \eref{recurrence} has been replaced with a purely deterministic recurrence in \eref{pc-recurrence}.
+More importantly, the heavy thermal system in \eref{fourier-system} has been substituted with a light polynomial surrogate defined by a set of basis functions $\{ \pcb_i \}_{i = 1}^\pcterms$ and the corresponding sets of coefficients, namely, $\{ \pcc{\vP}_{ki} \}_{i = 1}^\pcterms$ for power and $\{ \pcc{\vTO}_{ki} \}_{i = 1}^\pcterms$ for temperature, where $k$ traverses the $\nsteps$ intervals of the considered time span.
 Consequently, the output of the proposed PTA framework constitutes two stochastic profiles: the power and temperature profiles denoted by $\profileP$ and $\profileT$, respectively, which are ready to be analyzed.
 
 Finally, note the ease and generality of taking the uncertainty into consideration using the proposed approach: the above derivation is delivered from any explicit formula for any particular uncertain parameter.

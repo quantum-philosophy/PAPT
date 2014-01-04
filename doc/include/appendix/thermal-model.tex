@@ -15,9 +15,9 @@ and obtain the system in \eref{fourier-system} where the coefficient matrix $\mA
 In general, the differential part in \eref{fourier-system-original} (and in \eref{fourier-system}) is nonlinear due to the source term $\vP(\t)$ since we do not make any assumptions about its structure (see the discussion in \sref{power-model}).
 Therefore, there is no closed-form solution to the system.
 
-The time intervals of the power and temperature profiles are assumed to be short enough such that the total power can be approximated as constant within one interval.
+The time intervals of the power and temperature profiles are assumed to be short enough such that the total power of a processing element can be approximated by a constant within one interval.
 In this case, \eref{fourier-original} (and \eref{fourier-de}) is a system of linear differential equations that can be solved analytically.
-The solution is \cite{ukhov2012}
+The solution is as follows \cite{ukhov2012}:
 \begin{equation} \elabel{ode-solution}
   \vS(\t) = \mCF(\t) \: \vS(0) + \mCS(\t) \: \vP(0)
 \end{equation}
@@ -29,4 +29,4 @@ where $\t$ is restricted to one time interval, $\vP(0)$ is the power dissipation
 The procedure is to be repeated for all $\nsteps$ time intervals starting from the initial temperature, which, without loss of generality, is assumed to be equal to the ambient temperature.
 Note that, when the power profile is evenly sampled, the coefficient matrices $\mCF(\t)$ and $\mCS(\t)$ are constant and can be efficiently computed using the technique in \cite{ukhov2012}.
 It is also worth noting that the described solution method belongs to the family of so-called exponential integrators, which have good stability properties; refer to \cite{hochbruck2010} for an overview.
-Finally, taking into account $\vU$, we obtain \eref{recurrence} operating on stochastic quantities.
+Finally, taking into account $\vU$, we obtain \eref{recurrence}, operating on stochastic quantities.

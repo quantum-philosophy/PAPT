@@ -1,7 +1,7 @@
 As mentioned in \sref{polynomial-chaos}, \sref{ie-polynomial-chaos}, and \aref{polynomial-chaos}, the coefficients of PC expansions are integrals, which should be calculated numerically at \stage{4}.
-In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding set of prescribed weights.
+In numerical integration, an integral of a function is approximated by a summation over the function values computed at a set of prescribed points, or nodes, which are multiplied by the corresponding prescribed weights.
 Such pairs of nodes and weights are called quadrature rules.
-A one-dimensional quadrature rule is characterized by its precision, which is defined as the maximal total order \cite{heiss2008} of polynomials that the rule integrates exactly.
+A one-dimensional quadrature rule is characterized by its precision, which is defined as the maximal order of polynomials that the rule integrates exactly \cite{heiss2008}.
 In multiple dimensions, an $\nvars$-variate quadrature rule is formed by tensoring one-dimensional counterparts. Such a multidimensional rule is characterized by its accuracy level $\qdlevel$, which is defined as the index of the rule in the corresponding family of multidimensional rules with increasing precision.
 
 It can be seen in \eref{inner-product} that the integrand can be decomposed into two parts: the weight function $\fPDF$ and everything else.
@@ -26,7 +26,7 @@ Therefore, $\qdlevel \geq \pcorder + 1$ as the quadrature is Gaussian.
 There is one more and arguably the most crucial aspect of numerical integration that we ought to discuss: the algorithm used to construct multidimensional quadratures.
 In low dimensions, the construction can be easily based on the direct tensor product of one-dimensional rules.
 However, in high dimensions, the situation changes dramatically as the number of points produced by this approach can easily explode.
-For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorderone = 4$, then in ten stochastic dimensions, \ie, $\nvars = 10$, the number of multivariate nodes becomes $\qdorder = \qdorderone^\nvars = 4^{10} = 1\;048\;576$, which is not affordable.
+For instance \cite{heiss2008}, if a one-dimensional rule has only four nodes, \ie, $\qdorderone = 4$, then in 10 stochastic dimensions, \ie, $\nvars = 10$, the number of multivariate nodes becomes $\qdorder = \qdorderone^\nvars = 4^{10} = 1\;048\;576$, which is not affordable.
 Moreover, it can be shown that most of the points obtained in such a way do not contribute to the asymptotic accuracy and, therefore, are a waste of time.
 In order to effectively alleviate this problem, we construct so-called sparse grids using the Smolyak algorithm \cite{eldred2008, heiss2008, burkardt2013}.
 The algorithm preserves the accuracy of the underlying one-dimensional rules for complete polynomials while significantly reducing the number of integration nodes.

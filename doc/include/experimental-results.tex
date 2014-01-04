@@ -11,7 +11,7 @@ Dynamic power profiles involved in the experiments are based on simulations of r
 The floorplans of the platforms are constructed in such a way that the processing elements form regular grids.\footnote{The task graphs of the applications, floorplans of the platforms, configuration of HotSpot, which was used to construct thermal RC circuits for our experiments, are available online at \cite{sources}.}
 The time step of power and temperature traces is set to $1\,\text{ms}$ (see \sref{problem-formulation}), which is also the time step of the recurrence in \eref{pc-recurrence}.
 As a comparison to our polynomial chaos (PC) expansions, we employ Monte Carlo (MC) sampling.
-The MC approach is set to preserve the whole variance of the problem, \ie, no model order reduction, and to solve \eref{fourier-system} directly using the Runge-Kutta formulae (the Dormand-Prince method) available in MATLAB \cite{matlab}.
+The MC approach is set up to preserve the whole variance of the problem, \ie, no model order reduction, and to solve \eref{fourier-system} directly using the Runge-Kutta formulae (the Dormand-Prince method) available in MATLAB \cite{matlab}.
 
 Since the temperature part of PTA is the main contribution of this work, we shall focus on the assessment of temperature profiles.
 Note, however, that the results for temperature allow one to implicitly draw reasonable conclusions regarding power since power is an intermediate step towards temperature, and any accuracy problems with respect to power are expected to propagate to temperature.

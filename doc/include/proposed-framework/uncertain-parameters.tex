@@ -5,7 +5,7 @@ Denote such a transformation by $\vU = \oTransform{\vZ}$, which relates the $\np
 
 Correlated random variables can be transformed into uncorrelated ones \via\ a linear mapping based on a factorization procedure of the covariance matrix or covariance function of $\vU$; the procedure is known as the Karhunen-Lo\`{e}ve (KL) decomposition \cite{ghanem1991}.
 If, in addition, the correlated variables form a Gaussian vector then the uncorrelated ones are also mutually independent.
-In the general case (non-Gaussian), the most prominent solutions to attain independence are the Rosenblatt \cite{rosenblatt1952} and Nataf transformations \cite{li2008}.\footnote{Only a few alternatives are listed here, and such techniques as independent component analysis (ICA) are left outside of the scope of the paper.}
+In the general case (non-Gaussian), the most prominent solutions to attain independence are the Rosenblatt \cite{rosenblatt1952} and Nataf transformations \cite{li2008}.\footnote{Only a few alternatives are listed here, and such techniques as independent component analysis (ICA) are left outside the scope of the paper.}
 Rosenblatt's approach is suitable when the joint probability distribution function of the uncertain parameters $\vU$ is known; however, such information is rarely available.
 The marginal probability distributions and correlation matrix of $\vU$ are more likely to be given, which are already sufficient for perform the Nataf transformation.\footnote{The transformation is an approximation, which operates under the assumption that the copula of the distribution is elliptical.}
 The Nataf transformation produces correlated Gaussian variables, which are then turned into independent ones by virtue of the KL decomposition mentioned earlier.
