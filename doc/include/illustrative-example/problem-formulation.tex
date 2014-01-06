@@ -28,7 +28,7 @@ Hence, the uncertain parameters of the problem are
 Global variations are typically assumed to be uncorrelated with respect to the local ones.
 The latter, however, are known to have high spatial correlations, which we shall model using the following correlation function:
 \begin{equation} \elabel{correlation-function}
-  \oCorr{\lLeff_i, \lLeff_j} = \eta \; \fCorrSE(\vR_i, \vR_j) + (1 - \eta) \fCorrOU(\vR_i, \vR_j)
+  \fCorr(\vR_i, \vR_j) = \eta \; \fCorrSE(\vR_i, \vR_j) + (1 - \eta) \fCorrOU(\vR_i, \vR_j)
 \end{equation}
 where $\vR_i \in \real^2$ is the spatial location of the center of the $i$th processing element relative to the center of the die. The correlation function is a composition of two kernels:
 \begin{align*}
