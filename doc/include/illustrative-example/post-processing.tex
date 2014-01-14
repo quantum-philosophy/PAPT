@@ -4,11 +4,7 @@ Hence, the constructed representation can be trivially analyzed to retrieve vari
 Let us illustrate a few of them still retaining the example in \eref{pc-example}.
 Assume that the dynamic power profile $\profilePdyn$ corresponding to the considered workload is the one shown in \fref{application-power}.
 Having constructed the surrogate with respect to this profile, we can then rigorously estimate, say, the \pdf\ of temperature at some $k$th moment of time by sampling the surrogate and obtain curves similar to those shown \fref{experimental-results-pdf} (discussed in \sref{experimental-results}).
-Furthermore, the expectation and variance of temperature are calculated simply as (see \eref{pc-moments})
-\[
-  \oExp{\vTO_k} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \hspace{1em} \oVar{\vTO_k} = \sum_{i = 2}^{6} \pcn_i \, \pcc{\vTO}_{ki}^2
-\]
-where $\pcn_i$ are normalization constants, and the squaring should be understood elementwise.
+Furthermore, the expectation and variance of temperature are trivially calculated using the formulae in \eref{pc-moments} where $\pcterms = 6$.
 For the whole time span of the power profile $\profilePdyn$ depicted in \fref{application-power}, these quantities are plotted in \fref{application-temperature}.
 The displayed curves closely match those obtained via MC simulations with $10^4$ samples; however, our method takes less than a second whilst MC sampling takes more than a day as we shall see next.
 \input{include/assets/application-power.tex}

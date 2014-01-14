@@ -8,10 +8,7 @@ Due to the fact that, by definition \cite{xiu2010}, the first polynomial $\pcb_1
 Therefore, using the orthogonality property in \eref{orthogonality}, we conclude that $\oExp{\pcb_i(\vZ)} = 0$ for $i = 2, \dotsc, \pcterms$.
 Consequently, the expected value and variance have the following simple expressions solely based on the coefficients:
 \begin{equation} \elabel{pc-moments}
-\begin{aligned}
-  & \oExp{\vTO_k} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \\
-  & \oVar{\vTO_k} = \sum_{i = 2}^{\pcterms} \pcn_i \: \pcc{\vTO}_{ki}^2
-\end{aligned}
+  \oExp{\vTO_k} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \hspace{1em} \oVar{\vTO_k} = \sum_{i = 2}^{\pcterms} \pcn_i \: \pcc{\vTO}_{ki}^2
 \end{equation}
 where the squaring should be understood elementwise.
 Such quantities as \cdfs, \pdfs, probabilities of certain events, \etc\ can be estimated by sampling \eref{pc-k}; each sample is a trivial evaluation of a polynomial.
