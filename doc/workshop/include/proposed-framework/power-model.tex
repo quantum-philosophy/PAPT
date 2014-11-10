@@ -1,0 +1,10 @@
+As stated in \sref{problem-formulation}, the user of the framework is supposed
+to decide on the power model for the system under consideration. Such a model
+can be generally expressed as the following $\nprocs$-dimensional functional
+$\oPower$:
+\begin{equation} \elabel{power-model}
+  \vP(\t, \vU) = \oPower{\t, \vTO(\t, \vU), \vU}
+\end{equation}
+where $\nprocs$ is the number of processing elements in the system, and $\vP(\t,
+\vU) \in \real^\nprocs$ and $\vTO(\t, \vU) \in \real^\nprocs$ are random vectors
+of power and temperature, respectively, at time $\t$.

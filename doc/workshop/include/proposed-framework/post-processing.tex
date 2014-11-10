@@ -1,0 +1,15 @@
+Due to the properties of PC expansions the obtained polynomial traces allow for
+various prospective analyses to be performed with no effort. For instance,
+consider the PC expansion of temperature at the $k$th moment of time given by
+\begin{equation} \elabel{pc-k}
+  \oPC{\nvars}{\pcorder}{\vTO_k} = \sum_{i = 1}^{\pcterms} \pcc{\vTO}_{ki} \pcb_i(\vZ)
+\end{equation}
+where $\pcc{\vTO}_{ki}$ are computed using \eref{fourier-output} and
+\eref{pc-recurrence}. The expected value and variance have the following simple
+expressions solely based on the coefficients:
+\begin{equation} \elabel{pc-moments}
+  \oExp{\vTO_k} = \pcc{\vTO}_{k1} \hspace{1em} \text{and} \hspace{1em} \oVar{\vTO_k} = \sum_{i = 2}^{\pcterms} \pcn_i \: \pcc{\vTO}_{ki}^2
+\end{equation}
+where the squaring should be understood elementwise. Such quantities as \cdfs,
+\pdfs, probabilities of certain events, \etc\ can be estimated by sampling
+\eref{pc-k}; each sample is a trivial evaluation of a polynomial.

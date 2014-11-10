@@ -1,0 +1,100 @@
+The goal now is to transform the ``problematic'' term in \eref{recurrence}, \ie,
+the power term defined by \eref{power-model}, in such a way that the recurrence
+in \eref{recurrence} becomes computationally tractable. Our solution is the
+construction of a surrogate model for the power model in \eref{power-model},
+which we further propagate through \eref{recurrence} to obtain an approximation
+for temperature. To this end, we employ polynomial chaos (PC) \cite{xiu2010},
+which decomposes stochastic quantities into infinite series of orthogonal
+polynomials of random variables. An introduction to orthogonal polynomials,
+which we rely on in what follows, can be found in \cite{ukhov2014}.
+
+\subsubsection{Polynomial basis} \slabel{pc-basis}
+The first step towards a polynomial expansion is the choice of a suitable
+polynomial basis, which is typically made based on the Askey scheme of
+orthogonal polynomials \cite{xiu2010}. The step is crucial as the rate of
+convergence of PC expansions closely depends on it. In multiple dimensions,
+which is the case with the $\nvars$-dimensional random variable $\vZ$, several
+(possibly different) univariate bases are to be combined together to produce a
+single $\nvars$-variate polynomial basis, which we denote by $\{ \pcb_i:
+  \real^\nvars \to \real \}_{i = 1}^\infty$; see \cite{xiu2010}.
+
+\subsubsection{Recurrence of polynomial expansions} \slabel{pc-recurrence}
+Having chosen an appropriate basis, we apply the PC expansion formalism to the
+power term in \eref{recurrence} and truncate the resulting infinite series in
+order to make it feasible for practical implementations. Such an expansion is
+defined as follows:
+\begin{equation} \elabel{pc-expansion}
+  \oPC{\nvars}{\pcorder}{\vP_k} := \sum_{i = 1}^{\pcterms} \pcc{\vP}_{ki} \, \pcb_i(\vZ)
+\end{equation}
+where $\{ \pcb_i: \real^\nvars \to \real \}_{i = 1}^{\pcterms}$ is the truncated
+basis with $\pcterms$ polynomials in $\nvars$ variables, and $\pcc{\vP}_{ki} \in
+\real^\nprocs$ are the coefficients of the expansion, which are deterministic.
+The latter can be computed using spectral projections as it is described in
+\sref{pc-coefficients}. $\pcorder$ denotes the order of the expansion, which
+determines the maximal degree of the $\nvars$-variate polynomials involved in
+the expansion; hence, $\pcorder$ also determines the resulting accuracy. The
+total number of the PC coefficients $\pcterms$ is given by the following
+expression, which corresponds to the total-order polynomial space
+\cite{eldred2008, beck2011}:
+\begin{equation} \elabel{pc-terms}
+  \pcterms = { \pcorder + \nvars \choose \nvars }.
+\end{equation}
+
+Due to the linearity of the operations involved in \eref{recurrence}, $\vS_k$
+retains the same polynomial structure as $\vP_k$. It can be shown that, using
+\eref{pc-expansion}, \eref{recurrence} can be rewritten as follows:
+\begin{equation} \elabel{pc-recurrence}
+  \pcc{\vS}_{ki} = \mCF_k \: \pcc{\vS}_{(k - 1)i} + \mCS_k \: \pcc{\vP}_{ki}
+\end{equation}
+where $k = 1, \dotsc, \nsteps$ and $i = 1, \dotsc, \pcterms$. Finally,
+\eref{fourier-output} and \eref{pc-recurrence} are combined together to compute
+the coefficients of the PC expansion of the temperature vector $\vTO_k$.
+
+\subsubsection{Expansion coefficients} \slabel{pc-coefficients}
+The general formula of a truncated PC expansion applied to the power term in
+\eref{recurrence} is given in \eref{pc-expansion}. Let us now find the
+coefficients $\{ \pcc{\vP}_{ki} \}$ of this expansion, which will be propagated
+to temperature (using \eref{pc-recurrence} and \eref{fourier-output}). To this
+end, a spectral projection of the stochastic quantity being expanded---that is,
+of $\vP_k$ as a function of $\vZ$ \via\ $\vU = \oTransform{\vZ}$ discussed in
+\sref{uncertain-parameters}---is to be performed onto the space spanned by the
+$\nvars$-variate polynomials $\{ \pcb_i \}_{i = 1}^{\pcterms}$, where $\pcterms$
+is the number of polynomials in the truncated basis. This means that we need to
+compute the inner product of \eref{power-model} with each polynomial from the
+basis as follows:
+\[
+  \oInner{\vP_k}{\pcb_i} = \oInner{\sum_{j=1}^{\pcterms} \pcc{\vP}_{kj} \: \pcb_j}{\pcb_i}
+\]
+where $i = 1, \dotsc, \pcterms$, $k = 1, \dotsc, \nsteps$, and
+$\oInner{\cdot}{\cdot}$ stands for the inner product, which should be understood
+elementwise. From the above equation, we obtain
+\begin{equation} \elabel{pc-coefficients}
+  \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oInner{\vP_k}{\pcb_i}
+\end{equation}
+where $\{ \pcn_i = \oInner{\pcb_i}{\pcb_i} \}_{i = 1}^\pcterms$ are
+normalization constants.
+
+The inner product in \eref{pc-coefficients} should be evaluated numerically.
+This task is accomplished by virtue of a quadrature rule. Denote such a
+quadrature-based approximation of \eref{pc-coefficients} by
+\begin{equation} \elabel{pc-coefficients-quadrature}
+  \pcc{\vP}_{ki} = \frac{1}{\pcn_i} \oQuad{\nvars}{\qdlevel}{\vP_k \, \pcb_i}
+\end{equation}
+where $\qdlevel$ is the level of the quadrature utilized. The procedure is
+detailed in \cite{ukhov2014}; here we only note that $\nvars$ and $\qdlevel$
+dictate the number of quadrature points, which we shall denote by $\qdorder$.
+Also, it is worth emphasizing that, since power depends on temperature as shown
+in \eref{power-model}, at each step of the recurrence in \eref{pc-recurrence},
+the computation of $\pcc{\vP}_{ki}$ should be done with respect to the PC
+expansion of the temperature vector $\vTO_{k - 1}$.
+
+To summarize, the recurrence in \eref{recurrence} has been replaced with a
+purely deterministic recurrence in \eref{pc-recurrence}. More importantly, the
+heavy thermal system in \eref{fourier-system} has been substituted with a light
+polynomial surrogate defined by a set of basis functions $\{ \pcb_i \}_{i =
+1}^\pcterms$ and the corresponding sets of coefficients, namely, $\{
+\pcc{\vP}_{ki} \}_{i = 1}^\pcterms$ for power and $\{ \pcc{\vTO}_{ki} \}_{i =
+1}^\pcterms$ for temperature, where $k$ traverses the $\nsteps$ intervals of the
+considered time span. Consequently, the output of the proposed PTA framework
+constitutes two stochastic profiles: the power and temperature profiles denoted
+by $\profileP$ and $\profileT$, respectively, which are ready to be analyzed.

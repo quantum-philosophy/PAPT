@@ -1,0 +1,24 @@
+The thermal behavior of the system is modeled with the following system of
+differential-algebraic equations:
+\begin{subnumcases}{\elabel{fourier-system}}
+  \frac{d\,\vS(\t, \vU)}{d\t} = \mA \: \vS(\t, \vU) + \mB \: \vP(\t, \vU) \elabel{fourier-de} \\
+  \vTO(\t, \vU) = \mB^T \vS(\t, \vU) + \vTO_\amb \elabel{fourier-output}
+\end{subnumcases}
+where $\vP(\t, \vU)$ and $\vTO(\t, \vU)$ are the input power and output
+temperature vectors of the processing elements, respectively, and $\vS(\t, \vU)
+\in \real^\nnodes$ is the vector of the internal state of the system. In
+general, the system in \eref{fourier-de} is nonlinear and does not have a
+closed-form solution. A detailed description of all the quantities involved in
+\eref{fourier-system} is can be found in \cite{ukhov2014}.
+
+We let the total power be constant between neighboring power steps and reduce
+the solution process of \eref{fourier-system} to the following recurrence, for
+$k = 1, \dotsc, \nsteps$,
+\begin{equation} \elabel{recurrence}
+  \vS_k = \mCF_k \: \vS_{k - 1} + \mCS_k \: \vP_k
+\end{equation}
+where $\vS_0 = \vZero$. In the deterministic case, \eref{recurrence} can be
+readily employed to perform deterministic transient PTA \cite{ukhov2012}. In the
+stochastic case, however, the analysis of \eref{recurrence} is substantially
+different since $\vP_k$, $\vS_k$, and $\vTO_k$ are probabilistic quantities. To
+tackle this difficulty, we utilize PC expansions as follows.

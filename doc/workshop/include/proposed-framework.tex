@@ -1,0 +1,56 @@
+The main idea of our framework is to construct a surrogate model for the joint
+power and thermal models of the considered system using PC expansions. Having
+constructed this surrogate, such quantities as cumulative distribution functions
+(\cdfs) and probability density functions (\pdfs) can be easily estimated.
+Moreover, the representations, which we compute, provide analytical formulae for
+probabilistic moments, \ie, the expected value and variance are readily
+available.
+
+The major stages of our technique are depicted in \fref{algorithm}.
+
+\stage{1}{Parameter Preprocessing (\sref{uncertain-parameters}).}
+The PC approach operates on mutually independent random variables. The uncertain
+parameters $\vU$ might not satisfy this requirement and, thus, should be
+preprocessed; we denote the corresponding independent random variables by $\vZ$.
+
+\stage{2}{Power Modeling (\sref{power-model}).}
+The user specifies the power model of the system \via\ a ``black-box''
+functional $\oPower$, which computes the total power $\vP(\t, \vU)$ for a
+particular temperature $\vTO(\t, \vU)$ and an outcome of the parameters $\vU$.
+
+\stage{3}{Thermal Modeling (\sref{thermal-model}).}
+With respect to the thermal specification $\system$ (defined in
+\sref{problem-formulation}), a mathematical formulation of the thermal system is
+attained. The thermal model closely interacts with the power model from
+\stage{2}\ and produces the corresponding temperature profile.
+
+\stage{4}{Surrogate Modeling (\sref{polynomial-chaos}).}
+The surrogate model is obtained by traversing the desired time span and
+gradually constructing polynomial expansions (in terms of the processed
+uncertain parameters $\vZ$ from \stage{1}) of the stochastic power and
+temperature profiles. The output is essentially a substitute for the model
+produced at \stage{3}\ with respect to the power model determined at \stage{2}.
+
+\stage{5}{Post-processing (\sref{post-processing}).}
+The computed PC expansions are analyzed in order to obtain the needed
+characteristics of the system, \eg, \cdfs, \pdfs, and moments.
+
+In the forthcoming subsections,
+\sref{uncertain-parameters}--\sref{post-processing}, the proposed framework is
+outlined.
+
+\subsection{Parameter Preprocessing} \slabel{uncertain-parameters}
+\input{include/proposed-framework/uncertain-parameters.tex}
+
+\subsection{Power Modeling} \slabel{power-model}
+\input{include/proposed-framework/power-model.tex}
+
+\subsection{Thermal Modeling} \slabel{thermal-model}
+\input{include/proposed-framework/thermal-model.tex}
+
+\subsection{Surrogate Modeling} \slabel{polynomial-chaos}
+\input{include/proposed-framework/polynomial-chaos.tex}
+
+\vspace{-1em}
+\subsection{Post-processing} \slabel{post-processing}
+\input{include/proposed-framework/post-processing.tex}

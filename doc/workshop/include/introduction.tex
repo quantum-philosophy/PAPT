@@ -1,0 +1,33 @@
+Process variation constitutes one of the major concerns of electronic system
+designs \cite{srivastava2010}. A crucial implication of process variation is
+that it renders the key parameters of a technological process, \eg, the
+effective channel length, gate oxide thickness, and threshold voltage, as random
+quantities. Therefore, the same workload applied to two ``identical'' dies can
+lead to two different power and, thus, temperature profiles since the
+dissipation of power and heat essentially depends on the aforementioned
+stochastic parameters. This concern is especially urgent due to the
+interdependence between the leakage power and temperature. Consequently, process
+variation leads to performance degradation in the best case and to severe faults
+or burnt silicon in the worst scenario. Under these circumstances, uncertainty
+quantification \cite{xiu2010} has evolved into an indispensable asset of
+electronic system design workflows in order to provide them with guaranties on
+the efficiency and robustness of products.
+
+In this work, we present a probabilistic framework for the analysis of the
+transient power and temperature profiles of electronic systems subject to the
+uncertainty due to process variation. The proposed technique is flexible in
+modeling diverse probability distributions, specified by the user, of the
+uncertain parameters, such as the effective channel length and gate oxide
+thickness. Moreover, there are no assumptions on the distributions of the
+resulting power and temperature traces as these distributions are unlikely to be
+known \apriori. The proposed technique is capable of capturing arbitrary joint
+effects of the uncertain parameters on the system since the impact of these
+parameters is introduced into the framework as a ``black box,'' which is also
+defined by the user. In particular, it allows for the leakage-temperature
+interdependence to be taken into account with no effort. Our approach is founded
+on the basis of polynomial chaos (PC) expansions, which constitute an attractive
+alternative to Monte Carlo (MC) sampling.
+
+A journal version of this paper can be found in \cite{ukhov2014}, which provides
+in-depth discussions about the major aspects of the proposed framework and also
+contains an illustrative application followed by extensive experimental results.

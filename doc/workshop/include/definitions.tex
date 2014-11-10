@@ -1,0 +1,239 @@
+%
+% General
+%
+\usepackage[english]{babel}
+
+\newlength{\ColumnWidth}
+\setlength{\ColumnWidth}{21pc} % IEEE standard
+
+\linespread{0.96}
+
+%
+% Graphics
+%
+\usepackage{graphicx}
+
+%
+% Format
+%
+\usepackage[bottom]{footmisc}
+\usepackage{url}
+
+\raggedbottom
+\setlength{\parskip}{0pt}
+
+\newcommand*{\TitleFont}{%
+  \fontsize{22}{26}%
+  \selectfont%
+}
+
+\IEEEaftertitletext{\vspace{-1em}}
+
+%
+% References
+%
+\newcommand{\eref}[1]{(\ref{equ:#1})}
+\newcommand{\sref}[1]{Sec.~\ref{sec:#1}}
+\newcommand{\fref}[1]{Fig.~\ref{fig:#1}}
+
+\newcommand{\elabel}[1]{\label{equ:#1}}
+\newcommand{\slabel}[1]{\label{sec:#1}}
+\newcommand{\flabel}[1]{\label{fig:#1}}
+
+%
+% Text shortcuts
+%
+\newcommand{\cdf}{CDF}
+\newcommand{\cdfs}{CDFs}
+\newcommand{\pdf}{PDF}
+\newcommand{\pdfs}{PDFs}
+
+\newcommand{\ie}{i.e.}
+\newcommand{\eg}{e.g.}
+\newcommand{\etc}{etc.}
+\newcommand{\apriori}{\emph{a priori}}
+\newcommand{\vs}{vs.}
+\newcommand{\via}{via}
+
+\makeatletter
+\def\stage#1{\@ifnextchar\bgroup{\stageDouble{#1}}{\stageSingle{#1}}}
+\def\stageSingle#1{\textbf{Stage~#1}}
+\def\stageDouble#1#2{\textbf{Stage~#1.}\hspace{0.5em}\emph{#2}}
+\makeatother
+
+%
+% Mathematics
+%
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+\usepackage{mathrsfs}
+
+%
+% Real analysis
+%
+\renewcommand{\L}[1]{\mathcal{L}_{#1}}
+\newcommand{\real}{\mathbb{R}}
+
+\newcommand{\m}[1]{\mathbf{\MakeUppercase{#1}}}
+
+\newcommand{\mI}{\m{I}}
+\newcommand{\mZero}{\m{0}}
+
+\renewcommand{\vec}[1]{\left(#1\right)^T}
+\renewcommand{\v}[1]{\mathbf{#1}}
+
+\newcommand{\vZero}{\v{0}}
+
+\newcommand{\abs}[1]{| #1 |}
+\newcommand{\norm}[1]{\| #1 \|}
+
+\renewcommand{\O}{\mathcal{O}}
+
+%
+% Probability theory
+%
+\newcommand{\oExp}[1]{\mathbb{E}\left(#1\right)}
+\newcommand{\oVar}[1]{\mathbb{V}\text{ar}\left(#1\right)}
+
+%
+% Polynomial chaos expansion
+%
+\newcommand{\pcb}{\psi}
+\newcommand{\pcn}{\nu}
+\newcommand{\pcc}[1]{\hat{#1}}
+\newcommand{\oPC}[3]{\mathcal{C}^{#1}_{#2}\left[#3\right]}
+
+\makeatletter
+\def\oInner#1{\@ifnextchar\bgroup{\oInnerDouble{#1}}{\oInnerSingle{#1}}}
+\def\oInnerSingle#1{\left\langle #1 \right\rangle}
+\def\oInnerDouble#1#2{\oInnerSingle{#1, #2}}
+\makeatother
+
+%
+% Integration with quadratures
+%
+\newcommand{\qdn}[1]{\hat{#1}}
+\newcommand{\qdw}{w}
+\newcommand{\oQuad}[3]{\mathcal{Q}^{#1}_{#2}\left[#3\right]}
+
+%
+% Thermal model:
+%
+%      dq
+%  C * -- + (G - G_amb) * q = p
+%      dt
+%
+
+% Specification
+\newcommand{\system}{\mathcal{S}}
+
+% Capacitance and conductance
+\newcommand{\mC}{\m{C}}
+\newcommand{\mG}{\m{G}}
+
+%
+% Transformed thermal model:
+%
+%  ds
+%  -- = A * s + B * p
+%  dt
+%
+%  q = B^T * s + q_amb
+%
+\newcommand{\vS}{\v{s}}
+\newcommand{\mA}{\m{A}}
+\newcommand{\mB}{\m{B}}
+
+% Processor elements/thermal nodes mapping
+\newcommand{\mM}{\tilde{\m{B}}}
+
+% Recurrence coefficients
+\newcommand{\mCF}{\m{E}}
+\newcommand{\mCS}{\m{F}}
+
+%
+% Time
+%
+\renewcommand{\t}{t}
+\newcommand{\dt}{\Delta \t}
+\newcommand{\period}{T}
+
+%
+% Temperature
+%
+\newcommand{\vTI}{\tilde{\v{s}}}
+\newcommand{\vTO}{\v{q}}
+\newcommand{\mTO}{\m{Q}}
+
+\newcommand{\amb}{\text{amb}}
+
+%
+% Power
+%
+\newcommand{\vP}{\v{p}}
+\newcommand{\mP}{\m{P}}
+
+\makeatletter
+\def\oPower{\@ifnextchar\bgroup{\oPowerPlus}{\oPowerZero}}
+\def\oPowerPlus#1{\@ifnextchar\bgroup{\oPowerTwo{#1}}{\oPowerOne{#1}}}
+\def\oPowerTwo#1#2{\Pi_{#1}\left(#2\right)}
+\def\oPowerOne#1{\Pi\left(#1\right)}
+\def\oPowerZero{\Pi}
+\makeatother
+
+%
+% System profiles
+%
+\newcommand{\profile}[1]{( #1, \partition{#1} )}
+\newcommand{\partition}[1]{\tau[#1]}
+
+\makeatletter
+\def\profileP{\@ifnextchar\bgroup{\profilePWithArgument}{\profilePWithoutArgument}}
+\def\profilePWithArgument#1{\profile{\mP(#1)}}
+\def\profilePWithoutArgument{\profile{\mP}}
+
+\newcommand{\profilePdyn}{(\mP_\dyn, \partition{\mP_\dyn})}
+
+\def\profileT{\@ifnextchar\bgroup{\profileTWithArgument}{\profileTWithoutArgument}}
+\def\profileTWithArgument#1{\profile{\mTO(#1)}}
+\def\profileTWithoutArgument{\profile{\mTO}}
+\makeatother
+
+%
+% Uncertain parameters
+%
+\newcommand{\U}{u}
+\newcommand{\vU}{\v{u}}
+
+%
+% Independent random variables
+%
+\newcommand{\Z}{\xi}
+\newcommand{\vZ}{\boldsymbol{\xi}}
+
+\newcommand{\x}{x}
+\newcommand{\vX}{\v{x}}
+
+\makeatletter
+\def\oTransform{\@ifnextchar\bgroup{\oTransformWithArgument}{\oTransformWithoutArgument}}
+\def\oTransformWithArgument#1{\mathbb{T}\left[#1\right]}
+\def\oTransformWithoutArgument{\mathbb{T}}
+\makeatother
+
+%
+% Numbers
+%
+\newcommand{\nnodes}{{n_\text{n}}}
+\newcommand{\nprocs}{{n_\text{p}}}
+\newcommand{\nsteps}{{n_\text{t}}}
+
+\newcommand{\nparams}{{n_\text{u}}}
+\newcommand{\nvars}{{n_\xi}}
+
+\newcommand{\pcorder}{{n_\text{po}}}
+\newcommand{\pcterms}{{n_\text{pc}}}
+
+\newcommand{\qdlevel}{{n_\text{ql}}}
+\newcommand{\qdorder}{{n_\text{qp}}}
+\newcommand{\qdorderone}{{\tilde{n}_\text{qp}}}
