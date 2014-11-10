@@ -17,8 +17,10 @@ $k = 1, \dotsc, \nsteps$,
 \begin{equation} \elabel{recurrence}
   \vS_k = \mCF_k \: \vS_{k - 1} + \mCS_k \: \vP_k
 \end{equation}
-where $\vS_0 = \vZero$. In the deterministic case, \eref{recurrence} can be
-readily employed to perform deterministic transient PTA \cite{ukhov2012}. In the
-stochastic case, however, the analysis of \eref{recurrence} is substantially
-different since $\vP_k$, $\vS_k$, and $\vTO_k$ are probabilistic quantities. To
-tackle this difficulty, we utilize PC expansions as follows.
+where $\vS_0 = \vZero$. The coefficient matrices $\mCF_k$ and $\mCS_k$ are
+irrelevant for the purpose of this paper and can be found in \cite{ukhov2014}.
+In the deterministic case, \eref{recurrence} can be readily employed to perform
+deterministic transient PTA \cite{ukhov2012}. In the stochastic case, however,
+the analysis of \eref{recurrence} is substantially different since $\vP_k$,
+$\vS_k$, and $\vTO_k$ are probabilistic quantities. To tackle this difficulty,
+we utilize PC expansions as follows.
